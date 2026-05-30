@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
 import fs from 'fs'
 import path from 'path'
+import { sendEmail, toolRequestEmail } from '@/lib/email'
 
-interface ToolRequest {
+export interface ToolRequest {
   id: string
   toolName: string
   description: string
-  useCase: string
   email: string
   votes: number
   createdAt: string
@@ -14,7 +14,7 @@ interface ToolRequest {
 
 const DATA_FILE = path.join(process.cwd(), 'data', 'tool-requests.json')
 
-function readRequests(): ToolRequest[] {
+export function readRequests(): ToolRequest[] {
   try {
     if (!fs.existsSync(DATA_FILE)) return []
     return JSON.parse(fs.readFileSync(DATA_FILE, 'utf-8'))
@@ -31,38 +31,45 @@ function writeRequests(requests: ToolRequest[]) {
 
 export async function GET() {
   const requests = readRequests()
-  const sorted = [...requests].sort((a, b) => b.votes - a.votes).slice(0, 10)
+  const sorted = [...requests].sort((a, b) => b.votes - a.votes)
   return NextResponse.json(sorted)
 }
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json()
-    const { toolName, description, useCase, email } = body
+    const { toolName, description, email } = body
 
     if (!toolName || toolName.trim().length < 3) {
       return NextResponse.json({ error: 'Tool name too short' }, { status: 400 })
     }
 
-    // On Vercel, we can't write to disk — just return success (in prod you'd use a DB or email)
-    if (process.env.VERCEL) {
-      // In production: could forward to email or a webhook here
-      console.log('Tool request received:', { toolName, description, useCase, email })
-      return NextResponse.json({ ok: true, message: 'Request received!' })
+    let total = 1
+
+    if (!process.env.VERCEL) {
+      // Local / self-hosted: persist to disk
+      const requests = readRequests()
+      const newRequest: ToolRequest = {
+        id: Date.now().toString(),
+        toolName: toolName.trim(),
+        description: description?.trim() || '',
+        email: email?.trim() || '',
+        votes: 1,
+        createdAt: new Date().toISOString(),
+      }
+      requests.push(newRequest)
+      writeRequests(requests)
+      total = requests.length
     }
 
-    const requests = readRequests()
-    const newRequest: ToolRequest = {
-      id: Date.now().toString(),
+    // Always send email notification (works on both local + Vercel)
+    const tmpl = toolRequestEmail({
       toolName: toolName.trim(),
       description: description?.trim() || '',
-      useCase: useCase?.trim() || '',
       email: email?.trim() || '',
-      votes: 1,
-      createdAt: new Date().toISOString(),
-    }
-    requests.push(newRequest)
-    writeRequests(requests)
+      total,
+    })
+    await sendEmail(tmpl)
 
     return NextResponse.json({ ok: true, message: 'Request submitted!' })
   } catch {
@@ -71,7 +78,6 @@ export async function POST(req: NextRequest) {
 }
 
 export async function PUT(req: NextRequest) {
-  // Upvote a request
   try {
     const { id } = await req.json()
     if (process.env.VERCEL) return NextResponse.json({ ok: true })

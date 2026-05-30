@@ -4,15 +4,26 @@ import { useState } from 'react'
 
 export default function EmailCapture() {
   const [email, setEmail] = useState('')
-  const [submitted, setSubmitted] = useState(false)
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // TODO: wire to your email provider (ConvertKit, Mailchimp, etc.)
-    setSubmitted(true)
+    if (!email) return
+    setStatus('loading')
+
+    try {
+      const res = await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      })
+      setStatus(res.ok ? 'success' : 'error')
+    } catch {
+      setStatus('error')
+    }
   }
 
-  if (submitted) {
+  if (status === 'success') {
     return (
       <div className="mt-8 rounded-xl bg-white/10 px-6 py-4 text-center text-brand-50">
         ✓ You're on the list! We'll notify you when new tools launch.
@@ -29,13 +40,18 @@ export default function EmailCapture() {
         placeholder="you@example.com"
         className="w-full rounded-lg border-0 bg-white px-4 py-3 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-white/50 sm:w-80"
         required
+        disabled={status === 'loading'}
       />
       <button
         type="submit"
-        className="rounded-lg bg-white px-6 py-3 text-sm font-semibold text-brand-700 shadow-sm hover:bg-brand-50"
+        disabled={status === 'loading'}
+        className="rounded-lg bg-white px-6 py-3 text-sm font-semibold text-brand-700 shadow-sm hover:bg-brand-50 disabled:opacity-60"
       >
-        Notify Me
+        {status === 'loading' ? 'Subscribing…' : 'Notify Me'}
       </button>
+      {status === 'error' && (
+        <p className="w-full text-center text-sm text-red-200">Something went wrong. Please try again.</p>
+      )}
     </form>
   )
 }
