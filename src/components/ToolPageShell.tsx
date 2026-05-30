@@ -2,6 +2,7 @@ import Link from 'next/link'
 import type { ToolMeta } from '@/lib/tools'
 import { getRelatedTools } from '@/lib/tools'
 import { buildBreadcrumbJsonLd } from '@/lib/pageFactory'
+import ToolSubscribePopup from '@/components/ToolSubscribePopup'
 
 interface ToolPageShellProps {
   tool: ToolMeta
@@ -87,6 +88,9 @@ export default function ToolPageShell({ tool, children, variantLabel }: ToolPage
           </div>
         </div>
       )}
+
+      {/* Subscribe popup — appears after 10s, suppressed by localStorage */}
+      <ToolSubscribePopup slug={tool.slug} />
 
       {/* Related tools */}
       {related.length > 0 && (
