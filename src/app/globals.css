@@ -1,0 +1,48 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-gray-50 text-gray-900 antialiased;
+  }
+  /* Prevent horizontal overflow on mobile */
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+}
+
+@layer components {
+  .input-field {
+    @apply w-full rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-sm text-gray-900 shadow-sm transition focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20;
+    /* Prevent iOS zoom on focus (font-size must be >= 16px equiv) */
+    font-size: max(16px, 0.875rem);
+  }
+  .result-card {
+    @apply rounded-xl border border-gray-100 bg-white p-4 shadow-sm sm:p-5;
+  }
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-lg bg-brand-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500/50 active:scale-95;
+  }
+  .btn-secondary {
+    @apply inline-flex items-center justify-center rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm font-semibold text-gray-700 shadow-sm transition hover:bg-gray-50 active:scale-95;
+  }
+  /* Prevent table overflow on mobile */
+  .table-responsive {
+    @apply -mx-4 overflow-x-auto px-4 sm:mx-0 sm:px-0;
+  }
+}
+
+/* Scrollable horizontal tables on mobile */
+@media (max-width: 640px) {
+  .overflow-table-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
