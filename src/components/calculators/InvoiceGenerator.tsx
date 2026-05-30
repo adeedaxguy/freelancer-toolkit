@@ -1,12 +1,12 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 
 interface LineItem {
   id: number
   description: string
-  quantity: number
-  rate: number
+  quantity: string
+  rate: string
 }
 
 const fmt = (n: number) =>
@@ -23,40 +23,61 @@ export default function InvoiceGenerator() {
   const [notes, setNotes] = useState('')
   const [taxRate, setTaxRate] = useState(0)
   const [lineItems, setLineItems] = useState<LineItem[]>([
-    { id: 1, description: '', quantity: 1, rate: 0 },
-    { id: 2, description: '', quantity: 1, rate: 0 },
-    { id: 3, description: '', quantity: 1, rate: 0 },
+    { id: 1, description: '', quantity: '1', rate: '' },
+    { id: 2, description: '', quantity: '1', rate: '' },
+    { id: 3, description: '', quantity: '1', rate: '' },
   ])
 
   const totals = useMemo(() => {
-    const subtotal = lineItems.reduce((sum, item) => sum + item.quantity * item.rate, 0)
+    const subtotal = lineItems.reduce((sum, item) => sum + (parseFloat(item.quantity) || 0) * (parseFloat(item.rate) || 0), 0)
     const tax = subtotal * (taxRate / 100)
     const total = subtotal + tax
     return { subtotal, tax, total }
   }, [lineItems, taxRate])
 
-  const updateItem = (id: number, field: keyof LineItem, value: string | number) =>
+  const updateItem = (id: number, field: keyof LineItem, value: string) =>
     setLineItems((items) => items.map((item) => (item.id === id ? { ...item, [field]: value } : item)))
 
   const addItem = () => {
-    setLineItems((items) => [...items, { id: nextId++, description: '', quantity: 1, rate: 0 }])
+    setLineItems((items) => [...items, { id: nextId++, description: '', quantity: '1', rate: '' }])
   }
 
   const removeItem = (id: number) => {
     setLineItems((items) => items.filter((item) => item.id !== id))
   }
 
-  const handlePrint = () => window.print()
+  useEffect(() => {
+    const style = document.createElement('style')
+    style.id = 'invoice-print-css'
+    style.textContent = `
+      @media print {
+        body > * { display: none !important; }
+        #invoice-print-root,
+        #invoice-print-root * { display: revert !important; }
+        #invoice-print-root .no-print { display: none !important; }
+        #invoice-print-root .print-container {
+          box-shadow: none !important;
+          border: none !important;
+          padding: 0 !important;
+          margin: 0 !important;
+        }
+        @page { margin: 1.5cm; }
+      }
+    `
+    document.head.appendChild(style)
+    return () => { document.getElementById('invoice-print-css')?.remove() }
+  }, [])
+
+  const handlePrint = () => {
+    document.body.classList.add('invoice-printing')
+    window.print()
+    window.addEventListener('afterprint', () => {
+      document.body.classList.remove('invoice-printing')
+    }, { once: true })
+  }
 
   return (
-    <>
-      <style>{`
-        @media print {
-          .no-print { display: none !important; }
-          body { background: white; }
-          .print-container { box-shadow: none !important; border: none !important; }
-        }
-      `}</style>
+    <div id="invoice-print-root">
 
       <div className="space-y-4 no-print mb-4 flex flex-wrap gap-3">
         <button onClick={handlePrint} className="btn-primary">
@@ -79,7 +100,7 @@ export default function InvoiceGenerator() {
                 onChange={(e) => setInvoiceNumber(e.target.value)}
                 placeholder="Invoice #"
               />
-              <p className="print-only text-sm font-semibold text-gray-700">{invoiceNumber}</p>
+              <p className="hidden print:block text-sm font-semibold text-gray-700">{invoiceNumber}</p>
             </div>
           </div>
           <div className="text-right space-y-1">
@@ -149,24 +170,26 @@ export default function InvoiceGenerator() {
                   <td className="py-2 pr-3 text-right">
                     <input
                       className="no-print input-field text-sm text-right w-16"
-                      type="number"
+                      inputMode="decimal"
                       value={item.quantity}
-                      onChange={(e) => updateItem(item.id, 'quantity', Number(e.target.value))}
-                      min={0}
+                      placeholder="1"
+                      onFocus={(e) => e.target.select()}
+                      onChange={(e) => updateItem(item.id, 'quantity', e.target.value)}
                     />
-                    <span className="hidden print:block">{item.quantity}</span>
+                    <span className="hidden print:block">{item.quantity || '1'}</span>
                   </td>
                   <td className="py-2 pr-3 text-right">
                     <input
                       className="no-print input-field text-sm text-right w-24"
-                      type="number"
+                      inputMode="decimal"
                       value={item.rate}
-                      onChange={(e) => updateItem(item.id, 'rate', Number(e.target.value))}
-                      min={0}
+                      placeholder="0.00"
+                      onFocus={(e) => e.target.select()}
+                      onChange={(e) => updateItem(item.id, 'rate', e.target.value)}
                     />
-                    <span className="hidden print:block">{fmt(item.rate)}</span>
+                    <span className="hidden print:block">{fmt(parseFloat(item.rate) || 0)}</span>
                   </td>
-                  <td className="py-2 text-right font-medium">{fmt(item.quantity * item.rate)}</td>
+                  <td className="py-2 text-right font-medium">{fmt((parseFloat(item.quantity) || 0) * (parseFloat(item.rate) || 0))}</td>
                   <td className="py-2 pl-2 no-print">
                     <button onClick={() => removeItem(item.id)} className="text-gray-300 hover:text-red-400 text-lg leading-none">×</button>
                   </td>
@@ -192,11 +215,11 @@ export default function InvoiceGenerator() {
                 Tax{' '}
                 <input
                   className="no-print input-field text-xs w-14 inline-block py-0.5 px-1"
-                  type="number"
-                  value={taxRate}
-                  onChange={(e) => setTaxRate(Number(e.target.value))}
-                  min={0}
-                  max={50}
+                  inputMode="decimal"
+                  value={taxRate === 0 ? '' : taxRate}
+                  placeholder="0"
+                  onFocus={(e) => e.target.select()}
+                  onChange={(e) => setTaxRate(parseFloat(e.target.value) || 0)}
                 />
                 <span className="hidden print:inline">{taxRate}%</span>
               </span>
@@ -222,6 +245,6 @@ export default function InvoiceGenerator() {
           {notes && <p className="hidden print:block text-sm text-gray-600 whitespace-pre-line">{notes}</p>}
         </div>
       </div>
-    </>
+    </div>
   )
 }

@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import ToolCard from '@/components/ToolCard'
 import EmailCapture from '@/components/EmailCapture'
+import RequestATool from '@/components/RequestATool'
 import { TOOL_CATEGORIES } from '@/lib/tools'
 
 export const metadata: Metadata = {
@@ -102,6 +103,9 @@ export default function HomePage() {
           <p className="mt-3 text-xs text-brand-200">No spam. Unsubscribe anytime.</p>
         </div>
       </section>
+
+      {/* Request a Tool */}
+      <RequestATool />
 
       {/* SEO content section */}
       <section className="border-t border-gray-100 bg-white">

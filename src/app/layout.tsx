@@ -3,6 +3,7 @@ import './globals.css'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import PageViewTracker from '@/components/PageViewTracker'
+import FloatingChatbot from '@/components/FloatingChatbot'
 
 const SITE_URL = 'https://freelancertoolkit.com'
 
@@ -85,6 +86,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {children}
         </main>
         <Footer />
+        <FloatingChatbot />
       </body>
     </html>
   )
