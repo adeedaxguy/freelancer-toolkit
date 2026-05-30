@@ -361,7 +361,7 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
         slug: 'break-even-calculator',
         title: 'Break-Even Calculator',
         headline: 'Calculate Your Freelance Break-Even Point',
-        description: 'Free break-even calculator for freelancers and agencies. Enter your fixed costs, average project price, and variable costs to find how many projects you need to break even.',
+        description: 'Free break-even calculator for freelancers. Enter fixed costs, project price, and variable costs to find your break-even point instantly.',
         icon: '📈',
         category: 'Business Operations',
         keywords: ['break even calculator', 'freelance break even point', 'business break even analysis'],

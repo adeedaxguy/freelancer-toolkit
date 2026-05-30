@@ -7,7 +7,7 @@ import { TOOL_CATEGORIES } from '@/lib/tools'
 export const metadata: Metadata = {
   title: 'FreelancerToolkit – 17 Free Tools for Freelancers & Agencies',
   description:
-    'Free calculators and generators for freelancers, agencies, and consultants. Calculate your rate, quote projects, generate proposals, create invoices, and more. No login required.',
+    'Free calculators and generators for freelancers and agencies. Set your rate, quote projects, write proposals, create invoices. No login required.',
 }
 
 const websiteJsonLd = {
