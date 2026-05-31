@@ -1,21 +1,17 @@
-import nodemailer from 'nodemailer'
+import { Resend } from 'resend'
 
 const NOTIFICATION_EMAIL = process.env.NOTIFICATION_EMAIL ?? 'adnan.webexpert@gmail.com'
-const GMAIL_USER = process.env.GMAIL_USER ?? ''
-const GMAIL_APP_PASSWORD = process.env.GMAIL_APP_PASSWORD ?? ''
+const FROM_ADDRESS = 'FreelTools <admin@freeltools.com>'
 
-function getTransport() {
-  if (!GMAIL_USER || !GMAIL_APP_PASSWORD) return null
-  return nodemailer.createTransport({
-    service: 'gmail',
-    auth: { user: GMAIL_USER, pass: GMAIL_APP_PASSWORD },
-  })
+function getResend() {
+  const key = process.env.RESEND_API_KEY
+  if (!key) return null
+  return new Resend(key)
 }
 
 export async function sendEmail({
   subject,
   html,
-  text,
   to,
 }: {
   subject: string
@@ -23,18 +19,17 @@ export async function sendEmail({
   text?: string
   to?: string
 }) {
-  const transport = getTransport()
-  if (!transport) {
-    console.warn('[email] GMAIL_USER or GMAIL_APP_PASSWORD not set — skipping email')
+  const resend = getResend()
+  if (!resend) {
+    console.warn('[email] RESEND_API_KEY not set — skipping email')
     return { ok: false, reason: 'not_configured' }
   }
   try {
-    await transport.sendMail({
-      from: `"FreelTools" <${GMAIL_USER}>`,
-      to: to ?? NOTIFICATION_EMAIL,
+    await resend.emails.send({
+      from: FROM_ADDRESS,
+      to: [to ?? NOTIFICATION_EMAIL],
       subject,
       html,
-      text: text ?? subject,
     })
     return { ok: true }
   } catch (err) {

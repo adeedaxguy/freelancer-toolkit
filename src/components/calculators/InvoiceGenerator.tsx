@@ -51,17 +51,23 @@ export default function InvoiceGenerator() {
     style.id = 'invoice-print-css'
     style.textContent = `
       @media print {
+        html, body {
+          height: auto !important;
+          overflow: hidden !important;
+          margin: 0 !important;
+          padding: 0 !important;
+        }
         body > * { display: none !important; }
-        #invoice-print-root,
-        #invoice-print-root * { display: revert !important; }
+        #invoice-print-root { display: block !important; }
         #invoice-print-root .no-print { display: none !important; }
+        #invoice-print-root .hidden { display: none !important; }
+        #invoice-print-root .print\\:block { display: block !important; }
+        #invoice-print-root .print\\:inline { display: inline !important; }
         #invoice-print-root .print-container {
           box-shadow: none !important;
           border: none !important;
-          padding: 0 !important;
-          margin: 0 !important;
         }
-        @page { margin: 1.5cm; }
+        @page { margin: 1.5cm; size: A4; }
       }
     `
     document.head.appendChild(style)
