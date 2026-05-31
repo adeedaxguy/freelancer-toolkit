@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo, useEffect, useRef } from 'react'
+import { useState, useMemo } from 'react'
 
 interface LineItem {
   id: number
@@ -17,8 +17,6 @@ let nextId = 4
 export default function InvoiceGenerator() {
   const [from, setFrom] = useState({ name: '', email: '', address: '' })
   const [to, setTo] = useState({ name: '', email: '', address: '' })
-  const [downloading, setDownloading] = useState(false)
-  const invoiceRef = useRef<HTMLDivElement>(null)
   const [invoiceNumber, setInvoiceNumber] = useState('INV-001')
   const [issueDate, setIssueDate] = useState(new Date().toISOString().split('T')[0])
   const [dueDate, setDueDate] = useState('')
@@ -48,93 +46,26 @@ export default function InvoiceGenerator() {
     setLineItems((items) => items.filter((item) => item.id !== id))
   }
 
-  const handleDownloadPDF = async () => {
-    if (!invoiceRef.current || downloading) return
-    setDownloading(true)
-
-    try {
-      // Dynamically import to avoid SSR issues
-      const [{ default: jsPDF }, { default: html2canvas }] = await Promise.all([
-        import('jspdf'),
-        import('html2canvas'),
-      ])
-
-      const el = invoiceRef.current
-
-      // Temporarily show print-only text, hide input fields
-      el.classList.add('pdf-capture')
-
-      const canvas = await html2canvas(el, {
-        scale: 2,
-        useCORS: true,
-        backgroundColor: '#ffffff',
-        logging: false,
-        windowWidth: 794, // A4 width in px at 96dpi
-      })
-
-      el.classList.remove('pdf-capture')
-
-      const imgData = canvas.toDataURL('image/png')
-      const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' })
-
-      const pageW = pdf.internal.pageSize.getWidth()
-      const pageH = pdf.internal.pageSize.getHeight()
-      const margin = 10
-      const imgW = pageW - margin * 2
-      const imgH = (canvas.height * imgW) / canvas.width
-
-      // Handle multi-page if invoice is long
-      if (imgH <= pageH - margin * 2) {
-        pdf.addImage(imgData, 'PNG', margin, margin, imgW, imgH)
-      } else {
-        let yOffset = 0
-        while (yOffset < imgH) {
-          const sliceH = Math.min(pageH - margin * 2, imgH - yOffset)
-          const sliceCanvas = document.createElement('canvas')
-          sliceCanvas.width = canvas.width
-          sliceCanvas.height = (sliceH * canvas.width) / imgW
-          const ctx = sliceCanvas.getContext('2d')!
-          ctx.drawImage(canvas, 0, (yOffset * canvas.width) / imgW, canvas.width, sliceCanvas.height, 0, 0, canvas.width, sliceCanvas.height)
-          pdf.addImage(sliceCanvas.toDataURL('image/png'), 'PNG', margin, margin, imgW, sliceH)
-          yOffset += sliceH
-          if (yOffset < imgH) pdf.addPage()
-        }
-      }
-
-      pdf.save(`invoice-${invoiceNumber.replace(/[^a-zA-Z0-9]/g, '-')}.pdf`)
-    } catch (err) {
-      console.error('[PDF] generation failed:', err)
-      alert('PDF generation failed. Please try again.')
-    } finally {
-      setDownloading(false)
-    }
+  const handlePreviewAndDownload = () => {
+    const data = { from, to, invoiceNumber, issueDate, dueDate, notes, taxRate, lineItems }
+    sessionStorage.setItem('ft_invoice_preview', JSON.stringify(data))
+    window.open('/invoice/preview', '_blank')
   }
 
   return (
     <div>
-      <style>{`
-        .pdf-capture .pdf-hide { display: none !important; }
-        .pdf-capture .pdf-show { display: block !important; }
-        .pdf-capture .pdf-show-inline { display: inline !important; }
-      `}</style>
-
       <div className="mb-4 flex flex-wrap items-center gap-3">
         <button
-          onClick={handleDownloadPDF}
-          disabled={downloading}
-          className="btn-primary flex items-center gap-2 disabled:opacity-60"
+          onClick={handlePreviewAndDownload}
+          className="btn-primary flex items-center gap-2"
         >
-          {downloading ? (
-            <>⏳ Generating PDF…</>
-          ) : (
-            <>⬇️ Download Invoice PDF</>
-          )}
+          👁️ Preview &amp; Download PDF
         </button>
-        <p className="text-xs text-gray-400">Generates a clean PDF — no browser headers or footers.</p>
+        <p className="text-xs text-gray-400">Opens a clean preview — use "Save as PDF" or print from there.</p>
       </div>
 
       {/* Invoice preview */}
-      <div ref={invoiceRef} id="invoice-print-area" className="print-container overflow-x-auto rounded-2xl border border-gray-100 bg-white p-4 shadow-sm sm:p-8">
+      <div className="overflow-x-auto rounded-2xl border border-gray-100 bg-white p-4 shadow-sm sm:p-8">
 
         {/* Header */}
         <div className="flex flex-col gap-4 border-b border-gray-100 pb-6 sm:flex-row sm:items-start sm:justify-between">
