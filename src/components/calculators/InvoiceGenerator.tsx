@@ -51,24 +51,22 @@ export default function InvoiceGenerator() {
     style.id = 'invoice-print-css'
     style.textContent = `
       @media print {
-        html, body { margin: 0 !important; padding: 0 !important; }
-        body { visibility: hidden !important; }
-        #invoice-print-root {
-          visibility: visible !important;
-          position: fixed !important;
-          inset: 0 !important;
+        @page { margin: 1.5cm; size: A4 portrait; }
+        * { visibility: hidden !important; }
+        #invoice-print-area,
+        #invoice-print-area * { visibility: visible !important; }
+        #invoice-print-area {
+          position: absolute !important;
+          top: 0 !important;
+          left: 0 !important;
           width: 100% !important;
-          background: white !important;
-        }
-        #invoice-print-root * { visibility: visible !important; }
-        #invoice-print-root .no-print { visibility: hidden !important; height: 0 !important; overflow: hidden !important; }
-        #invoice-print-root .no-print * { visibility: hidden !important; }
-        #invoice-print-root .hidden { visibility: hidden !important; }
-        #invoice-print-root .print-container {
           box-shadow: none !important;
           border: none !important;
+          border-radius: 0 !important;
+          padding: 0 !important;
+          margin: 0 !important;
+          overflow: visible !important;
         }
-        @page { margin: 1.5cm; size: A4 portrait; }
       }
     `
     document.head.appendChild(style)
@@ -94,7 +92,7 @@ export default function InvoiceGenerator() {
       </div>
 
       {/* Invoice preview */}
-      <div className="print-container overflow-x-auto rounded-2xl border border-gray-100 bg-white p-4 shadow-sm sm:p-8">
+      <div id="invoice-print-area" className="print-container overflow-x-auto rounded-2xl border border-gray-100 bg-white p-4 shadow-sm sm:p-8">
 
         {/* Header */}
         <div className="flex flex-col gap-4 border-b border-gray-100 pb-6 sm:flex-row sm:items-start sm:justify-between">
