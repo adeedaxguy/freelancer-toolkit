@@ -48,7 +48,7 @@ export default function InvoiceGenerator() {
 
   const handlePreviewAndDownload = () => {
     const data = { from, to, invoiceNumber, issueDate, dueDate, notes, taxRate, lineItems }
-    sessionStorage.setItem('ft_invoice_preview', JSON.stringify(data))
+    localStorage.setItem('ft_invoice_preview', JSON.stringify(data))
     window.open('/invoice/preview', '_blank')
   }
 

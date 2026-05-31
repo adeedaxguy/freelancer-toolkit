@@ -27,12 +27,14 @@ export default function InvoicePreviewPage() {
   const [data, setData] = useState<InvoiceData | null>(null)
 
   useEffect(() => {
+    document.body.classList.add('invoice-preview')
     try {
-      const raw = sessionStorage.getItem('ft_invoice_preview')
+      const raw = localStorage.getItem('ft_invoice_preview')
       if (raw) setData(JSON.parse(raw))
     } catch {
       // ignore
     }
+    return () => document.body.classList.remove('invoice-preview')
   }, [])
 
   if (!data) {

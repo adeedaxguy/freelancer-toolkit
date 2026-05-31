@@ -46,3 +46,17 @@
     -webkit-overflow-scrolling: touch;
   }
 }
+
+/* On non-preview pages, block accidental browser print (shows blank) */
+@media print {
+  body:not(.invoice-preview) * { display: none !important; }
+  body:not(.invoice-preview)::after {
+    display: block !important;
+    content: 'To save your invoice as PDF, click the "Preview & Download PDF" button on the invoice generator page.';
+    font-size: 18px;
+    text-align: center;
+    margin-top: 40px;
+    font-family: sans-serif;
+    color: #333;
+  }
+}
