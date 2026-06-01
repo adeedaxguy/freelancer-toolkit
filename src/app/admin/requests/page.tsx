@@ -75,7 +75,7 @@ export default function AdminRequestsPage() {
               <p className="text-4xl mb-3">🛠️</p>
               <p className="font-medium text-gray-700">No requests yet</p>
               <p className="mt-1 text-sm text-gray-400">
-                When visitors submit tool requests on the homepage, they'll appear here.
+                When visitors submit tool requests on the homepage, they&apos;ll appear here.
               </p>
             </div>
           ) : (

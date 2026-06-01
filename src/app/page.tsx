@@ -41,7 +41,7 @@ export default function HomePage() {
             </span>
             <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl lg:text-6xl">
               Tools That Help Freelancers{' '}
-              <span className="text-brand-600">Charge What They're Worth</span>
+              <span className="text-brand-600">Charge What They&apos;re Worth</span>
             </h1>
             <p className="mt-6 text-lg text-gray-500">
               Free calculators and generators for freelancers, agencies, and consultants. Calculate your rate, quote projects, generate proposals, create invoices, and grow your business.
@@ -97,7 +97,7 @@ export default function HomePage() {
         <div className="mx-auto max-w-3xl px-4 py-16 text-center sm:px-6 lg:px-8">
           <h2 className="text-2xl font-bold text-white sm:text-3xl">Get New Tools First</h2>
           <p className="mt-3 text-brand-100">
-            We're building even more free tools for freelancers. Join the list and be the first to know.
+            We&apos;re building even more free tools for freelancers. Join the list and be the first to know.
           </p>
           <EmailCapture />
           <p className="mt-3 text-xs text-brand-200">No spam. Unsubscribe anytime.</p>
