@@ -4,7 +4,6 @@ import Link from 'next/link'
 import { MDXRemote } from 'next-mdx-remote/rsc'
 import { getAllPosts, getPostBySlug } from '@/lib/blog'
 
-export const dynamic = 'force-dynamic'
 
 interface Props { params: { slug: string } }
 

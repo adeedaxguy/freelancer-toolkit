@@ -7,9 +7,7 @@ const nextConfig = {
     formats: ['image/avif', 'image/webp'],
   },
   // Required for next-mdx-remote/rsc in App Router
-  experimental: {
-    serverComponentsExternalPackages: ['gray-matter'],
-  },
+  serverExternalPackages: ['gray-matter'],
 }
 
 module.exports = nextConfig
