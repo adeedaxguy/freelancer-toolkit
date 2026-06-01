@@ -26,19 +26,26 @@ async function postToBuffer(text: string): Promise<{ ok: boolean; error?: string
     return { ok: false, error: 'BUFFER_ACCESS_TOKEN or BUFFER_TWITTER_PROFILE_ID not set' }
   }
 
+  // Try Buffer v1 API with Bearer auth
+  const params = new URLSearchParams()
+  params.append('profile_ids[]', PROFILE_ID)
+  params.append('text', text)
+  params.append('now', 'true')
+
   const res = await fetch('https://api.bufferapp.com/1/updates/create.json', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: new URLSearchParams({
-      access_token: ACCESS_TOKEN,
-      [`profile_ids[]`]: PROFILE_ID,
-      text,
-      now: 'true', // post immediately; change to 'false' to add to queue
-    }),
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Authorization': `Bearer ${ACCESS_TOKEN}`,
+    },
+    body: params.toString(),
   })
 
   const data = await res.json()
-  if (data.success || data[0]?.success) return { ok: true }
+  console.log('[buffer] response:', JSON.stringify(data))
+
+  if (data.success || (Array.isArray(data) && data[0]?.success)) return { ok: true }
+  if (data.updates?.length > 0) return { ok: true }
   return { ok: false, error: JSON.stringify(data) }
 }
 
@@ -72,6 +79,23 @@ export async function POST(req: NextRequest) {
   return NextResponse.json({ ok: true, method: 'email_fallback', text })
 }
 
-export async function GET() {
-  return POST(new NextRequest('http://localhost', { method: 'POST', body: '{}' }))
+export async function GET(req: NextRequest) {
+  // Debug mode: ?debug=1 returns Buffer API response without posting
+  if (req.nextUrl.searchParams.get('debug') === '1') {
+    if (!ACCESS_TOKEN || !PROFILE_ID) {
+      return NextResponse.json({ error: 'env vars missing', ACCESS_TOKEN: !!ACCESS_TOKEN, PROFILE_ID: !!PROFILE_ID })
+    }
+    const params = new URLSearchParams()
+    params.append('profile_ids[]', PROFILE_ID)
+    params.append('text', 'test')
+    params.append('now', 'true')
+    const res = await fetch('https://api.bufferapp.com/1/updates/create.json', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'Authorization': `Bearer ${ACCESS_TOKEN}` },
+      body: params.toString(),
+    })
+    const data = await res.json()
+    return NextResponse.json({ status: res.status, data })
+  }
+  return POST(new NextRequest(req.url, { method: 'POST', body: '{}' }))
 }
