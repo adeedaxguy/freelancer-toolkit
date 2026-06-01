@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from 'next'
+import { Inter } from 'next/font/google'
 import Script from 'next/script'
 import './globals.css'
 import Header from '@/components/Header'
@@ -6,7 +7,47 @@ import Footer from '@/components/Footer'
 import PageViewTracker from '@/components/PageViewTracker'
 import FloatingChatbot from '@/components/FloatingChatbot'
 
-const SITE_URL = 'https://freelancertoolkit.com'
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-inter',
+  preload: true,
+})
+
+const SITE_URL = 'https://freeltools.com'
+
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'FreelancerToolkit',
+  alternateName: 'FreelTools',
+  url: SITE_URL,
+  logo: `${SITE_URL}/favicon.svg`,
+  description: 'Free calculators and generators for freelancers, agencies, and consultants.',
+  foundingDate: '2024',
+  contactPoint: {
+    '@type': 'ContactPoint',
+    email: 'adnan@technodigg.com',
+    contactType: 'customer support',
+  },
+  sameAs: [],
+}
+
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'FreelancerToolkit',
+  url: SITE_URL,
+  description: 'Free tools for freelancers, agencies, and consultants.',
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: {
+      '@type': 'EntryPoint',
+      urlTemplate: `${SITE_URL}/tools/{search_term_string}`,
+    },
+    'query-input': 'required name=search_term_string',
+  },
+}
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -64,23 +105,23 @@ export const metadata: Metadata = {
   alternates: {
     canonical: SITE_URL,
   },
-  verification: {
-    // google: 'your-google-verification-code',
-    // yandex: 'your-yandex-verification-code',
-  },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en" className={`scroll-smooth ${inter.variable}`}>
       <head>
-        {/* Preconnect for Google Fonts */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        {/* SVG favicon — scales perfectly at all resolutions */}
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+        />
       </head>
-      <body className="flex min-h-screen flex-col">
+      <body className={`flex min-h-screen flex-col ${inter.className}`}>
         <PageViewTracker />
         <Header />
         <main className="flex-1" id="main-content">

@@ -6,8 +6,51 @@ const nextConfig = {
   images: {
     formats: ['image/avif', 'image/webp'],
   },
-  // Required for next-mdx-remote/rsc in App Router
   serverExternalPackages: ['gray-matter'],
+  async redirects() {
+    return [
+      // Redirect www to non-www (eliminates redirect chain)
+      {
+        source: '/:path*',
+        has: [{ type: 'host', value: 'www.freeltools.com' }],
+        destination: 'https://freeltools.com/:path*',
+        permanent: true,
+      },
+      // Redirect old domain to new domain
+      {
+        source: '/:path*',
+        has: [{ type: 'host', value: 'freelancertoolkit.com' }],
+        destination: 'https://freeltools.com/:path*',
+        permanent: true,
+      },
+      {
+        source: '/:path*',
+        has: [{ type: 'host', value: 'www.freelancertoolkit.com' }],
+        destination: 'https://freeltools.com/:path*',
+        permanent: true,
+      },
+    ]
+  },
+  async headers() {
+    return [
+      {
+        source: '/(.*)',
+        headers: [
+          { key: 'X-Content-Type-Options', value: 'nosniff' },
+          { key: 'X-Frame-Options', value: 'DENY' },
+          { key: 'X-XSS-Protection', value: '1; mode=block' },
+          { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+        ],
+      },
+      {
+        // Cache static assets aggressively
+        source: '/(.*)\\.(ico|svg|png|jpg|jpeg|webp|avif|woff|woff2)',
+        headers: [
+          { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' },
+        ],
+      },
+    ]
+  },
 }
 
 module.exports = nextConfig

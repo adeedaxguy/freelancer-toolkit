@@ -1,0 +1,31 @@
+# FreelancerToolkit — llms.txt
+# https://freeltools.com
+
+## About
+FreelancerToolkit (freeltools.com) provides 17 free business tools for freelancers, agencies, and independent consultants. All tools run in-browser with no login or account required.
+
+## Tools Available
+- Freelancer Rate Calculator — calculate hourly rate based on income goals, tax, and expenses
+- Project Cost Calculator — build quotes with scope buffers and revision rounds
+- Agency Pricing Calculator — set agency service prices
+- Break-Even Calculator — find the break-even point for freelance projects
+- Revenue Goal Calculator — calculate revenue needed to hit income targets
+- Profit Margin Calculator — calculate profit margins on projects
+- Upwork Fee Calculator — calculate Upwork platform fees and net earnings
+- Freelancer Commission Calculator — compare commission fees across Upwork, Fiverr, Freelancer.com, PeoplePerHour
+- Hourly vs Fixed Price Calculator — compare billing models
+- Proposal Generator — generate professional client proposals
+- Scope of Work Generator — create detailed scope of work documents
+- Discovery Call Script Generator — structured scripts for client discovery calls
+- Client Questionnaire Generator — onboarding questionnaires for new clients
+- Retainer Calculator — price recurring retainer engagements
+- Meeting Cost Calculator — calculate the cost of meetings
+- Invoice Generator — create professional invoices, export as PDF
+- Commission Calculator — calculate sales commissions
+
+## Use
+These tools are free to use. No account, no login, no data stored server-side. Built for freelancers by freelancers.
+
+## Contact
+Site: https://freeltools.com
+Email: adnan@technodigg.com
