@@ -1,4 +1,4 @@
-import { readRequests } from '@/app/api/request-tool/route'
+import { readRequests } from '@/lib/requests'
 
 export const dynamic = 'force-dynamic'
 
