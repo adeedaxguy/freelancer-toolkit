@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 
 const XAI_API_KEY = process.env.XAI_API_KEY
 const XAI_BASE_URL = 'https://api.x.ai/v1'
-const MODEL = 'grok-3-mini' // fast + free-tier friendly; upgrade to grok-3 for max quality
+const MODEL = 'grok-2-1212' // latest stable Grok-2 model
 
 export async function POST(req: NextRequest) {
   if (!XAI_API_KEY) {
@@ -46,7 +46,8 @@ Rules:
 
     const json = await res.json()
     if (!res.ok) {
-      return NextResponse.json({ error: json.error?.message ?? 'API error' }, { status: res.status })
+      console.error('[xAI error]', JSON.stringify(json))
+      return NextResponse.json({ error: json.error?.message ?? json.error ?? JSON.stringify(json) }, { status: res.status })
     }
 
     const content = json.choices?.[0]?.message?.content ?? ''
