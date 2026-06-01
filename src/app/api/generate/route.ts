@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 
 const XAI_API_KEY = process.env.XAI_API_KEY
 const XAI_BASE_URL = 'https://api.x.ai/v1'
-const MODEL = 'grok-2-1212' // latest stable Grok-2 model
+const MODEL = 'grok-beta'
 
 export async function POST(req: NextRequest) {
   if (!XAI_API_KEY) {
