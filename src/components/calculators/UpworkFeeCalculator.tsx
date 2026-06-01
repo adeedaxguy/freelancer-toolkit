@@ -77,7 +77,7 @@ export default function UpworkFeeCalculator() {
       {/* Reverse calculator */}
       <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
         <h2 className="mb-4 text-base font-semibold text-gray-900">Reverse Calculator: What to Charge</h2>
-        <p className="mb-4 text-sm text-gray-500">Enter the amount you want to <em>take home</em> and we'll tell you what to quote.</p>
+        <p className="mb-4 text-sm text-gray-500">Enter the amount you want to <em>take home</em> and we&apos;ll tell you what to quote.</p>
         <div className="grid gap-6 sm:grid-cols-2">
           <InputField label="Desired Net Earnings" value={targetNet} onChange={setTargetNet} prefix="$" min={1} />
           <div className="flex flex-col justify-end">

@@ -113,7 +113,7 @@ export default function HomePage() {
           <h2 className="text-xl font-bold text-gray-900 sm:text-2xl">Free Tools Built for Freelancers, Agencies & Consultants</h2>
           <div className="mt-4 space-y-4 text-sm leading-relaxed text-gray-600 sm:text-base">
             <p>
-              FreelancerToolkit provides <strong>17 free business tools</strong> designed specifically for independent professionals. Whether you're trying to figure out how much to charge, prepare a client proposal, or calculate your break-even point, every tool works instantly in your browser — no login, no account, no data stored.
+              FreelancerToolkit provides <strong>17 free business tools</strong> designed specifically for independent professionals. Whether you&apos;re trying to figure out how much to charge, prepare a client proposal, or calculate your break-even point, every tool works instantly in your browser — no login, no account, no data stored.
             </p>
             <p>
               Our <strong>freelance rate calculator</strong> helps you set your hourly rate based on your income goal, tax rate, and expenses. The <strong>project cost calculator</strong> lets you build a quote with scope buffers and revision rounds built in. The <strong>commission calculator</strong> compares fees across Upwork, Fiverr, Freelancer.com, and PeoplePerHour side by side.

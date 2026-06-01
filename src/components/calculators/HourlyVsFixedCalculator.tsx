@@ -103,7 +103,7 @@ export default function HourlyVsFixedCalculator() {
             <p className="font-semibold text-brand-700">✓ Use Fixed Price When</p>
             <ul className="mt-2 space-y-1 text-sm text-gray-600">
               <li>• Scope is well-defined with clear deliverables</li>
-              <li>• You're experienced and can estimate accurately</li>
+              <li>• You&apos;re experienced and can estimate accurately</li>
               <li>• You want to earn more by working efficiently</li>
               <li>• Client prefers budget certainty</li>
             </ul>

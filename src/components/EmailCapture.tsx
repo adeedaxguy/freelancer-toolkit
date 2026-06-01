@@ -26,7 +26,7 @@ export default function EmailCapture() {
   if (status === 'success') {
     return (
       <div className="mt-8 rounded-xl bg-white/10 px-6 py-4 text-center text-brand-50">
-        ✓ You're on the list! We'll notify you when new tools launch.
+        ✓ You&apos;re on the list! We&apos;ll notify you when new tools launch.
       </div>
     )
   }

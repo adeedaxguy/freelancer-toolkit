@@ -77,7 +77,7 @@ export default function ToolSubscribePopup({ slug }: ToolSubscribePopupProps) {
         {status === 'success' ? (
           <div className="py-4 text-center">
             <div className="mb-2 text-3xl">🎉</div>
-            <p className="font-semibold text-gray-900">You're in!</p>
+            <p className="font-semibold text-gray-900">You&apos;re in!</p>
             <p className="mt-1 text-sm text-gray-500">
               Check your inbox for a welcome email with tips.
             </p>

@@ -156,7 +156,7 @@ export default function ProposalGenerator() {
           </div>
         </div>
         <div>
-          <label className="mb-1 block text-sm font-medium text-gray-700">Client's Main Problem / Goal</label>
+          <label className="mb-1 block text-sm font-medium text-gray-700">Client&apos;s Main Problem / Goal</label>
           <textarea className="input-field min-h-[80px] resize-none" value={form.problem} onChange={(e) => set('problem', e.target.value)} placeholder="They need a new website to increase leads from organic search..." />
         </div>
         <div>

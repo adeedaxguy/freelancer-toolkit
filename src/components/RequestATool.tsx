@@ -95,7 +95,7 @@ export default function RequestATool() {
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                Your email <span className="text-gray-400 font-normal">(optional — we'll notify you when it's built)</span>
+                Your email <span className="text-gray-400 font-normal">(optional — we&apos;ll notify you when it&apos;s built)</span>
               </label>
               <input
                 type="email"
