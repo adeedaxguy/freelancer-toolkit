@@ -54,9 +54,17 @@ export default function InvoiceGenerator() {
       {/* Print styles — only show #invoice-print-area when printing */}
       <style>{`
         @media print {
-          body > * { display: none !important; }
-          #invoice-print-root { display: block !important; position: fixed !important; inset: 0 !important; z-index: 9999 !important; background: white !important; }
-          .invoice-no-print { display: none !important; }
+          body * { visibility: hidden !important; }
+          #invoice-print-root, #invoice-print-root * { visibility: visible !important; }
+          #invoice-print-root {
+            position: fixed !important;
+            top: 0 !important; left: 0 !important;
+            width: 100% !important; height: auto !important;
+            background: white !important;
+            z-index: 99999 !important;
+            overflow: visible !important;
+          }
+          .invoice-no-print { display: none !important; visibility: hidden !important; }
         }
         @page { margin: 15mm; size: A4; }
       `}</style>
