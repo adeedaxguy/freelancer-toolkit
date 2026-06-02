@@ -18,6 +18,7 @@ export default function ProposalGenerator() {
     solution: '',
   })
   const [result, setResult] = useState('')
+  const [provider, setProvider] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
@@ -36,6 +37,7 @@ export default function ProposalGenerator() {
       const json = await res.json()
       if (!res.ok) throw new Error(json.error || 'Failed')
       setResult(json.content)
+      setProvider(json.provider || '')
     } catch (e: unknown) {
       setError(e instanceof Error ? e.message : 'Generation failed')
     } finally {
@@ -111,7 +113,9 @@ export default function ProposalGenerator() {
         {result || loading ? (
           <AIResult
             content={result}
+            provider={provider}
             loading={loading}
+            plainText
             onEdit={setResult}
             onRegenerate={generate}
           />

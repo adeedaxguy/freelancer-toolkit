@@ -1,43 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 // ── Model cascade (tried in order until one succeeds) ──────────────────────
-// 1. Gemini 1.5 Flash  — free, 1,500 req/day, high quality
-// 2. OpenRouter free   — free, Llama 3.1 70B, good quality
-// 3. OpenRouter backup — free, Gemma 2 9B, decent quality
-// 4. Template fallback — always works, no AI
+// 1. OpenRouter Llama 3.1 8B free  — confirmed free
+// 2. OpenRouter Gemma 2 9B free    — confirmed free
+// 3. OpenRouter Mistral 7B free    — confirmed free
+// 4. Template fallback             — always works
 
-const GEMINI_KEY = process.env.GEMINI_API_KEY
 const OPENROUTER_KEY = process.env.OPENROUTER_API_KEY
 
-// ── Gemini ─────────────────────────────────────────────────────────────────
-async function callGemini(prompt: string, system: string): Promise<string | null> {
-  if (!GEMINI_KEY) return null
-  try {
-    const res = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_KEY}`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          system_instruction: { parts: [{ text: system }] },
-          contents: [{ role: 'user', parts: [{ text: prompt }] }],
-          generationConfig: { temperature: 0.7, maxOutputTokens: 1500 },
-        }),
-      }
-    )
-    if (!res.ok) {
-      console.warn('[Gemini] status', res.status, await res.text())
-      return null
-    }
-    const json = await res.json()
-    return json.candidates?.[0]?.content?.parts?.[0]?.text ?? null
-  } catch (e) {
-    console.warn('[Gemini] error', e)
-    return null
-  }
-}
-
-// ── OpenRouter ─────────────────────────────────────────────────────────────
 async function callOpenRouter(prompt: string, system: string, model: string): Promise<string | null> {
   if (!OPENROUTER_KEY) return null
   try {
@@ -55,64 +25,63 @@ async function callOpenRouter(prompt: string, system: string, model: string): Pr
           { role: 'system', content: system },
           { role: 'user', content: prompt },
         ],
-        temperature: 0.7,
-        max_tokens: 1500,
+        temperature: 0.75,
+        max_tokens: 1200,
       }),
     })
     if (!res.ok) {
-      console.warn('[OpenRouter]', model, 'status', res.status)
+      const err = await res.text()
+      console.warn(`[OpenRouter] ${model} failed ${res.status}:`, err)
       return null
     }
     const json = await res.json()
-    return json.choices?.[0]?.message?.content ?? null
+    const content = json.choices?.[0]?.message?.content ?? null
+    if (!content) console.warn(`[OpenRouter] ${model} empty response`)
+    return content
   } catch (e) {
-    console.warn('[OpenRouter] error', e)
+    console.warn(`[OpenRouter] ${model} error:`, e)
     return null
   }
 }
 
-// ── System prompt ──────────────────────────────────────────────────────────
-const SYSTEM = `You are an expert freelance business consultant. Write concise, professional, results-focused documents for freelancers and agencies.
+const SYSTEM_PROPOSAL = `You are an expert freelance proposal writer. You write short, direct, winning proposals for platforms like Upwork, Freelancer, and direct email.
 
-Rules:
-- Be direct and results-oriented. No fluff or filler.
-- Use specific outcomes where possible
-- Keep proposals under 400 words
-- Format as clean markdown with ## headers
-- Never use phrases like "I am pleased to submit"`
+STRICT RULES:
+- Plain text ONLY. Zero markdown. No ** bold **, no # headers, no bullet dashes.
+- Start immediately with YOUR solution/approach — never start with "I understand you need" or "You are looking for"
+- Max 250 words total
+- Write in first person, confident and direct
+- Include 2-3 REAL, specific example websites (with actual URLs) relevant to the client's industry and service
+- Sound human, not templated
+- End with one clear next step sentence`
 
-// ── Main handler ───────────────────────────────────────────────────────────
+const SYSTEM_OTHER = `You are an expert freelance business consultant. Write concise, professional documents for freelancers.
+- Use clean formatting with section headers
+- Be specific and results-focused
+- No filler phrases`
+
 export async function POST(req: NextRequest) {
   const { tool, data } = await req.json()
-
   const prompt = buildPrompt(tool, data)
-  if (!prompt) {
-    return NextResponse.json({ error: 'Unknown tool' }, { status: 400 })
-  }
+  if (!prompt) return NextResponse.json({ error: 'Unknown tool' }, { status: 400 })
 
-  // Try each provider in order
+  const system = tool === 'proposal' ? SYSTEM_PROPOSAL : SYSTEM_OTHER
+
+  // Confirmed free OpenRouter models
+  const models = [
+    'meta-llama/llama-3.1-8b-instruct:free',
+    'google/gemma-2-9b-it:free',
+    'mistralai/mistral-7b-instruct:free',
+  ]
+
   let content: string | null = null
   let provider = ''
 
-  content = await callGemini(prompt, SYSTEM)
-  if (content) { provider = 'gemini' }
-
-  if (!content) {
-    content = await callOpenRouter(prompt, SYSTEM, 'meta-llama/llama-3.1-70b-instruct:free')
-    if (content) { provider = 'openrouter-llama70b' }
+  for (const model of models) {
+    content = await callOpenRouter(prompt, system, model)
+    if (content) { provider = model; break }
   }
 
-  if (!content) {
-    content = await callOpenRouter(prompt, SYSTEM, 'google/gemma-2-9b-it:free')
-    if (content) { provider = 'openrouter-gemma' }
-  }
-
-  if (!content) {
-    content = await callOpenRouter(prompt, SYSTEM, 'mistralai/mistral-7b-instruct:free')
-    if (content) { provider = 'openrouter-mistral' }
-  }
-
-  // Final fallback — smart template
   if (!content) {
     content = buildTemplateFallback(tool, data)
     provider = 'template'
@@ -122,155 +91,81 @@ export async function POST(req: NextRequest) {
   return NextResponse.json({ ok: true, content, provider })
 }
 
-// ── Prompts ────────────────────────────────────────────────────────────────
 function buildPrompt(tool: string, d: Record<string, string>): string | null {
   switch (tool) {
     case 'proposal':
-      return `Write a short, results-focused freelance proposal under 400 words.
+      return `Write a winning freelance proposal for this job. Plain text only, no markdown formatting whatsoever.
 
-Client: ${d.clientName || 'the client'} (${d.clientIndustry} industry)
-Freelancer: ${d.freelancerName || 'the freelancer'}
-Service: ${d.service}
-Budget: ${d.budget || 'TBD'}
-Timeline: ${d.timeline} weeks
-Problem: ${d.problem}
-Solution: ${d.solution}
+MY DETAILS:
+- Name: ${d.freelancerName || 'the freelancer'}
+- Service: ${d.service}
 
-Use these exact sections:
-## The Situation
-(1-2 sentences on what they need and why it matters)
+CLIENT DETAILS:
+- Name: ${d.clientName || 'the client'}
+- Industry: ${d.clientIndustry}
+- Their problem: ${d.problem}
+- Budget: ${d.budget || 'not specified'}
+- Timeline: ${d.timeline} weeks
 
-## What I'll Deliver
-(4-5 specific deliverable bullet points)
+MY SOLUTION: ${d.solution}
 
-## How We'll Work
-(3 phases, one line each)
+Write the proposal following this structure (NO headers, just flowing paragraphs):
 
-## Investment
-(Budget + 50/50 payment terms)
+Paragraph 1: Start with what I'll do for them and the specific outcome they'll get. Reference their exact problem. 2-3 sentences.
 
-## Reference Work
-(List 2-3 real well-known websites that are excellent examples of ${d.service} for ${d.clientIndustry}. Format: **Site Name** — domain.com — one sentence why it's relevant)
+Paragraph 2: Brief description of my approach/process. 2-3 sentences.
 
-## Next Step
-(One clear call to action)
+Paragraph 3: Write "Here are some examples of similar work I admire in the ${d.clientIndustry} space:" then list 2-3 REAL websites (with actual domain URLs) that are excellent examples of ${d.service} for ${d.clientIndustry} businesses. One line each: Site Name (domain.com) - why it's relevant.
 
-Sign off: ${d.freelancerName || 'Your Name'}`
+Paragraph 4: Investment is ${d.budget || 'TBD'}, ${d.timeline} weeks, 50% upfront. One clear next step.
+
+Keep total under 250 words. Sound confident and specific, not generic.`
 
     case 'scope':
-      return `Write a clear, scope-creep-preventing scope of work document.
+      return `Write a clear scope of work document to prevent scope creep.
 
-Project: ${d.service}
-Client: ${d.clientName || 'the client'}
-Provider: ${d.freelancerName || 'the provider'}
-Budget: ${d.budget || 'TBD'}
-Timeline: ${d.timeline} weeks
+Project: ${d.service} for ${d.clientName || 'client'}
+Provider: ${d.freelancerName || 'provider'}
+Budget: ${d.budget || 'TBD'} | Timeline: ${d.timeline} weeks
 Deliverables: ${d.deliverables}
-Out of scope: ${d.outOfScope || 'none specified'}
+Excluded: ${d.outOfScope || 'to be defined'}
 
-## Project Overview
-(2 sentences max)
-
-## Deliverables
-(Numbered list, very specific)
-
-## What's NOT Included
-(6-8 commonly assumed items explicitly excluded)
-
-## Timeline
-(Phases with week numbers)
-
-## Revision Policy
-(Max revisions included, how extras are billed)
-
-## Acceptance Criteria
-(How client signs off on completion)`
+Sections needed:
+Project Overview (2 sentences)
+Deliverables (numbered, very specific)
+What's NOT Included (6 items explicitly excluded)
+Timeline (phases with weeks)
+Revision Policy (max rounds, cost for extras)
+Acceptance Criteria`
 
     case 'discovery':
-      return `Write a practical discovery call script.
+      return `Write a ${d.duration}-minute discovery call script for selling ${d.service} to a ${d.industry} business.
+Goals: ${d.goals || 'qualify client, uncover budget, move to proposal'}
 
-Service: ${d.service}
-Client industry: ${d.industry}
-Duration: ${d.duration} minutes
-Goals: ${d.goals || 'qualify client and close project'}
-
-## Opening (2 min)
-(Warm intro, set agenda — exact words)
-
-## Understand Their World (${Math.floor(parseInt(d.duration) * 0.3)} min)
-(5 specific questions with follow-up prompts)
-
-## Uncover Budget & Urgency (${Math.floor(parseInt(d.duration) * 0.25)} min)
-(4 questions on budget, timeline, decision-making)
-
-## Present Your Approach (${Math.floor(parseInt(d.duration) * 0.25)} min)
-(How to pitch process without over-explaining)
-
-## Close & Next Steps (${Math.floor(parseInt(d.duration) * 0.15)} min)
-(Exact words to advance to proposal or next meeting)
-
-## Red Flags to Watch
-(3-4 warning signs this client may be trouble)`
+Include: opening script, 5 qualifying questions with follow-ups, 3 budget/urgency questions, how to pitch your process briefly, exact closing words, 3 red flag warning signs.`
 
     case 'questionnaire':
-      return `Write a smart client onboarding questionnaire.
+      return `Write a client onboarding questionnaire for a ${d.service} freelancer working with a ${d.clientType} client.
+Project context: ${d.projectType || 'standard project'}
 
-Service: ${d.service}
-Client type: ${d.clientType}
-Project notes: ${d.projectType || 'standard project'}
-
-Generate 12-15 focused questions in sections:
-
-## Business & Goals
-## Project Specifics
-## Design & Brand Preferences
-## Technical Requirements
-## Timeline & Budget
-## Decision Making & Approval
-
-For each question, add a brief italic note on why you're asking it.`
+Write 12-15 smart questions in sections: Business & Goals, Project Specifics, Design Preferences, Technical Requirements, Timeline & Budget, Approval Process. Add a brief italic note after each question explaining why you ask it.`
 
     default:
       return null
   }
 }
 
-// ── Template fallback (no AI needed) ───────────────────────────────────────
 function buildTemplateFallback(tool: string, d: Record<string, string>): string {
-  const today = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
-
   if (tool === 'proposal') {
-    return `## The Situation
-${d.clientName || 'Your business'} needs ${d.service} to ${d.problem || 'achieve key business goals'} in the ${d.clientIndustry} space.
+    return `Having built ${d.service.toLowerCase()} solutions for multiple ${d.clientIndustry} businesses, I know exactly what it takes to ${d.problem || 'achieve your goals'} — and I can deliver it in ${d.timeline} weeks.
 
-## What I'll Deliver
-- Complete ${d.service} strategy and execution
-- ${d.timeline}-week delivery with clear milestones
-- 2 revision rounds included
-- Final handover with full documentation
-- 14-day post-project support
+${d.solution || `My approach combines strategic thinking with clean execution. I'll start with a deep-dive into your requirements, then build and iterate quickly so you see progress from day one.`}
 
-## How We'll Work
-- **Week 1:** Discovery, research, and strategic brief
-- **Weeks 2–${Math.max(2, parseInt(d.timeline || '4') - 1)}:** Core delivery with regular check-ins
-- **Final week:** Review, revisions, and handover
+For reference, here are some strong examples of ${d.service} in the ${d.clientIndustry} space worth looking at: Shopify (shopify.com) — clean UX and conversion-focused design, ASOS (asos.com) — excellent product browsing experience, Allbirds (allbirds.com) — storytelling-led ecommerce done right.
 
-## Investment
-**Project fee:** ${d.budget || 'To be confirmed'}
-- 50% deposit on contract signing
-- 50% on project completion
+Investment is ${d.budget || 'TBD'}, split 50% to start and 50% on completion. Happy to jump on a quick call this week — just say the word.
 
-## Reference Work
-See examples of excellent ${d.service} work for ${d.clientIndustry} businesses to align on direction before we begin.
-
-## Next Step
-Reply to confirm you'd like to proceed and I'll send the contract within 24 hours.
-
-*${d.freelancerName || 'Your Name'}* · ${today}`
+${d.freelancerName || ''}`
   }
-
-  return `## Overview
-Professional ${d.service || 'service'} document generated for ${d.clientName || 'client'}.
-
-*AI generation temporarily unavailable — please try again in a moment.*`
+  return `AI generation temporarily unavailable. Please try again in a moment.`
 }
