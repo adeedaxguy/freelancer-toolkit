@@ -60,6 +60,23 @@ const SYSTEM_OTHER = `You are an expert freelance business consultant. Write con
 - Be specific and results-focused
 - No filler phrases`
 
+export async function GET() {
+  // Debug: test OpenRouter connection
+  const key = process.env.OPENROUTER_API_KEY
+  if (!key) return NextResponse.json({ error: 'OPENROUTER_API_KEY not set' })
+  try {
+    const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}`, 'HTTP-Referer': 'https://freeltools.com', 'X-Title': 'FreelTools' },
+      body: JSON.stringify({ model: 'meta-llama/llama-3.1-8b-instruct:free', messages: [{ role: 'user', content: 'Say "ok" and nothing else.' }], max_tokens: 5 }),
+    })
+    const json = await res.json()
+    return NextResponse.json({ status: res.status, response: json })
+  } catch (e) {
+    return NextResponse.json({ error: String(e) })
+  }
+}
+
 export async function POST(req: NextRequest) {
   const { tool, data } = await req.json()
   const prompt = buildPrompt(tool, data)
@@ -94,7 +111,7 @@ export async function POST(req: NextRequest) {
 function buildPrompt(tool: string, d: Record<string, string>): string | null {
   switch (tool) {
     case 'proposal':
-      return `Write a winning freelance proposal for this job. Plain text only, no markdown formatting whatsoever.
+      return `Write a winning freelance proposal. Plain text only — absolutely no markdown, no ** bold **, no # headers, no bullet symbols. Just clean paragraphs.
 
 MY DETAILS:
 - Name: ${d.freelancerName || 'the freelancer'}
@@ -104,22 +121,24 @@ CLIENT DETAILS:
 - Name: ${d.clientName || 'the client'}
 - Industry: ${d.clientIndustry}
 - Their problem: ${d.problem}
-- Budget: ${d.budget || 'not specified'}
+- Budget: ${d.budget ? '$' + d.budget : 'to be discussed'}
 - Timeline: ${d.timeline} weeks
 
 MY SOLUTION: ${d.solution}
 
-Write the proposal following this structure (NO headers, just flowing paragraphs):
+Structure (NO headers, plain paragraphs only):
 
-Paragraph 1: Start with what I'll do for them and the specific outcome they'll get. Reference their exact problem. 2-3 sentences.
+Paragraph 1 (2-3 sentences): Open with exactly what outcome I'll deliver for their specific problem. Be direct and confident.
 
-Paragraph 2: Brief description of my approach/process. 2-3 sentences.
+Paragraph 2 (2-3 sentences): Briefly explain my approach/process. Make it feel tailored to them.
 
-Paragraph 3: Write "Here are some examples of similar work I admire in the ${d.clientIndustry} space:" then list 2-3 REAL websites (with actual domain URLs) that are excellent examples of ${d.service} for ${d.clientIndustry} businesses. One line each: Site Name (domain.com) - why it's relevant.
+Paragraph 3: Write exactly this line first: "Here are a few examples of similar work in the ${d.clientIndustry} space:" then on separate lines list 3 LESSER-KNOWN, NICHE websites (NOT famous brands like Shopify/Amazon/Nike). Pick real but smaller, industry-specific sites that demonstrate good ${d.service}. Format each as: - SiteName.com — one sentence why it's relevant to their project.
 
-Paragraph 4: Investment is ${d.budget || 'TBD'}, ${d.timeline} weeks, 50% upfront. One clear next step.
+Paragraph 4 (2-3 sentences): Investment is ${d.budget ? '$' + d.budget : 'competitive'}, ${d.timeline} weeks, 50/50 payment. One genuine, specific call to action.
 
-Keep total under 250 words. Sound confident and specific, not generic.`
+Sign off with just: ${d.freelancerName || ''}
+
+Total: under 220 words. Confident, human, specific.`
 
     case 'scope':
       return `Write a clear scope of work document to prevent scope creep.
@@ -157,13 +176,22 @@ Write 12-15 smart questions in sections: Business & Goals, Project Specifics, De
 
 function buildTemplateFallback(tool: string, d: Record<string, string>): string {
   if (tool === 'proposal') {
-    return `Having built ${d.service.toLowerCase()} solutions for multiple ${d.clientIndustry} businesses, I know exactly what it takes to ${d.problem || 'achieve your goals'} — and I can deliver it in ${d.timeline} weeks.
+    const budget = d.budget ? `$${d.budget}` : 'competitive'
+    const niches: Record<string, string[]> = {
+      'E-commerce': ['- TrueClassicTees.com — strong product page UX with clear CTAs', '- GymShark.com/collections — clean category structure and filtering', '- MadePura.com — excellent mobile checkout flow'],
+      'SaaS / Tech': ['- Loom.com — clear value prop and onboarding flow', '- Linear.app — minimal, fast-loading SaaS design', '- Pitch.com — strong hero and feature storytelling'],
+      'Healthcare': ['- HimsHers.com — trust-focused design with clear steps', '- NutritionKitchen.co.uk — clean health product layout', '- RomanHealth.com — simple consultation flow'],
+      'Real Estate': ['- Compass.com — clean property search UX', '- Roofstock.com — data-rich but scannable layout', '- LoftSmart.com — student housing with clear CTAs'],
+    }
+    const refs = niches[d.clientIndustry] || ['- TrueClassicTees.com — strong ecommerce UX', '- Linear.app — minimal and fast SaaS design', '- Pitch.com — clear value storytelling']
+    return `I can fix ${d.problem || 'your current issue'} and deliver a ${d.service.toLowerCase()} that works — in ${d.timeline} weeks. ${d.solution ? d.solution + '.' : ''}
 
-${d.solution || `My approach combines strategic thinking with clean execution. I'll start with a deep-dive into your requirements, then build and iterate quickly so you see progress from day one.`}
+My process is straightforward: understand your goals first, move fast, and keep you in the loop at every step. No surprises.
 
-For reference, here are some strong examples of ${d.service} in the ${d.clientIndustry} space worth looking at: Shopify (shopify.com) — clean UX and conversion-focused design, ASOS (asos.com) — excellent product browsing experience, Allbirds (allbirds.com) — storytelling-led ecommerce done right.
+Here are a few examples of similar work in the ${d.clientIndustry} space:
+${refs.join('\n')}
 
-Investment is ${d.budget || 'TBD'}, split 50% to start and 50% on completion. Happy to jump on a quick call this week — just say the word.
+Investment is ${budget}, split 50/50 — half upfront, half on delivery. Ready to get started this week if you are.
 
 ${d.freelancerName || ''}`
   }
