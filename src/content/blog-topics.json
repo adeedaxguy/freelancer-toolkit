@@ -42,7 +42,7 @@
     "secondaryKeywords": ["freelance SOW", "project scope document", "prevent scope creep"],
     "toolLink": "/tools/scope-of-work-generator",
     "type": "guide",
-    "done": false
+    "done": true
   },
   {
     "slug": "freelance-invoice-guide",
@@ -51,7 +51,7 @@
     "secondaryKeywords": ["how to invoice clients", "freelance invoice template", "invoice payment terms"],
     "toolLink": "/tools/invoice-generator",
     "type": "guide",
-    "done": false
+    "done": true
   },
   {
     "slug": "agency-pricing-models",
