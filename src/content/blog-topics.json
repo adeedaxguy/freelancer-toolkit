@@ -60,7 +60,7 @@
     "secondaryKeywords": ["how agencies price services", "agency billing models", "value based pricing agency"],
     "toolLink": "/tools/agency-pricing-calculator",
     "type": "guide",
-    "done": false
+    "done": true
   },
   {
     "slug": "freelance-break-even-point",
@@ -69,7 +69,7 @@
     "secondaryKeywords": ["freelance business costs", "break even analysis freelancer", "minimum freelance income"],
     "toolLink": "/tools/break-even-calculator",
     "type": "guide",
-    "done": false
+    "done": true
   },
   {
     "slug": "discovery-call-tips-freelancers",
