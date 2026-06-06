@@ -1,0 +1,272 @@
+[
+  {
+    "slug": "how-to-calculate-freelance-hourly-rate",
+    "title": "How to Calculate Your Freelance Hourly Rate",
+    "primaryKeyword": "freelance hourly rate calculator",
+    "secondaryKeywords": ["how much to charge as a freelancer", "freelance rate formula", "set freelance rates"],
+    "toolLink": "/tools/freelancer-rate-calculator",
+    "type": "guide",
+    "done": true
+  },
+  {
+    "slug": "upwork-fees-explained",
+    "title": "Upwork Fees Explained: What Freelancers Actually Take Home",
+    "primaryKeyword": "upwork fees for freelancers",
+    "secondaryKeywords": ["upwork service fee percentage", "upwork vs fiverr fees", "freelance platform fees"],
+    "toolLink": "/tools/upwork-fee-calculator",
+    "type": "guide",
+    "done": true
+  },
+  {
+    "slug": "freelance-proposal-template",
+    "title": "Freelance Proposal Template That Wins Clients",
+    "primaryKeyword": "freelance proposal template",
+    "secondaryKeywords": ["how to write a freelance proposal", "winning project proposal", "proposal structure"],
+    "toolLink": "/tools/proposal-generator",
+    "type": "guide",
+    "done": true
+  },
+  {
+    "slug": "freelance-retainer-pricing",
+    "title": "How to Price a Freelance Retainer (And Why You Should)",
+    "primaryKeyword": "freelance retainer pricing",
+    "secondaryKeywords": ["retainer fee freelancer", "monthly retainer contract", "retainer vs project pricing"],
+    "toolLink": "/tools/retainer-calculator",
+    "type": "guide",
+    "done": true
+  },
+  {
+    "slug": "scope-of-work-template-freelancers",
+    "title": "Scope of Work Template for Freelancers (With Examples)",
+    "primaryKeyword": "scope of work template freelancer",
+    "secondaryKeywords": ["freelance SOW", "project scope document", "prevent scope creep"],
+    "toolLink": "/tools/scope-of-work-generator",
+    "type": "guide",
+    "done": true
+  },
+  {
+    "slug": "freelance-invoice-guide",
+    "title": "How to Invoice Clients as a Freelancer (Complete Guide)",
+    "primaryKeyword": "freelance invoice guide",
+    "secondaryKeywords": ["how to invoice clients", "freelance invoice template", "invoice payment terms"],
+    "toolLink": "/tools/invoice-generator",
+    "type": "guide",
+    "done": true
+  },
+  {
+    "slug": "agency-pricing-models",
+    "title": "Agency Pricing Models: Hourly, Retainer, Value-Based",
+    "primaryKeyword": "agency pricing models",
+    "secondaryKeywords": ["how agencies price services", "agency billing models", "value based pricing agency"],
+    "toolLink": "/tools/agency-pricing-calculator",
+    "type": "guide",
+    "done": true
+  },
+  {
+    "slug": "freelance-break-even-point",
+    "title": "How to Find Your Freelance Break-Even Point",
+    "primaryKeyword": "freelance break even point",
+    "secondaryKeywords": ["freelance business costs", "break even analysis freelancer", "minimum freelance income"],
+    "toolLink": "/tools/break-even-calculator",
+    "type": "guide",
+    "done": false
+  },
+  {
+    "slug": "discovery-call-tips-freelancers",
+    "title": "10 Discovery Call Tips That Close More Freelance Clients",
+    "primaryKeyword": "discovery call tips freelancers",
+    "secondaryKeywords": ["freelance discovery call script", "sales call freelancer", "client discovery questions"],
+    "toolLink": "/tools/discovery-call-generator",
+    "type": "tips",
+    "done": false
+  },
+  {
+    "slug": "revenue-goal-freelancer",
+    "title": "How to Set a Realistic Revenue Goal as a Freelancer",
+    "primaryKeyword": "freelance revenue goal",
+    "secondaryKeywords": ["freelance income target", "how much can freelancers make", "freelance annual income"],
+    "toolLink": "/tools/revenue-goal-calculator",
+    "type": "guide",
+    "done": false
+  },
+  {
+    "slug": "client-questionnaire-freelance",
+    "title": "Client Questionnaire: 20 Questions Before Every Project",
+    "primaryKeyword": "client questionnaire freelance",
+    "secondaryKeywords": ["client onboarding questions", "freelance intake form", "new client questions"],
+    "toolLink": "/tools/client-questionnaire-generator",
+    "type": "guide",
+    "done": false
+  },
+  {
+    "slug": "hourly-vs-fixed-price-freelance",
+    "title": "Hourly vs Fixed Price Freelancing: Which Earns More",
+    "primaryKeyword": "hourly vs fixed price freelancing",
+    "secondaryKeywords": ["should I charge hourly or fixed", "project based vs hourly", "freelance pricing strategy"],
+    "toolLink": "/tools/hourly-vs-fixed-calculator",
+    "type": "guide",
+    "done": false
+  },
+  {
+    "slug": "reduce-meeting-costs-remote-team",
+    "title": "How to Reduce Meeting Costs for Your Remote Team",
+    "primaryKeyword": "reduce meeting costs",
+    "secondaryKeywords": ["cost of meetings", "expensive meetings", "async communication freelance"],
+    "toolLink": "/tools/meeting-cost-calculator",
+    "type": "tips",
+    "done": false
+  },
+  {
+    "slug": "freelance-profit-margin",
+    "title": "What Profit Margin Should a Freelancer Target?",
+    "primaryKeyword": "freelance profit margin",
+    "secondaryKeywords": ["freelance business profit", "how to calculate profit freelance", "freelance net income"],
+    "toolLink": "/tools/profit-calculator",
+    "type": "guide",
+    "done": false
+  },
+  {
+    "slug": "project-cost-estimate-clients",
+    "title": "How to Estimate Project Costs for Clients Accurately",
+    "primaryKeyword": "project cost estimate freelance",
+    "secondaryKeywords": ["how to quote a project", "freelance project pricing", "cost estimation freelancer"],
+    "toolLink": "/tools/project-cost-calculator",
+    "type": "guide",
+    "done": false
+  },
+  {
+    "slug": "freelance-commission-platforms-comparison",
+    "title": "Freelance Platform Fees Compared: Keep More of What You Earn",
+    "primaryKeyword": "freelance platform fees comparison",
+    "secondaryKeywords": ["upwork vs fiverr fees", "freelancer.com fees", "best freelance platform fees"],
+    "toolLink": "/tools/freelancer-commission-calculator",
+    "type": "guide",
+    "done": false
+  },
+  {
+    "slug": "raise-freelance-rates-existing-clients",
+    "title": "How to Raise Your Rates With Existing Clients (Without Losing Them)",
+    "primaryKeyword": "raise freelance rates existing clients",
+    "secondaryKeywords": ["increase freelance rate", "tell client raising rates", "rate increase email"],
+    "toolLink": "/tools/freelancer-rate-calculator",
+    "type": "guide",
+    "done": false
+  },
+  {
+    "slug": "freelance-taxes-guide",
+    "title": "Freelance Taxes 101: What Every Freelancer Must Know",
+    "primaryKeyword": "freelance taxes guide",
+    "secondaryKeywords": ["self employment tax freelancer", "quarterly taxes freelancer", "freelance tax deductions"],
+    "toolLink": "/tools/freelancer-rate-calculator",
+    "type": "guide",
+    "done": false
+  },
+  {
+    "slug": "freelance-contract-essentials",
+    "title": "Freelance Contract Essentials: Clauses That Protect You",
+    "primaryKeyword": "freelance contract essentials",
+    "secondaryKeywords": ["freelance contract template", "what to include in freelance contract", "protect yourself freelancing"],
+    "toolLink": "/tools/scope-of-work-generator",
+    "type": "guide",
+    "done": false
+  },
+  {
+    "slug": "win-more-freelance-clients",
+    "title": "7 Proven Ways to Win More Freelance Clients in 2025",
+    "primaryKeyword": "how to win freelance clients",
+    "secondaryKeywords": ["get more freelance work", "freelance client acquisition", "freelance marketing tips"],
+    "toolLink": "/tools/proposal-generator",
+    "type": "tips",
+    "done": false
+  },
+  {
+    "slug": "freelance-niche-down",
+    "title": "Why Niching Down as a Freelancer Increases Your Rates",
+    "primaryKeyword": "freelance niche",
+    "secondaryKeywords": ["should I specialize as a freelancer", "freelance specialist vs generalist", "niche freelancing"],
+    "toolLink": "/tools/freelancer-rate-calculator",
+    "type": "guide",
+    "done": false
+  },
+  {
+    "slug": "client-red-flags-freelance",
+    "title": "10 Client Red Flags Every Freelancer Should Recognize",
+    "primaryKeyword": "client red flags freelancer",
+    "secondaryKeywords": ["bad client warning signs", "avoid problem clients", "freelance client vetting"],
+    "toolLink": "/tools/client-questionnaire-generator",
+    "type": "tips",
+    "done": false
+  },
+  {
+    "slug": "upwork-profile-optimization",
+    "title": "How to Optimize Your Upwork Profile to Get More Clients",
+    "primaryKeyword": "upwork profile optimization",
+    "secondaryKeywords": ["upwork profile tips", "rank higher on upwork", "upwork success tips"],
+    "toolLink": "/tools/upwork-fee-calculator",
+    "type": "guide",
+    "done": false
+  },
+  {
+    "slug": "freelance-scope-creep",
+    "title": "How to Stop Scope Creep From Killing Your Freelance Profit",
+    "primaryKeyword": "freelance scope creep",
+    "secondaryKeywords": ["prevent scope creep", "scope creep solutions", "freelance project management"],
+    "toolLink": "/tools/scope-of-work-generator",
+    "type": "guide",
+    "done": false
+  },
+  {
+    "slug": "agency-owner-pricing-guide",
+    "title": "The Agency Owner's Guide to Pricing Services Profitably",
+    "primaryKeyword": "agency pricing guide",
+    "secondaryKeywords": ["how to price agency services", "agency service pricing", "digital agency rates"],
+    "toolLink": "/tools/agency-pricing-calculator",
+    "type": "guide",
+    "done": false
+  },
+  {
+    "slug": "freelance-late-payment",
+    "title": "What to Do When Clients Don't Pay (And How to Prevent It)",
+    "primaryKeyword": "freelance client late payment",
+    "secondaryKeywords": ["client not paying invoice", "late payment freelancer", "chase invoice payment"],
+    "toolLink": "/tools/invoice-generator",
+    "type": "guide",
+    "done": false
+  },
+  {
+    "slug": "sales-commission-structure",
+    "title": "How to Set Up a Sales Commission Structure That Motivates",
+    "primaryKeyword": "sales commission structure",
+    "secondaryKeywords": ["commission plan design", "sales team commission", "tiered commission structure"],
+    "toolLink": "/tools/commission-calculator",
+    "type": "guide",
+    "done": false
+  },
+  {
+    "slug": "freelance-passive-income",
+    "title": "How Freelancers Build Passive Income Streams",
+    "primaryKeyword": "freelance passive income",
+    "secondaryKeywords": ["passive income freelancer", "productize freelance services", "freelance income diversification"],
+    "toolLink": "/tools/revenue-goal-calculator",
+    "type": "guide",
+    "done": false
+  },
+  {
+    "slug": "freelance-productivity-tips",
+    "title": "12 Productivity Tips for Freelancers Working From Home",
+    "primaryKeyword": "freelance productivity tips",
+    "secondaryKeywords": ["work from home freelancer", "freelance time management", "freelance focus tips"],
+    "toolLink": "/tools/meeting-cost-calculator",
+    "type": "tips",
+    "done": false
+  },
+  {
+    "slug": "value-based-pricing-freelance",
+    "title": "Value-Based Pricing for Freelancers: Charge What You're Worth",
+    "primaryKeyword": "value based pricing freelancer",
+    "secondaryKeywords": ["how to charge based on value", "value pricing freelance", "stop charging hourly"],
+    "toolLink": "/tools/freelancer-rate-calculator",
+    "type": "guide",
+    "done": false
+  }
+]
