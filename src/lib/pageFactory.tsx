@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getToolBySlug, type ToolMeta } from '@/lib/tools'
 
-const SITE_URL = 'https://freelancertoolkit.com'
+const SITE_URL = 'https://freeltools.com'
 
 export function buildToolMetadata(tool: ToolMeta): Metadata {
   const url = `${SITE_URL}/tools/${tool.slug}`

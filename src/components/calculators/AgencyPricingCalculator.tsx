@@ -14,7 +14,8 @@ export default function AgencyPricingCalculator() {
 
   const results = useMemo(() => {
     const totalCost = teamCost + overhead
-    const clientPrice = totalCost / (1 - margin / 100)
+    const effectiveMargin = Math.min(margin, 99)
+    const clientPrice = totalCost / (1 - effectiveMargin / 100)
     const grossProfit = clientPrice - totalCost
     const actualMargin = clientPrice > 0 ? (grossProfit / clientPrice) * 100 : 0
     const markup = totalCost > 0 ? (grossProfit / totalCost) * 100 : 0

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo, useEffect } from 'react'
+import { useState, useMemo, useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
 
 interface LineItem {
@@ -12,8 +12,6 @@ interface LineItem {
 
 const fmt = (n: number) =>
   new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 2 }).format(n)
-
-let nextId = 4
 
 export default function InvoiceGenerator() {
   const [from, setFrom] = useState({ name: '', email: '', address: '' })
@@ -30,6 +28,7 @@ export default function InvoiceGenerator() {
   ])
   const [showPreview, setShowPreview] = useState(false)
   const [mounted, setMounted] = useState(false)
+  const nextIdRef = useRef(4)
   useEffect(() => setMounted(true), [])
 
   const totals = useMemo(() => {
@@ -43,7 +42,7 @@ export default function InvoiceGenerator() {
     setLineItems((items) => items.map((item) => (item.id === id ? { ...item, [field]: value } : item)))
 
   const addItem = () => {
-    setLineItems((items) => [...items, { id: nextId++, description: '', quantity: '1', rate: '' }])
+    setLineItems((items) => [...items, { id: nextIdRef.current++, description: '', quantity: '1', rate: '' }])
   }
 
   const removeItem = (id: number) => {
@@ -69,7 +68,7 @@ export default function InvoiceGenerator() {
       {mounted && showPreview && createPortal(
         <div id="invoice-print-root" className="fixed inset-0 z-50 bg-white overflow-auto">
         {/* Toolbar */}
-        <div className="invoice-no-print sticky top-0 z-10 flex items-center justify-between gap-4 bg-gray-900 px-6 py-3 text-white shadow">
+        <div className="invoice-no-print sticky top-0 z-10 flex items-center justify-between gap-4 bg-gray-900 px-3 sm:px-6 py-3 text-white shadow">
           <div className="flex items-center gap-3">
             <button
               onClick={() => setShowPreview(false)}
@@ -89,7 +88,7 @@ export default function InvoiceGenerator() {
         </div>
 
         {/* Invoice */}
-        <div className="mx-auto max-w-3xl rounded-2xl border border-gray-200 bg-white p-10 shadow-lg my-8 print:my-0 print:rounded-none print:shadow-none print:border-none">
+        <div className="mx-auto max-w-3xl rounded-2xl border border-gray-200 bg-white p-5 sm:p-10 shadow-lg my-8 print:my-0 print:rounded-none print:shadow-none print:border-none">
 
           {/* Header */}
           <div className="flex flex-col gap-4 border-b border-gray-200 pb-6 sm:flex-row sm:items-start sm:justify-between">
@@ -104,7 +103,7 @@ export default function InvoiceGenerator() {
           </div>
 
           {/* From / To */}
-          <div className="mt-8 grid grid-cols-2 gap-8">
+          <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-8">
             {[
               { label: 'From', info: from },
               { label: 'Bill To', info: to },
@@ -224,7 +223,7 @@ export default function InvoiceGenerator() {
           </div>
 
           {/* From / To */}
-          <div className="mt-6 grid grid-cols-2 gap-6">
+          <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2">
             {[
               { label: 'From', data: from, set: setFrom },
               { label: 'Bill To', data: to, set: setTo },

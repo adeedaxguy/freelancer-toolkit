@@ -12,9 +12,8 @@ interface Attendee {
   rate: number
 }
 
-let nextId = 4
-
 export default function MeetingCostCalculator() {
+  const nextIdRef = useRef(4)
   const [attendees, setAttendees] = useState<Attendee[]>([
     { id: 1, role: 'Project Manager', rate: 75 },
     { id: 2, role: 'Developer', rate: 100 },
@@ -49,7 +48,7 @@ export default function MeetingCostCalculator() {
     setAttendees((list) => list.map((a) => (a.id === id ? { ...a, [field]: value } : a)))
 
   const addAttendee = () =>
-    setAttendees((list) => [...list, { id: nextId++, role: 'Attendee', rate: 75 }])
+    setAttendees((list) => [...list, { id: nextIdRef.current++, role: 'Attendee', rate: 75 }])
 
   const removeAttendee = (id: number) =>
     setAttendees((list) => list.filter((a) => a.id !== id))

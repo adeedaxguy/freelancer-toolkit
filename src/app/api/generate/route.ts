@@ -60,26 +60,29 @@ const SYSTEM_OTHER = `You are an expert freelance business consultant. Write con
 - Be specific and results-focused
 - No filler phrases`
 
-export async function GET() {
-  // Debug: test OpenRouter connection
-  const key = process.env.OPENROUTER_API_KEY
-  if (!key) return NextResponse.json({ error: 'OPENROUTER_API_KEY not set' })
-  try {
-    const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}`, 'HTTP-Referer': 'https://freeltools.com', 'X-Title': 'FreelTools' },
-      body: JSON.stringify({ model: 'meta-llama/llama-3.1-8b-instruct:free', messages: [{ role: 'user', content: 'Say "ok" and nothing else.' }], max_tokens: 5 }),
-    })
-    const json = await res.json()
-    return NextResponse.json({ status: res.status, response: json })
-  } catch (e) {
-    return NextResponse.json({ error: String(e) })
-  }
-}
+// Debug endpoint removed for security
 
 export async function POST(req: NextRequest) {
-  const { tool, data } = await req.json()
-  const prompt = buildPrompt(tool, data)
+  let body: { tool?: string; data?: Record<string, string> }
+  try {
+    body = await req.json()
+  } catch {
+    return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 })
+  }
+
+  const { tool, data } = body
+  if (!tool || typeof tool !== 'string' || !data || typeof data !== 'object') {
+    return NextResponse.json({ error: 'Missing tool or data' }, { status: 400 })
+  }
+
+  const MAX_FIELD_LENGTH = 2000
+  const sanitizedData: Record<string, string> = {}
+  for (const [key, value] of Object.entries(data)) {
+    if (typeof value !== 'string') continue
+    sanitizedData[key] = value.slice(0, MAX_FIELD_LENGTH)
+  }
+
+  const prompt = buildPrompt(tool, sanitizedData)
   if (!prompt) return NextResponse.json({ error: 'Unknown tool' }, { status: 400 })
 
   const system = tool === 'proposal' ? SYSTEM_PROPOSAL : SYSTEM_OTHER

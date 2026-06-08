@@ -56,7 +56,7 @@ export default function AdminRequestsPage() {
       ) : (
         <>
           {/* Stats */}
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
             {[
               { label: 'Total Requests', value: requests.length },
               { label: 'Total Votes', value: totalVotes },

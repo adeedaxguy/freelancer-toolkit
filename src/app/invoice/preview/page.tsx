@@ -64,7 +64,7 @@ export default function InvoicePreviewPage() {
       `}</style>
 
       {/* Toolbar — hidden on print */}
-      <div className="no-print fixed top-0 left-0 right-0 z-50 flex items-center justify-between gap-4 bg-gray-900 px-6 py-3 text-white shadow">
+      <div className="no-print fixed top-0 left-0 right-0 z-50 flex items-center justify-between gap-4 bg-gray-900 px-3 sm:px-6 py-3 text-white shadow">
         <div className="flex items-center gap-3">
           <a href="/tools/invoice-generator" className="text-sm text-gray-300 hover:text-white">← Back to Editor</a>
           <span className="text-gray-600">|</span>
@@ -80,7 +80,7 @@ export default function InvoicePreviewPage() {
 
       {/* Invoice */}
       <div className="no-print pt-16" />
-      <div className="invoice-page mx-auto max-w-3xl rounded-2xl border border-gray-200 bg-white p-10 shadow-lg my-8 print:my-0 print:rounded-none print:shadow-none">
+      <div className="invoice-page mx-auto max-w-3xl rounded-2xl border border-gray-200 bg-white p-5 sm:p-10 shadow-lg my-8 print:my-0 print:rounded-none print:shadow-none">
 
         {/* Header */}
         <div className="flex flex-col gap-4 border-b border-gray-200 pb-6 sm:flex-row sm:items-start sm:justify-between">
@@ -95,7 +95,7 @@ export default function InvoicePreviewPage() {
         </div>
 
         {/* From / To */}
-        <div className="mt-8 grid grid-cols-2 gap-8">
+        <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-8">
           {[
             { label: 'From', info: data.from },
             { label: 'Bill To', info: data.to },

@@ -15,7 +15,8 @@ export default function FreelancerRateCalculator() {
   const [expenses, setExpenses] = useState(5000)
 
   const results = useMemo(() => {
-    const grossNeeded = income / (1 - tax / 100) + expenses
+    const effectiveTax = Math.min(tax, 99)
+    const grossNeeded = income / (1 - effectiveTax / 100) + expenses
     const totalBillableHours = weeks * hoursPerWeek
     const hourly = totalBillableHours > 0 ? grossNeeded / totalBillableHours : 0
     const daily = hourly * hoursPerWeek / 5

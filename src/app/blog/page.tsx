@@ -5,7 +5,7 @@ import { getAllPosts } from '@/lib/blog'
 export const metadata: Metadata = {
   title: 'Blog – Freelancing Tips, Guides & Resources',
   description: 'Free guides and tips for freelancers, agencies, and consultants. Learn how to set rates, win proposals, manage clients, and grow your business.',
-  alternates: { canonical: 'https://freelancertoolkit.com/blog' },
+  alternates: { canonical: 'https://freeltools.com/blog' },
 }
 
 export const dynamic = 'force-dynamic'

@@ -11,14 +11,6 @@ export const metadata: Metadata = {
     'Free calculators and generators for freelancers and agencies. Set your rate, quote projects, write proposals, create invoices. No login required.',
 }
 
-const websiteJsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'WebSite',
-  name: 'FreelancerToolkit',
-  url: 'https://freelancertoolkit.com',
-  description: 'Free tools for freelancers, agencies, and consultants.',
-}
-
 const stats = [
   { label: 'Free Tools', value: '17' },
   { label: 'No Login Required', value: '✓' },
@@ -30,8 +22,6 @@ export default function HomePage() {
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }} />
-
       {/* Hero */}
       <section className="border-b border-gray-100 bg-white">
         <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">

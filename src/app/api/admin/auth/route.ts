@@ -2,7 +2,11 @@ import { NextRequest, NextResponse } from 'next/server'
 
 export async function POST(req: NextRequest) {
   const { password } = await req.json()
-  const secret = process.env.ADMIN_PASSWORD ?? 'admin123'
+  const secret = process.env.ADMIN_PASSWORD
+
+  if (!secret) {
+    return NextResponse.json({ error: 'Server misconfigured — ADMIN_PASSWORD not set' }, { status: 500 })
+  }
 
   if (password !== secret) {
     return NextResponse.json({ error: 'Incorrect password' }, { status: 401 })
@@ -13,7 +17,7 @@ export async function POST(req: NextRequest) {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'lax',
-    maxAge: 60 * 60 * 24 * 7, // 7 days
+    maxAge: 60 * 60 * 24 * 7,
     path: '/',
   })
   return res

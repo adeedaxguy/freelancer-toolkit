@@ -34,7 +34,8 @@ export async function POST(req: NextRequest) {
   try {
     const { email } = await req.json()
 
-    if (!email || !email.includes('@')) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!email || typeof email !== 'string' || !emailRegex.test(email) || email.length > 254) {
       return NextResponse.json({ error: 'Invalid email' }, { status: 400 })
     }
 

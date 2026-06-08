@@ -4,6 +4,9 @@ import { sendEmail, welcomeEmail, toolRequestEmail, newSubscriberEmail } from '@
 const TEST_TO = 'adnan.webexpert@gmail.com'
 
 export async function GET() {
+  if (process.env.NODE_ENV === 'production') {
+    return NextResponse.json({ error: 'Test endpoint disabled in production' }, { status: 403 })
+  }
   const results: Record<string, unknown> = {}
 
   // 1. Admin notification test

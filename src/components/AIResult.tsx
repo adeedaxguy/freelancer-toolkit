@@ -11,8 +11,16 @@ interface Props {
   plainText?: boolean // for proposal — no markdown rendering
 }
 
-function renderMarkdown(text: string): string {
+function sanitizeHtml(text: string): string {
   return text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+}
+
+function renderMarkdown(text: string): string {
+  return sanitizeHtml(text)
     .replace(/^## (.+)$/gm, '<h2 class="mt-5 mb-1 text-sm font-bold text-gray-900 uppercase tracking-wide">$1</h2>')
     .replace(/^### (.+)$/gm, '<h3 class="mt-3 mb-1 text-sm font-semibold text-gray-800">$1</h3>')
     .replace(/\*\*(.+?)\*\*/g, '<strong class="font-semibold text-gray-900">$1</strong>')

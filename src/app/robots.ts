@@ -6,10 +6,10 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/api/', '/_next/'],
+        disallow: ['/api/', '/_next/', '/admin/', '/invoice/'],
       },
     ],
-    sitemap: 'https://freelancertoolkit.com/sitemap.xml',
-    host: 'https://freelancertoolkit.com',
+    sitemap: 'https://freeltools.com/sitemap.xml',
+    host: 'https://freeltools.com',
   }
 }

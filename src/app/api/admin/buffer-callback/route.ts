@@ -11,10 +11,11 @@ export async function GET(req: NextRequest) {
   const error = req.nextUrl.searchParams.get('error')
 
   if (error) {
+    const safeError = error.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
     return new NextResponse(`
       <html><body style="font-family:sans-serif;padding:40px;max-width:600px">
-        <h2 style="color:red">❌ Buffer Authorization Failed</h2>
-        <p>Error: ${error}</p>
+        <h2 style="color:red">Buffer Authorization Failed</h2>
+        <p>Error: ${safeError}</p>
         <p><a href="/admin">Back to admin</a></p>
       </body></html>
     `, { headers: { 'Content-Type': 'text/html' } })

@@ -60,6 +60,7 @@ export function getAllPosts(includeAll = false): BlogPostMeta[] {
 
 export function getPostBySlug(slug: string): BlogPost | null {
   ensureBlogDir()
+  if (!/^[a-z0-9][a-z0-9-]*$/.test(slug)) return null
   const filePath = path.join(BLOG_DIR, `${slug}.mdx`)
   if (!fs.existsSync(filePath)) return null
   const raw = fs.readFileSync(filePath, 'utf-8')
@@ -81,6 +82,7 @@ export function getPostBySlug(slug: string): BlogPost | null {
 
 export function savePost(slug: string, data: Partial<BlogPost> & { content: string }): void {
   ensureBlogDir()
+  if (!/^[a-z0-9][a-z0-9-]*$/.test(slug)) throw new Error('Invalid slug')
   const frontmatter = {
     title: data.title ?? 'Untitled',
     description: data.description ?? '',
@@ -97,6 +99,7 @@ export function savePost(slug: string, data: Partial<BlogPost> & { content: stri
 
 export function deletePost(slug: string): void {
   ensureBlogDir()
+  if (!/^[a-z0-9][a-z0-9-]*$/.test(slug)) throw new Error('Invalid slug')
   const filePath = path.join(BLOG_DIR, `${slug}.mdx`)
   if (fs.existsSync(filePath)) fs.unlinkSync(filePath)
 }

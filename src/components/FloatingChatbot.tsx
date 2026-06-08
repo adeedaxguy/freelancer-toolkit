@@ -57,7 +57,7 @@ const FAQ: Array<{ match: string[]; answer: string; tool?: string }> = [
   },
   {
     match: ['upwork', 'upwork fee', 'how much upwork'],
-    answer: "Upwork charges 20% on the first $500 you earn with a client, 10% from $500.01–$10,000, and 5% beyond $10,000. Use the **Upwork Fee Calculator** to see exactly what you'll take home on any project.",
+    answer: "Upwork charges a flat 10% service fee on all freelancer earnings (updated in 2023). The old tiered 20%/10%/5% structure no longer applies. Use the **Upwork Fee Calculator** to see exactly what you'll take home on any project.",
     tool: '/tools/upwork-fee-calculator',
   },
   {
@@ -111,13 +111,25 @@ function getBotResponse(input: string): { text: string; tool?: string } {
   }
 }
 
+function sanitizeHtml(text: string): string {
+  return text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+}
+
 function renderText(text: string) {
-  // Bold, links, line breaks
   const parts = text.split('\n')
   return parts.map((line, i) => {
-    const formatted = line
+    const formatted = sanitizeHtml(line)
       .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="underline text-brand-600 hover:text-brand-700" target="_self">$1</a>')
+      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, linkText, url) => {
+        if (/^(\/|https?:\/\/)/.test(url)) {
+          return `<a href="${url}" class="underline text-brand-600 hover:text-brand-700" target="_self">${linkText}</a>`
+        }
+        return linkText
+      })
     return (
       <span key={i}>
         <span dangerouslySetInnerHTML={{ __html: formatted }} />
@@ -145,8 +157,8 @@ export default function FloatingChatbot() {
     }
   }, [open, messages])
 
-  const send = () => {
-    const text = input.trim()
+  const sendMessage = (overrideText?: string) => {
+    const text = (overrideText ?? input).trim()
     if (!text) return
     setInput('')
     setMessages((m) => [...m, { role: 'user', text }])
@@ -160,6 +172,8 @@ export default function FloatingChatbot() {
       setTyping(false)
     }, 600)
   }
+
+  const send = () => sendMessage()
 
   return (
     <>
@@ -182,7 +196,7 @@ export default function FloatingChatbot() {
 
       {/* Chat panel */}
       {open && (
-        <div className="fixed bottom-24 right-6 z-50 flex flex-col w-80 sm:w-96 rounded-2xl shadow-2xl border border-gray-200 bg-white overflow-hidden"
+        <div className="fixed bottom-24 right-4 sm:right-6 z-50 flex flex-col w-[calc(100vw-2rem)] max-w-96 rounded-2xl shadow-2xl border border-gray-200 bg-white overflow-hidden"
           style={{ maxHeight: '70vh' }}>
           {/* Header */}
           <div className="flex items-center gap-3 bg-brand-600 px-4 py-3">
@@ -235,7 +249,7 @@ export default function FloatingChatbot() {
           {/* Quick prompts */}
           <div className="px-3 pt-2 flex gap-2 flex-wrap border-t border-gray-100">
             {['How do I set my rate?', 'What tools exist?', 'Fix scope creep'].map((q) => (
-              <button key={q} onClick={() => { setInput(q); setTimeout(send, 0) }}
+              <button key={q} onClick={() => sendMessage(q)}
                 className="text-xs rounded-full border border-gray-200 bg-gray-50 px-2.5 py-1 text-gray-600 hover:bg-gray-100 transition-colors mb-2">
                 {q}
               </button>

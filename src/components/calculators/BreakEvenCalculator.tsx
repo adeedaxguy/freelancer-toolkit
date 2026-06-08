@@ -18,7 +18,8 @@ export default function BreakEvenCalculator() {
     const contributionMarginPct = avgProjectPrice > 0 ? (contributionMargin / avgProjectPrice) * 100 : 0
     const breakEvenProjects = contributionMargin > 0 ? fixedCosts / contributionMargin : Infinity
     const breakEvenRevenue = breakEvenProjects * avgProjectPrice
-    const profitAtCurrentRevenue = currentRevenue - fixedCosts - (currentRevenue / avgProjectPrice) * variableCost
+    const projectCount = avgProjectPrice > 0 ? currentRevenue / avgProjectPrice : 0
+    const profitAtCurrentRevenue = currentRevenue - fixedCosts - projectCount * variableCost
     const safetyMargin = currentRevenue - breakEvenRevenue
     const safetyMarginPct = currentRevenue > 0 ? (safetyMargin / currentRevenue) * 100 : 0
     const monthlyProjectsNeeded = Math.ceil(breakEvenProjects)

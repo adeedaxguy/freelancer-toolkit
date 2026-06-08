@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useState, useRef } from 'react'
-import { TOOL_CATEGORIES } from '@/lib/tools'
+import { TOOL_CATEGORIES, ALL_TOOLS } from '@/lib/tools'
 
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false)
@@ -135,7 +135,7 @@ export default function Header() {
             </div>
           ))}
           <div className="mt-5 border-t border-gray-100 pt-4 text-xs text-gray-400">
-            17 free tools · No login required
+            {ALL_TOOLS.length} free tools · No login required
           </div>
         </div>
       )}

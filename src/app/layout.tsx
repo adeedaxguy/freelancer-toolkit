@@ -125,6 +125,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body className={`flex min-h-screen flex-col ${inter.className}`}>
+        <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:rounded-lg focus:bg-brand-600 focus:px-4 focus:py-2 focus:text-white focus:shadow-lg">
+          Skip to content
+        </a>
         <PageViewTracker />
         <Header />
         <main className="flex-1" id="main-content">

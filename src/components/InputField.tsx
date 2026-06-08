@@ -21,6 +21,14 @@ export default function InputField({
   suffix,
   hint,
 }: InputFieldProps) {
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    let val = Number(e.target.value)
+    if (isNaN(val)) val = min
+    if (min !== undefined) val = Math.max(val, min)
+    if (max !== undefined) val = Math.min(val, max)
+    if (val !== Number(value)) onChange(val)
+  }
+
   return (
     <div>
       <label className="mb-1.5 block text-sm font-medium text-gray-700">{label}</label>
@@ -35,10 +43,10 @@ export default function InputField({
           type="number"
           value={value}
           onChange={(e) => onChange(Number(e.target.value))}
+          onBlur={handleBlur}
           min={min}
           max={max}
           step={step}
-          /* font-size ≥ 16px prevents iOS auto-zoom on focus */
           style={{ fontSize: 'max(16px, 0.875rem)' }}
           className={`input-field h-10 ${prefix ? 'rounded-l-none' : ''} ${suffix ? 'rounded-r-none' : ''}`}
         />

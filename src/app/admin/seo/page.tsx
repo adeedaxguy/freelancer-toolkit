@@ -3,7 +3,7 @@ import { ALL_TOOLS } from '@/lib/tools'
 
 export const dynamic = 'force-dynamic'
 
-const SITE = 'https://freelancertoolkit.com'
+const SITE = 'https://freeltools.com'
 
 interface SeoRow {
   url: string
@@ -84,7 +84,7 @@ export default function SeoAuditPage() {
       </div>
 
       {/* Score */}
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
         <div className="rounded-2xl border border-gray-100 bg-white p-5 shadow-sm">
           <p className="text-xs font-semibold uppercase tracking-wider text-gray-400">SEO Score</p>
           <p className={`mt-2 text-4xl font-bold ${score >= 90 ? 'text-green-600' : score >= 70 ? 'text-yellow-500' : 'text-red-500'}`}>
