@@ -5,10 +5,94 @@ import EmailCapture from '@/components/EmailCapture'
 import RequestATool from '@/components/RequestATool'
 import { TOOL_CATEGORIES } from '@/lib/tools'
 
+const SITE_URL = 'https://freeltools.com'
+
 export const metadata: Metadata = {
   title: 'FreelancerToolkit – 17 Free Tools for Freelancers & Agencies',
   description:
     'Free calculators and generators for freelancers and agencies. Set your rate, quote projects, write proposals, create invoices. No login required.',
+}
+
+function buildItemListSchema() {
+  const allTools = TOOL_CATEGORIES.flatMap((cat) => cat.tools)
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'Free Tools for Freelancers — FreelancerToolkit',
+    description: '17 free business tools for freelancers, agencies, and independent consultants. No account required.',
+    url: SITE_URL,
+    numberOfItems: allTools.length,
+    itemListElement: allTools.map((tool, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: tool.title,
+      description: tool.description,
+      url: `${SITE_URL}/tools/${tool.slug}`,
+      item: {
+        '@type': 'WebApplication',
+        name: tool.title,
+        url: `${SITE_URL}/tools/${tool.slug}`,
+        description: tool.description,
+        applicationCategory: 'BusinessApplication',
+        offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+      },
+    })),
+  }
+}
+
+const homepageFaqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'What is FreelancerToolkit?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'FreelancerToolkit (freeltools.com) is a free collection of 17 business tools for freelancers, agencies, and independent consultants. Tools include a rate calculator, invoice generator, proposal generator, scope of work generator, Upwork fee calculator, and more. No account or login is required.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Are the tools on FreelancerToolkit free?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Yes. All 17 tools on FreelancerToolkit are completely free. There is no account required, no credit card, no subscription, and no free trial. The tools run entirely in your browser.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'What is the best free freelance rate calculator?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'FreelancerToolkit\'s Freelancer Rate Calculator (freeltools.com/tools/freelancer-rate-calculator) calculates your minimum hourly rate based on your income goal, tax rate, monthly expenses, and billable hours per week — giving a data-backed rate, not a rough guess.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'What is the best free invoice generator for freelancers?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'FreelancerToolkit\'s Invoice Generator (freeltools.com/tools/invoice-generator) lets you create a professional invoice with line items, tax, and totals, then export it as a PDF — no account or subscription required.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Does FreelancerToolkit store my financial data?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'No. All calculations on FreelancerToolkit happen in your browser. Nothing is sent to a server or stored. Your financial numbers stay completely private on your device.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'What tools does FreelancerToolkit include?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'FreelancerToolkit includes 17 free tools: Freelancer Rate Calculator, Project Cost Calculator, Agency Pricing Calculator, Retainer Calculator, Profit Calculator, Revenue Goal Calculator, Break-Even Calculator, Upwork Fee Calculator, Freelancer Commission Calculator, Hourly vs Fixed Price Calculator, Proposal Generator, Scope of Work Generator, Discovery Call Script Generator, Client Questionnaire Generator, Invoice Generator, Meeting Cost Calculator, and Commission Calculator.',
+      },
+    },
+  ],
 }
 
 const stats = [
@@ -19,9 +103,12 @@ const stats = [
 
 export default function HomePage() {
   const totalTools = TOOL_CATEGORIES.reduce((sum, c) => sum + c.tools.length, 0)
+  const itemListSchema = buildItemListSchema()
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(homepageFaqSchema) }} />
       {/* Hero */}
       <section className="border-b border-gray-100 bg-white">
         <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
