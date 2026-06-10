@@ -140,7 +140,7 @@
     ],
     "toolLink": "/tools/client-questionnaire-generator",
     "type": "guide",
-    "done": false
+    "done": true
   },
   {
     "slug": "hourly-vs-fixed-price-freelance",
