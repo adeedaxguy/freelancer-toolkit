@@ -98,6 +98,36 @@ const HOW_TO_STEPS: Record<string, { name: string; text: string }[]> = {
     { name: 'Add buffer days', text: 'Add a 10–20% buffer to absorb unexpected complexity or delays. This protects your deadline commitment.' },
     { name: 'Get your completion date', text: 'The calculator shows your projected finish date and total calendar days — ready to include in your proposal or contract.' },
   ],
+  'pdf-to-jpg-converter': [
+    { name: 'Upload your PDF', text: 'Click "Choose PDF" or drag and drop your PDF file onto the upload area.' },
+    { name: 'Wait for conversion', text: 'Each page is rendered to a canvas in your browser. Larger PDFs take a few seconds per page.' },
+    { name: 'Preview your pages', text: 'Thumbnail previews of every page appear once processing is complete.' },
+    { name: 'Download images', text: 'Click individual page thumbnails to download them, or use Download All to get every page as a ZIP.' },
+  ],
+  'image-compressor': [
+    { name: 'Upload your image', text: 'Click "Choose Image" or drag and drop a JPG, PNG, or WebP file.' },
+    { name: 'Set quality and size', text: 'Adjust the quality slider (80% is a good default) and optionally set a maximum width to resize.' },
+    { name: 'Preview the result', text: 'A side-by-side comparison shows the original and compressed versions with file sizes.' },
+    { name: 'Download compressed image', text: 'Click Download to save the compressed file to your device.' },
+  ],
+  'word-count-tool': [
+    { name: 'Paste your text', text: 'Paste or type any text into the input area.' },
+    { name: 'Review instant stats', text: 'Word count, character count, sentence count, and paragraph count update in real time as you type.' },
+    { name: 'Check readability', text: 'The Flesch Reading Ease score tells you how easy your content is to read — useful for client-facing copy.' },
+    { name: 'Check reading time', text: 'See how long it takes an average reader to finish your content — useful for estimating blog post or script length.' },
+  ],
+  'pomodoro-timer': [
+    { name: 'Set your work interval', text: 'The default is 25 minutes. Adjust to 50 minutes for longer focus sessions.' },
+    { name: 'Click Start', text: 'The timer counts down. Stay focused on one task until the timer rings.' },
+    { name: 'Take your break', text: 'When the work session ends, the timer automatically switches to a 5-minute break.' },
+    { name: 'Track your sessions', text: 'Each completed pomodoro is logged. After 4 sessions, take a longer 15-minute break.' },
+  ],
+  'time-zone-converter': [
+    { name: 'Select your time zone', text: 'Choose your local time zone from the dropdown.' },
+    { name: 'Select client time zone', text: 'Choose the time zone where your client or team member is located.' },
+    { name: 'Enter a time', text: 'Pick a time in your zone to see what it is in the client\'s zone.' },
+    { name: 'Find overlap hours', text: 'The overlap panel highlights hours that fall within business hours (9am–6pm) for both parties.' },
+  ],
   'upwork-fee-calculator': [
     { name: 'Enter the project amount', text: 'Type in the total amount you\'ll charge the client on Upwork.' },
     { name: 'Read the fee breakdown', text: 'The calculator applies Upwork\'s sliding service fee (20% under $500, 10% from $500–$10K, 5% above $10K) and shows your net earnings.' },

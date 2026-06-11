@@ -8,7 +8,7 @@ import { TOOL_CATEGORIES } from '@/lib/tools'
 const SITE_URL = 'https://freeltools.com'
 
 export const metadata: Metadata = {
-  title: 'FreelancerToolkit – 22 Free Tools for Freelancers & Agencies',
+  title: 'FreelancerToolkit – 27 Free Tools for Freelancers & Agencies',
   description:
     'Free calculators and generators for freelancers and agencies. Set your rate, quote projects, write proposals, create invoices. No login required.',
 }
@@ -96,7 +96,7 @@ const homepageFaqSchema = {
 }
 
 const stats = [
-  { label: 'Free Tools', value: '22' },
+  { label: 'Free Tools', value: '27' },
   { label: 'No Login Required', value: '✓' },
   { label: 'Data Stored', value: '0' },
 ]
