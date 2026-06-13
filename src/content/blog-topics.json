@@ -231,7 +231,7 @@
     ],
     "toolLink": "/tools/freelancer-rate-calculator",
     "type": "guide",
-    "done": false
+    "done": true
   },
   {
     "slug": "freelance-contract-essentials",
@@ -244,7 +244,7 @@
     ],
     "toolLink": "/tools/scope-of-work-generator",
     "type": "guide",
-    "done": false
+    "done": true
   },
   {
     "slug": "win-more-freelance-clients",
