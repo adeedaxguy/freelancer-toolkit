@@ -205,7 +205,7 @@
     ],
     "toolLink": "/tools/freelancer-commission-calculator",
     "type": "guide",
-    "done": false
+    "done": true
   },
   {
     "slug": "raise-freelance-rates-existing-clients",
@@ -218,7 +218,7 @@
     ],
     "toolLink": "/tools/freelancer-rate-calculator",
     "type": "guide",
-    "done": false
+    "done": true
   },
   {
     "slug": "freelance-taxes-guide",
