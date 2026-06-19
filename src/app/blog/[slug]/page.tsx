@@ -149,6 +149,18 @@ export default function BlogPostPage({ params }: Props) {
           <ShareButtons title={post.title} url={postUrl} />
         </div>
 
+        {/* Featured image */}
+        {post.image && (
+          <div className="mt-8 overflow-hidden rounded-2xl border border-gray-100 shadow-sm">
+            <img
+              src={post.image}
+              alt={post.title}
+              className="w-full object-cover"
+              loading="eager"
+            />
+          </div>
+        )}
+
         <hr className="my-8 border-gray-100" />
 
         {/* Content */}
