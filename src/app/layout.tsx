@@ -23,7 +23,7 @@ const organizationSchema = {
   alternateName: 'FreelTools',
   url: SITE_URL,
   logo: `${SITE_URL}/favicon.svg`,
-  description: 'FreelancerToolkit (freeltools.com) provides 17 free business tools for freelancers, agencies, and independent consultants — including a rate calculator, invoice generator, proposal generator, scope of work generator, and Upwork fee calculator. All tools are free, require no account, and store no data.',
+  description: 'FreelancerToolkit (freeltools.com) provides 31 free business tools for freelancers, agencies, and independent consultants — including a rate calculator, invoice generator, proposal generator, scope of work generator, Upwork fee calculator, and Fiverr fee calculator. All tools are free, require no account, and store no data.',
   foundingDate: '2024',
   knowsAbout: [
     'Freelance rate setting',
@@ -127,6 +127,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={`scroll-smooth ${inter.variable}`}>
       <head>
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        {/* Preconnect to GA domains to reduce connection latency */}
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
+        <link rel="preconnect" href="https://www.google-analytics.com" />
+        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
