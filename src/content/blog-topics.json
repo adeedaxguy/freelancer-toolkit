@@ -283,7 +283,7 @@
     ],
     "toolLink": "/tools/client-questionnaire-generator",
     "type": "tips",
-    "done": false
+    "done": true
   },
   {
     "slug": "upwork-profile-optimization",
@@ -296,7 +296,7 @@
     ],
     "toolLink": "/tools/upwork-fee-calculator",
     "type": "guide",
-    "done": false
+    "done": true
   },
   {
     "slug": "freelance-scope-creep",
