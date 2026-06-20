@@ -1,7 +1,7 @@
-import { getAllPosts } from '@/lib/blog'
-import Link from 'next/link'
+'use client'
 
-export const dynamic = 'force-dynamic'
+import { useState } from 'react'
+import Link from 'next/link'
 
 function StatCard({ label, value, sub, href }: { label: string; value: string | number; sub?: string; href?: string }) {
   const content = (
@@ -14,12 +14,61 @@ function StatCard({ label, value, sub, href }: { label: string; value: string | 
   return href ? <Link href={href} className="hover:shadow-md transition-shadow block">{content}</Link> : content
 }
 
-export default async function AdminDashboard() {
-  const allPosts = getAllPosts(true)
-  const published = allPosts.filter((p) => p.status === 'published')
-  const drafts = allPosts.filter((p) => p.status === 'draft')
-  const scheduled = allPosts.filter((p) => p.status === 'scheduled')
+function IndexSubmitButton() {
+  const [state, setState] = useState<'idle' | 'loading' | 'done' | 'error'>('idle')
+  const [result, setResult] = useState<{ submitted?: number; results?: Record<string, unknown> } | null>(null)
 
+  const submit = async () => {
+    setState('loading')
+    try {
+      const res = await fetch('/api/admin/submit-index', { method: 'POST' })
+      const data = await res.json()
+      if (res.ok) {
+        setResult(data)
+        setState('done')
+      } else {
+        setState('error')
+      }
+    } catch {
+      setState('error')
+    }
+  }
+
+  return (
+    <div className="rounded-2xl border border-green-100 bg-green-50 p-5 shadow-sm">
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <p className="text-sm font-semibold text-green-900">Submit All Pages for Indexing</p>
+          <p className="mt-1 text-xs text-green-700">
+            Pings IndexNow (Bing/Yandex) + Google sitemap with all {' '}
+            <span className="font-semibold">tool pages, variant pages, and blog posts</span>.
+            Run this after every deploy.
+          </p>
+        </div>
+        <button
+          onClick={submit}
+          disabled={state === 'loading'}
+          className="flex-shrink-0 rounded-xl bg-green-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-700 disabled:opacity-50 transition"
+        >
+          {state === 'loading' ? 'Submitting…' : state === 'done' ? '✓ Submitted' : 'Submit Now'}
+        </button>
+      </div>
+      {state === 'done' && result && (
+        <div className="mt-3 rounded-lg bg-white border border-green-100 p-3 text-xs text-green-800">
+          <strong>{result.submitted} URLs submitted.</strong>{' '}
+          IndexNow: {(result.results as Record<string, {status?: number}>)?.indexNow?.status ?? '?'} ·{' '}
+          Bing: {(result.results as Record<string, {status?: number}>)?.bing?.status ?? '?'} ·{' '}
+          Google ping: {(result.results as Record<string, {status?: number}>)?.google?.status ?? '?'}
+        </div>
+      )}
+      {state === 'error' && (
+        <p className="mt-2 text-xs text-red-600">Something went wrong. Check the browser console.</p>
+      )}
+    </div>
+  )
+}
+
+export default function AdminDashboard() {
   return (
     <div className="space-y-8 max-w-5xl">
       <div>
@@ -29,11 +78,14 @@ export default async function AdminDashboard() {
 
       {/* Stats */}
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-        <StatCard label="Published Posts" value={published.length} sub="Live on blog" href="/admin/blog" />
-        <StatCard label="Drafts" value={drafts.length} sub="In progress" href="/admin/blog" />
-        <StatCard label="Scheduled" value={scheduled.length} sub="Auto-publishing" href="/admin/blog" />
-        <StatCard label="Tools Live" value={17} sub="Across 4 categories" />
+        <StatCard label="Tools Live" value={31} sub="Across 6 categories" />
+        <StatCard label="Blog Posts" value="44+" sub="Published articles" href="/admin/blog" />
+        <StatCard label="Indexed Pages" value="200+" sub="Static pages total" />
+        <StatCard label="Avg Position" value="60.8" sub="Google Search Console" />
       </div>
+
+      {/* Index submission — most important */}
+      <IndexSubmitButton />
 
       {/* Quick actions */}
       <div>
@@ -58,55 +110,16 @@ export default async function AdminDashboard() {
         </div>
       </div>
 
-      {/* Recent posts */}
-      {allPosts.length > 0 && (
-        <div>
-          <div className="mb-3 flex items-center justify-between">
-            <h2 className="text-sm font-semibold text-gray-700 uppercase tracking-wider">Recent Posts</h2>
-            <Link href="/admin/blog" className="text-xs font-medium text-brand-600 hover:underline">View all →</Link>
-          </div>
-          <div className="rounded-2xl border border-gray-100 bg-white shadow-sm overflow-hidden">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b border-gray-100 bg-gray-50">
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Title</th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Status</th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 hidden sm:table-cell">Publish Date</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-50">
-                {allPosts.slice(0, 5).map((post) => (
-                  <tr key={post.slug} className="hover:bg-gray-50">
-                    <td className="px-4 py-3 font-medium text-gray-900 max-w-xs truncate">
-                      <Link href={`/admin/blog/${post.slug}/edit`} className="hover:text-brand-600">{post.title}</Link>
-                    </td>
-                    <td className="px-4 py-3">
-                      <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${
-                        post.status === 'published' ? 'bg-green-50 text-green-700'
-                        : post.status === 'scheduled' ? 'bg-blue-50 text-blue-700'
-                        : 'bg-gray-100 text-gray-500'
-                      }`}>
-                        {post.status}
-                      </span>
-                    </td>
-                    <td className="px-4 py-3 text-gray-400 hidden sm:table-cell">
-                      {new Date(post.publishDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      )}
-
-      {/* Scheduled post notice */}
-      {scheduled.length > 0 && (
-        <div className="rounded-xl border border-blue-100 bg-blue-50 p-4 text-sm text-blue-700">
-          <strong>{scheduled.length} post(s) scheduled</strong> — the hourly Cowork task will auto-publish them when their date arrives.
-          You can also trigger publishing manually from the blog manager.
-        </div>
-      )}
+      {/* Indexing checklist */}
+      <div className="rounded-2xl border border-gray-100 bg-white p-5 shadow-sm">
+        <h2 className="mb-4 text-sm font-semibold text-gray-700 uppercase tracking-wider">Post-Deploy SEO Checklist</h2>
+        <ol className="space-y-2 text-sm text-gray-600">
+          <li className="flex items-start gap-2"><span className="text-green-500 font-bold mt-0.5">1.</span><span>Click <strong>Submit Now</strong> above — pings IndexNow + Google sitemap with all 200+ pages</span></li>
+          <li className="flex items-start gap-2"><span className="text-green-500 font-bold mt-0.5">2.</span><span>In <a href="https://search.google.com/search-console" target="_blank" rel="noopener noreferrer" className="text-brand-600 underline">Google Search Console</a>, use URL Inspection to fast-track any specific new page</span></li>
+          <li className="flex items-start gap-2"><span className="text-green-500 font-bold mt-0.5">3.</span><span>Share new tools/articles on Reddit (r/freelance), LinkedIn, and relevant communities for backlinks</span></li>
+          <li className="flex items-start gap-2"><span className="text-green-500 font-bold mt-0.5">4.</span><span>Check <a href="https://search.google.com/search-console" target="_blank" rel="noopener noreferrer" className="text-brand-600 underline">GSC Coverage report</a> 48h later to confirm pages are indexed</span></li>
+        </ol>
+      </div>
     </div>
   )
 }

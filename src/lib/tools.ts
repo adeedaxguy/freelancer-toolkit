@@ -8,6 +8,8 @@ export interface ToolMeta {
   keywords: string[]
   faqs: { q: string; a: string }[]
   programmaticVariants?: { slug: string; label: string; values?: Record<string, number | string> }[]
+  seoTitle?: string
+  bodySections?: { heading: string; body: string }[]
 }
 
 export interface ToolCategory {

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
 import { MDXRemote } from 'next-mdx-remote/rsc'
 import { getAllPosts, getPostBySlug } from '@/lib/blog'
 import ShareButtons from '@/components/ShareButtons'
@@ -152,11 +153,13 @@ export default function BlogPostPage({ params }: Props) {
         {/* Featured image */}
         {post.image && (
           <div className="mt-8 overflow-hidden rounded-2xl border border-gray-100 shadow-sm">
-            <img
+            <Image
               src={post.image}
               alt={post.title}
+              width={1200}
+              height={630}
               className="w-full object-cover"
-              loading="eager"
+              priority
             />
           </div>
         )}

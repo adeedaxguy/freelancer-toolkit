@@ -6,8 +6,10 @@ const SITE_URL = 'https://freeltools.com'
 
 export function buildToolMetadata(tool: ToolMeta): Metadata {
   const url = `${SITE_URL}/tools/${tool.slug}`
+  const pageTitle = tool.seoTitle ?? `Free ${tool.title} (2026) — FreelancerToolkit`
+  const ogImage = `${SITE_URL}/og-tool.svg`
   return {
-    title: tool.title,
+    title: pageTitle,
     description: tool.description,
     keywords: tool.keywords,
     authors: [{ name: 'FreelancerToolkit' }],
@@ -15,16 +17,18 @@ export function buildToolMetadata(tool: ToolMeta): Metadata {
       canonical: url,
     },
     openGraph: {
-      title: tool.headline,
+      title: pageTitle,
       description: tool.description,
       url,
       type: 'website',
       siteName: 'FreelancerToolkit',
+      images: [{ url: ogImage, width: 1200, height: 630, alt: tool.title }],
     },
     twitter: {
       card: 'summary_large_image',
-      title: tool.headline,
+      title: pageTitle,
       description: tool.description,
+      images: [ogImage],
     },
     robots: {
       index: true,
