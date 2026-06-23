@@ -170,7 +170,7 @@ export function welcomeEmail(email: string) {
     </table>
 
     <p style="color:#9ca3af;font-size:13px;margin:20px 0 0">
-      <a href="https://freeltools.com" style="color:#16a34a;text-decoration:none;font-weight:600">See all 17 tools →</a>
+      <a href="https://freeltools.com" style="color:#16a34a;text-decoration:none;font-weight:600">See all 31 tools →</a>
     </p>
   </td></tr>
 
@@ -311,13 +311,13 @@ export const DRIP_SEQUENCE: Array<{
         Most freelancers guess wrong — and that gap directly affects how they price.
       </p>
       <div style="background:${BRAND.lightGreen};border-radius:12px;padding:20px 24px;margin:20px 0">
-        <p style="margin:0 0 8px;font-size:13px;color:#166534;font-weight:600;text-transform:uppercase;letter-spacing:0.05em">Current Upwork Fee Structure (2024)</p>
-        <p style="margin:0 0 6px;font-size:14px;color:#166534">• <strong>Flat 10%</strong> on all earnings (old tiered 20%/10%/5% is gone)</p>
-        <p style="margin:0 0 6px;font-size:14px;color:#166534">• Plus client pays a 5% fee on top of your rate</p>
-        <p style="margin:0;font-size:14px;color:#166534">• So a $3,000 project → you get <strong>$2,700</strong></p>
+        <p style="margin:0 0 8px;font-size:13px;color:#166534;font-weight:600;text-transform:uppercase;letter-spacing:0.05em">Current Upwork Fee Planning</p>
+        <p style="margin:0 0 6px;font-size:14px;color:#166534">• Upwork says freelancer service fees can vary by contract from <strong>0% to 15%</strong></p>
+        <p style="margin:0 0 6px;font-size:14px;color:#166534">• The exact percentage appears before you submit a proposal or accept an offer</p>
+        <p style="margin:0;font-size:14px;color:#166534">• At a 10% example fee, a $3,000 project → you get <strong>$2,700</strong> before taxes and other costs</p>
       </div>
       <p style="color:#374151;font-size:15px;line-height:1.7;margin:0 0 16px">
-        The strategy? Factor the fee into your rate. If you need $100/hr, quote $112/hr on Upwork. The client sees your "Upwork rate" — you keep your real number.
+        The strategy? Factor the displayed fee into your rate. If you need $100/hr and the contract shows a 10% fee, quote about $112/hr on Upwork. If the fee is different, adjust the math before you bid.
       </p>
       <p style="color:#374151;font-size:15px;line-height:1.7;margin:0 0 4px">Compare what you keep across Upwork, Fiverr, Freelancer.com, and PeoplePerHour:</p>
       ${toolCta('Compare Platform Fees', 'https://freeltools.com/tools/freelancer-commission-calculator')}
@@ -393,7 +393,7 @@ export const DRIP_SEQUENCE: Array<{
         <div><p style="margin:0 0 4px;font-size:14px;font-weight:700;color:${BRAND.dark}">${title}</p><p style="margin:0;font-size:13px;color:${BRAND.gray};line-height:1.5">${desc}</p></div>
       </div>`).join('')}
       <div style="background:${BRAND.lightGreen};border-radius:12px;padding:18px 22px;margin-top:8px">
-        <p style="margin:0;font-size:14px;color:#166534">All 17 tools to back up these habits are free at <a href="https://freeltools.com" style="color:${BRAND.green};font-weight:600">freeltools.com</a> — no login, no paywall, no ads.</p>
+        <p style="margin:0;font-size:14px;color:#166534">All 31 tools to back up these habits are free at <a href="https://freeltools.com" style="color:${BRAND.green};font-weight:600">freeltools.com</a> — no login, no paywall, no ads.</p>
       </div>
     `),
   },

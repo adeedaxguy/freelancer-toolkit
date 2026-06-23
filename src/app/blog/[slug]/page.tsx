@@ -4,6 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { MDXRemote } from 'next-mdx-remote/rsc'
 import { getAllPosts, getPostBySlug } from '@/lib/blog'
+import { ALL_TOOLS } from '@/lib/tools'
 import ShareButtons from '@/components/ShareButtons'
 
 const SITE_URL = 'https://freeltools.com'
@@ -181,7 +182,7 @@ export default function BlogPostPage({ params }: Props) {
             <Link href="/tools/freelancer-rate-calculator" className="rounded-lg bg-brand-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-brand-700 transition">Rate Calculator</Link>
             <Link href="/tools/invoice-generator" className="rounded-lg bg-white border border-brand-200 px-3 py-1.5 text-xs font-semibold text-brand-700 hover:bg-brand-50 transition">Invoice Generator</Link>
             <Link href="/tools/proposal-generator" className="rounded-lg bg-white border border-brand-200 px-3 py-1.5 text-xs font-semibold text-brand-700 hover:bg-brand-50 transition">Proposal Generator</Link>
-            <Link href="/#tools" className="rounded-lg bg-white border border-brand-200 px-3 py-1.5 text-xs font-semibold text-brand-700 hover:bg-brand-50 transition">All 17 Tools →</Link>
+            <Link href="/#tools" className="rounded-lg bg-white border border-brand-200 px-3 py-1.5 text-xs font-semibold text-brand-700 hover:bg-brand-50 transition">All {ALL_TOOLS.length} Tools →</Link>
           </div>
         </div>
 

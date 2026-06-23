@@ -13,7 +13,7 @@ const PLATFORMS = [
     name: 'Upwork',
     logo: '🔵',
     calculateFee: (amount: number) => amount * 0.10,
-    notes: 'Flat 10% on all earnings (updated 2023)',
+    notes: 'Varies by contract from 0-15%; table uses 10% as a planning example',
   },
   {
     id: 'fiverr',

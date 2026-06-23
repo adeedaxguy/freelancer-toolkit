@@ -7,23 +7,24 @@ import ResultCard from '@/components/ResultCard'
 const fmt = (n: number) =>
   new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 2 }).format(n)
 
-const FEE_RATE = 0.10 // Upwork flat 10% as of 2023
+const DEFAULT_FEE_RATE = 10
 
 export default function UpworkFeeCalculator() {
   const [projectValue, setProjectValue] = useState(1000)
   const [contractType, setContractType] = useState<'fixed' | 'hourly'>('fixed')
+  const [feeRate, setFeeRate] = useState(DEFAULT_FEE_RATE)
+  const normalizedFeeRate = Math.min(Math.max(feeRate, 0), 15) / 100
 
   const results = useMemo(() => {
-    const fee = projectValue * FEE_RATE
+    const fee = projectValue * normalizedFeeRate
     const netEarnings = projectValue - fee
-    const clientPays = projectValue * 1.05 // client pays 5% on top
     const effectiveCut = projectValue > 0 ? (fee / projectValue) * 100 : 0
-    return { fee, netEarnings, clientPays, effectiveCut }
-  }, [projectValue])
+    return { fee, netEarnings, effectiveCut }
+  }, [projectValue, normalizedFeeRate])
 
   // Calculate what to charge to net a target amount
   const [targetNet, setTargetNet] = useState(900)
-  const toChargeForTarget = useMemo(() => targetNet / (1 - FEE_RATE), [targetNet])
+  const toChargeForTarget = useMemo(() => targetNet / (1 - normalizedFeeRate), [targetNet, normalizedFeeRate])
 
   return (
     <div className="space-y-8">
@@ -59,17 +60,30 @@ export default function UpworkFeeCalculator() {
             prefix="$"
             min={1}
           />
+
+          <InputField
+            label="Upwork Freelancer Service Fee"
+            value={feeRate}
+            onChange={setFeeRate}
+            suffix="%"
+            min={0}
+            max={15}
+          />
+
+          <p className="text-xs leading-5 text-gray-400">
+            Upwork says freelancer service fees can vary by contract from 0% to 15%. Use the exact percentage shown when you submit a proposal or receive an offer.
+          </p>
         </div>
 
         {/* Results */}
         <div className="space-y-4">
           <h2 className="text-base font-semibold text-gray-900">Your Earnings</h2>
-          <ResultCard label="You Receive" value={fmt(results.netEarnings)} highlight sublabel="After Upwork's 10% service fee" />
-          <ResultCard label="Upwork Fee (10%)" value={fmt(results.fee)} sublabel="Deducted from your earnings" />
-          <ResultCard label="Client Pays Total" value={fmt(results.clientPays)} sublabel="Project value + 5% client fee" />
+          <ResultCard label="You Receive" value={fmt(results.netEarnings)} highlight sublabel={`After Upwork's ${feeRate}% freelancer service fee`} />
+          <ResultCard label={`Upwork Fee (${feeRate}%)`} value={fmt(results.fee)} sublabel="Deducted from your earnings" />
+          <ResultCard label="Effective Cut" value={`${results.effectiveCut.toFixed(1)}%`} sublabel="Of the gross contract amount" />
 
           <div className="rounded-xl border border-blue-100 bg-blue-50 p-4 text-sm text-blue-800">
-            <strong>Upwork Fee Rate:</strong> Flat 10% on all earnings (updated 2023). The old tiered 20%/10%/5% model no longer applies.
+            <strong>Upwork fee note:</strong> The calculator uses your chosen freelancer service fee. Check the fee shown in Upwork before bidding because the rate can vary by contract.
           </div>
         </div>
       </div>
@@ -85,7 +99,7 @@ export default function UpworkFeeCalculator() {
               label="Quote This Amount to Client"
               value={fmt(toChargeForTarget)}
               highlight
-              sublabel={`After 10% fee → ${fmt(targetNet)} net`}
+              sublabel={`After ${feeRate}% fee -> ${fmt(targetNet)} net`}
             />
           </div>
         </div>

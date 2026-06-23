@@ -131,7 +131,7 @@ const HOW_TO_STEPS: Record<string, { name: string; text: string }[]> = {
     { name: 'See your net earnings', text: 'The calculator instantly shows how much Fiverr deducts (20%) and what you take home.' },
     { name: 'Check what the buyer pays', text: 'See the total cost to the buyer including Fiverr\'s buyer service fee.' },
     { name: 'Use the reverse calculator', text: 'Enter your desired take-home amount and get the exact gig price to set to achieve that net.' },
-    { name: 'Compare platforms', text: 'The comparison table shows how Fiverr\'s 20% cut compares to Upwork (10%) and other platforms.' },
+    { name: 'Compare platforms', text: 'The comparison table shows how Fiverr\'s 20% cut compares with a 10% Upwork planning example, Freelancer.com, and other platforms.' },
   ],
   'late-payment-fee-calculator': [
     { name: 'Enter the original invoice amount', text: 'Type the invoice total that the client has not yet paid.' },
@@ -163,7 +163,8 @@ const HOW_TO_STEPS: Record<string, { name: string; text: string }[]> = {
   ],
   'upwork-fee-calculator': [
     { name: 'Enter the project amount', text: 'Type in the total amount you\'ll charge the client on Upwork.' },
-    { name: 'Read the fee breakdown', text: 'The calculator applies Upwork\'s sliding service fee (20% under $500, 10% from $500–$10K, 5% above $10K) and shows your net earnings.' },
+    { name: 'Enter the service fee shown by Upwork', text: 'Use the freelancer service fee percentage shown when you submit a proposal or receive an offer. Upwork says this can vary by contract from 0% to 15%.' },
+    { name: 'Read the fee breakdown', text: 'The calculator shows the estimated Upwork fee, your net earnings, and the gross quote needed to hit a target take-home amount.' },
   ],
 }
 

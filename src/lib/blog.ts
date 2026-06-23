@@ -31,6 +31,14 @@ function calcReadingTime(content: string): number {
   return Math.max(1, Math.ceil(words / 200))
 }
 
+function normalizeStatus(data: Record<string, unknown>): BlogPost['status'] {
+  const status = data.status
+  if (status === 'published' || status === 'draft' || status === 'scheduled') {
+    return status
+  }
+  return data.published === true ? 'published' : 'draft'
+}
+
 export function getAllPosts(includeAll = false): BlogPostMeta[] {
   ensureBlogDir()
   const files = fs.readdirSync(BLOG_DIR).filter((f) => f.endsWith('.mdx'))
@@ -45,7 +53,7 @@ export function getAllPosts(includeAll = false): BlogPostMeta[] {
       description: data.description ?? '',
       date: data.date ?? new Date().toISOString().split('T')[0],
       publishDate: data.publishDate ?? data.date ?? new Date().toISOString().split('T')[0],
-      status: data.status ?? 'draft',
+      status: normalizeStatus(data),
       tags: data.tags ?? [],
       author: data.author ?? 'FreelancerToolkit',
       image: data.image ?? '',
@@ -71,7 +79,7 @@ export function getPostBySlug(slug: string): BlogPost | null {
     description: data.description ?? '',
     date: data.date ?? new Date().toISOString().split('T')[0],
     publishDate: data.publishDate ?? data.date ?? new Date().toISOString().split('T')[0],
-    status: data.status ?? 'draft',
+    status: normalizeStatus(data),
     tags: data.tags ?? [],
     author: data.author ?? 'FreelancerToolkit',
     image: data.image ?? '',

@@ -57,7 +57,7 @@ const FAQ: Array<{ match: string[]; answer: string; tool?: string }> = [
   },
   {
     match: ['upwork', 'upwork fee', 'how much upwork'],
-    answer: "Upwork charges a flat 10% service fee on all freelancer earnings (updated in 2023). The old tiered 20%/10%/5% structure no longer applies. Use the **Upwork Fee Calculator** to see exactly what you'll take home on any project.",
+    answer: "Upwork says freelancer service fees can vary by contract from 0% to 15%. Check the percentage shown when you submit a proposal or receive an offer, then use the **Upwork Fee Calculator** to see what you'll take home.",
     tool: '/tools/upwork-fee-calculator',
   },
   {
@@ -107,7 +107,7 @@ function getBotResponse(input: string): { text: string; tool?: string } {
 
   // Fallback
   return {
-    text: "I'm not sure about that one — could you rephrase? Or you can browse all 17 tools on the [homepage](/) and find what fits your situation. Still stuck? Try asking something like \"how do I calculate my rate\" or \"what's the upwork fee\".",
+    text: "I'm not sure about that one — could you rephrase? Or you can browse all 31 tools on the [homepage](/) and find what fits your situation. Still stuck? Try asking something like \"how do I calculate my rate\" or \"what's the upwork fee\".",
   }
 }
 

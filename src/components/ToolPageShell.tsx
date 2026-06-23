@@ -71,6 +71,18 @@ export default function ToolPageShell({ tool, children, variantLabel }: ToolPage
         </div>
       )}
 
+      {/* Search-focused supporting copy */}
+      {tool.bodySections && tool.bodySections.length > 0 && (
+        <div className="mt-12 grid gap-5 sm:grid-cols-2">
+          {tool.bodySections.map((section) => (
+            <section key={section.heading} className="rounded-2xl border border-gray-100 bg-white p-5 shadow-sm">
+              <h2 className="text-base font-semibold text-gray-900">{section.heading}</h2>
+              <p className="mt-2 text-sm leading-6 text-gray-600">{section.body}</p>
+            </section>
+          ))}
+        </div>
+      )}
+
       {/* FAQ */}
       {tool.faqs && tool.faqs.length > 0 && (
         <div className="mt-12">

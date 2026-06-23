@@ -111,7 +111,7 @@ export default function FiverrFeeCalculator() {
               </tr>
               <tr>
                 <td className="py-2.5 text-gray-600">Upwork</td>
-                <td className="py-2.5 text-right text-gray-600">10%</td>
+                <td className="py-2.5 text-right text-gray-600">0-15%*</td>
                 <td className="py-2.5 text-right text-gray-700">{fmt(orderValue * 0.90)}</td>
               </tr>
               <tr>
@@ -126,6 +126,7 @@ export default function FiverrFeeCalculator() {
               </tr>
             </tbody>
           </table>
+          <p className="mt-3 text-xs text-gray-400">*Upwork row shows 10% example take-home; confirm the actual freelancer service fee shown on the contract.</p>
         </div>
       </div>
     </div>

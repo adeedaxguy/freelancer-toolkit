@@ -52,13 +52,26 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
         title: 'Project Cost Calculator',
         headline: 'Calculate Your Freelance Project Quote',
         description: 'Free project cost calculator and project price calculator for freelancers and agencies. Estimate hours, add a scope buffer and revisions, and get the right quote to stay profitable.',
+        seoTitle: 'Free Project Price Calculator for Freelancers | Quote Projects',
         icon: '📋',
         category: 'Pricing & Profitability',
-        keywords: ['project cost calculator', 'project price calculator', 'freelance project pricing', 'how to quote a freelance project', 'freelance services pricing calculator'],
+        keywords: ['project cost calculator', 'project price calculator', 'freelance project pricing', 'how to quote a freelance project', 'freelance services pricing calculator', 'freelance price calculator', 'project quote calculator'],
         faqs: [
           { q: 'How do I price a freelance project?', a: "Estimate hours × your hourly rate, then add a 15–25% scope buffer for unknowns, plus hours for revisions. This gives a quote that protects your margin." },
           { q: 'What is a scope buffer?', a: "A scope buffer (typically 15–25%) is padding added to your base estimate to cover unexpected work, client changes, or complexity you didn't anticipate." },
           { q: 'How many revision rounds should I include?', a: '2–3 revision rounds is standard for most creative or development projects. Define what counts as a revision in your contract to avoid scope creep.' },
+          { q: 'Is this a project price calculator or a cost calculator?', a: 'Both. The calculator starts with your internal cost estimate, then turns it into a client-facing project price by adding buffers, revision time, and profit protection.' },
+          { q: 'Can I use this as a freelance services pricing calculator?', a: 'Yes. Use it for web design, development, marketing, writing, consulting, and agency services where you need to convert estimated effort into a fixed project quote.' },
+        ],
+        bodySections: [
+          {
+            heading: 'Project price calculator for real quotes',
+            body: 'Use this when a client asks for a fixed project price and you need a defensible number fast. It converts estimated hours, your rate, revision time, and scope buffer into a quote you can explain in a proposal.',
+          },
+          {
+            heading: 'Freelance services pricing without guesswork',
+            body: 'The safest price starts with your costs, then adds protection for unknowns. This calculator helps freelancers and agencies avoid undercharging by including the non-obvious work around communication, revisions, QA, and handoff.',
+          },
         ],
         programmaticVariants: [
           { slug: 'for-1000', label: 'for $1,000 Projects' },
@@ -157,15 +170,26 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
         slug: 'upwork-fee-calculator',
         title: 'Upwork Fee Calculator',
         headline: 'Calculate Your Upwork Fees & Net Earnings',
-        description: 'Free Upwork fee calculator. Enter your project value and see exactly how much Upwork charges and what you take home.',
+        description: 'Free Upwork fee calculator. Enter your project value and freelancer service fee to estimate what Upwork deducts and what you take home.',
+        seoTitle: 'Free Upwork Fees Calculator | Estimate Net Earnings',
         icon: '🔢',
         category: 'Marketplace Tools',
-        keywords: ['upwork fee calculator', 'upwork earnings calculator', 'how much does upwork charge'],
+        keywords: ['upwork fee calculator', 'upwork fees calculator', 'upwork earnings calculator', 'how much does upwork charge', 'upwork freelancer service fee', 'upwork take home calculator'],
         faqs: [
-          { q: 'How much does Upwork charge freelancers?', a: 'Upwork charges a flat 10% service fee on all earnings with a given client. This replaced the tiered fee structure (20%/10%/5%) in 2023.' },
-          { q: 'Does Upwork charge clients too?', a: 'Yes. Clients pay a 5% payment processing fee on top of the contract amount.' },
-          { q: 'How do I get paid more on Upwork?', a: 'Build long-term client relationships (reduces effective fee impact), raise your rates to account for the 10% cut, and pursue direct clients outside Upwork for large projects.' },
+          { q: 'How much does Upwork charge freelancers?', a: 'Upwork says freelancer service fees can vary by contract from 0% to 15%. The exact fee is shown when you submit a proposal, receive an offer, and in contract details.' },
+          { q: 'What fee should I enter in this calculator?', a: 'Enter the percentage Upwork shows for the specific job or contract. If you are only planning, 10% is a common example, but always confirm the actual rate before bidding.' },
+          { q: 'How do I get paid more on Upwork?', a: 'Quote from your desired net earnings, not just the gross project amount. Raise your rate enough to cover the freelancer service fee, taxes, proposal time, and non-billable admin.' },
           { q: 'What is Upwork Connects?', a: "Connects are tokens used to bid on jobs. They don't reduce your earnings but are a cost to factor into your Upwork ROI calculation." },
+        ],
+        bodySections: [
+          {
+            heading: 'Estimate Upwork take-home pay before you bid',
+            body: 'Searchers comparing Upwork fees usually want one number: what they will actually keep. Enter the project value and the freelancer service fee shown by Upwork to estimate your net earnings before you send the proposal.',
+          },
+          {
+            heading: 'Reverse-calculate your quote',
+            body: 'If you need to take home a specific amount, use the reverse calculator to find the gross quote. This prevents platform fees from quietly shrinking your target rate after the client accepts.',
+          },
         ],
         programmaticVariants: [
           { slug: 'for-500', label: 'for $500 Projects' },
@@ -176,17 +200,28 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
       },
       {
         slug: 'freelancer-commission-calculator',
-        title: 'Freelancer Commission Calculator',
+        title: 'Freelancer Fees Calculator',
         headline: 'Calculate Marketplace Fees Across Platforms',
         description: 'Free commission calculator for Upwork, Fiverr, Freelancer.com, and PeoplePerHour. See your net income after platform fees on any project value.',
+        seoTitle: 'Freelancer Fees Calculator | Compare Upwork, Fiverr & Freelancer.com',
         icon: '🧮',
         category: 'Marketplace Tools',
-        keywords: ['freelancer commission calculator', 'fiverr fee calculator', 'freelancer.com commission', 'peopleperhour fees'],
+        keywords: ['freelancer fees calculator', 'freelancer commission calculator', 'freelancer fee calculator', 'fiverr fee calculator', 'freelancer.com commission', 'peopleperhour fees', 'freelance platform fees'],
         faqs: [
           { q: 'How much does Fiverr take from sellers?', a: 'Fiverr charges a 20% commission on all seller earnings, regardless of order size.' },
           { q: 'What are Freelancer.com fees?', a: 'Freelancer.com charges 10% or $5 (whichever is greater) on fixed-price projects, and 10% on hourly projects.' },
-          { q: 'Which freelance marketplace has the lowest fees?', a: 'Upwork (10%) and Freelancer.com (10%) have lower standard rates than Fiverr (20%). However, each platform has different client acquisition costs and competition levels.' },
+          { q: 'Which freelance marketplace has the lowest fees?', a: 'It depends on the contract and platform rules. Freelancer.com is often 10% or $5 minimum, Fiverr is 20%, and Upwork says freelancer service fees can vary by contract from 0% to 15%.' },
           { q: 'How do I compare marketplaces?', a: 'Factor in fee percentage, typical project size, competition level, and how easy it is to find clients. Use this calculator to compare net earnings side-by-side.' },
+        ],
+        bodySections: [
+          {
+            heading: 'Freelancer fees calculator for marketplace work',
+            body: 'Use this page when you need to compare platform deductions before accepting a job. A $1,000 project can produce very different take-home pay depending on whether it runs through Upwork, Fiverr, Freelancer.com, or PeoplePerHour.',
+          },
+          {
+            heading: 'Compare gross revenue against net earnings',
+            body: 'Gross project value is not the same as income. Marketplace fees, minimum fees, and platform-specific rules change your net. Run the numbers before you bid so your price still supports your target rate.',
+          },
         ],
         programmaticVariants: [
           { slug: 'upwork', label: 'for Upwork' },
@@ -200,15 +235,26 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
         title: 'Fiverr Fee Calculator',
         headline: 'Calculate Fiverr Fees & Your Net Earnings',
         description: 'Free Fiverr fee calculator. Enter your gig price and instantly see how much Fiverr charges (20%) and what you take home. Includes a reverse calculator and platform comparison.',
+        seoTitle: 'Free Fiverr Calculator | Fiverr Fee & Profit Calculator',
         icon: '🟢',
         category: 'Marketplace Tools',
-        keywords: ['fiverr fee calculator', 'fiverr calculator', 'how much does fiverr take', 'fiverr seller fees', 'fiverr profit calculator', 'fiverr 20 percent calculator'],
+        keywords: ['fiverr fee calculator', 'fiverr calculator', 'how much does fiverr take', 'fiverr seller fees', 'fiverr profit calculator', 'fiverr 20 percent calculator', 'fiverr commission calculator'],
         faqs: [
           { q: 'How much does Fiverr take from sellers?', a: 'Fiverr charges a flat 20% commission on every order, regardless of the order size. If your gig is priced at $100, you receive $80 after Fiverr\'s cut.' },
           { q: 'What fee does the buyer pay on Fiverr?', a: 'Buyers pay a service fee on top of the gig price: approximately 5.5% plus $0.50 for orders under $75, and 5.5% for larger orders. This is separate from the seller fee.' },
-          { q: 'How does Fiverr\'s fee compare to Upwork?', a: 'Fiverr charges sellers 20%, while Upwork charges a flat 10%. For the same gross revenue, you keep significantly more on Upwork — though each platform has different client types and competition levels.' },
+          { q: 'How does Fiverr\'s fee compare to Upwork?', a: 'Fiverr charges sellers 20% on orders. Upwork says freelancer service fees can vary by contract from 0% to 15%, so compare the exact Upwork rate shown on your proposal against Fiverr\'s fixed seller cut.' },
           { q: 'How do I price my Fiverr gig to hit a target net income?', a: 'Divide your target net by 0.80. For example, to take home $80, set your gig at $100. Use the reverse calculator above to find the exact price for any target net amount.' },
           { q: 'Can I avoid Fiverr fees by taking clients off-platform?', a: 'Fiverr\'s terms of service prohibit moving clients off the platform to avoid fees. Violations can result in account suspension. It\'s better to raise your prices to account for the 20% cut.' },
+        ],
+        bodySections: [
+          {
+            heading: 'Fiverr calculator for sellers',
+            body: 'Enter any gig price to see your seller fee, buyer-facing total, and real take-home amount. This is useful before publishing a package, sending a custom offer, or deciding whether a brief is worth accepting.',
+          },
+          {
+            heading: 'Price gigs from your desired net',
+            body: 'Fiverr fees are simple but easy to forget when you are building packages. Use the reverse calculator to start with the amount you want to keep, then set a gig price that leaves room for the 20% platform cut.',
+          },
         ],
         programmaticVariants: [
           { slug: 'for-50-gig', label: 'for $50 Gigs' },
@@ -248,13 +294,25 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
         title: 'Proposal Generator',
         headline: 'Generate a Professional Freelance Proposal',
         description: 'Free freelance proposal generator. Enter your service, client details, and budget — get a complete, professional proposal you can copy and send.',
+        seoTitle: 'Free Proposal Generator for Freelancers | SEO, Design & Consulting',
         icon: '📝',
         category: 'Client Acquisition',
-        keywords: ['proposal generator', 'freelance proposal generator', 'freelance proposal template'],
+        keywords: ['proposal generator', 'freelance proposal generator', 'freelance proposal template', 'seo proposal generator', 'web design proposal generator', 'consulting proposal generator'],
         faqs: [
           { q: 'What should a freelance proposal include?', a: 'A winning proposal includes: an executive summary, understanding of the problem, your proposed solution, scope of work, timeline, pricing, and a clear call to action.' },
           { q: 'How long should a freelance proposal be?', a: 'Keep it concise — 1 to 2 pages for most projects. Clients skim; lead with your understanding of their problem and how you solve it.' },
           { q: 'How do I win more proposals?', a: 'Personalize every proposal to the specific client and project, demonstrate you understand their business, and make the decision easy with clear pricing and next steps.' },
+          { q: 'Can I use this as an SEO proposal generator?', a: 'Yes. Choose the SEO project variation and describe the audit, keyword research, content, technical fixes, or link-building work you plan to deliver.' },
+        ],
+        bodySections: [
+          {
+            heading: 'Proposal generator for SEO and service projects',
+            body: 'Use the generator for SEO, web design, content, consulting, and agency proposals. The output is structured around the client problem, your approach, deliverables, timeline, price, and next step.',
+          },
+          {
+            heading: 'Turn a rough brief into a client-ready pitch',
+            body: 'A strong proposal should not feel generic. Add the client industry, problem, budget, and timeline so the generated proposal speaks directly to the buyer instead of sounding like a template.',
+          },
         ],
         programmaticVariants: [
           { slug: 'for-web-design', label: 'for Web Design Projects' },
@@ -268,13 +326,25 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
         title: 'Scope of Work Generator',
         headline: 'Generate a Professional Scope of Work',
         description: 'Free scope of work generator for freelancers and agencies. Enter your deliverables, timeline, and service details to create a professional SOW document.',
+        seoTitle: 'Free Scope of Work Generator | SOW Template for Freelancers',
         icon: '📄',
         category: 'Client Acquisition',
-        keywords: ['scope of work generator', 'sow generator', 'freelance scope of work template'],
+        keywords: ['scope of work generator', 'sow generator', 'freelance scope of work template', 'scope of work template', 'statement of work generator', 'project scope generator'],
         faqs: [
           { q: 'What is a Scope of Work (SOW)?', a: 'A scope of work is a document that defines project deliverables, timelines, responsibilities, and boundaries. It protects both parties by clarifying what is and is not included.' },
           { q: 'Why do freelancers need an SOW?', a: 'An SOW prevents scope creep, miscommunication, and disputes. It creates a clear record of what was agreed upon so you can point to it if a client requests out-of-scope work.' },
           { q: 'What is the difference between an SOW and a contract?', a: 'An SOW defines what work will be done. A contract defines the legal terms (payment, IP, liability). Ideally, both are signed — the SOW is often an attachment to the contract.' },
+          { q: 'What should I exclude from a scope of work?', a: 'Exclude extra revision rounds, additional pages or deliverables, future maintenance, rush work, third-party costs, and anything the client mentioned as a maybe but has not approved.' },
+        ],
+        bodySections: [
+          {
+            heading: 'Create a scope of work before pricing',
+            body: 'The best time to define scope is before the proposal is accepted. Use this generator to turn deliverables, milestones, revision limits, and exclusions into a document both sides can understand.',
+          },
+          {
+            heading: 'Prevent scope creep with explicit exclusions',
+            body: 'A useful SOW says what is included and what is not included. Naming exclusions upfront protects your margin and gives you a clear reference when a client asks for extra work later.',
+          },
         ],
         programmaticVariants: [
           { slug: 'for-web-development', label: 'for Web Development' },
