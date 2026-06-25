@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 const TIMEZONES = [
   { label: 'New York (EST/EDT)', tz: 'America/New_York' },
@@ -67,14 +67,18 @@ function isBusinessHour(date: Date, tz: string): boolean {
 export default function TimeZoneConverter() {
   const [myTz, setMyTz] = useState('America/New_York')
   const [clientTz, setClientTz] = useState('Europe/London')
-  const [timeInput, setTimeInput] = useState(() => {
+  const [baseDate, setBaseDate] = useState('2026-01-01')
+  const [timeInput, setTimeInput] = useState('09:00')
+
+  useEffect(() => {
     const now = new Date()
-    return `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`
-  })
+    setBaseDate(now.toISOString().split('T')[0])
+    setTimeInput(`${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`)
+  }, [])
 
   const results = useMemo(() => {
     const [hh, mm] = timeInput.split(':').map(Number)
-    const now = new Date()
+    const now = new Date(`${baseDate}T00:00:00`)
     now.setHours(hh, mm, 0, 0)
 
     // Convert: input is in myTz, output in clientTz
@@ -105,14 +109,13 @@ export default function TimeZoneConverter() {
     const overlapHours = hours.filter((h) => h.overlap)
 
     return { clientTime, myBusiness, clientBusiness, hours, overlapHours, diffHours }
-  }, [myTz, clientTz, timeInput])
+  }, [myTz, clientTz, timeInput, baseDate])
 
   const myTzLabel = TIMEZONES.find((t) => t.tz === myTz)?.label ?? myTz
   const clientTzLabel = TIMEZONES.find((t) => t.tz === clientTz)?.label ?? clientTz
 
-  const now = new Date()
   const [hh, mm] = timeInput.split(':').map(Number)
-  const inputDate = new Date(now)
+  const inputDate = new Date(`${baseDate}T00:00:00`)
   inputDate.setHours(hh, mm, 0, 0)
   const clientDate = new Date(inputDate.getTime() + results.diffHours * 60 * 60 * 1000)
 

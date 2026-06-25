@@ -17,7 +17,7 @@ export default function InvoiceGenerator() {
   const [from, setFrom] = useState({ name: '', email: '', address: '' })
   const [to, setTo] = useState({ name: '', email: '', address: '' })
   const [invoiceNumber, setInvoiceNumber] = useState('INV-001')
-  const [issueDate, setIssueDate] = useState(new Date().toISOString().split('T')[0])
+  const [issueDate, setIssueDate] = useState('')
   const [dueDate, setDueDate] = useState('')
   const [notes, setNotes] = useState('')
   const [taxRate, setTaxRate] = useState(0)
@@ -29,7 +29,10 @@ export default function InvoiceGenerator() {
   const [showPreview, setShowPreview] = useState(false)
   const [mounted, setMounted] = useState(false)
   const nextIdRef = useRef(4)
-  useEffect(() => setMounted(true), [])
+  useEffect(() => {
+    setMounted(true)
+    setIssueDate((current) => current || new Date().toISOString().split('T')[0])
+  }, [])
 
   const totals = useMemo(() => {
     const subtotal = lineItems.reduce((sum, item) => sum + (parseFloat(item.quantity) || 0) * (parseFloat(item.rate) || 0), 0)
@@ -55,14 +58,14 @@ export default function InvoiceGenerator() {
     <>
       {/* Print styles — only show #invoice-print-area when printing */}
       {/* Global print styles injected once */}
-      <style>{`
+      <style dangerouslySetInnerHTML={{ __html: `
         @media print {
           body > *:not(#invoice-print-root) { display: none !important; }
           #invoice-print-root { display: block !important; background: white; }
           .invoice-no-print { display: none !important; }
         }
         @page { margin: 15mm; size: A4; }
-      `}</style>
+      ` }} />
 
       {/* ── Print overlay rendered as direct body child via Portal ── */}
       {mounted && showPreview && createPortal(
