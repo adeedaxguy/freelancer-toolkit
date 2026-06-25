@@ -2,6 +2,8 @@ import Link from 'next/link'
 import { TOOL_CATEGORIES } from '@/lib/tools'
 
 export default function Footer() {
+  const totalTools = TOOL_CATEGORIES.reduce((sum, category) => sum + category.tools.length, 0)
+
   return (
     <footer className="border-t border-gray-100 bg-white">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
@@ -20,7 +22,7 @@ export default function Footer() {
               Free tools to help freelancers, agencies, and consultants run more profitable businesses.
             </p>
             <div className="mt-4 space-y-1 text-xs text-gray-400">
-              <p>✓ 17 free tools</p>
+              <p>✓ {totalTools} free tools</p>
               <p>✓ No login required</p>
               <p>✓ No data stored</p>
             </div>

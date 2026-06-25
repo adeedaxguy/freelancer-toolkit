@@ -1,6 +1,9 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
+import { ALL_TOOLS } from '@/lib/tools'
+
+const TOTAL_TOOLS = ALL_TOOLS.length
 
 interface Message {
   role: 'user' | 'bot'
@@ -25,6 +28,10 @@ const TOOLS = [
   { name: 'Discovery Call Generator', path: '/tools/discovery-call-generator', keys: ['discovery call', 'sales call', 'client call', 'script'] },
   { name: 'Hourly vs Fixed Calculator', path: '/tools/hourly-vs-fixed-calculator', keys: ['hourly vs fixed', 'hourly or fixed', 'project based'] },
   { name: 'Freelancer Commission Calculator', path: '/tools/freelancer-commission-calculator', keys: ['freelancer commission', 'platform fees', 'compare platforms'] },
+  { name: 'Germany Visa Photo Generator', path: '/tools/germany-visa-photo-generator', keys: ['germany visa photo', 'passport photo', 'visa photo', 'biometric photo'] },
+  { name: 'US Passport Photo Maker', path: '/tools/us-passport-photo-maker', keys: ['us passport photo', '2x2 photo', 'passport size photo'] },
+  { name: 'Image Resizer', path: '/tools/resize-photo-under-50kb', keys: ['resize image', 'compress photo', 'under 50kb', 'signature resize'] },
+  { name: 'JPG to PDF Converter', path: '/tools/jpg-to-pdf-converter', keys: ['jpg to pdf', 'image to pdf', 'photo to pdf'] },
 ]
 
 const FAQ: Array<{ match: string[]; answer: string; tool?: string }> = [
@@ -34,7 +41,7 @@ const FAQ: Array<{ match: string[]; answer: string; tool?: string }> = [
   },
   {
     match: ['what tools', 'list tools', 'all tools', 'what can you', 'what do you have'],
-    answer: "We have 17 free tools for freelancers and agencies:\n\n• **Rate & Pricing** — Rate Calculator, Hourly vs Fixed, Value-Based Pricing, Profit Calculator\n• **Client Docs** — Invoice Generator, Proposal Generator, Scope of Work, Client Questionnaire\n• **Business Ops** — Break-Even Calculator, Revenue Goal, Meeting Cost, Retainer Calculator\n• **Platform Fees** — Upwork Fee, Commission Calculator, Freelancer Commission\n\nAll free, no login needed. Which one sounds useful?",
+    answer: `We have ${TOTAL_TOOLS} free tools:\n\n• **Freelance business** — rate, project cost, invoices, proposals, contracts\n• **Passport & visa photos** — Germany, US, UK, Canada, India, Schengen, and more\n• **Image tools** — resize, compress, convert, signature and upload-size helpers\n• **PDF tools** — JPG/PNG/image to PDF converters\n\nAll free, no login needed. Which one sounds useful?`,
   },
   {
     match: ['free', 'cost', 'how much does', 'paid', 'subscription', 'sign up', 'login', 'account'],
@@ -107,7 +114,7 @@ function getBotResponse(input: string): { text: string; tool?: string } {
 
   // Fallback
   return {
-    text: "I'm not sure about that one — could you rephrase? Or you can browse all 31 tools on the [homepage](/) and find what fits your situation. Still stuck? Try asking something like \"how do I calculate my rate\" or \"what's the upwork fee\".",
+    text: `I'm not sure about that one — could you rephrase? Or you can browse all ${TOTAL_TOOLS} tools on the [homepage](/) and find what fits your situation. Still stuck? Try asking something like "how do I calculate my rate" or "make a Germany visa photo".`,
   }
 }
 

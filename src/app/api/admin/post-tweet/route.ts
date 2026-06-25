@@ -1,10 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { sendEmail } from '@/lib/email'
+import { ALL_TOOLS } from '@/lib/tools'
 
 const ACCESS_TOKEN = process.env.BUFFER_ACCESS_TOKEN
 const PROFILE_ID = process.env.BUFFER_TWITTER_PROFILE_ID
 
 const SITE_URL = 'https://freeltools.com'
+const TOTAL_TOOLS = ALL_TOOLS.length
 
 const TWEETS = [
   `Most freelancers undercharge by 30-40% because they forget taxes, unpaid time & expenses. Our free rate calculator does the math → ${SITE_URL}/tools/freelancer-rate-calculator #freelance #freelancing`,
@@ -12,7 +14,7 @@ const TWEETS = [
   `Freelancers: what's your biggest pricing mistake when you first started? 👇\n\nWe built a calculator to help avoid them: ${SITE_URL}/tools/freelancer-rate-calculator #freelancing`,
   `Upwork takes up to 20%. Fiverr takes 20%. Our calculator shows exactly what to charge on each platform to hit your target income → ${SITE_URL}/tools/freelancer-commission-calculator #upwork #fiverr`,
   `If a client has ever moved the goalposts mid-project, you needed a scope of work doc. Generate one free in 3 minutes → ${SITE_URL}/tools/scope-of-work-generator #freelance #agencylife`,
-  `17 free tools for freelancers. No login. No account. Just tools that help you earn more 👇\n\n${SITE_URL} #freelance #freelancing #tools`,
+  `${TOTAL_TOOLS} free tools for freelancers. No login. No account. Pricing calculators, passport photo makers, image resizers, PDF tools, and more 👇\n\n${SITE_URL} #freelance #freelancing #tools`,
   `Freelance tip: always add a 15–20% buffer to fixed-price quotes for scope creep. Our project cost calculator has this built in → ${SITE_URL}/tools/project-cost-calculator #freelancing`,
 ]
 

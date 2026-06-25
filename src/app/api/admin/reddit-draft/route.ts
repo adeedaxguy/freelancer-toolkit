@@ -1,7 +1,9 @@
 import { NextResponse } from 'next/server'
 import { sendEmail } from '@/lib/email'
+import { ALL_TOOLS } from '@/lib/tools'
 
 const SITE_URL = 'https://freeltools.com'
+const TOTAL_TOOLS = ALL_TOOLS.length
 
 interface RedditPost {
   subreddit: string
@@ -69,7 +71,7 @@ The differences are pretty eye-opening, especially at lower contract values.`,
   },
   {
     subreddit: 'r/Entrepreneur',
-    title: 'Built 17 free tools for freelancers and agencies — no login, no ads, no catch',
+    title: `Built ${TOTAL_TOOLS} free tools for freelancers, agencies, and document workflows — no login, no ads, no catch`,
     body: `Started freeltools.com because I was frustrated paying for tools that should be free.
 
 **What's included:**
@@ -79,8 +81,9 @@ The differences are pretty eye-opening, especially at lower contract values.`,
 - Scope of work generator
 - Invoice generator (PDF export)
 - Commission comparison (Upwork vs Fiverr vs others)
-- Break-even calculator
-- And 10 more
+- Passport and visa photo makers
+- Image resizers and PDF converters
+- ${TOTAL_TOOLS} tools total
 
 All run in-browser. No account, no data stored. MIT spirit.
 

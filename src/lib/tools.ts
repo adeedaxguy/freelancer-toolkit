@@ -1,3 +1,5 @@
+import { ADVANCED_TOOL_CATEGORIES, type AdvancedToolConfig } from './advancedTools'
+
 export interface ToolMeta {
   slug: string
   title: string
@@ -10,6 +12,7 @@ export interface ToolMeta {
   programmaticVariants?: { slug: string; label: string; values?: Record<string, number | string> }[]
   seoTitle?: string
   bodySections?: { heading: string; body: string }[]
+  advancedTool?: AdvancedToolConfig
 }
 
 export interface ToolCategory {
@@ -778,6 +781,7 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
       },
     ],
   },
+  ...ADVANCED_TOOL_CATEGORIES,
 ]
 
 export const ALL_TOOLS: ToolMeta[] = TOOL_CATEGORIES.flatMap((c) => c.tools)

@@ -6,11 +6,12 @@ import RequestATool from '@/components/RequestATool'
 import { TOOL_CATEGORIES } from '@/lib/tools'
 
 const SITE_URL = 'https://freeltools.com'
+const TOTAL_TOOLS = TOOL_CATEGORIES.reduce((sum, cat) => sum + cat.tools.length, 0)
 
 export const metadata: Metadata = {
-  title: 'FreelancerToolkit – 27 Free Tools for Freelancers & Agencies',
+  title: `FreelancerToolkit – ${TOTAL_TOOLS} Free Tools for Freelancers & Agencies`,
   description:
-    'Free calculators and generators for freelancers and agencies. Set your rate, quote projects, write proposals, create invoices. No login required.',
+    'Free calculators, generators, passport photo makers, PDF converters, and image tools for freelancers and agencies. No login required.',
 }
 
 function buildItemListSchema() {
@@ -19,7 +20,7 @@ function buildItemListSchema() {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
     name: 'Free Tools for Freelancers — FreelancerToolkit',
-    description: '27 free business tools for freelancers, agencies, and independent consultants. No account required.',
+    description: `${TOTAL_TOOLS} free business, document, image, and passport photo tools. No account required.`,
     url: SITE_URL,
     numberOfItems: allTools.length,
     itemListElement: allTools.map((tool, i) => ({
@@ -49,7 +50,7 @@ const homepageFaqSchema = {
       name: 'What is FreelancerToolkit?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'FreelancerToolkit (freeltools.com) is a free collection of 27 business tools for freelancers, agencies, and independent consultants. Tools include a rate calculator, invoice generator, proposal generator, scope of work generator, Upwork fee calculator, PDF to JPG converter, image compressor, Pomodoro timer, tax calculator, and more. No account or login is required.',
+        text: `FreelancerToolkit (freeltools.com) is a free collection of ${TOTAL_TOOLS} tools for freelancers, agencies, and independent consultants. Tools include business calculators, proposal generators, invoice tools, passport and visa photo makers, PDF converters, image resizers, and more. No account or login is required.`,
       },
     },
     {
@@ -57,7 +58,7 @@ const homepageFaqSchema = {
       name: 'Are the tools on FreelancerToolkit free?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Yes. All 27 tools on FreelancerToolkit are completely free. There is no account required, no credit card, no subscription, and no free trial. The tools run entirely in your browser.',
+        text: `Yes. All ${TOTAL_TOOLS} tools on FreelancerToolkit are completely free. There is no account required, no credit card, no subscription, and no free trial. Many tools run entirely in your browser.`,
       },
     },
     {
@@ -89,20 +90,20 @@ const homepageFaqSchema = {
       name: 'What tools does FreelancerToolkit include?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'FreelancerToolkit includes 27 free tools: Freelancer Rate Calculator, Project Cost Calculator, Agency Pricing Calculator, Retainer Calculator, Profit Calculator, Revenue Goal Calculator, Break-Even Calculator, Upwork Fee Calculator, Freelancer Commission Calculator, Hourly vs Fixed Price Calculator, Proposal Generator, Scope of Work Generator, Discovery Call Script Generator, Client Questionnaire Generator, Invoice Generator, Meeting Cost Calculator, Commission Calculator, Freelancer Tax Calculator, Freelancer Savings Calculator, Freelance Contract Generator, Client Onboarding Checklist, Project Deadline Calculator, PDF to JPG Converter, Image Compressor, Word Count Tool, Pomodoro Timer, and Time Zone Converter.',
+        text: `FreelancerToolkit includes ${TOTAL_TOOLS} free tools across freelance pricing, client operations, marketplace fees, passport and visa photos, image resizing, PDF conversion, and document generation.`,
       },
     },
   ],
 }
 
 const stats = [
-  { label: 'Free Tools', value: '27' },
+  { label: 'Free Tools', value: String(TOTAL_TOOLS) },
   { label: 'No Login Required', value: '✓' },
   { label: 'Data Stored', value: '0' },
 ]
 
 export default function HomePage() {
-  const totalTools = TOOL_CATEGORIES.reduce((sum, c) => sum + c.tools.length, 0)
+  const totalTools = TOTAL_TOOLS
   const itemListSchema = buildItemListSchema()
 
   return (
@@ -190,7 +191,7 @@ export default function HomePage() {
           <h2 className="text-xl font-bold text-gray-900 sm:text-2xl">Free Tools Built for Freelancers, Agencies & Consultants</h2>
           <div className="mt-4 space-y-4 text-sm leading-relaxed text-gray-600 sm:text-base">
             <p>
-              FreelancerToolkit provides <strong>27 free business tools</strong> designed specifically for independent professionals. Whether you&apos;re trying to figure out how much to charge, prepare a client proposal, or calculate your break-even point, every tool works instantly in your browser — no login, no account, no data stored.
+              FreelancerToolkit provides <strong>{totalTools} free tools</strong> designed for independent professionals and people who need fast document utilities. Whether you&apos;re pricing client work, preparing a proposal, creating a passport photo, resizing an application upload, or converting images to PDF, the tools work instantly — no login or subscription required.
             </p>
             <p>
               Our <strong>freelance rate calculator</strong> helps you set your hourly rate based on your income goal, tax rate, and expenses. The <strong>project cost calculator</strong> lets you build a quote with scope buffers and revision rounds built in. The <strong>commission calculator</strong> compares fees across Upwork, Fiverr, Freelancer.com, and PeoplePerHour side by side.

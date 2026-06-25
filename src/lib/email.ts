@@ -1,7 +1,9 @@
 import { Resend } from 'resend'
+import { ALL_TOOLS } from './tools'
 
 const NOTIFICATION_EMAIL = process.env.NOTIFICATION_EMAIL ?? 'adnan.webexpert@gmail.com'
 const FROM_ADDRESS = 'FreelTools <admin@freeltools.com>'
+const TOTAL_TOOLS = ALL_TOOLS.length
 
 function getResend() {
   const key = process.env.RESEND_API_KEY
@@ -130,7 +132,7 @@ export function welcomeEmail(email: string) {
       <span style="color:white;font-size:18px;font-weight:700;vertical-align:middle">FreelancerToolkit</span>
     </div>
     <h1 style="color:white;margin:16px 0 8px;font-size:28px;font-weight:800;line-height:1.2">You're in. Let's get you paid more.</h1>
-    <p style="color:#bbf7d0;margin:0;font-size:15px">17 free tools. Zero fluff. Built for freelancers who mean business.</p>
+    <p style="color:#bbf7d0;margin:0;font-size:15px">${TOTAL_TOOLS} free tools. Zero fluff. Built for freelancers who mean business.</p>
   </td></tr>
 
   <!-- Body -->
@@ -150,7 +152,7 @@ export function welcomeEmail(email: string) {
       </td></tr>
     </table>
 
-    <p style="color:#374151;font-size:15px;font-weight:600;margin:0 0 12px">All 17 free tools at a glance:</p>
+    <p style="color:#374151;font-size:15px;font-weight:600;margin:0 0 12px">Popular free tools at a glance:</p>
     <table width="100%" cellpadding="0" cellspacing="0">
       ${[
         ['💰','Rate Calculator','Set your minimum hourly rate','/tools/freelancer-rate-calculator'],
@@ -170,7 +172,7 @@ export function welcomeEmail(email: string) {
     </table>
 
     <p style="color:#9ca3af;font-size:13px;margin:20px 0 0">
-      <a href="https://freeltools.com" style="color:#16a34a;text-decoration:none;font-weight:600">See all 31 tools →</a>
+      <a href="https://freeltools.com" style="color:#16a34a;text-decoration:none;font-weight:600">See all ${TOTAL_TOOLS} tools →</a>
     </p>
   </td></tr>
 
@@ -393,7 +395,7 @@ export const DRIP_SEQUENCE: Array<{
         <div><p style="margin:0 0 4px;font-size:14px;font-weight:700;color:${BRAND.dark}">${title}</p><p style="margin:0;font-size:13px;color:${BRAND.gray};line-height:1.5">${desc}</p></div>
       </div>`).join('')}
       <div style="background:${BRAND.lightGreen};border-radius:12px;padding:18px 22px;margin-top:8px">
-        <p style="margin:0;font-size:14px;color:#166534">All 31 tools to back up these habits are free at <a href="https://freeltools.com" style="color:${BRAND.green};font-weight:600">freeltools.com</a> — no login, no paywall, no ads.</p>
+        <p style="margin:0;font-size:14px;color:#166534">All ${TOTAL_TOOLS} tools to back up these habits are free at <a href="https://freeltools.com" style="color:${BRAND.green};font-weight:600">freeltools.com</a> — no login, no paywall, no ads.</p>
       </div>
     `),
   },
