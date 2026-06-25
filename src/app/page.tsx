@@ -113,18 +113,20 @@ export default function HomePage() {
       {/* Hero */}
       <section className="border-b border-gray-100 bg-white">
         <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
-          <div className="mx-auto max-w-3xl text-center">
+          <div className="mx-auto max-w-[22rem] text-center sm:max-w-3xl">
             <span className="mb-4 inline-block rounded-full bg-brand-100 px-4 py-1.5 text-sm font-medium text-brand-700">
               {totalTools} Free Tools · No Account Needed
             </span>
-            <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl lg:text-6xl">
-              Tools That Help Freelancers{' '}
-              <span className="text-brand-600">Charge What They&apos;re Worth</span>
+            <h1 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-5xl lg:text-6xl">
+              <span className="block sm:inline">Tools That Help</span>{' '}
+              <span className="block sm:inline">Freelancers</span>{' '}
+              <span className="block text-brand-600 sm:inline">Charge What</span>{' '}
+              <span className="block text-brand-600 sm:inline">They&apos;re Worth</span>
             </h1>
-            <p className="mt-6 text-lg text-gray-500">
+            <p className="mt-6 text-base leading-7 text-gray-500 sm:text-lg">
               Free calculators and generators for freelancers, agencies, and consultants. Calculate your rate, quote projects, generate proposals, create invoices, and grow your business.
             </p>
-            <div className="mt-8 flex flex-wrap justify-center gap-4">
+            <div className="mx-auto mt-8 flex max-w-xs flex-col justify-center gap-3 sm:max-w-none sm:flex-row sm:gap-4">
               <Link href="/tools/freelancer-rate-calculator" className="btn-primary px-6 py-3 text-base">
                 Calculate Your Rate →
               </Link>
