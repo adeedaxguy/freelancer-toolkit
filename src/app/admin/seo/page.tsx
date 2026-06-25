@@ -1,4 +1,5 @@
 import { getAllPosts } from '@/lib/blog'
+import { KEYWORD_IDEAS_PER_TOOL, TOOL_KEYWORD_FUNNELS, TOTAL_KEYWORD_IDEAS } from '@/lib/keywordFunnel'
 import { ALL_TOOLS } from '@/lib/tools'
 
 export const dynamic = 'force-dynamic'
@@ -41,7 +42,7 @@ export default function SeoAuditPage() {
   const staticRows: SeoRow[] = [
     checkRow({
       url: '/',
-      title: 'FreelancerToolkit – 17 Free Tools for Freelancers & Agencies',
+      title: `FreelancerToolkit - ${ALL_TOOLS.length} Free Tools for Freelancers & Agencies`,
       description: 'Free calculators and generators for freelancers, agencies, and consultants. Calculate your rate, quote projects, generate proposals, create invoices, and more. No login required.',
       type: 'page',
     }),
@@ -67,6 +68,7 @@ export default function SeoAuditPage() {
   const allRows = [...staticRows, ...toolRows, ...blogRows]
   const passing = allRows.filter((r) => r.issues.length === 0)
   const failing = allRows.filter((r) => r.issues.length > 0)
+  const topKeywordFunnels = TOOL_KEYWORD_FUNNELS.slice(0, 10)
 
   const score = Math.round((passing.length / allRows.length) * 100)
 
@@ -84,7 +86,7 @@ export default function SeoAuditPage() {
       </div>
 
       {/* Score */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <div className="rounded-2xl border border-gray-100 bg-white p-5 shadow-sm">
           <p className="text-xs font-semibold uppercase tracking-wider text-gray-400">SEO Score</p>
           <p className={`mt-2 text-4xl font-bold ${score >= 90 ? 'text-green-600' : score >= 70 ? 'text-yellow-500' : 'text-red-500'}`}>
@@ -101,6 +103,49 @@ export default function SeoAuditPage() {
           <p className="text-xs font-semibold uppercase tracking-wider text-gray-400">Total Pages</p>
           <p className="mt-2 text-4xl font-bold text-gray-900">{allRows.length}</p>
           <p className="mt-1 text-xs text-gray-400">{toolRows.length} tools · {blogRows.length} posts · {staticRows.length} pages</p>
+        </div>
+        <div className="rounded-2xl border border-gray-100 bg-white p-5 shadow-sm">
+          <p className="text-xs font-semibold uppercase tracking-wider text-gray-400">Keyword Ideas</p>
+          <p className="mt-2 text-4xl font-bold text-gray-900">{TOTAL_KEYWORD_IDEAS.toLocaleString()}</p>
+          <p className="mt-1 text-xs text-gray-400">{TOOL_KEYWORD_FUNNELS.length} tools · {KEYWORD_IDEAS_PER_TOOL} ideas/tool</p>
+        </div>
+      </div>
+
+      <div className="rounded-2xl border border-gray-100 bg-white shadow-sm overflow-hidden">
+        <div className="border-b border-gray-100 px-4 py-3">
+          <p className="text-sm font-semibold text-gray-700">Keyword Funnel Seeds</p>
+          <p className="mt-1 text-xs text-gray-400">Each tool has problem-aware, comparison, conversion, and retention keyword ideas for future content.</p>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="border-b border-gray-100 bg-gray-50 text-xs font-semibold text-gray-500">
+                <th className="px-4 py-3 text-left">Tool</th>
+                <th className="px-4 py-3 text-left hidden md:table-cell">Category</th>
+                <th className="px-4 py-3 text-left">Sample keywords</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-50">
+              {topKeywordFunnels.map((funnel) => (
+                <tr key={funnel.toolSlug} className="hover:bg-gray-50">
+                  <td className="px-4 py-3">
+                    <a href={`${SITE}${funnel.toolUrl}`} target="_blank" className="text-xs font-semibold text-gray-800 hover:text-brand-600 hover:underline">
+                      {funnel.toolTitle}
+                    </a>
+                    <p className="mt-1 text-xs text-gray-400">{funnel.keywordCount} ideas</p>
+                  </td>
+                  <td className="px-4 py-3 hidden md:table-cell text-xs text-gray-500">{funnel.category}</td>
+                  <td className="px-4 py-3">
+                    <div className="flex flex-wrap gap-1.5">
+                      {funnel.keywords.slice(0, 3).map((idea) => (
+                        <span key={idea.keyword} className="rounded-full bg-gray-100 px-2 py-0.5 text-xs text-gray-600">{idea.keyword}</span>
+                      ))}
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
 
