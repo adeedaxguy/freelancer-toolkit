@@ -14,15 +14,21 @@ export default function Header() {
 
   const openMegaMenu = () => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current)
+    timeoutRef.current = null
     setMegaOpen(true)
   }
 
-  const closeMegaMenu = () => {
-    timeoutRef.current = setTimeout(() => setMegaOpen(false), 120)
+  const closeMegaMenu = (delay = 450) => {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current)
+    timeoutRef.current = setTimeout(() => {
+      setMegaOpen(false)
+      timeoutRef.current = null
+    }, delay)
   }
 
   const cancelClose = () => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current)
+    timeoutRef.current = null
   }
 
   const filteredCategories = useMemo(() => {
@@ -38,6 +44,7 @@ export default function Header() {
   }, [mobileQuery])
 
   const closeAllMenus = () => {
+    cancelClose()
     setMobileOpen(false)
     setMegaOpen(false)
     setMobileQuery('')
@@ -67,7 +74,7 @@ export default function Header() {
 
         {/* Desktop nav */}
         <nav className="hidden items-center gap-2 lg:flex" aria-label="Main navigation">
-          <div className="relative" onMouseEnter={openMegaMenu} onMouseLeave={closeMegaMenu}>
+          <div className="relative" onMouseEnter={openMegaMenu} onMouseLeave={() => closeMegaMenu()}>
             <button
               className="flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-semibold text-gray-700 transition hover:bg-gray-100 hover:text-gray-900"
               aria-expanded={megaOpen}
@@ -82,7 +89,11 @@ export default function Header() {
             </button>
 
             {megaOpen && (
-              <div className="absolute left-1/2 top-full h-3 w-32 -translate-x-1/2" onMouseEnter={cancelClose} onMouseLeave={closeMegaMenu} />
+              <div
+                className="fixed left-0 right-0 top-12 h-10 cursor-default"
+                onMouseEnter={cancelClose}
+                onMouseLeave={() => closeMegaMenu(500)}
+              />
             )}
           </div>
 
@@ -122,7 +133,7 @@ export default function Header() {
         <div
           className="absolute left-0 right-0 top-full hidden border-t border-gray-100 bg-white/95 px-4 py-3 shadow-lg backdrop-blur lg:block"
           onMouseEnter={cancelClose}
-          onMouseLeave={closeMegaMenu}
+          onMouseLeave={() => closeMegaMenu(350)}
         >
           <div className="mx-auto grid max-h-[calc(100vh-88px)] max-w-6xl overflow-y-auto rounded-2xl border border-gray-200 bg-white shadow-2xl lg:grid-cols-[260px_1fr]">
             <aside className="bg-gray-950 p-5 text-white">
