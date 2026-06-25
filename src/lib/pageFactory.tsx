@@ -128,11 +128,12 @@ const HOW_TO_STEPS: Record<string, { name: string; text: string }[]> = {
     { name: 'Track your sessions', text: 'Each completed pomodoro is logged. After 4 sessions, take a longer 15-minute break.' },
   ],
   'fiverr-fee-calculator': [
-    { name: 'Enter your gig price', text: 'Type the price you charge (or plan to charge) for your Fiverr gig or order.' },
-    { name: 'See your net earnings', text: 'The calculator instantly shows how much Fiverr deducts (20%) and what you take home.' },
-    { name: 'Check what the buyer pays', text: 'See the total cost to the buyer including Fiverr\'s buyer service fee.' },
-    { name: 'Use the reverse calculator', text: 'Enter your desired take-home amount and get the exact gig price to set to achieve that net.' },
-    { name: 'Compare platforms', text: 'The comparison table shows how Fiverr\'s 20% cut compares with a 10% Upwork planning example, Freelancer.com, and other platforms.' },
+    { name: 'Enter your Fiverr gig price', text: 'Type the listed gig price, custom offer amount, or milestone value before buyer service fees.' },
+    { name: 'Add any tip amount', text: 'If the buyer is tipping, enter the tip separately so the calculator can estimate the seller fee on the full order.' },
+    { name: 'Review seller net earnings', text: 'The calculator shows the estimated Fiverr seller fee and the amount you keep before taxes, withdrawal fees, and currency conversion.' },
+    { name: 'Check buyer checkout total', text: 'Review the estimated buyer service fee, small-order fee, and buyer total so you understand the price the client sees.' },
+    { name: 'Use reverse pricing', text: 'Enter a target take-home amount to calculate the Fiverr gig price needed to net that amount after seller fees.' },
+    { name: 'Adjust fee assumptions if needed', text: 'Change the seller fee percentage, buyer service fee, small-order threshold, or small-order fee if Fiverr shows a different number in your account.' },
   ],
   'late-payment-fee-calculator': [
     { name: 'Enter the original invoice amount', text: 'Type the invoice total that the client has not yet paid.' },
