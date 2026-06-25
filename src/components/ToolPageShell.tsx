@@ -1,7 +1,9 @@
 import Link from 'next/link'
 import type { ToolMeta } from '@/lib/tools'
 import { getRelatedTools } from '@/lib/tools'
+import { getCategoryUrlForTool } from '@/lib/categoryPages'
 import { buildBreadcrumbJsonLd } from '@/lib/pageFactory'
+import ToolSeoContent from '@/components/ToolSeoContent'
 import ToolSubscribePopup from '@/components/ToolSubscribePopup'
 
 interface ToolPageShellProps {
@@ -13,6 +15,7 @@ interface ToolPageShellProps {
 export default function ToolPageShell({ tool, children, variantLabel }: ToolPageShellProps) {
   const related = getRelatedTools(tool.slug)
   const breadcrumbJsonLd = buildBreadcrumbJsonLd(tool)
+  const categoryUrl = getCategoryUrlForTool(tool)
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
@@ -22,7 +25,7 @@ export default function ToolPageShell({ tool, children, variantLabel }: ToolPage
       <nav aria-label="Breadcrumb" className="mb-5 flex flex-wrap items-center gap-1.5 text-xs text-gray-400">
         <Link href="/" className="hover:text-brand-600">Home</Link>
         <span>/</span>
-        <Link href={`/#${tool.category.toLowerCase().replace(/\s+/g, '-')}`} className="hover:text-brand-600">
+        <Link href={categoryUrl} className="hover:text-brand-600">
           {tool.category}
         </Link>
         <span>/</span>
@@ -42,7 +45,9 @@ export default function ToolPageShell({ tool, children, variantLabel }: ToolPage
         <div className="mb-3 flex flex-wrap items-center gap-2">
           <span className="text-3xl" role="img" aria-label={tool.title}>{tool.icon}</span>
           <span className="rounded-full bg-brand-100 px-3 py-1 text-xs font-medium text-brand-700">Free Tool</span>
-          <span className="rounded-full bg-gray-100 px-3 py-1 text-xs text-gray-500">{tool.category}</span>
+          <Link href={categoryUrl} className="rounded-full bg-gray-100 px-3 py-1 text-xs text-gray-500 transition hover:bg-brand-50 hover:text-brand-700">
+            {tool.category}
+          </Link>
         </div>
         <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl lg:text-4xl">
           {variantLabel ? `${tool.title} ${variantLabel}` : tool.headline}
@@ -82,6 +87,8 @@ export default function ToolPageShell({ tool, children, variantLabel }: ToolPage
           ))}
         </div>
       )}
+
+      <ToolSeoContent tool={tool} variantLabel={variantLabel} />
 
       {/* FAQ */}
       {tool.faqs && tool.faqs.length > 0 && (

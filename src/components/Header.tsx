@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { useMemo, useState, useRef } from 'react'
+import { getCategoryUrl } from '@/lib/categoryPages'
 import { TOOL_CATEGORIES, ALL_TOOLS } from '@/lib/tools'
 
 export default function Header() {
@@ -141,7 +142,7 @@ export default function Header() {
               {TOOL_CATEGORIES.map((cat) => (
                 <section key={cat.slug} className="min-w-0">
                   <Link
-                    href={`/#${cat.name.toLowerCase().replace(/\s+/g, '-')}`}
+                    href={getCategoryUrl(cat)}
                     onClick={() => setMegaOpen(false)}
                     className="group block rounded-lg border border-gray-100 bg-gray-50 p-3 transition hover:border-brand-200 hover:bg-brand-50"
                   >
@@ -201,7 +202,13 @@ export default function Header() {
 
           {filteredCategories.map((cat) => (
             <div key={cat.slug} className="mt-4">
-              <p className="mb-1.5 text-[10px] font-semibold uppercase tracking-wider text-gray-400">{cat.name}</p>
+              <Link
+                href={getCategoryUrl(cat)}
+                onClick={closeAllMenus}
+                className="mb-1.5 inline-flex text-[10px] font-semibold uppercase tracking-wider text-gray-400 hover:text-brand-600"
+              >
+                {cat.name}
+              </Link>
               <div className="grid grid-cols-1 gap-0.5">
                 {cat.tools.map((tool) => (
                   <Link

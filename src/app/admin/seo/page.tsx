@@ -1,6 +1,7 @@
 import { getAllPosts } from '@/lib/blog'
+import { getCategorySeoDescription, getCategorySeoTitle, getCategoryUrl } from '@/lib/categoryPages'
 import { KEYWORD_IDEAS_PER_TOOL, TOOL_KEYWORD_FUNNELS, TOTAL_KEYWORD_IDEAS } from '@/lib/keywordFunnel'
-import { ALL_TOOLS } from '@/lib/tools'
+import { ALL_TOOLS, TOOL_CATEGORIES } from '@/lib/tools'
 
 export const dynamic = 'force-dynamic'
 
@@ -10,7 +11,7 @@ interface SeoRow {
   url: string
   title: string
   description: string
-  type: 'tool' | 'blog' | 'page'
+  type: 'tool' | 'category' | 'blog' | 'page'
   issues: string[]
 }
 
@@ -35,6 +36,15 @@ export default function SeoAuditPage() {
       title: `${tool.title} | FreelancerToolkit`,
       description: tool.description,
       type: 'tool',
+    })
+  )
+
+  const categoryRows: SeoRow[] = TOOL_CATEGORIES.map((category) =>
+    checkRow({
+      url: getCategoryUrl(category),
+      title: `${getCategorySeoTitle(category)} | FreelancerToolkit`,
+      description: getCategorySeoDescription(category),
+      type: 'category',
     })
   )
 
@@ -65,7 +75,7 @@ export default function SeoAuditPage() {
     })
   )
 
-  const allRows = [...staticRows, ...toolRows, ...blogRows]
+  const allRows = [...staticRows, ...categoryRows, ...toolRows, ...blogRows]
   const passing = allRows.filter((r) => r.issues.length === 0)
   const failing = allRows.filter((r) => r.issues.length > 0)
   const topKeywordFunnels = TOOL_KEYWORD_FUNNELS.slice(0, 10)
@@ -74,6 +84,7 @@ export default function SeoAuditPage() {
 
   const TYPE_COLORS: Record<string, string> = {
     tool: 'bg-brand-50 text-brand-700',
+    category: 'bg-green-50 text-green-700',
     blog: 'bg-purple-50 text-purple-700',
     page: 'bg-gray-100 text-gray-600',
   }
@@ -102,7 +113,7 @@ export default function SeoAuditPage() {
         <div className="rounded-2xl border border-gray-100 bg-white p-5 shadow-sm">
           <p className="text-xs font-semibold uppercase tracking-wider text-gray-400">Total Pages</p>
           <p className="mt-2 text-4xl font-bold text-gray-900">{allRows.length}</p>
-          <p className="mt-1 text-xs text-gray-400">{toolRows.length} tools · {blogRows.length} posts · {staticRows.length} pages</p>
+          <p className="mt-1 text-xs text-gray-400">{toolRows.length} tools · {categoryRows.length} categories · {blogRows.length} posts</p>
         </div>
         <div className="rounded-2xl border border-gray-100 bg-white p-5 shadow-sm">
           <p className="text-xs font-semibold uppercase tracking-wider text-gray-400">Keyword Ideas</p>

@@ -1,5 +1,6 @@
 import type { MetadataRoute } from 'next'
-import { ALL_TOOLS } from '@/lib/tools'
+import { getCategoryUrl } from '@/lib/categoryPages'
+import { ALL_TOOLS, TOOL_CATEGORIES } from '@/lib/tools'
 import { getAllPosts } from '@/lib/blog'
 
 const BASE_URL = 'https://freeltools.com'
@@ -33,6 +34,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }))
 
   // Main tool pages
+  const categoryPages: MetadataRoute.Sitemap = TOOL_CATEGORIES.map((category) => ({
+    url: `${BASE_URL}${getCategoryUrl(category)}`,
+    lastModified: now,
+    changeFrequency: 'weekly' as const,
+    priority: 0.85,
+  }))
+
+  // Main tool pages
   const toolPages: MetadataRoute.Sitemap = ALL_TOOLS.map((tool) => ({
     url: `${BASE_URL}/tools/${tool.slug}`,
     lastModified: now,
@@ -50,5 +59,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }))
   )
 
-  return [...staticPages, ...toolPages, ...variantPages, ...blogPages]
+  return [...staticPages, ...categoryPages, ...toolPages, ...variantPages, ...blogPages]
 }

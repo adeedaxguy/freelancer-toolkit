@@ -3,6 +3,7 @@ import Link from 'next/link'
 import ToolCard from '@/components/ToolCard'
 import EmailCapture from '@/components/EmailCapture'
 import RequestATool from '@/components/RequestATool'
+import { getCategoryUrl } from '@/lib/categoryPages'
 import { TOOL_CATEGORIES } from '@/lib/tools'
 
 const SITE_URL = 'https://freeltools.com'
@@ -152,9 +153,16 @@ export default function HomePage() {
       <section id="tools" className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 space-y-16">
         {TOOL_CATEGORIES.map((cat) => (
           <div key={cat.slug} id={cat.name.toLowerCase().replace(/\s+/g, '-')}>
-            <div className="mb-8">
-              <h2 className="text-2xl font-bold text-gray-900 sm:text-3xl">{cat.name}</h2>
-              <p className="mt-1 text-gray-500">{cat.description}</p>
+            <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <h2 className="text-2xl font-bold text-gray-900 sm:text-3xl">
+                  <Link href={getCategoryUrl(cat)} className="hover:text-brand-600">{cat.name}</Link>
+                </h2>
+                <p className="mt-1 text-gray-500">{cat.description}</p>
+              </div>
+              <Link href={getCategoryUrl(cat)} className="text-sm font-semibold text-brand-600 hover:underline">
+                View category →
+              </Link>
             </div>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
               {cat.tools.map((tool) => (

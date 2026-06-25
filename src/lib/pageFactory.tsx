@@ -1,12 +1,13 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
+import { getCategoryUrlForTool } from '@/lib/categoryPages'
 import { getToolBySlug, type ToolMeta } from '@/lib/tools'
 
 const SITE_URL = 'https://freeltools.com'
 
 export function buildToolMetadata(tool: ToolMeta): Metadata {
   const url = `${SITE_URL}/tools/${tool.slug}`
-  const pageTitle = tool.seoTitle ?? `Free ${tool.title} (2026) — FreelancerToolkit`
+  const pageTitle = tool.seoTitle ?? `Free ${tool.title} (2026)`
   const ogImage = `${SITE_URL}/og-tool.svg`
   return {
     title: pageTitle,
@@ -249,7 +250,7 @@ export function buildBreadcrumbJsonLd(tool: ToolMeta) {
         '@type': 'ListItem',
         position: 2,
         name: tool.category,
-        item: `${SITE_URL}/#${tool.category.toLowerCase().replace(/[\s&]+/g, '-')}`,
+        item: `${SITE_URL}${getCategoryUrlForTool(tool)}`,
       },
       {
         '@type': 'ListItem',
