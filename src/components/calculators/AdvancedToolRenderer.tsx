@@ -1,7 +1,7 @@
 'use client'
 
 /* eslint-disable @next/next/no-img-element */
-import { useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import type { AdvancedToolConfig } from '@/lib/advancedTools'
 
 type AdvancedToolRendererProps = {
@@ -51,6 +51,32 @@ function loadImageFile(file: File): Promise<ImageState> {
       img.src = dataUrl
     }
     reader.readAsDataURL(file)
+  })
+}
+
+function loadImageElement(dataUrl: string): Promise<HTMLImageElement> {
+  return new Promise((resolve, reject) => {
+    const img = new Image()
+    img.onload = () => resolve(img)
+    img.onerror = () => reject(new Error('Could not load this image for export.'))
+    img.src = dataUrl
+  })
+}
+
+async function ensureImageReady(image: HTMLImageElement) {
+  if (image.complete) {
+    if (image.naturalWidth > 0) return
+    throw new Error('Could not load this image for export.')
+  }
+
+  if (typeof image.decode === 'function') {
+    await image.decode()
+    if (image.naturalWidth > 0) return
+  }
+
+  await new Promise<void>((resolve, reject) => {
+    image.onload = () => resolve()
+    image.onerror = () => reject(new Error('Could not load this image for export.'))
   })
 }
 
@@ -242,20 +268,43 @@ function ImageResizerTool({ config }: { config: Extract<AdvancedToolConfig, { ki
   const [quality, setQuality] = useState(0.85)
   const [fit, setFit] = useState<'cover' | 'contain'>(config.fit)
   const [result, setResult] = useState<{ sizeKb: number; url: string; blob: Blob } | null>(null)
+  const [resultError, setResultError] = useState('')
+  const [generating, setGenerating] = useState(false)
   const previewRef = useRef<HTMLImageElement | null>(null)
+
+  useEffect(() => {
+    setResult(null)
+    setResultError('')
+  }, [image?.dataUrl, quality, fit, config.targetWidth, config.targetHeight, config.format])
+
+  useEffect(() => {
+    return () => {
+      if (result?.url) URL.revokeObjectURL(result.url)
+    }
+  }, [result?.url])
 
   async function exportImage() {
     if (!previewRef.current) return
-    const canvas = drawImageToCanvas(previewRef.current, config.targetWidth, config.targetHeight, fit, 1, 0, 0)
-    let nextQuality = quality
-    let blob = await blobFromCanvas(canvas, formatMime(config.format), nextQuality)
-    if (config.maxSizeKb && config.format === 'jpeg') {
-      while (blob.size / 1024 > config.maxSizeKb && nextQuality > 0.35) {
-        nextQuality -= 0.08
-        blob = await blobFromCanvas(canvas, formatMime(config.format), nextQuality)
+    setGenerating(true)
+    setResultError('')
+    try {
+      await ensureImageReady(previewRef.current)
+      const canvas = drawImageToCanvas(previewRef.current, config.targetWidth, config.targetHeight, fit, 1, 0, 0)
+      let nextQuality = quality
+      let blob = await blobFromCanvas(canvas, formatMime(config.format), nextQuality)
+      if (config.maxSizeKb && config.format === 'jpeg') {
+        while (blob.size / 1024 > config.maxSizeKb && nextQuality > 0.35) {
+          nextQuality -= 0.08
+          blob = await blobFromCanvas(canvas, formatMime(config.format), nextQuality)
+        }
       }
+      setResult({ sizeKb: Math.round(blob.size / 1024), url: URL.createObjectURL(blob), blob })
+    } catch (err) {
+      setResult(null)
+      setResultError(err instanceof Error ? err.message : 'Could not generate this image.')
+    } finally {
+      setGenerating(false)
     }
-    setResult({ sizeKb: Math.round(blob.size / 1024), url: URL.createObjectURL(blob), blob })
   }
 
   function downloadResult() {
@@ -289,9 +338,12 @@ function ImageResizerTool({ config }: { config: Extract<AdvancedToolConfig, { ki
             </label>
           </div>
           <div className="flex flex-wrap gap-3">
-            <button type="button" className="btn-primary" disabled={!image} onClick={exportImage}>Generate Image</button>
+            <button type="button" className="btn-primary" disabled={!image || generating} onClick={exportImage}>
+              {generating ? 'Generating...' : 'Generate Image'}
+            </button>
             <button type="button" className="btn-secondary" disabled={!result} onClick={downloadResult}>Download</button>
           </div>
+          {resultError && <p className="rounded-lg bg-red-50 p-3 text-sm text-red-700">{resultError}</p>}
           {image && (
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="rounded-xl border border-gray-100 bg-gray-50 p-3">
@@ -303,7 +355,12 @@ function ImageResizerTool({ config }: { config: Extract<AdvancedToolConfig, { ki
                 <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500">Generated</p>
                 {result ? (
                   <>
-                    <img src={result.url} alt="Generated preview" className="max-h-72 w-full rounded-lg object-contain" />
+                    <img
+                      src={result.url}
+                      alt="Generated preview"
+                      className="max-h-72 w-full rounded-lg object-contain"
+                      onError={() => setResultError('The generated preview could not be displayed. Try generating again, or download the file.')}
+                    />
                     <p className="mt-2 text-xs text-gray-500">{config.targetWidth} x {config.targetHeight}px · {result.sizeKb}KB</p>
                   </>
                 ) : (
@@ -344,6 +401,9 @@ function ImageToPdfTool({ config }: { config: Extract<AdvancedToolConfig, { kind
       for (let index = 0; index < files.length; index += 1) {
         if (index > 0) pdf.addPage()
         const loaded = await loadImageFile(files[index])
+        const imageElement = await loadImageElement(loaded.dataUrl)
+        const canvas = drawImageToCanvas(imageElement, loaded.width, loaded.height, 'contain', 1, 0, 0)
+        const imageData = canvas.toDataURL('image/jpeg', 0.92)
         const pageWidth = pdf.internal.pageSize.getWidth()
         const pageHeight = pdf.internal.pageSize.getHeight()
         const margin = 28
@@ -354,8 +414,7 @@ function ImageToPdfTool({ config }: { config: Extract<AdvancedToolConfig, { kind
         const height = loaded.height * scale
         const x = (pageWidth - width) / 2
         const y = (pageHeight - height) / 2
-        const format = files[index].type.includes('png') ? 'PNG' : 'JPEG'
-        pdf.addImage(loaded.dataUrl, format, x, y, width, height)
+        pdf.addImage(imageData, 'JPEG', x, y, width, height)
       }
       pdf.save(`${config.presetName.toLowerCase().replace(/[^a-z0-9]+/g, '-')}.pdf`)
     } catch (err) {

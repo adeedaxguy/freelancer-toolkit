@@ -81,7 +81,7 @@ export default function FiverrFeeCalculator() {
       </div>
 
       <div className="grid gap-8 lg:grid-cols-[1fr_0.9fr]">
-        <div className="space-y-5 rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
+        <div className="min-w-0 space-y-5 rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
           <div>
             <h2 className="text-base font-semibold text-gray-900">Order details</h2>
             <p className="mt-1 text-sm text-gray-500">Use this for a Fiverr gig package, custom offer, milestone, or tip.</p>
@@ -153,7 +153,7 @@ export default function FiverrFeeCalculator() {
           </div>
         </div>
 
-        <div className="space-y-4">
+        <div className="min-w-0 space-y-4">
           <h2 className="text-base font-semibold text-gray-900">Fee breakdown</h2>
           <ResultCard
             label="Seller receives"
@@ -180,7 +180,7 @@ export default function FiverrFeeCalculator() {
       </div>
 
       <div className="grid gap-6 lg:grid-cols-[0.85fr_1.15fr]">
-        <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
+        <div className="min-w-0 rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
           <h2 className="text-base font-semibold text-gray-900">Reverse: what to charge to net your target</h2>
           <p className="mt-2 text-sm leading-6 text-gray-500">
             Start with what you want to keep. The calculator gross-ups the Fiverr gig price so the seller fee is already covered.
@@ -203,12 +203,12 @@ export default function FiverrFeeCalculator() {
           </div>
         </div>
 
-        <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
+        <div className="min-w-0 rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
           <h2 className="text-base font-semibold text-gray-900">Common Fiverr price examples</h2>
           <p className="mt-2 text-sm leading-6 text-gray-500">
             Quick reference for low-cost gigs, standard packages, and larger custom offers using your current fee assumptions.
           </p>
-          <div className="mt-4 overflow-x-auto">
+          <div className="mt-4 min-w-0 overflow-x-auto">
             <table className="w-full min-w-[560px] text-sm">
               <thead>
                 <tr className="border-b border-gray-100 text-left text-xs uppercase tracking-wider text-gray-400">
