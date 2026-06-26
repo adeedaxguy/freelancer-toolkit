@@ -2,10 +2,26 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { getAllPosts } from '@/lib/blog'
 
+const SITE_URL = 'https://freeltools.com'
+const OG_IMAGE = `${SITE_URL}/opengraph-image`
+
 export const metadata: Metadata = {
   title: 'Blog – Freelancing Tips, Guides & Resources',
   description: 'Free guides and tips for freelancers, agencies, and consultants. Learn how to set rates, win proposals, manage clients, and grow your business.',
-  alternates: { canonical: 'https://freeltools.com/blog' },
+  alternates: { canonical: `${SITE_URL}/blog` },
+  openGraph: {
+    title: 'Blog – Freelancing Tips, Guides & Resources',
+    description: 'Free guides and tips for freelancers, agencies, and consultants. Learn how to set rates, win proposals, manage clients, and grow your business.',
+    url: `${SITE_URL}/blog`,
+    type: 'website',
+    images: [{ url: OG_IMAGE, width: 1200, height: 630, alt: 'FreelancerToolkit blog' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Blog – Freelancing Tips, Guides & Resources',
+    description: 'Free guides and tips for freelancers, agencies, and consultants.',
+    images: [OG_IMAGE],
+  },
 }
 
 export const dynamic = 'force-dynamic'

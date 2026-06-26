@@ -8,6 +8,7 @@ import { ALL_TOOLS } from '@/lib/tools'
 import ShareButtons from '@/components/ShareButtons'
 
 const SITE_URL = 'https://freeltools.com'
+const OG_IMAGE = `${SITE_URL}/opengraph-image`
 
 interface Props { params: { slug: string } }
 
@@ -26,11 +27,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       publishedTime: post.publishDate,
       authors: [post.author],
       tags: post.tags,
+      images: [{ url: post.image || OG_IMAGE, width: 1200, height: 630, alt: post.title }],
     },
     twitter: {
       card: 'summary_large_image',
       title: post.title,
       description: post.description,
+      images: [post.image || OG_IMAGE],
     },
   }
 }
@@ -144,6 +147,21 @@ export default function BlogPostPage({ params }: Props) {
           <span>{post.readingTime} min read</span>
           <span>·</span>
           <span>By {post.author}</span>
+        </div>
+
+        <div className="mt-6 rounded-2xl border border-brand-100 bg-brand-50 p-5">
+          <p className="text-sm font-semibold text-gray-900">Put this guide into action</p>
+          <p className="mt-1 text-sm leading-6 text-gray-600">
+            Use the free calculators, generators, and file tools on FreelancerToolkit while you read. No account required.
+          </p>
+          <div className="mt-4 flex flex-wrap gap-2">
+            <Link href="/#tools" className="rounded-full bg-brand-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-700">
+              Browse all tools
+            </Link>
+            <Link href="/tools/freelancer-rate-calculator" className="rounded-full border border-brand-200 bg-white px-4 py-2 text-sm font-semibold text-brand-700 transition hover:bg-brand-50">
+              Start with rate calculator
+            </Link>
+          </div>
         </div>
 
         {/* Share buttons — top */}

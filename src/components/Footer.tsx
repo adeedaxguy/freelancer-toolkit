@@ -17,6 +17,8 @@ const resourceLinks = [
   { label: 'Blog', href: '/blog' },
   { label: 'Browse all tools', href: '/#tools' },
   { label: 'Request a tool', href: '/#request-tool' },
+  { label: 'Privacy Policy', href: '/privacy' },
+  { label: 'Terms of Use', href: '/terms' },
   { label: 'Sitemap', href: '/sitemap.xml' },
 ]
 
@@ -114,6 +116,12 @@ export default function Footer() {
             © {new Date().getFullYear()} FreelancerToolkit. All rights reserved.
           </p>
           <div className="flex flex-wrap gap-4 text-xs text-gray-400">
+            <Link href="/privacy" className="hover:text-white">
+              Privacy
+            </Link>
+            <Link href="/terms" className="hover:text-white">
+              Terms
+            </Link>
             {TOOL_CATEGORIES.slice(0, 4).map((category) => (
               <Link key={category.slug} href={getCategoryUrl(category)} className="hover:text-white">
                 {category.name}

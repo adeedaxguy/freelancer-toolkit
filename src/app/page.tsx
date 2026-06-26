@@ -8,11 +8,27 @@ import { TOOL_CATEGORIES } from '@/lib/tools'
 
 const SITE_URL = 'https://freeltools.com'
 const TOTAL_TOOLS = TOOL_CATEGORIES.reduce((sum, cat) => sum + cat.tools.length, 0)
+const OG_IMAGE = `${SITE_URL}/opengraph-image`
 
 export const metadata: Metadata = {
   title: `FreelancerToolkit – ${TOTAL_TOOLS} Free Tools for Freelancers & Agencies`,
   description:
     'Free calculators, generators, passport photo makers, PDF converters, and image tools for freelancers and agencies. No login required.',
+  openGraph: {
+    title: `FreelancerToolkit – ${TOTAL_TOOLS} Free Tools for Freelancers & Agencies`,
+    description:
+      'Free calculators, generators, passport photo makers, PDF converters, and image tools for freelancers and agencies. No login required.',
+    url: SITE_URL,
+    type: 'website',
+    images: [{ url: OG_IMAGE, width: 1200, height: 630, alt: `${TOTAL_TOOLS} free freelancer tools` }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: `FreelancerToolkit – ${TOTAL_TOOLS} Free Tools for Freelancers & Agencies`,
+    description:
+      'Free calculators, generators, passport photo makers, PDF converters, and image tools for freelancers and agencies. No login required.',
+    images: [OG_IMAGE],
+  },
 }
 
 function buildItemListSchema() {
@@ -133,6 +149,17 @@ export default function HomePage() {
               </Link>
               <Link href="#tools" className="btn-secondary px-6 py-3 text-base">
                 Browse All {totalTools} Tools
+              </Link>
+            </div>
+            <div className="mx-auto mt-5 flex max-w-2xl flex-wrap justify-center gap-2 text-xs font-medium text-gray-500">
+              <Link href="/tools/fiverr-fee-calculator" className="rounded-full border border-gray-200 px-3 py-1.5 transition hover:border-brand-200 hover:bg-brand-50 hover:text-brand-700">
+                Estimate Fiverr fees
+              </Link>
+              <Link href="/tools/germany-visa-photo-generator" className="rounded-full border border-gray-200 px-3 py-1.5 transition hover:border-brand-200 hover:bg-brand-50 hover:text-brand-700">
+                Make visa photos
+              </Link>
+              <Link href="/tools/app-icon-generator" className="rounded-full border border-gray-200 px-3 py-1.5 transition hover:border-brand-200 hover:bg-brand-50 hover:text-brand-700">
+                Generate app icons
               </Link>
             </div>
           </div>

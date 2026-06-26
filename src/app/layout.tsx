@@ -17,6 +17,7 @@ const inter = Inter({
 
 const SITE_URL = 'https://freeltools.com'
 const TOTAL_TOOLS = ALL_TOOLS.length
+const OG_IMAGE = `${SITE_URL}/opengraph-image`
 
 const organizationSchema = {
   '@context': 'https://schema.org',
@@ -99,11 +100,23 @@ export const metadata: Metadata = {
     title: 'FreelancerToolkit – Free Tools for Freelancers & Agencies',
     description:
       'Free calculators and generators for freelancers, agencies, and consultants. No login required.',
+    images: [
+      {
+        url: OG_IMAGE,
+        width: 1200,
+        height: 630,
+        alt: `${TOTAL_TOOLS} free tools for freelancers and agencies`,
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     site: '@freelancertoolkit',
     creator: '@freelancertoolkit',
+    title: 'FreelancerToolkit – Free Tools for Freelancers & Agencies',
+    description:
+      'Free calculators and generators for freelancers, agencies, and consultants. No login required.',
+    images: [OG_IMAGE],
   },
   robots: {
     index: true,

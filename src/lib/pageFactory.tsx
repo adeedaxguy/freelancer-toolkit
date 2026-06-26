@@ -4,11 +4,11 @@ import { getCategoryUrlForTool } from '@/lib/categoryPages'
 import { getToolBySlug, type ToolMeta } from '@/lib/tools'
 
 const SITE_URL = 'https://freeltools.com'
+const OG_IMAGE = `${SITE_URL}/opengraph-image`
 
 export function buildToolMetadata(tool: ToolMeta): Metadata {
   const url = `${SITE_URL}/tools/${tool.slug}`
   const pageTitle = tool.seoTitle ?? `Free ${tool.title} (2026)`
-  const ogImage = `${SITE_URL}/og-tool.svg`
   return {
     title: pageTitle,
     description: tool.description,
@@ -23,13 +23,13 @@ export function buildToolMetadata(tool: ToolMeta): Metadata {
       url,
       type: 'website',
       siteName: 'FreelancerToolkit',
-      images: [{ url: ogImage, width: 1200, height: 630, alt: tool.title }],
+      images: [{ url: OG_IMAGE, width: 1200, height: 630, alt: tool.title }],
     },
     twitter: {
       card: 'summary_large_image',
       title: pageTitle,
       description: tool.description,
-      images: [ogImage],
+      images: [OG_IMAGE],
     },
     robots: {
       index: true,
