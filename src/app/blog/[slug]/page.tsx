@@ -15,13 +15,15 @@ interface Props { params: { slug: string } }
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const post = getPostBySlug(params.slug)
   if (!post) return {}
+  const metaTitle = post.seoTitle || post.title
+  const metaDescription = post.seoDescription || post.description
   return {
-    title: post.title,
-    description: post.description,
+    title: metaTitle,
+    description: metaDescription,
     alternates: { canonical: `${SITE_URL}/blog/${post.slug}` },
     openGraph: {
-      title: post.title,
-      description: post.description,
+      title: metaTitle,
+      description: metaDescription,
       type: 'article',
       url: `${SITE_URL}/blog/${post.slug}`,
       publishedTime: post.publishDate,
@@ -31,8 +33,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
     twitter: {
       card: 'summary_large_image',
-      title: post.title,
-      description: post.description,
+      title: metaTitle,
+      description: metaDescription,
       images: [post.image || OG_IMAGE],
     },
   }

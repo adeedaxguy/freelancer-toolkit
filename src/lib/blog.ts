@@ -8,6 +8,8 @@ export interface BlogPost {
   slug: string
   title: string
   description: string
+  seoTitle?: string
+  seoDescription?: string
   date: string
   publishDate: string
   status: 'published' | 'draft' | 'scheduled'
@@ -51,6 +53,8 @@ export function getAllPosts(includeAll = false): BlogPostMeta[] {
       slug,
       title: data.title ?? 'Untitled',
       description: data.description ?? '',
+      seoTitle: data.seoTitle ?? '',
+      seoDescription: data.seoDescription ?? '',
       date: data.date ?? new Date().toISOString().split('T')[0],
       publishDate: data.publishDate ?? data.date ?? new Date().toISOString().split('T')[0],
       status: normalizeStatus(data),
@@ -77,6 +81,8 @@ export function getPostBySlug(slug: string): BlogPost | null {
     slug,
     title: data.title ?? 'Untitled',
     description: data.description ?? '',
+    seoTitle: data.seoTitle ?? '',
+    seoDescription: data.seoDescription ?? '',
     date: data.date ?? new Date().toISOString().split('T')[0],
     publishDate: data.publishDate ?? data.date ?? new Date().toISOString().split('T')[0],
     status: normalizeStatus(data),
@@ -94,6 +100,8 @@ export function savePost(slug: string, data: Partial<BlogPost> & { content: stri
   const frontmatter = {
     title: data.title ?? 'Untitled',
     description: data.description ?? '',
+    seoTitle: data.seoTitle ?? '',
+    seoDescription: data.seoDescription ?? '',
     date: data.date ?? new Date().toISOString().split('T')[0],
     publishDate: data.publishDate ?? data.date ?? new Date().toISOString().split('T')[0],
     status: data.status ?? 'draft',
