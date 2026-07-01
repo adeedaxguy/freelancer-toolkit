@@ -12,6 +12,31 @@ const OG_IMAGE = `${SITE_URL}/opengraph-image`
 
 interface Props { params: { slug: string } }
 
+function stripMarkdown(value: string) {
+  return value
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+    .replace(/[`*_>#-]/g, '')
+    .replace(/\s+/g, ' ')
+    .trim()
+}
+
+function extractFaqItems(content: string) {
+  const faqStart = content.search(/^##\s+FAQ\s*$/im)
+  if (faqStart === -1) return []
+
+  const faqSection = content.slice(faqStart).replace(/^##\s+FAQ\s*$/im, '')
+  const nextH2 = faqSection.search(/\n##\s+(?!#)/)
+  const scopedFaq = nextH2 === -1 ? faqSection : faqSection.slice(0, nextH2)
+  const matches = Array.from(scopedFaq.matchAll(/^###\s+(.+?)\s*\n([\s\S]*?)(?=\n###\s+|\n##\s+|$)/gm))
+
+  return matches
+    .map((match) => ({
+      question: stripMarkdown(match[1] ?? ''),
+      answer: stripMarkdown(match[2] ?? ''),
+    }))
+    .filter((item) => item.question.length > 0 && item.answer.length > 0)
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const post = getPostBySlug(params.slug)
   if (!post) return {}
@@ -93,12 +118,14 @@ export default function BlogPostPage({ params }: Props) {
   const related = getRelatedPosts(params.slug, post.tags, allPosts)
   const recentPosts = allPosts.filter((p) => p.slug !== params.slug).slice(0, 3)
   const postUrl = `${SITE_URL}/blog/${post.slug}`
+  const faqItems = extractFaqItems(post.content)
 
   const articleJsonLd = {
     '@context': 'https://schema.org',
-    '@type': 'Article',
+    '@type': 'BlogPosting',
     headline: post.title,
     description: post.description,
+    image: post.image || OG_IMAGE,
     author: { '@type': 'Organization', name: 'FreelancerToolkit', url: SITE_URL },
     publisher: { '@type': 'Organization', name: 'FreelancerToolkit', url: SITE_URL },
     datePublished: post.publishDate,
@@ -106,13 +133,40 @@ export default function BlogPostPage({ params }: Props) {
     url: postUrl,
     mainEntityOfPage: postUrl,
     keywords: post.tags.join(', '),
+    isAccessibleForFree: true,
+    inLanguage: 'en',
   }
+
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: SITE_URL },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: `${SITE_URL}/blog` },
+      { '@type': 'ListItem', position: 3, name: post.title, item: postUrl },
+    ],
+  }
+
+  const faqJsonLd = faqItems.length > 0 ? {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqItems.map((item) => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: item.answer,
+      },
+    })),
+  } : null
 
   const displayRelated = related.length > 0 ? related : recentPosts
 
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
+      {faqJsonLd && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />}
       <article className="mx-auto max-w-3xl px-4 py-12 sm:px-6 lg:px-8">
 
         {/* Breadcrumb */}

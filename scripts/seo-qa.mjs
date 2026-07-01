@@ -1,0 +1,183 @@
+import fs from 'node:fs'
+import path from 'node:path'
+
+const ROOT = process.cwd()
+const BLOG_DIR = path.join(ROOT, 'src/content/blog')
+const APP_DIR = path.join(ROOT, 'src/app')
+const TOOL_FILES = [
+  path.join(ROOT, 'src/lib/tools.ts'),
+  path.join(ROOT, 'src/lib/advancedTools.ts'),
+]
+
+const errors = []
+const warnings = []
+
+function read(filePath) {
+  return fs.readFileSync(filePath, 'utf8')
+}
+
+function exists(filePath) {
+  return fs.existsSync(filePath)
+}
+
+function wordCount(content) {
+  return content.trim().split(/\s+/).filter(Boolean).length
+}
+
+function parseFrontmatter(raw) {
+  if (!raw.startsWith('---\n')) return { data: {}, content: raw }
+  const end = raw.indexOf('\n---', 4)
+  if (end === -1) return { data: {}, content: raw }
+
+  const yaml = raw.slice(4, end).trim()
+  const content = raw.slice(end + 4).replace(/^\n/, '')
+  const data = {}
+
+  for (const line of yaml.split('\n')) {
+    const match = line.match(/^([A-Za-z0-9_-]+):\s*(.*)$/)
+    if (!match) continue
+    const key = match[1]
+    let value = match[2].trim()
+
+    if ((value.startsWith('"') && value.endsWith('"')) || (value.startsWith("'") && value.endsWith("'"))) {
+      value = value.slice(1, -1)
+    } else if (value === 'true') {
+      data[key] = true
+      continue
+    } else if (value === 'false') {
+      data[key] = false
+      continue
+    }
+
+    data[key] = value
+  }
+
+  return { data, content }
+}
+
+function normalizeInternalHref(href) {
+  return href.split('#')[0].split('?')[0].replace(/\/$/, '')
+}
+
+function collectToolSlugs() {
+  const slugs = new Set()
+
+  for (const file of TOOL_FILES) {
+    if (!exists(file)) continue
+    const content = read(file)
+    for (const match of content.matchAll(/slug:\s*'([^']+)'/g)) {
+      slugs.add(match[1])
+    }
+  }
+
+  const toolsDir = path.join(APP_DIR, 'tools')
+  if (exists(toolsDir)) {
+    for (const entry of fs.readdirSync(toolsDir, { withFileTypes: true })) {
+      if (entry.isDirectory() && !entry.name.startsWith('[') && entry.name !== 'category') {
+        slugs.add(entry.name)
+      }
+    }
+  }
+
+  return slugs
+}
+
+function collectBlogFiles() {
+  if (!exists(BLOG_DIR)) return []
+  return fs
+    .readdirSync(BLOG_DIR)
+    .filter((file) => file.endsWith('.mdx') && !file.startsWith('_'))
+    .map((file) => path.join(BLOG_DIR, file))
+}
+
+function checkInternalLink(href, sourceFile, blogSlugs, toolSlugs) {
+  const normalized = normalizeInternalHref(href)
+  if (!normalized || normalized === '/') return
+  if (normalized === '/blog' || normalized === '/privacy' || normalized === '/terms') return
+  if (normalized === '/sitemap.xml' || normalized.startsWith('/#')) return
+  if (normalized.startsWith('/tools/category/')) return
+
+  if (normalized.startsWith('/blog/')) {
+    const slug = normalized.replace('/blog/', '').split('/')[0]
+    if (!blogSlugs.has(slug)) {
+      errors.push(`${path.relative(ROOT, sourceFile)} links to missing blog post: ${href}`)
+    }
+    return
+  }
+
+  if (normalized.startsWith('/tools/')) {
+    const slug = normalized.replace('/tools/', '').split('/')[0]
+    if (!toolSlugs.has(slug)) {
+      errors.push(`${path.relative(ROOT, sourceFile)} links to missing tool: ${href}`)
+    }
+    return
+  }
+
+  const appRoute = path.join(APP_DIR, normalized.slice(1))
+  if (!exists(appRoute) && !exists(`${appRoute}.tsx`)) {
+    warnings.push(`${path.relative(ROOT, sourceFile)} links to unchecked internal path: ${href}`)
+  }
+}
+
+function checkBlogPost(filePath, data, content, seenTitles, seenDescriptions, blogSlugs, toolSlugs) {
+  const rel = path.relative(ROOT, filePath)
+  const slug = path.basename(filePath, '.mdx')
+  const title = String(data.title ?? '').trim()
+  const description = String(data.description ?? '').trim()
+  const seoTitle = String(data.seoTitle ?? title).trim()
+  const seoDescription = String(data.seoDescription ?? description).trim()
+  const status = data.status ?? (data.published === true ? 'published' : 'draft')
+  const words = wordCount(content)
+
+  if (!title) errors.push(`${rel} is missing title`)
+  if (!description) errors.push(`${rel} is missing description`)
+  if (!data.date && !data.publishDate) errors.push(`${rel} is missing date or publishDate`)
+  if (status !== 'published' && data.published !== true) warnings.push(`${rel} is not published`)
+
+  if (seoTitle.length > 65) warnings.push(`${rel} seoTitle/title is ${seoTitle.length} characters; aim for 50-60`)
+  if (seoDescription.length > 165) warnings.push(`${rel} seoDescription/description is ${seoDescription.length} characters; aim for 145-160`)
+  if (words < 650 && status === 'published') warnings.push(`${rel} has ${words} words; consider more depth or mark draft`)
+  if (words >= 1000 && !/^##\s+FAQ\s*$/im.test(content)) warnings.push(`${rel} is long-form but has no ## FAQ section`)
+
+  if (seenTitles.has(title)) warnings.push(`${rel} duplicates blog title: ${title}`)
+  if (seenDescriptions.has(description)) warnings.push(`${rel} duplicates blog description`)
+  seenTitles.add(title)
+  seenDescriptions.add(description)
+
+  const markdownLinks = [...content.matchAll(/\[[^\]]+\]\((\/[^)]+)\)/g)]
+  for (const match of markdownLinks) {
+    checkInternalLink(match[1], filePath, blogSlugs, toolSlugs)
+  }
+
+  if (!content.includes('/tools/') && status === 'published') {
+    warnings.push(`${rel} has no internal tool link; every SEO post should funnel to a tool`)
+  }
+
+  if (slug.length > 85) warnings.push(`${rel} slug is long; keep future slugs concise when possible`)
+}
+
+const blogFiles = collectBlogFiles()
+const blogSlugs = new Set(blogFiles.map((file) => path.basename(file, '.mdx')))
+const toolSlugs = collectToolSlugs()
+const seenTitles = new Set()
+const seenDescriptions = new Set()
+
+for (const file of blogFiles) {
+  const { data, content } = parseFrontmatter(read(file))
+  checkBlogPost(file, data, content, seenTitles, seenDescriptions, blogSlugs, toolSlugs)
+}
+
+console.log(`SEO QA checked ${blogFiles.length} blog posts and ${toolSlugs.size} tool slugs.`)
+
+if (warnings.length) {
+  console.log('\nWarnings:')
+  for (const warning of warnings) console.log(`- ${warning}`)
+}
+
+if (errors.length) {
+  console.error('\nErrors:')
+  for (const error of errors) console.error(`- ${error}`)
+  process.exit(1)
+}
+
+console.log('\nSEO QA passed.')

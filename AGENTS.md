@@ -1,6 +1,6 @@
 # FreelTools.com — Project Context Prompt
 
-Paste this at the start of any new Claude chat or Claude Code session before asking it to work on this project.
+Paste this at the start of any new Codex chat or Codex session before asking it to work on this project.
 
 ---
 
@@ -42,7 +42,7 @@ src/
       traffic/                # Pageview analytics
       seo/                    # SEO management
     api/                      # API routes
-      generate/route.ts       # Claude AI generation endpoint
+      generate/route.ts       # Codex AI generation endpoint
       subscribe/route.ts      # Email capture
       pageview/route.ts       # Analytics tracking
       admin/                  # Admin-only API routes
@@ -75,7 +75,7 @@ All tool definitions live here. Each tool has:
 
 ## Current Tools
 
-Do not hardcode the tool count. The site has grown beyond the original 17 tools, including advanced image, passport/visa photo, PDF, document, and text utilities generated from `src/lib/advancedTools.ts`. Use `ALL_TOOLS.length`, `TOOL_CATEGORIES`, and the actual files in `src/app/tools/` when reporting counts, building navigation, writing content, or creating sitemaps.
+Do not hardcode the tool count. This site has grown beyond the original 17 tools, including advanced image, passport/visa photo, PDF, document, and text utilities generated from `src/lib/advancedTools.ts`. Use `ALL_TOOLS.length`, `TOOL_CATEGORIES`, and the actual files in `src/app/tools/` when reporting counts, building navigation, writing content, or creating sitemaps.
 
 **Pricing & Profitability:** Freelancer Rate Calculator, Project Cost Calculator, Agency Pricing Calculator, Retainer Calculator, Profit Calculator
 
@@ -122,7 +122,7 @@ Features: blog post management, subscriber list, traffic analytics, SEO manageme
 
 - **Tool page pattern:** `ToolPageShell` wraps every tool. Pass the tool slug; it auto-fetches metadata from `tools.ts`, renders FAQs, related tools, and email capture.
 - **Programmatic SEO:** Variant pages are generated via `pageFactory.tsx`. Each variant adjusts the title/description for the keyword but renders the same calculator.
-- **AI generation tools** (Proposal Generator, SOW, Discovery Call, Client Questionnaire) call `/api/generate` which streams from Claude.
+- **AI generation tools** (Proposal Generator, SOW, Discovery Call, Client Questionnaire) call `/api/generate` which streams from Codex.
 - **Blog posts** are MDX files in `src/content/blog/`. Frontmatter fields: `title`, `description`, `date`, `slug`.
 - **SEO blog workflow:** Whenever Adnan asks to "write a blog", "publish a blog post", "SEO content", or similar, act as an SEO agency for FreelTools. Research keyword intent and competitors, map the post to a tool/funnel, write search-focused but people-first content, add internal links to relevant tools/category hubs/blog clusters, include FAQs/tables/CTAs where useful, use current official sources for volatile facts, run `npm run seo:qa` and `npm run build`, then commit, push, verify live URLs, and confirm sitemap inclusion. Follow `docs/SEO_BLOG_PLAYBOOK.md`.
 - **Styling:** Tailwind only. No CSS modules. Stick to the existing color palette (indigo/violet primary, slate grays).
@@ -150,3 +150,5 @@ git push origin main  # Triggers Vercel auto-deploy
 - Don't commit `.env.local`
 - Don't use `any` TypeScript types unless truly unavoidable
 - Don't add auth/login flows for regular users — the site is intentionally open
+
+## Imported Claude Cowork project instructions

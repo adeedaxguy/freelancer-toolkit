@@ -177,12 +177,13 @@ export function buildToolJsonLd(tool: ToolMeta) {
   const schemas: object[] = [
     {
       '@context': 'https://schema.org',
-      '@type': 'WebApplication',
+      '@type': 'SoftwareApplication',
       name: tool.title,
       url: toolUrl,
       description: tool.description,
       applicationCategory: 'BusinessApplication',
-      operatingSystem: 'Web Browser',
+      applicationSubCategory: 'WebApplication',
+      operatingSystem: 'Web',
       browserRequirements: 'Requires JavaScript',
       featureList: tool.keywords,
       isAccessibleForFree: true,
