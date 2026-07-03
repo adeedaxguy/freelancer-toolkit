@@ -83,6 +83,84 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
         ],
       },
       {
+        slug: 'project-price-calculator',
+        title: 'Project Price Calculator',
+        headline: 'Calculate the Right Price for a Freelance Project',
+        description: 'Free project price calculator for freelancers and agencies. Estimate hours, rate, revision time, and scope buffer to turn project cost into a client-ready quote.',
+        seoTitle: 'Project Price Calculator | Free Freelance Quote Tool',
+        icon: '🏷️',
+        category: 'Pricing & Profitability',
+        keywords: ['project price calculator', 'freelance project price calculator', 'project quote calculator', 'fixed price project calculator', 'client project pricing tool'],
+        faqs: [
+          { q: 'What is a project price calculator?', a: 'A project price calculator turns estimated work, hourly rate, revisions, and scope buffer into a client-facing fixed price. It helps you quote based on real effort instead of guessing.' },
+          { q: 'Is project price different from project cost?', a: 'Yes. Project cost is what it takes you to deliver the work. Project price is what the client pays after adding margin, risk buffer, revisions, and value.' },
+          { q: 'How much buffer should I add to a fixed-price project?', a: 'Most freelancers add a 15-25% scope buffer. Use a higher buffer if requirements are unclear, stakeholders are slow, or the project has technical risk.' },
+          { q: 'Can I use this for agency pricing?', a: 'Yes. It works for freelancers and agencies when you know the estimated hours, blended rate, revision time, and scope buffer.' },
+        ],
+        bodySections: [
+          {
+            heading: 'Project price calculator for client quotes',
+            body: 'Use this exact-match calculator when a client asks "how much will this project cost?" Start with your delivery estimate, then add revision time and a scope buffer so the final price protects your margin.',
+          },
+          {
+            heading: 'Built for fixed-price freelance work',
+            body: 'Fixed-price work can be profitable only when the quote includes non-obvious time. This calculator makes room for project management, QA, revisions, and the uncertainty that usually appears after kickoff.',
+          },
+        ],
+      },
+      {
+        slug: 'freelance-services-pricing-calculator',
+        title: 'Freelance Services Pricing Calculator',
+        headline: 'Price Freelance Services Without Guesswork',
+        description: 'Free freelance services pricing calculator. Price web design, SEO, writing, consulting, and agency services with hours, rate, revisions, and profit protection built in.',
+        seoTitle: 'Freelance Services Pricing Calculator | Free Tool',
+        icon: '🧾',
+        category: 'Pricing & Profitability',
+        keywords: ['freelance services pricing calculator', 'freelance service pricing tool', 'price freelance services', 'service business pricing calculator', 'freelance pricing calculator'],
+        faqs: [
+          { q: 'How do I price freelance services?', a: 'Break the service into tasks, estimate hours, multiply by your rate, then add time for revisions, communication, QA, and scope risk. The calculator turns that into a quote.' },
+          { q: 'What services can I price with this?', a: 'Use it for web design, development, SEO, copywriting, content, consulting, creative services, and agency packages.' },
+          { q: 'Should I charge hourly or fixed price?', a: 'If the scope is clear, use the calculator to create a fixed price. If the scope is unclear or ongoing, hourly or retainer pricing may be safer.' },
+          { q: 'How do I avoid underpricing services?', a: 'Include non-billable delivery time, revisions, project management, and a scope buffer. Underpricing usually happens when freelancers only count production hours.' },
+        ],
+        bodySections: [
+          {
+            heading: 'Freelance service pricing for real projects',
+            body: 'This page is designed for searchers pricing services, not just one-off tasks. Add your estimated delivery hours, revision allowance, and buffer so the quote reflects the full work required.',
+          },
+          {
+            heading: 'Useful for packaged services',
+            body: 'If you sell service packages, run each package through the calculator before publishing prices. A package should cover delivery time, meetings, revisions, admin, and enough margin to stay worth selling.',
+          },
+        ],
+      },
+      {
+        slug: 'freelance-pricing-calculator',
+        title: 'Freelance Pricing Calculator',
+        headline: 'Calculate a Profitable Freelance Price',
+        description: 'Free freelance pricing calculator for project quotes and service packages. Estimate your effort, add a scope buffer, and find a price that protects your freelance income.',
+        seoTitle: 'Freelance Pricing Calculator | Free Project Quote Tool',
+        icon: '💵',
+        category: 'Pricing & Profitability',
+        keywords: ['freelance pricing calculator', 'freelance price calculator', 'freelance quote calculator', 'freelance project pricing calculator', 'freelance pricing template'],
+        faqs: [
+          { q: 'What should I enter in a freelance pricing calculator?', a: 'Enter your estimated hours, hourly rate, revision time, and scope buffer. The calculator will turn those inputs into a recommended project price.' },
+          { q: 'Can this replace a pricing spreadsheet?', a: 'For many simple quotes, yes. It gives you a fast browser-based pricing workflow without downloading a spreadsheet or template.' },
+          { q: 'Does this include taxes?', a: 'This calculator focuses on project price before taxes. Use a tax or profit calculator afterward to decide how much to reserve.' },
+          { q: 'Is this for beginners or experienced freelancers?', a: 'Both. Beginners use it to stop guessing. Experienced freelancers use it to sanity-check fixed-price quotes before sending proposals.' },
+        ],
+        bodySections: [
+          {
+            heading: 'Freelance pricing calculator for fast quotes',
+            body: 'Use this when you need a quote today and do not want to build a spreadsheet. The calculator gives you a structured way to move from estimated work to a price you can defend.',
+          },
+          {
+            heading: 'Quote from effort plus risk',
+            body: 'Good pricing is not only hours times rate. It also includes revision risk, communication, waiting time, and scope uncertainty. This tool keeps those costs visible before you send the number.',
+          },
+        ],
+      },
+      {
         slug: 'agency-pricing-calculator',
         title: 'Agency Pricing Calculator',
         headline: 'Price Agency Services for Profit',
@@ -276,6 +354,84 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
           { slug: 'for-100-gig', label: 'for $100 Gigs' },
           { slug: 'for-500-gig', label: 'for $500 Gigs' },
           { slug: 'vs-upwork', label: 'vs Upwork' },
+        ],
+      },
+      {
+        slug: 'fiverr-seller-fee-calculator',
+        title: 'Fiverr Seller Fee Calculator',
+        headline: 'Calculate Fiverr Seller Fees and Net Earnings',
+        description: 'Free Fiverr seller fee calculator. Enter any gig price, custom offer, or tip to estimate Fiverr seller fees, net earnings, and the price needed to hit your target take-home pay.',
+        seoTitle: 'Fiverr Seller Fee Calculator | Free Net Earnings Tool',
+        icon: '🟢',
+        category: 'Marketplace Tools',
+        keywords: ['fiverr seller fee calculator', 'fiverr fees for sellers', 'fiverr seller fees', 'how much fiverr charge from seller', 'fiverr seller commission calculator'],
+        faqs: [
+          { q: 'How much does Fiverr take from sellers?', a: 'Sellers commonly plan around a 20% Fiverr fee on order value. A $100 gig would net about $80 before taxes, withdrawal fees, and currency conversion.' },
+          { q: 'Does this include tips?', a: 'Yes. Enter the tip amount separately and the calculator estimates seller fees and net earnings on the full order plus tip.' },
+          { q: 'How do I price a Fiverr gig from target net?', a: 'Use the reverse pricing section. At a 20% fee, divide your target net by 0.80. To net $400, charge about $500 before taxes and withdrawals.' },
+          { q: 'Are buyer fees included?', a: 'The calculator also shows an estimated buyer checkout total, but this page is optimized for seller take-home pay.' },
+        ],
+        bodySections: [
+          {
+            heading: 'Fiverr seller fee calculator for gig pricing',
+            body: 'Use this page when you care about seller take-home pay. Enter a gig price, tip, or custom offer and see how much of the order remains after the seller fee.',
+          },
+          {
+            heading: 'Reverse price from your target net',
+            body: 'Most Fiverr pricing mistakes happen when sellers quote the amount they want to keep. This calculator starts from target net income and shows the gross gig price needed after fees.',
+          },
+        ],
+      },
+      {
+        slug: 'fiverr-buyer-fee-calculator',
+        title: 'Fiverr Buyer Fee Calculator',
+        headline: 'Estimate Fiverr Buyer Fees and Checkout Total',
+        description: 'Free Fiverr buyer fee calculator. Estimate buyer service fees, small-order fees, checkout total, and the seller net amount behind a Fiverr order.',
+        seoTitle: 'Fiverr Buyer Fee Calculator | Estimate Checkout Total',
+        icon: '🛒',
+        category: 'Marketplace Tools',
+        keywords: ['fiverr buyer fee calculator', 'fiverr buyer fees calculator', 'how much fiverr charge from buyer', 'what percentage does fiverr take from buyers', 'fiverr buyer service fee'],
+        faqs: [
+          { q: 'What is a Fiverr buyer fee?', a: 'A buyer fee is a service fee Fiverr may add at checkout on top of the gig price. The calculator lets you model the percentage fee and small-order fee assumptions.' },
+          { q: 'Does this show the seller fee too?', a: 'Yes. It estimates both sides so buyers can understand checkout total and sellers can understand the net amount behind the order.' },
+          { q: 'Why does a small Fiverr order feel expensive?', a: 'Small orders can include a buyer service fee plus a small-order fee. That fixed fee can make low-price gigs feel proportionally more expensive.' },
+          { q: 'Should I rely on this for final checkout?', a: 'Use it for planning. Fiverr can show account-specific or country-specific checkout details, so confirm the final fee inside Fiverr.' },
+        ],
+        bodySections: [
+          {
+            heading: 'Fiverr buyer fee calculator for checkout planning',
+            body: 'Searchers asking about Fiverr buyer fees want to know the total price, not only the listed gig price. This calculator models service fees and small-order fees in one place.',
+          },
+          {
+            heading: 'Useful for sellers too',
+            body: 'Sellers can use buyer fee estimates to understand the full price a client sees. That helps explain why low-ticket gigs can have more friction at checkout.',
+          },
+        ],
+      },
+      {
+        slug: 'fiverr-commission-calculator',
+        title: 'Fiverr Commission Calculator',
+        headline: 'Calculate Fiverr Commission on Any Order',
+        description: 'Free Fiverr commission calculator. See the estimated Fiverr percentage, seller fee, seller net, buyer fee, and reverse gig price for any order amount.',
+        seoTitle: 'Fiverr Commission Calculator | 20 Percent Fee Tool',
+        icon: '🧮',
+        category: 'Marketplace Tools',
+        keywords: ['fiverr commission calculator', 'fiverr 20 percent calculator', 'fiverr percentage calculator', 'fiverr commission rate', 'what percent does fiverr take'],
+        faqs: [
+          { q: 'What percent does Fiverr take?', a: 'Fiverr seller fees are commonly modeled at 20% of the order value. This calculator makes the percentage editable for planning and special cases.' },
+          { q: 'What is the Fiverr commission on $100?', a: 'At a 20% seller fee, Fiverr commission on a $100 order is $20 and seller net before taxes or withdrawal costs is $80.' },
+          { q: 'Can I change the commission percentage?', a: 'Yes. If Fiverr shows a different fee in your account or program, update the seller fee field and the calculator recalculates instantly.' },
+          { q: 'Does this include buyer service fees?', a: 'Yes. It includes optional buyer-side fee assumptions so you can compare seller commission and buyer checkout total together.' },
+        ],
+        bodySections: [
+          {
+            heading: 'Fiverr commission calculator for percentage searches',
+            body: 'Use this when you want the exact fee amount from a Fiverr percentage. Enter the order value and the calculator shows commission, seller net, and target price.',
+          },
+          {
+            heading: 'Model the 20 percent fee quickly',
+            body: 'For most seller planning, a 20% fee is the number to sanity-check. The editable fields also support buyer fee estimates and different assumptions.',
+          },
         ],
       },
       {
@@ -631,6 +787,58 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
           { slug: 'at-2-percent', label: 'at 2%/Month' },
           { slug: 'for-30-days', label: '30 Days Overdue' },
           { slug: 'for-60-days', label: '60 Days Overdue' },
+        ],
+      },
+      {
+        slug: 'late-charge-calculator',
+        title: 'Late Charge Calculator',
+        headline: 'Calculate a Late Charge on an Overdue Invoice',
+        description: 'Free late charge calculator. Enter invoice amount, days late, and annual or monthly late fee rate to estimate the charge and total amount owed.',
+        seoTitle: 'Late Charge Calculator | Free Overdue Invoice Tool',
+        icon: '⏱️',
+        category: 'Business Operations',
+        keywords: ['late charge calculator', 'calculate late fee', 'late fee calculator', 'overdue payment charge calculator', 'late payment interest calculator'],
+        faqs: [
+          { q: 'How do I calculate a late charge?', a: 'Convert your annual or monthly late fee rate into a daily rate, multiply by the number of days overdue, then multiply by the invoice amount. The calculator does this automatically.' },
+          { q: 'Can I charge a late charge if it was not in the contract?', a: 'It is much harder to enforce a late charge if the original contract or invoice did not disclose the fee. Add late-fee language before work begins.' },
+          { q: 'What is a common late charge rate?', a: 'Many freelancers use 1.5% per month or 18% per year, but rules vary by location and contract. Check local limits before enforcing a fee.' },
+          { q: 'Should I send a reminder first?', a: 'Yes. Send a polite reminder before adding fees. Use late charges to enforce agreed terms, not as the first communication.' },
+        ],
+        bodySections: [
+          {
+            heading: 'Late charge calculator for overdue work',
+            body: 'Use this when a client invoice is overdue and you need to calculate a reasonable charge from your written payment terms.',
+          },
+          {
+            heading: 'Keep the relationship professional',
+            body: 'The calculator also gives you a practical total to include in a payment reminder, so the follow-up is clear without sounding improvised.',
+          },
+        ],
+      },
+      {
+        slug: 'invoice-late-fee-calculator',
+        title: 'Invoice Late Fee Calculator',
+        headline: 'Calculate Late Fees on Client Invoices',
+        description: 'Free invoice late fee calculator for freelancers and agencies. Estimate overdue invoice fees, interest, and total balance owed with a follow-up email template.',
+        seoTitle: 'Invoice Late Fee Calculator | Free Client Payment Tool',
+        icon: '🧾',
+        category: 'Business Operations',
+        keywords: ['invoice late fee calculator', 'late payment fee calculator', 'overdue invoice interest calculator', 'calculate invoice late fee', 'client late fee calculator'],
+        faqs: [
+          { q: 'How do I add a late fee to an invoice?', a: 'Use the late fee terms already stated in your contract or invoice, calculate the fee, then send an updated payment reminder with the new total.' },
+          { q: 'What should my invoice late fee terms say?', a: 'They should state when payment is due, when the late fee starts, the fee rate, and whether fees accrue monthly or daily.' },
+          { q: 'Can this calculate daily late fees?', a: 'Yes. Enter the invoice amount, days overdue, and annual late fee rate to estimate the daily-accrued amount.' },
+          { q: 'Is this legal advice?', a: 'No. This calculator is for planning and communication. Check your contract and local law before enforcing invoice late fees.' },
+        ],
+        bodySections: [
+          {
+            heading: 'Invoice late fee calculator for freelancers',
+            body: 'Freelancers often know a payment is late but do not know what number to include in the reminder. This tool turns your invoice terms into a clear fee and balance.',
+          },
+          {
+            heading: 'Use before sending the payment reminder',
+            body: 'Calculate the late fee first, then copy the reminder template and send a calm, specific follow-up with invoice number, days overdue, and total due.',
+          },
         ],
       },
       {

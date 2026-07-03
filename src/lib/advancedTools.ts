@@ -122,8 +122,12 @@ const photoPresets: Array<{
   { slug: 'baby-passport-photo-maker', title: 'Baby Passport Photo Maker', keyword: 'baby passport photo maker', documentName: 'Baby passport photo', widthMm: 51, heightMm: 51, headSize: 'Keep only the child visible; no hands or toys', background: 'plain white or light-coloured', source: 'us' },
   { slug: 'passport-photo-4x6-print-maker', title: 'Passport Photo 4x6 Print Maker', keyword: 'passport photo 4x6 print maker', documentName: '2 x 2 inch passport photo sheet', widthMm: 51, heightMm: 51, headSize: 'Creates a 4 x 6 inch print sheet', background: 'plain white or off-white', source: 'us' },
   { slug: 'passport-size-photo-maker', title: 'Passport Size Photo Maker', keyword: 'passport size photo maker', documentName: 'passport size photo', widthMm: 35, heightMm: 45, headSize: 'Use the preset required by your application', background: 'plain white or light-coloured' },
+  { slug: '35x45mm-photo-maker', title: '35x45mm Photo Maker', keyword: '35 x 45 mm photo', documentName: '35 x 45 mm photo', widthMm: 35, heightMm: 45, headSize: 'Keep the face centered with even headroom', background: 'plain white or light-coloured', source: 'germany' },
   { slug: 'biometric-photo-maker', title: 'Biometric Photo Maker', keyword: 'biometric photo maker', documentName: 'biometric ID photo', widthMm: 35, heightMm: 45, headSize: 'Front-facing, centered, neutral expression', background: 'plain white or light gray' },
   { slug: 'visa-photo-generator', title: 'Visa Photo Generator', keyword: 'visa photo generator', documentName: 'visa photo', widthMm: 35, heightMm: 45, headSize: 'Check your destination country before submitting', background: 'plain white or light-coloured' },
+  { slug: 'green-card-photo-tool', title: 'Green Card Photo Tool', keyword: 'green card photo tool', documentName: 'green card photo', widthMm: 51, heightMm: 51, headSize: 'Use the same 2 x 2 inch U.S. photo crop before checking application rules', background: 'plain white or off-white', source: 'us' },
+  { slug: 'emirates-id-photo-maker', title: 'Emirates ID Photo Maker', keyword: 'emirates id photo size online free', documentName: 'Emirates ID photo', widthMm: 35, heightMm: 45, headSize: 'Keep the face centered and clearly visible', background: 'plain white' },
+  { slug: 'passport-size-photo-sheet-maker', title: 'Passport Size Photo Sheet Maker', keyword: 'passport size photo sheet maker', documentName: 'passport size photo sheet', widthMm: 35, heightMm: 45, headSize: 'Creates repeated passport-size prints on a 4 x 6 inch sheet', background: 'plain white or light-coloured' },
 ]
 
 function makePhotoTool(preset: (typeof photoPresets)[number]): AdvancedTool {
@@ -185,6 +189,13 @@ const imagePresets: Array<{
   { slug: 'resize-photo-to-600x600', title: 'Resize Photo to 600x600', keyword: 'resize photo to 600x600', width: 600, height: 600, format: 'jpeg' },
   { slug: 'resize-photo-to-300x300', title: 'Resize Photo to 300x300', keyword: 'resize photo to 300x300', width: 300, height: 300, format: 'jpeg' },
   { slug: 'resize-photo-to-413x531', title: 'Resize Photo to 413x531', keyword: 'resize photo to 413x531', width: 413, height: 531, format: 'jpeg' },
+  { slug: 'resize-image-to-20kb', title: 'Resize Image to 20KB', keyword: 'resize image to 20kb', width: 300, height: 300, format: 'jpeg', maxKb: 20 },
+  { slug: 'resize-image-to-50kb', title: 'Resize Image to 50KB', keyword: 'resize image to 50kb', width: 600, height: 600, format: 'jpeg', maxKb: 50 },
+  { slug: 'resize-image-to-100kb', title: 'Resize Image to 100KB', keyword: 'resize image to 100kb', width: 800, height: 800, format: 'jpeg', maxKb: 100 },
+  { slug: 'compress-image-to-20kb', title: 'Compress Image to 20KB', keyword: 'compress image to 20kb', width: 1000, height: 1000, format: 'jpeg', maxKb: 20, fit: 'contain' },
+  { slug: 'jpg-resize-to-20kb', title: 'JPG Resize to 20KB', keyword: 'jpg resize 20kb', width: 300, height: 300, format: 'jpeg', maxKb: 20 },
+  { slug: 'make-photo-100kb', title: 'Make Photo 100KB', keyword: 'make 100 kb photo', width: 800, height: 800, format: 'jpeg', maxKb: 100, fit: 'contain' },
+  { slug: 'passport-size-photo-resizer', title: 'Passport Size Photo Resizer', keyword: 'resize picture passport size', width: 413, height: 531, format: 'jpeg', dpi: 300, note: '35x45 mm passport-style output at 300 DPI' },
   { slug: 'resize-signature-to-20kb', title: 'Resize Signature to 20KB', keyword: 'resize signature to 20kb', width: 400, height: 160, format: 'jpeg', maxKb: 20, fit: 'contain' },
   { slug: 'resize-signature-to-50kb', title: 'Resize Signature to 50KB', keyword: 'resize signature to 50kb', width: 600, height: 240, format: 'jpeg', maxKb: 50, fit: 'contain' },
   { slug: 'resize-photo-under-20kb', title: 'Resize Photo Under 20KB', keyword: 'resize photo under 20kb', width: 300, height: 300, format: 'jpeg', maxKb: 20 },
