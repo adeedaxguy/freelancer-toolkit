@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import { MDXRemote } from 'next-mdx-remote/rsc'
+import remarkGfm from 'remark-gfm'
 import { getAllPosts, getPostBySlug } from '@/lib/blog'
 import { ALL_TOOLS } from '@/lib/tools'
 import ShareButtons from '@/components/ShareButtons'
@@ -243,7 +244,11 @@ export default function BlogPostPage({ params }: Props) {
 
         {/* Content */}
         <div className="prose-custom">
-          <MDXRemote source={post.content} components={mdxComponents} />
+          <MDXRemote
+            source={post.content}
+            components={mdxComponents}
+            options={{ mdxOptions: { remarkPlugins: [remarkGfm] } }}
+          />
         </div>
 
         {/* Tool CTA — internal link to relevant tools */}
