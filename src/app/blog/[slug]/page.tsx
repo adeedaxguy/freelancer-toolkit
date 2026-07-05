@@ -38,6 +38,12 @@ function extractFaqItems(content: string) {
     .filter((item) => item.question.length > 0 && item.answer.length > 0)
 }
 
+function getPrimaryLinkedTool(content: string) {
+  const toolLink = content.match(/(?:https?:\/\/freeltools\.com)?\/tools\/([a-z0-9-]+)/)
+  if (!toolLink?.[1]) return null
+  return ALL_TOOLS.find((tool) => tool.slug === toolLink[1]) ?? null
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const post = getPostBySlug(params.slug)
   if (!post) return {}
@@ -120,6 +126,9 @@ export default function BlogPostPage({ params }: Props) {
   const recentPosts = allPosts.filter((p) => p.slug !== params.slug).slice(0, 3)
   const postUrl = `${SITE_URL}/blog/${post.slug}`
   const faqItems = extractFaqItems(post.content)
+  const primaryTool = getPrimaryLinkedTool(post.content)
+  const primaryToolHref = primaryTool ? `/tools/${primaryTool.slug}` : '/#tools'
+  const primaryToolCta = primaryTool ? `Open ${primaryTool.title}` : 'Browse all tools'
 
   const articleJsonLd = {
     '@context': 'https://schema.org',
@@ -209,14 +218,16 @@ export default function BlogPostPage({ params }: Props) {
         <div className="mt-6 rounded-2xl border border-brand-100 bg-brand-50 p-5">
           <p className="text-sm font-semibold text-gray-900">Put this guide into action</p>
           <p className="mt-1 text-sm leading-6 text-gray-600">
-            Use the free calculators, generators, and file tools on FreelancerToolkit while you read. No account required.
+            {primaryTool
+              ? `Use the free ${primaryTool.title} while you read. No account required, and your inputs stay private.`
+              : 'Use the free calculators, generators, and file tools on FreelancerToolkit while you read. No account required.'}
           </p>
           <div className="mt-4 flex flex-wrap gap-2">
-            <Link href="/#tools" className="rounded-full bg-brand-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-700">
-              Browse all tools
+            <Link href={primaryToolHref} className="rounded-full bg-brand-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-700">
+              {primaryToolCta}
             </Link>
-            <Link href="/tools/freelancer-rate-calculator" className="rounded-full border border-brand-200 bg-white px-4 py-2 text-sm font-semibold text-brand-700 transition hover:bg-brand-50">
-              Start with rate calculator
+            <Link href="/#tools" className="rounded-full border border-brand-200 bg-white px-4 py-2 text-sm font-semibold text-brand-700 transition hover:bg-brand-50">
+              Browse all tools
             </Link>
           </div>
         </div>

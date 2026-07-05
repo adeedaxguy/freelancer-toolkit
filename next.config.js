@@ -6,7 +6,6 @@ const nextConfig = {
   images: {
     formats: ['image/avif', 'image/webp'],
   },
-  serverExternalPackages: ['gray-matter'],
   async redirects() {
     return [
       // Redirect www to non-www (eliminates redirect chain)
