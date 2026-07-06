@@ -5,6 +5,8 @@
   "scripts": {
     "dev": "next dev -p 3001",
     "seo:qa": "node scripts/seo-qa.mjs",
+    "seo:opportunities": "node scripts/seo-opportunity-report.mjs",
+    "seo:ahrefs": "node scripts/seo-opportunity-report.mjs",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -19,7 +21,6 @@
     "posthog-js": "^1.382.0",
     "react": "^18",
     "react-dom": "^18",
-    "remark-gfm": "^4.0.1",
     "resend": "^3.5.0"
   },
   "devDependencies": {

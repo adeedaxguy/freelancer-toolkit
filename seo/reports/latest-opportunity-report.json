@@ -1,0 +1,253 @@
+{
+  "generatedAt": "2026-07-06T21:53:33.542Z",
+  "project": "FreelTools.com",
+  "exportDir": "seo/exports",
+  "inventory": {
+    "tools": 198,
+    "blogPosts": 65
+  },
+  "missingExports": [
+    {
+      "fileName": "ahrefs-organic-keywords.csv",
+      "label": "Ahrefs Site Explorer > Organic keywords"
+    },
+    {
+      "fileName": "ahrefs-top-pages.csv",
+      "label": "Ahrefs Site Explorer > Top pages"
+    },
+    {
+      "fileName": "ahrefs-content-gap.csv",
+      "label": "Ahrefs Content Gap"
+    },
+    {
+      "fileName": "ahrefs-competing-pages.csv",
+      "label": "Ahrefs Competing pages or domains"
+    },
+    {
+      "fileName": "ahrefs-backlinks.csv",
+      "label": "Ahrefs Backlinks"
+    },
+    {
+      "fileName": "ahrefs-broken-backlinks.csv",
+      "label": "Ahrefs Broken backlinks"
+    },
+    {
+      "fileName": "ahrefs-site-audit.csv",
+      "label": "Ahrefs Site Audit issues"
+    },
+    {
+      "fileName": "gsc-queries-3m.csv",
+      "label": "Google Search Console queries, last 3 months"
+    },
+    {
+      "fileName": "gsc-pages-3m.csv",
+      "label": "Google Search Console pages, last 3 months"
+    }
+  ],
+  "scoredKeywords": [],
+  "localContent": [
+    {
+      "slug": "freelance-nda-template",
+      "title": "Freelance NDA Template: Protect Your Work and Client Relationships in 2026",
+      "score": 27,
+      "issues": [
+        "long SEO title (74)",
+        "long meta description (201)",
+        "missing FAQ"
+      ],
+      "url": "/blog/freelance-nda-template"
+    },
+    {
+      "slug": "seo-proposal-generator",
+      "title": "SEO Proposal Generator: What to Include in a Proposal That Wins Clients",
+      "score": 26,
+      "issues": [
+        "490 words",
+        "long SEO title (71)"
+      ],
+      "url": "/blog/seo-proposal-generator"
+    },
+    {
+      "slug": "client-onboarding-checklist-freelance",
+      "title": "The 2026 Freelance Client Onboarding Checklist: Start Every Project Right",
+      "score": 19,
+      "issues": [
+        "long SEO title (73)",
+        "missing FAQ"
+      ],
+      "url": "/blog/client-onboarding-checklist-freelance"
+    },
+    {
+      "slug": "freelance-business-expenses",
+      "title": "Freelance Business Expenses: What You Can (and Can't) Deduct in 2026",
+      "score": 19,
+      "issues": [
+        "long SEO title (68)",
+        "missing FAQ"
+      ],
+      "url": "/blog/freelance-business-expenses"
+    },
+    {
+      "slug": "freelance-contract-template",
+      "title": "The 2026 Guide to Freelance Contract Templates: Protect Yourself and Get Paid",
+      "score": 19,
+      "issues": [
+        "long SEO title (77)",
+        "missing FAQ"
+      ],
+      "url": "/blog/freelance-contract-template"
+    },
+    {
+      "slug": "freelance-invoice-template",
+      "title": "The 2026 Guide to Freelance Invoice Templates: Get Paid Faster and Look Professional",
+      "score": 19,
+      "issues": [
+        "long SEO title (84)",
+        "missing FAQ"
+      ],
+      "url": "/blog/freelance-invoice-template"
+    },
+    {
+      "slug": "freelance-minimum-viable-rate",
+      "title": "Your Freelance Minimum Viable Rate: How to Calculate the Floor You Can't Go Below",
+      "score": 19,
+      "issues": [
+        "long SEO title (81)",
+        "missing FAQ"
+      ],
+      "url": "/blog/freelance-minimum-viable-rate"
+    },
+    {
+      "slug": "freelance-project-cost-estimate",
+      "title": "How to Estimate Freelance Project Costs: Stop Undercharging and Win Better Clients in 2026",
+      "score": 19,
+      "issues": [
+        "long SEO title (90)",
+        "missing FAQ"
+      ],
+      "url": "/blog/freelance-project-cost-estimate"
+    },
+    {
+      "slug": "freelance-rate-calculator-hourly",
+      "title": "Freelance Rate Calculator: Find Your Exact Hourly Rate in 5 Minutes",
+      "score": 19,
+      "issues": [
+        "long SEO title (67)",
+        "missing FAQ"
+      ],
+      "url": "/blog/freelance-rate-calculator-hourly"
+    },
+    {
+      "slug": "freelance-tax-deductions-guide",
+      "title": "The 2026 Guide to Freelance Tax Deductions: Keep More of What You Earn",
+      "score": 19,
+      "issues": [
+        "long SEO title (70)",
+        "missing FAQ"
+      ],
+      "url": "/blog/freelance-tax-deductions-guide"
+    },
+    {
+      "slug": "how-to-raise-freelance-rates",
+      "title": "How to Raise Your Freelance Rates: A Practical Guide to Getting Paid More",
+      "score": 19,
+      "issues": [
+        "long SEO title (73)",
+        "missing FAQ"
+      ],
+      "url": "/blog/how-to-raise-freelance-rates"
+    },
+    {
+      "slug": "late-payment-email-freelance",
+      "title": "How to Write a Late Payment Email: Get Paid Faster as a Freelancer in 2026",
+      "score": 19,
+      "issues": [
+        "long SEO title (74)",
+        "missing FAQ"
+      ],
+      "url": "/blog/late-payment-email-freelance"
+    },
+    {
+      "slug": "raise-freelance-rates-existing-clients",
+      "title": "How to Raise Your Rates With Existing Clients (Without Losing Them)",
+      "score": 19,
+      "issues": [
+        "long SEO title (67)",
+        "missing FAQ"
+      ],
+      "url": "/blog/raise-freelance-rates-existing-clients"
+    },
+    {
+      "slug": "retainer-agreement-freelance",
+      "title": "The 2026 Guide to Freelance Retainer Agreements: Templates, Terms, and Tips",
+      "score": 19,
+      "issues": [
+        "long SEO title (75)",
+        "missing FAQ"
+      ],
+      "url": "/blog/retainer-agreement-freelance"
+    },
+    {
+      "slug": "upwork-fees-calculator",
+      "title": "Upwork Fees Calculator: Know Exactly What You'll Earn Before You Bid (2026)",
+      "score": 19,
+      "issues": [
+        "long SEO title (75)",
+        "missing FAQ"
+      ],
+      "url": "/blog/upwork-fees-calculator"
+    },
+    {
+      "slug": "upwork-fees-explained",
+      "title": "Upwork Fees Explained: What Freelancers Actually Take Home in 2026",
+      "score": 19,
+      "issues": [
+        "long SEO title (66)",
+        "missing FAQ"
+      ],
+      "url": "/blog/upwork-fees-explained"
+    },
+    {
+      "slug": "discovery-call-tips-freelancers",
+      "title": "10 Discovery Call Tips That Close More Freelance Clients",
+      "score": 17,
+      "issues": [
+        "long meta description (170)",
+        "missing FAQ"
+      ],
+      "url": "/blog/discovery-call-tips-freelancers"
+    },
+    {
+      "slug": "how-to-price-freelance-services",
+      "title": "How to Price Your Freelance Services: The Complete 2026 Guide",
+      "score": 17,
+      "issues": [
+        "long meta description (193)",
+        "missing FAQ"
+      ],
+      "url": "/blog/how-to-price-freelance-services"
+    },
+    {
+      "slug": "freelance-proposal-guide",
+      "title": "Write a Freelance Proposal That Wins Projects",
+      "score": 16,
+      "issues": [
+        "463 words"
+      ],
+      "url": "/blog/freelance-proposal-guide"
+    },
+    {
+      "slug": "how-to-set-your-freelance-rate",
+      "title": "How to Set Your Freelance Rate and Stop Undercharging",
+      "score": 16,
+      "issues": [
+        "375 words"
+      ],
+      "url": "/blog/how-to-set-your-freelance-rate"
+    }
+  ],
+  "topPages": [],
+  "siteAudit": [],
+  "backlinks": [],
+  "brokenBacklinks": []
+}

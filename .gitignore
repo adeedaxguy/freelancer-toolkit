@@ -33,6 +33,12 @@ yarn-error.log*
 # local page-view data (not deployed — Vercel filesystem is read-only)
 /data/
 
+# paid SEO exports stay local; keep seo/exports/README.md tracked
+/seo/exports/*.csv
+/seo/exports/*.tsv
+/seo/exports/*.xlsx
+/seo/exports/*.json
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
