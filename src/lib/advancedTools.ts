@@ -211,22 +211,150 @@ const imagePresets: Array<{
   { slug: 'linkedin-banner-resizer', title: 'LinkedIn Banner Resizer', keyword: 'linkedin banner resizer', width: 1584, height: 396, format: 'jpeg' },
 ]
 
+const imageToolOverrides: Record<
+  string,
+  Partial<Pick<AdvancedTool, 'description' | 'seoTitle' | 'keywords' | 'faqs' | 'bodySections'>>
+> = {
+  'resize-image-to-20kb': {
+    description: 'Free resize image to 20KB tool. Upload a JPG, PNG, or photo, reduce the file to 20KB or less, and download the result in your browser without signup.',
+    seoTitle: 'Resize Image to 20KB Online Free | Photo Under 20KB',
+    keywords: ['resize image to 20kb', 'photo under 20kb', 'image size 20kb', 'compress image to 20kb', 'resize photo under 20kb'],
+    faqs: [
+      { q: 'Can I resize an image to exactly 20KB?', a: 'The tool targets 20KB or less by adjusting dimensions and JPEG quality. Exact file size can vary slightly by the source image, but it is built for strict upload limits.' },
+      { q: 'Does this work for photos and scanned documents?', a: 'Yes. It works best for JPG-style photos, form uploads, passport images, signatures, and other files that need a small size target.' },
+      { q: 'Are my files uploaded to a server?', a: 'No. The resize and compression workflow runs in your browser, so the file stays on your device.' },
+    ],
+    bodySections: [
+      {
+        heading: 'Resize image to 20KB for strict upload forms',
+        body: 'Many government, job, and school portals reject uploads above a tiny limit. This tool is designed for that exact workflow: reduce the image, preview it, and keep trying until the file is ready for the form.',
+      },
+      {
+        heading: 'Better than guessing in a photo editor',
+        body: 'Instead of exporting the same file again and again, use a preset built for the 20KB target. It saves time when you need a small file for an application, profile photo, or form attachment.',
+      },
+    ],
+  },
+  'compress-image-to-20kb': {
+    description: 'Free compress image to 20KB tool. Reduce a photo or document image under a 20KB limit without installing software or sending the file to a server.',
+    seoTitle: 'Compress Image to 20KB Online Free',
+    keywords: ['compress image to 20kb', 'image under 20kb', 'reduce photo size to 20kb', 'photo compressor 20kb', 'resize image to 20kb'],
+    faqs: [
+      { q: 'What is the difference between compressing and resizing to 20KB?', a: 'Compression lowers quality and file weight, while resizing changes the dimensions too. This preset uses both when needed to help you reach the 20KB target.' },
+      { q: 'Will the compressed image still be readable?', a: 'Usually yes for common upload use cases. If text becomes blurry, try a cleaner source image or a slightly larger target preset like 50KB.' },
+      { q: 'Can I use this for application photo uploads?', a: 'Yes. It is useful for profile photos, supporting documents, and other portals that set a strict maximum image size.' },
+    ],
+    bodySections: [
+      {
+        heading: 'Compress image to 20KB without trial and error',
+        body: 'The tool is built for users who know the upload limit but do not want to manually test multiple exports. Start with the source image and let the browser workflow push it toward the 20KB goal.',
+      },
+      {
+        heading: 'Good fit for forms, IDs, and lightweight uploads',
+        body: 'If a website rejects larger files, this preset gives you a fast path to a smaller version without uploading the image anywhere else.',
+      },
+    ],
+  },
+  'jpg-resize-to-20kb': {
+    description: 'Free JPG resize to 20KB tool. Reduce a JPG photo under a 20KB limit and download the compressed version instantly in your browser.',
+    seoTitle: 'JPG Resize to 20KB Online | Free JPG Compressor',
+    keywords: ['jpg resize 20kb', 'jpg to 20kb', 'resize jpg to 20kb', 'compress jpg under 20kb', 'jpg file size 20kb'],
+    faqs: [
+      { q: 'Does this work only for JPG images?', a: 'This preset is optimized for JPG output because JPEG compression is usually the fastest way to reach a strict 20KB size target.' },
+      { q: 'Can I convert a PNG photo and still hit 20KB?', a: 'Yes. Upload the file and the tool can export it as a JPG to help reduce the final size for upload forms.' },
+      { q: 'Is there a watermark or account wall?', a: 'No. You can resize the JPG and download it directly without signing in.' },
+    ],
+    bodySections: [
+      {
+        heading: 'JPG resize to 20KB for upload-ready photos',
+        body: 'This page is useful when a form specifically accepts JPG or JPEG files and gives you a very small file-size ceiling. It focuses on that exact use case instead of a generic image editor workflow.',
+      },
+      {
+        heading: 'Fast for repeat document uploads',
+        body: 'If you regularly prepare profile photos, signatures, or scanned JPG attachments, this preset helps you get under 20KB faster than resizing by hand.',
+      },
+    ],
+  },
+  'resize-photo-under-20kb': {
+    description: 'Free resize photo under 20KB tool. Upload a passport photo, profile picture, or form image and reduce it below 20KB in your browser.',
+    seoTitle: 'Resize Photo Under 20KB Online Free',
+    keywords: ['resize photo under 20kb', 'photo under 20kb', 'reduce photo size under 20kb', 'passport photo under 20kb', 'resize image to 20kb'],
+    faqs: [
+      { q: 'Can I make a passport-style photo under 20KB?', a: 'Yes. Many users need a small profile or document photo for application forms. The tool helps reduce the file size while keeping the picture usable.' },
+      { q: 'Why would a website require a photo under 20KB?', a: 'Some older forms and public-sector portals still enforce very small upload limits. This tool is designed for those exact cases.' },
+      { q: 'Will the photo stay private?', a: 'Yes. The file is processed locally in your browser and is not uploaded to a server.' },
+    ],
+    bodySections: [
+      {
+        heading: 'Resize photo under 20KB for application portals',
+        body: 'When a form asks for a tiny image upload, the real challenge is getting the file small enough without opening desktop software. This preset gives you a browser-based shortcut.',
+      },
+      {
+        heading: 'Helpful for profile photos, IDs, and signatures',
+        body: 'Use it for any lightweight photo requirement where the final file needs to stay below a strict 20KB threshold.',
+      },
+    ],
+  },
+  'favicon-generator': {
+    description: 'Free favicon generator. Upload a square image, export a clean favicon-ready PNG, and prepare a browser-tab icon without opening design software.',
+    seoTitle: 'Favicon Generator Online Free | Create a Browser Icon',
+    keywords: ['favicon generator', 'create favicon online', 'website icon generator', 'browser tab icon generator', 'favicon maker free'],
+    faqs: [
+      { q: 'What image should I upload to make a favicon?', a: 'Start with a square logo or symbol that stays clear at very small sizes. Simple shapes and strong contrast work best for browser tabs.' },
+      { q: 'Is this good for website favicons and app shortcuts?', a: 'Yes. It helps you create a clean square source image that can be used for browser tabs, bookmarks, and related icon workflows.' },
+      { q: 'Do I need Photoshop or Figma for this?', a: 'No. The tool handles the resize and export in your browser so you can create a favicon-ready asset quickly.' },
+    ],
+    bodySections: [
+      {
+        heading: 'Create a favicon without opening design software',
+        body: 'If you already have a logo or simple mark, this tool is the fastest way to turn it into a favicon-ready asset for a browser tab or website header.',
+      },
+      {
+        heading: 'Useful before exporting a full icon set',
+        body: 'Many teams start by testing a favicon in the browser before making larger app or social icon exports. This page gives you that lightweight first step.',
+      },
+    ],
+  },
+  'app-icon-generator': {
+    description: 'Free app icon generator. Upload artwork, fit it to a clean 1024x1024 canvas, and export an app-store-ready icon in your browser.',
+    seoTitle: 'App Icon Generator Online Free | 1024x1024 Icon Tool',
+    keywords: ['app icon generator', 'app icon maker', '1024x1024 app icon', 'ios app icon generator', 'android app icon generator'],
+    faqs: [
+      { q: 'What size does this app icon generator export?', a: 'This preset creates a 1024x1024 PNG, which is a common master size for app-store and launcher icon workflows.' },
+      { q: 'Can I use this for iOS and Android icon prep?', a: 'Yes. It is useful as a clean master icon before you generate platform-specific sizes in your build or design workflow.' },
+      { q: 'Will it remove the background automatically?', a: 'No. Start with artwork that already looks the way you want. The tool focuses on sizing, fitting, and exporting the final icon canvas.' },
+    ],
+    bodySections: [
+      {
+        heading: 'App icon generator for launch checklists',
+        body: 'Use this when you have a logo or mark and need a clean 1024x1024 icon asset quickly for an app listing, test build, or design handoff.',
+      },
+      {
+        heading: 'Good for fast iteration before a design polish pass',
+        body: 'Teams often need a usable icon before they finalize every detail. This preset helps you test composition, padding, and readability without opening a heavier design tool.',
+      },
+    ],
+  },
+}
+
 function makeImageTool(preset: (typeof imagePresets)[number]): AdvancedTool {
+  const overrides = imageToolOverrides[preset.slug]
+
   return {
     slug: preset.slug,
     title: preset.title,
     headline: `${preset.title} Online`,
-    description: `Free ${preset.keyword} tool. Upload an image, crop or fit it to ${preset.width}x${preset.height}px, compress it, and download the result in your browser.`,
-    seoTitle: `Free ${preset.title} Online | No Signup`,
+    description: overrides?.description ?? `Free ${preset.keyword} tool. Upload an image, crop or fit it to ${preset.width}x${preset.height}px, compress it, and download the result in your browser.`,
+    seoTitle: overrides?.seoTitle ?? `Free ${preset.title} Online | No Signup`,
     icon: '🖼️',
     category: 'Image & Application File Tools',
-    keywords: [preset.keyword, 'resize image online free', 'compress photo online', `${preset.width}x${preset.height} image resizer`],
-    faqs: [
+    keywords: overrides?.keywords ?? [preset.keyword, 'resize image online free', 'compress photo online', `${preset.width}x${preset.height} image resizer`],
+    faqs: overrides?.faqs ?? [
       { q: 'Does this tool upload my image?', a: 'No. Image processing runs in your browser. The file stays on your device.' },
       { q: 'Can I control the final file size?', a: preset.maxKb ? `Yes. This preset targets ${preset.maxKb}KB or less by lowering JPEG quality when possible.` : 'Yes. Use the quality slider to reduce file size before downloading.' },
       { q: 'Will resizing reduce quality?', a: 'Resizing and JPEG compression can reduce quality. The preview and file-size estimate help you choose the best balance before downloading.' },
     ],
-    bodySections: [
+    bodySections: overrides?.bodySections ?? [
       {
         heading: `${preset.keyword} for forms and uploads`,
         body: 'Application portals often reject files that are the wrong pixel size or too large. This tool gives you a targeted output without installing design software.',

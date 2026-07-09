@@ -250,16 +250,17 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
       {
         slug: 'upwork-fee-calculator',
         title: 'Upwork Fee Calculator',
-        headline: 'Calculate Your Upwork Fees & Net Earnings',
-        description: 'Free Upwork fee calculator. Enter your project value and freelancer service fee to estimate what Upwork deducts and what you take home.',
-        seoTitle: 'Free Upwork Fees Calculator | Estimate Net Earnings',
+        headline: 'Upwork Fee Calculator for Real Take-Home Pay',
+        description: 'Free Upwork fee calculator. Enter your project amount and the freelancer service fee shown by Upwork to estimate net earnings, reverse-calculate a bid, and protect your take-home pay.',
+        seoTitle: 'Upwork Fee Calculator | Estimate Net Earnings Before You Bid',
         icon: '🔢',
         category: 'Marketplace Tools',
-        keywords: ['upwork fee calculator', 'upwork fees calculator', 'upwork earnings calculator', 'how much does upwork charge', 'upwork freelancer service fee', 'upwork take home calculator'],
+        keywords: ['upwork fee calculator', 'upwork fees calculator', 'upwork earnings calculator', 'upwork freelancer service fee', 'upwork take home calculator', 'how much does upwork charge freelancers', 'upwork bid calculator'],
         faqs: [
           { q: 'How much does Upwork charge freelancers?', a: 'Upwork says freelancer service fees can vary by contract from 0% to 15%. The exact fee is shown when you submit a proposal, receive an offer, and in contract details.' },
           { q: 'What fee should I enter in this calculator?', a: 'Enter the percentage Upwork shows for the specific job or contract. If you are only planning, 10% is a common example, but always confirm the actual rate before bidding.' },
           { q: 'How do I get paid more on Upwork?', a: 'Quote from your desired net earnings, not just the gross project amount. Raise your rate enough to cover the freelancer service fee, taxes, proposal time, and non-billable admin.' },
+          { q: 'Can this help me price a fixed bid from my target net?', a: 'Yes. Start with the amount you want to keep, then reverse-calculate the gross quote needed after the displayed Upwork fee. That is the safest way to price platform work.' },
           { q: 'What is Upwork Connects?', a: "Connects are tokens used to bid on jobs. They don't reduce your earnings but are a cost to factor into your Upwork ROI calculation." },
         ],
         bodySections: [
@@ -270,6 +271,10 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
           {
             heading: 'Reverse-calculate your quote',
             body: 'If you need to take home a specific amount, use the reverse calculator to find the gross quote. This prevents platform fees from quietly shrinking your target rate after the client accepts.',
+          },
+          {
+            heading: 'Useful for hourly and fixed-price contracts',
+            body: 'The fee logic is the same whether you are pricing a milestone, a one-off fixed bid, or an hourly contract. Use the displayed fee from Upwork, then adjust your quote so the contract still hits your real income target.',
           },
         ],
         programmaticVariants: [
@@ -282,17 +287,18 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
       {
         slug: 'freelancer-commission-calculator',
         title: 'Freelancer Fees Calculator',
-        headline: 'Calculate Marketplace Fees Across Platforms',
-        description: 'Free commission calculator for Upwork, Fiverr, Freelancer.com, and PeoplePerHour. See your net income after platform fees on any project value.',
-        seoTitle: 'Freelancer Fees Calculator | Compare Upwork, Fiverr & Freelancer.com',
+        headline: 'Compare Marketplace Fees Across Freelance Platforms',
+        description: 'Free freelancer fees calculator for Upwork, Fiverr, Freelancer.com, and PeoplePerHour. Compare platform deductions, buyer-visible pricing, and the take-home pay you keep on the same project value.',
+        seoTitle: 'Freelancer Fees Calculator | Compare Upwork, Fiverr, Freelancer.com',
         icon: '🧮',
         category: 'Marketplace Tools',
-        keywords: ['freelancer fees calculator', 'freelancer commission calculator', 'freelancer fee calculator', 'fiverr fee calculator', 'freelancer.com commission', 'peopleperhour fees', 'freelance platform fees'],
+        keywords: ['freelancer fees calculator', 'freelancer commission calculator', 'freelancer fee calculator', 'compare freelance platform fees', 'fiverr fee calculator', 'freelancer.com commission', 'peopleperhour fees', 'freelance platform fees'],
         faqs: [
           { q: 'How much does Fiverr take from sellers?', a: 'Fiverr charges a 20% commission on all seller earnings, regardless of order size.' },
           { q: 'What are Freelancer.com fees?', a: 'Freelancer.com charges 10% or $5 (whichever is greater) on fixed-price projects, and 10% on hourly projects.' },
           { q: 'Which freelance marketplace has the lowest fees?', a: 'It depends on the contract and platform rules. Freelancer.com is often 10% or $5 minimum, Fiverr is 20%, and Upwork says freelancer service fees can vary by contract from 0% to 15%.' },
           { q: 'How do I compare marketplaces?', a: 'Factor in fee percentage, typical project size, competition level, and how easy it is to find clients. Use this calculator to compare net earnings side-by-side.' },
+          { q: 'Should I compare gross price or take-home pay?', a: 'Take-home pay matters more. Two platforms can bring the same headline project value but leave very different net earnings after fees, minimums, and buyer-facing charges.' },
         ],
         bodySections: [
           {
@@ -302,6 +308,10 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
           {
             heading: 'Compare gross revenue against net earnings',
             body: 'Gross project value is not the same as income. Marketplace fees, minimum fees, and platform-specific rules change your net. Run the numbers before you bid so your price still supports your target rate.',
+          },
+          {
+            heading: 'Useful when deciding which platform to prioritize',
+            body: 'Use the comparison workflow when the same service could be sold on more than one marketplace. Seeing the net side-by-side makes it easier to spot when a higher-fee platform needs a higher quoted price to stay worth the work.',
           },
         ],
         programmaticVariants: [
@@ -314,9 +324,9 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
       {
         slug: 'fiverr-fee-calculator',
         title: 'Fiverr Fee Calculator',
-        headline: 'Fiverr Fee Calculator for Sellers & Buyers',
-        description: 'Free Fiverr fee calculator for sellers and buyers. Calculate Fiverr seller fees, buyer service fees, small-order fees, net earnings, buyer total, and the gig price needed to hit your target take-home pay.',
-        seoTitle: 'Free Fiverr Fee Calculator | Seller, Buyer & Gig Price',
+        headline: 'Fiverr Fee Calculator for Seller Net, Buyer Total, and Gig Pricing',
+        description: 'Free Fiverr fee calculator for sellers and buyers. Estimate seller fees, buyer service fees, small-order fees, take-home pay, buyer checkout total, and the gig price needed to hit your target net income.',
+        seoTitle: 'Fiverr Fee Calculator | Seller Net, Buyer Total, Gig Price',
         icon: '🟢',
         category: 'Marketplace Tools',
         keywords: ['fiverr fee calculator', 'fiverr calculator', 'fiverr seller fee calculator', 'fiverr buyer fee calculator', 'how much does fiverr take', 'fiverr seller fees', 'fiverr buyer service fee', 'fiverr small order fee', 'fiverr profit calculator', 'fiverr 20 percent calculator', 'fiverr commission calculator', 'fiverr gig price calculator', 'fiverr take home calculator'],
@@ -327,6 +337,7 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
           { q: 'What fee does the buyer pay on Fiverr?', a: 'Buyers usually see a service fee added on top of the gig price. The calculator defaults to 5.5% plus a $2 small-order fee below $50 because that is the search intent many buyers and sellers are checking. You can adjust the buyer fee assumptions if Fiverr shows a different checkout fee.' },
           { q: 'What is the Fiverr small-order fee?', a: 'The small-order fee is an extra buyer-side charge applied below a threshold. This calculator defaults to $2 below $50 and makes both values editable so you can model the fee Fiverr shows at checkout.' },
           { q: 'How do I price my Fiverr gig to hit a target net income?', a: 'Divide your target net by 0.80 when using the standard 20% seller fee. For example, to take home $80, set the gig price at $100. The reverse calculator does this automatically for any target amount and fee percentage.' },
+          { q: 'Why compare buyer total and seller net on the same page?', a: 'Fiverr pricing decisions affect both sides of the order. Sellers need to know what they keep, while buyers may react to the full checkout total once service fees and small-order fees appear.' },
           { q: 'How does Fiverr compare with Upwork fees?', a: 'Fiverr is simpler for planning because the seller fee is usually modeled as a fixed 20%. Upwork fees can vary by contract, so use the Upwork fee shown before accepting a job and compare the resulting take-home pay against Fiverr.' },
           { q: 'Are Fiverr withdrawal fees included?', a: 'No. The calculator focuses on Fiverr order fees: seller commission, buyer service fee, small-order fee, and tips. Withdrawal fees, bank fees, PayPal fees, local taxes, and currency conversion can still reduce the money that reaches your bank.' },
           { q: 'Do Fiverr Logo Maker or special program fees work differently?', a: 'Some Fiverr programs can have special rules or tiered rates. Use the editable fee fields for planning, but confirm the final earning percentage inside Fiverr before relying on the number for a specific program.' },
@@ -352,6 +363,10 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
           {
             heading: 'What this page does better than a fee article',
             body: 'Most Fiverr fee guides explain the seller commission in text. This page lets users calculate buyer totals, seller net earnings, tips, small-order fees, and target gig prices in one workflow, then compare common package prices without leaving the page.',
+          },
+          {
+            heading: 'Built for the exact Fiverr fee questions searchers ask',
+            body: 'This page covers the practical scenarios behind Fiverr fee searches: what happens on a $50 or $100 gig, how tips affect take-home pay, how buyer fees change the checkout total, and how to set a price from the amount you want to keep.',
           },
         ],
         programmaticVariants: [
@@ -775,17 +790,33 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
       {
         slug: 'late-payment-fee-calculator',
         title: 'Late Payment Fee Calculator',
-        headline: 'Calculate Late Payment Fees on Overdue Invoices',
-        description: 'Free late payment fee calculator for freelancers. Enter your invoice amount, days overdue, and interest rate to calculate the total amount now owed. Includes a late payment notice email template.',
+        headline: 'Calculate Late Payment Fees on Overdue Client Invoices',
+        description: 'Free late payment fee calculator for freelancers and agencies. Enter invoice amount, overdue days, and your contract rate to calculate interest, updated balance due, and the number to use in a payment reminder.',
+        seoTitle: 'Late Payment Fee Calculator | Overdue Invoice Interest Tool',
         icon: '⏰',
         category: 'Business Operations',
-        keywords: ['late payment fee calculator', 'invoice late fee calculator', 'overdue invoice interest calculator', 'freelance late payment calculator', 'invoice overdue fee'],
+        keywords: ['late payment fee calculator', 'invoice late fee calculator', 'overdue invoice interest calculator', 'freelance late payment calculator', 'invoice overdue fee', 'late fee on invoice calculator', '1.5 percent late fee calculator'],
         faqs: [
           { q: 'Can freelancers charge late fees on overdue invoices?', a: 'Yes — if your contract or invoice specifies a late fee policy. Without it in writing, enforcing fees is difficult. Always include your late fee terms in every contract and on every invoice before starting work.' },
           { q: 'What is the standard late fee for freelancers?', a: '1.5% per month (18% annually) is the most common standard used by freelancers and small businesses in the US. Some freelancers use 2% per month. Always check your state\'s usury laws for maximum rates.' },
           { q: 'How do I calculate a late payment fee?', a: 'Multiply the invoice amount by the monthly rate, then multiply by the number of months (or use the daily rate × days overdue). Example: $2,000 invoice × 1.5% × 2 months = $60 in late fees.' },
           { q: 'What should I do before charging a late fee?', a: 'Send a polite payment reminder first. Many late payments are administrative oversights. Only apply late fees if payment is significantly overdue (15–30 days past due) and after at least one follow-up. Maintain the relationship while enforcing your terms.' },
           { q: 'Can I charge late fees retroactively?', a: 'Only if your original contract or invoice specified the late fee terms before work began. You cannot retroactively add fees that weren\'t disclosed. This is why including late fee language in every contract matters.' },
+          { q: 'Does this calculator work for 1.5% per month and 2% per month?', a: 'Yes. Enter the annualized or monthly-equivalent rate from your contract. The common 1.5% monthly pattern is included in the variant pages, but you can calculate other rates too.' },
+        ],
+        bodySections: [
+          {
+            heading: 'Use the exact number in your payment reminder',
+            body: 'When a client pays late, the biggest communication problem is often not knowing what number to quote. This calculator turns your contract terms into a fee amount, updated balance, and a clear basis for the reminder email.',
+          },
+          {
+            heading: 'Built for the common 1.5% monthly workflow',
+            body: 'Many freelancers use 1.5% per month as their standard late-fee planning rule. The tool is flexible enough for other contract rates, but it is especially useful for the common 30-day, 60-day, and monthly-interest scenarios that show up in search.',
+          },
+          {
+            heading: 'Helpful before you escalate the collection tone',
+            body: 'A precise number keeps the message professional. Instead of sending a vague overdue notice, you can explain the original invoice amount, the days late, the agreed fee rate, and the updated total due in one clean follow-up.',
+          },
         ],
         programmaticVariants: [
           { slug: 'at-1-5-percent', label: 'at 1.5%/Month' },
@@ -798,16 +829,17 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
         slug: 'late-charge-calculator',
         title: 'Late Charge Calculator',
         headline: 'Calculate a Late Charge on an Overdue Invoice',
-        description: 'Free late charge calculator. Enter invoice amount, days late, and annual or monthly late fee rate to estimate the charge and total amount owed.',
-        seoTitle: 'Late Charge Calculator | Free Overdue Invoice Tool',
+        description: 'Free late charge calculator for freelancers and small businesses. Enter invoice amount, days overdue, and your contract rate to estimate the charge, updated balance, and a clean number to use in a reminder.',
+        seoTitle: 'Late Charge Calculator | Calculate Overdue Invoice Fees',
         icon: '⏱️',
         category: 'Business Operations',
-        keywords: ['late charge calculator', 'calculate late fee', 'late fee calculator', 'overdue payment charge calculator', 'late payment interest calculator'],
+        keywords: ['late charge calculator', 'calculate late fee', 'late fee calculator', 'overdue payment charge calculator', 'late payment interest calculator', 'late charge on invoice calculator'],
         faqs: [
           { q: 'How do I calculate a late charge?', a: 'Convert your annual or monthly late fee rate into a daily rate, multiply by the number of days overdue, then multiply by the invoice amount. The calculator does this automatically.' },
           { q: 'Can I charge a late charge if it was not in the contract?', a: 'It is much harder to enforce a late charge if the original contract or invoice did not disclose the fee. Add late-fee language before work begins.' },
           { q: 'What is a common late charge rate?', a: 'Many freelancers use 1.5% per month or 18% per year, but rules vary by location and contract. Check local limits before enforcing a fee.' },
           { q: 'Should I send a reminder first?', a: 'Yes. Send a polite reminder before adding fees. Use late charges to enforce agreed terms, not as the first communication.' },
+          { q: 'When is a late charge calculator more useful than a flat late fee?', a: 'It helps when your contract uses interest or a daily accrual model instead of one flat penalty. That is common when a balance remains unpaid for more than one billing cycle.' },
         ],
         bodySections: [
           {
@@ -818,22 +850,27 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
             heading: 'Keep the relationship professional',
             body: 'The calculator also gives you a practical total to include in a payment reminder, so the follow-up is clear without sounding improvised.',
           },
+          {
+            heading: 'Useful for daily or monthly accrual models',
+            body: 'Some contracts describe late fees as a monthly percentage, while others need a daily-equivalent number for partial months. This workflow helps with both and keeps the math consistent from reminder to reminder.',
+          },
         ],
       },
       {
         slug: 'invoice-late-fee-calculator',
         title: 'Invoice Late Fee Calculator',
         headline: 'Calculate Late Fees on Client Invoices',
-        description: 'Free invoice late fee calculator for freelancers and agencies. Estimate overdue invoice fees, interest, and total balance owed with a follow-up email template.',
-        seoTitle: 'Invoice Late Fee Calculator | Free Client Payment Tool',
+        description: 'Free invoice late fee calculator for freelancers and agencies. Estimate overdue invoice fees, daily or monthly interest, updated balance due, and the amount to use in a follow-up email.',
+        seoTitle: 'Invoice Late Fee Calculator | Overdue Client Payment Tool',
         icon: '🧾',
         category: 'Business Operations',
-        keywords: ['invoice late fee calculator', 'late payment fee calculator', 'overdue invoice interest calculator', 'calculate invoice late fee', 'client late fee calculator'],
+        keywords: ['invoice late fee calculator', 'late payment fee calculator', 'overdue invoice interest calculator', 'calculate invoice late fee', 'client late fee calculator', 'overdue invoice fee calculator'],
         faqs: [
           { q: 'How do I add a late fee to an invoice?', a: 'Use the late fee terms already stated in your contract or invoice, calculate the fee, then send an updated payment reminder with the new total.' },
           { q: 'What should my invoice late fee terms say?', a: 'They should state when payment is due, when the late fee starts, the fee rate, and whether fees accrue monthly or daily.' },
           { q: 'Can this calculate daily late fees?', a: 'Yes. Enter the invoice amount, days overdue, and annual late fee rate to estimate the daily-accrued amount.' },
           { q: 'Is this legal advice?', a: 'No. This calculator is for planning and communication. Check your contract and local law before enforcing invoice late fees.' },
+          { q: 'Can I use this before resending the invoice?', a: 'Yes. Many freelancers resend the invoice together with a short reminder and the updated total due. This tool helps you calculate that amount before you send the message.' },
         ],
         bodySections: [
           {
@@ -843,6 +880,10 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
           {
             heading: 'Use before sending the payment reminder',
             body: 'Calculate the late fee first, then copy the reminder template and send a calm, specific follow-up with invoice number, days overdue, and total due.',
+          },
+          {
+            heading: 'Built for overdue invoice search intent',
+            body: 'The page is designed for people searching how to calculate a late fee on an invoice, not just for legal theory. It gets users from an overdue balance to a usable payment reminder without forcing them into a spreadsheet.',
           },
         ],
       },

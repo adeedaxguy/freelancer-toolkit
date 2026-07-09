@@ -155,6 +155,12 @@ export default function HomePage() {
               <Link href="/tools/fiverr-fee-calculator" className="rounded-full border border-gray-200 px-3 py-1.5 transition hover:border-brand-200 hover:bg-brand-50 hover:text-brand-700">
                 Estimate Fiverr fees
               </Link>
+              <Link href="/tools/late-payment-fee-calculator" className="rounded-full border border-gray-200 px-3 py-1.5 transition hover:border-brand-200 hover:bg-brand-50 hover:text-brand-700">
+                Calculate late fees
+              </Link>
+              <Link href="/tools/resize-image-to-20kb" className="rounded-full border border-gray-200 px-3 py-1.5 transition hover:border-brand-200 hover:bg-brand-50 hover:text-brand-700">
+                Resize image to 20KB
+              </Link>
               <Link href="/tools/germany-visa-photo-generator" className="rounded-full border border-gray-200 px-3 py-1.5 transition hover:border-brand-200 hover:bg-brand-50 hover:text-brand-700">
                 Make visa photos
               </Link>
