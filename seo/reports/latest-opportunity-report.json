@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-06T21:53:33.542Z",
+  "generatedAt": "2026-07-08T23:59:19.073Z",
   "project": "FreelTools.com",
   "exportDir": "seo/exports",
   "inventory": {
@@ -47,97 +47,6 @@
   "scoredKeywords": [],
   "localContent": [
     {
-      "slug": "freelance-nda-template",
-      "title": "Freelance NDA Template: Protect Your Work and Client Relationships in 2026",
-      "score": 27,
-      "issues": [
-        "long SEO title (74)",
-        "long meta description (201)",
-        "missing FAQ"
-      ],
-      "url": "/blog/freelance-nda-template"
-    },
-    {
-      "slug": "seo-proposal-generator",
-      "title": "SEO Proposal Generator: What to Include in a Proposal That Wins Clients",
-      "score": 26,
-      "issues": [
-        "490 words",
-        "long SEO title (71)"
-      ],
-      "url": "/blog/seo-proposal-generator"
-    },
-    {
-      "slug": "client-onboarding-checklist-freelance",
-      "title": "The 2026 Freelance Client Onboarding Checklist: Start Every Project Right",
-      "score": 19,
-      "issues": [
-        "long SEO title (73)",
-        "missing FAQ"
-      ],
-      "url": "/blog/client-onboarding-checklist-freelance"
-    },
-    {
-      "slug": "freelance-business-expenses",
-      "title": "Freelance Business Expenses: What You Can (and Can't) Deduct in 2026",
-      "score": 19,
-      "issues": [
-        "long SEO title (68)",
-        "missing FAQ"
-      ],
-      "url": "/blog/freelance-business-expenses"
-    },
-    {
-      "slug": "freelance-contract-template",
-      "title": "The 2026 Guide to Freelance Contract Templates: Protect Yourself and Get Paid",
-      "score": 19,
-      "issues": [
-        "long SEO title (77)",
-        "missing FAQ"
-      ],
-      "url": "/blog/freelance-contract-template"
-    },
-    {
-      "slug": "freelance-invoice-template",
-      "title": "The 2026 Guide to Freelance Invoice Templates: Get Paid Faster and Look Professional",
-      "score": 19,
-      "issues": [
-        "long SEO title (84)",
-        "missing FAQ"
-      ],
-      "url": "/blog/freelance-invoice-template"
-    },
-    {
-      "slug": "freelance-minimum-viable-rate",
-      "title": "Your Freelance Minimum Viable Rate: How to Calculate the Floor You Can't Go Below",
-      "score": 19,
-      "issues": [
-        "long SEO title (81)",
-        "missing FAQ"
-      ],
-      "url": "/blog/freelance-minimum-viable-rate"
-    },
-    {
-      "slug": "freelance-project-cost-estimate",
-      "title": "How to Estimate Freelance Project Costs: Stop Undercharging and Win Better Clients in 2026",
-      "score": 19,
-      "issues": [
-        "long SEO title (90)",
-        "missing FAQ"
-      ],
-      "url": "/blog/freelance-project-cost-estimate"
-    },
-    {
-      "slug": "freelance-rate-calculator-hourly",
-      "title": "Freelance Rate Calculator: Find Your Exact Hourly Rate in 5 Minutes",
-      "score": 19,
-      "issues": [
-        "long SEO title (67)",
-        "missing FAQ"
-      ],
-      "url": "/blog/freelance-rate-calculator-hourly"
-    },
-    {
       "slug": "freelance-tax-deductions-guide",
       "title": "The 2026 Guide to Freelance Tax Deductions: Keep More of What You Earn",
       "score": 19,
@@ -148,91 +57,11 @@
       "url": "/blog/freelance-tax-deductions-guide"
     },
     {
-      "slug": "how-to-raise-freelance-rates",
-      "title": "How to Raise Your Freelance Rates: A Practical Guide to Getting Paid More",
-      "score": 19,
-      "issues": [
-        "long SEO title (73)",
-        "missing FAQ"
-      ],
-      "url": "/blog/how-to-raise-freelance-rates"
-    },
-    {
-      "slug": "late-payment-email-freelance",
-      "title": "How to Write a Late Payment Email: Get Paid Faster as a Freelancer in 2026",
-      "score": 19,
-      "issues": [
-        "long SEO title (74)",
-        "missing FAQ"
-      ],
-      "url": "/blog/late-payment-email-freelance"
-    },
-    {
-      "slug": "raise-freelance-rates-existing-clients",
-      "title": "How to Raise Your Rates With Existing Clients (Without Losing Them)",
-      "score": 19,
-      "issues": [
-        "long SEO title (67)",
-        "missing FAQ"
-      ],
-      "url": "/blog/raise-freelance-rates-existing-clients"
-    },
-    {
-      "slug": "retainer-agreement-freelance",
-      "title": "The 2026 Guide to Freelance Retainer Agreements: Templates, Terms, and Tips",
-      "score": 19,
-      "issues": [
-        "long SEO title (75)",
-        "missing FAQ"
-      ],
-      "url": "/blog/retainer-agreement-freelance"
-    },
-    {
-      "slug": "upwork-fees-calculator",
-      "title": "Upwork Fees Calculator: Know Exactly What You'll Earn Before You Bid (2026)",
-      "score": 19,
-      "issues": [
-        "long SEO title (75)",
-        "missing FAQ"
-      ],
-      "url": "/blog/upwork-fees-calculator"
-    },
-    {
-      "slug": "upwork-fees-explained",
-      "title": "Upwork Fees Explained: What Freelancers Actually Take Home in 2026",
-      "score": 19,
-      "issues": [
-        "long SEO title (66)",
-        "missing FAQ"
-      ],
-      "url": "/blog/upwork-fees-explained"
-    },
-    {
-      "slug": "discovery-call-tips-freelancers",
-      "title": "10 Discovery Call Tips That Close More Freelance Clients",
-      "score": 17,
-      "issues": [
-        "long meta description (170)",
-        "missing FAQ"
-      ],
-      "url": "/blog/discovery-call-tips-freelancers"
-    },
-    {
-      "slug": "how-to-price-freelance-services",
-      "title": "How to Price Your Freelance Services: The Complete 2026 Guide",
-      "score": 17,
-      "issues": [
-        "long meta description (193)",
-        "missing FAQ"
-      ],
-      "url": "/blog/how-to-price-freelance-services"
-    },
-    {
       "slug": "freelance-proposal-guide",
       "title": "Write a Freelance Proposal That Wins Projects",
       "score": 16,
       "issues": [
-        "463 words"
+        "604 words"
       ],
       "url": "/blog/freelance-proposal-guide"
     },
@@ -241,9 +70,162 @@
       "title": "How to Set Your Freelance Rate and Stop Undercharging",
       "score": 16,
       "issues": [
-        "375 words"
+        "524 words"
       ],
       "url": "/blog/how-to-set-your-freelance-rate"
+    },
+    {
+      "slug": "image-to-pdf-converter-guide",
+      "title": "Image to PDF Converter: Combine Photos Into One PDF",
+      "score": 16,
+      "issues": [
+        "265 words"
+      ],
+      "url": "/blog/image-to-pdf-converter-guide"
+    },
+    {
+      "slug": "jpg-to-pdf-converter-no-watermark",
+      "title": "JPG to PDF Converter With No Watermark: What to Use",
+      "score": 16,
+      "issues": [
+        "298 words"
+      ],
+      "url": "/blog/jpg-to-pdf-converter-no-watermark"
+    },
+    {
+      "slug": "passport-photo-4x6-print-maker-guide",
+      "title": "Passport Photo 4x6 Print Maker: Make a Printable Sheet",
+      "score": 16,
+      "issues": [
+        "280 words"
+      ],
+      "url": "/blog/passport-photo-4x6-print-maker-guide"
+    },
+    {
+      "slug": "resize-image-to-2x2-inch-guide",
+      "title": "Resize Image to 2x2 Inch for Passport and Visa Photos",
+      "score": 16,
+      "issues": [
+        "310 words"
+      ],
+      "url": "/blog/resize-image-to-2x2-inch-guide"
+    },
+    {
+      "slug": "resize-signature-to-20kb-guide",
+      "title": "Resize Signature to 20KB: Free Online Guide",
+      "score": 16,
+      "issues": [
+        "323 words"
+      ],
+      "url": "/blog/resize-signature-to-20kb-guide"
+    },
+    {
+      "slug": "seo-proposal-generator",
+      "title": "SEO Proposal Generator: What to Include in a Proposal That Wins Clients",
+      "score": 16,
+      "issues": [
+        "632 words"
+      ],
+      "url": "/blog/seo-proposal-generator"
+    },
+    {
+      "slug": "agency-owner-pricing-guide",
+      "title": "The Agency Owner's Guide to Pricing Services Profitably",
+      "score": 9,
+      "issues": [
+        "missing FAQ"
+      ],
+      "url": "/blog/agency-owner-pricing-guide"
+    },
+    {
+      "slug": "agency-pricing-models",
+      "title": "Agency Pricing Models: Hourly, Retainer, Value-Based",
+      "score": 9,
+      "issues": [
+        "missing FAQ"
+      ],
+      "url": "/blog/agency-pricing-models"
+    },
+    {
+      "slug": "client-onboarding-checklist-freelance",
+      "title": "The 2026 Freelance Client Onboarding Checklist: Start Every Project Right",
+      "score": 9,
+      "issues": [
+        "missing FAQ"
+      ],
+      "url": "/blog/client-onboarding-checklist-freelance"
+    },
+    {
+      "slug": "client-questionnaire-freelance",
+      "title": "Client Questionnaire: 20 Questions Before Every Project",
+      "score": 9,
+      "issues": [
+        "missing FAQ"
+      ],
+      "url": "/blog/client-questionnaire-freelance"
+    },
+    {
+      "slug": "client-red-flags-freelance",
+      "title": "10 Client Red Flags Every Freelancer Should Recognize",
+      "score": 9,
+      "issues": [
+        "missing FAQ"
+      ],
+      "url": "/blog/client-red-flags-freelance"
+    },
+    {
+      "slug": "discovery-call-tips-freelancers",
+      "title": "10 Discovery Call Tips That Close More Freelance Clients",
+      "score": 9,
+      "issues": [
+        "missing FAQ"
+      ],
+      "url": "/blog/discovery-call-tips-freelancers"
+    },
+    {
+      "slug": "freelance-break-even-point",
+      "title": "How to Find Your Freelance Break-Even Point (With Formula)",
+      "score": 9,
+      "issues": [
+        "missing FAQ"
+      ],
+      "url": "/blog/freelance-break-even-point"
+    },
+    {
+      "slug": "freelance-business-expenses",
+      "title": "Freelance Business Expenses: What You Can (and Can't) Deduct in 2026",
+      "score": 9,
+      "issues": [
+        "missing FAQ"
+      ],
+      "url": "/blog/freelance-business-expenses"
+    },
+    {
+      "slug": "freelance-commission-platforms-comparison",
+      "title": "Freelance Platform Fees Compared: Keep More of What You Earn",
+      "score": 9,
+      "issues": [
+        "missing FAQ"
+      ],
+      "url": "/blog/freelance-commission-platforms-comparison"
+    },
+    {
+      "slug": "freelance-contract-essentials",
+      "title": "Freelance Contract Essentials: Clauses That Protect You",
+      "score": 9,
+      "issues": [
+        "missing FAQ"
+      ],
+      "url": "/blog/freelance-contract-essentials"
+    },
+    {
+      "slug": "freelance-contract-template",
+      "title": "The 2026 Guide to Freelance Contract Templates: Protect Yourself and Get Paid",
+      "score": 9,
+      "issues": [
+        "missing FAQ"
+      ],
+      "url": "/blog/freelance-contract-template"
     }
   ],
   "topPages": [],

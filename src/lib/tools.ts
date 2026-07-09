@@ -315,12 +315,13 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
         slug: 'fiverr-fee-calculator',
         title: 'Fiverr Fee Calculator',
         headline: 'Fiverr Fee Calculator for Sellers & Buyers',
-        description: 'Free Fiverr fee calculator for sellers and buyers. Calculate Fiverr seller fees, buyer service fees, small-order fees, tips, net earnings, buyer total, and the gig price needed to hit your target take-home pay.',
-        seoTitle: 'Fiverr Fee Calculator 2026 | Seller, Buyer & Reverse Calculator',
+        description: 'Free Fiverr fee calculator for sellers and buyers. Calculate Fiverr seller fees, buyer service fees, small-order fees, net earnings, buyer total, and the gig price needed to hit your target take-home pay.',
+        seoTitle: 'Free Fiverr Fee Calculator | Seller, Buyer & Gig Price',
         icon: '🟢',
         category: 'Marketplace Tools',
         keywords: ['fiverr fee calculator', 'fiverr calculator', 'fiverr seller fee calculator', 'fiverr buyer fee calculator', 'how much does fiverr take', 'fiverr seller fees', 'fiverr buyer service fee', 'fiverr small order fee', 'fiverr profit calculator', 'fiverr 20 percent calculator', 'fiverr commission calculator', 'fiverr gig price calculator', 'fiverr take home calculator'],
         faqs: [
+          { q: 'How much does Fiverr take from a $100 gig?', a: 'Using the common 20% seller-fee planning model, Fiverr takes about $20 from a $100 order and the seller keeps about $80 before taxes, withdrawal costs, or currency conversion.' },
           { q: 'How much does Fiverr take from sellers?', a: 'The standard Fiverr seller fee is commonly planned as 20% of the order value. If your gig is priced at $100, the calculator shows a $20 Fiverr fee and $80 seller net before taxes, withdrawal costs, or currency conversion.' },
           { q: 'Does Fiverr take 20% from tips too?', a: 'For planning, include tips in the same 20% seller-fee calculation unless Fiverr shows a different rule in your account. The calculator has a separate tip field so you can see the fee and net amount on the full order plus tip.' },
           { q: 'What fee does the buyer pay on Fiverr?', a: 'Buyers usually see a service fee added on top of the gig price. The calculator defaults to 5.5% plus a $2 small-order fee below $50 because that is the search intent many buyers and sellers are checking. You can adjust the buyer fee assumptions if Fiverr shows a different checkout fee.' },
@@ -332,6 +333,10 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
           { q: 'Can I avoid Fiverr fees by taking clients off-platform?', a: 'Fiverr\'s terms of service prohibit moving clients off the platform to avoid fees. Violations can result in account suspension. It\'s better to raise your prices to account for the 20% cut.' },
         ],
         bodySections: [
+          {
+            heading: 'How much does Fiverr take from a $100 order?',
+            body: 'For quick planning, many sellers model Fiverr at a 20% seller fee. That means a $100 gig leaves about $80 before taxes and withdrawal costs. This page lets users test that math instantly on custom offers, milestones, tips, and larger package prices.',
+          },
           {
             heading: 'Fiverr fee calculator for sellers',
             body: 'Enter any gig price, custom offer, milestone, or tip to see the estimated Fiverr seller fee and real take-home amount. This helps you avoid pricing a package at the amount you want to keep, then losing 20% after the order closes.',
