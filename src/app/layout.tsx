@@ -1,5 +1,4 @@
 import type { Metadata, Viewport } from 'next'
-import { Inter } from 'next/font/google'
 import Script from 'next/script'
 import './globals.css'
 import Header from '@/components/Header'
@@ -8,15 +7,9 @@ import PageViewTracker from '@/components/PageViewTracker'
 import FloatingChatbot from '@/components/FloatingChatbot'
 import { ALL_TOOLS } from '@/lib/tools'
 
-const inter = Inter({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-inter',
-  preload: true,
-})
-
 const SITE_URL = 'https://freeltools.com'
 const TOTAL_TOOLS = ALL_TOOLS.length
+const TOOL_COUNT_LABEL = TOTAL_TOOLS >= 100 ? '100+' : String(TOTAL_TOOLS)
 const OG_IMAGE = `${SITE_URL}/opengraph-image`
 
 const organizationSchema = {
@@ -26,7 +19,7 @@ const organizationSchema = {
   alternateName: 'FreelTools',
   url: SITE_URL,
   logo: `${SITE_URL}/favicon.svg`,
-  description: `FreelancerToolkit (freeltools.com) provides ${TOTAL_TOOLS} free tools for freelancers, agencies, and independent consultants, including calculators, generators, passport photo makers, image tools, and PDF converters. All tools are free, require no account, and store no data.`,
+  description: `FreelancerToolkit (freeltools.com) provides ${TOOL_COUNT_LABEL} free tools for freelancers, agencies, and independent consultants, including calculators, generators, passport photo makers, image tools, and PDF converters. All tools are free, require no account, and store no data.`,
   foundingDate: '2024',
   knowsAbout: [
     'Freelance rate setting',
@@ -74,7 +67,7 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: 'FreelancerToolkit – Free Tools for Freelancers & Agencies',
+    default: `FreelancerToolkit – ${TOOL_COUNT_LABEL} Free Tools for Freelancers & Agencies`,
     template: '%s | FreelancerToolkit',
   },
   description:
@@ -97,7 +90,7 @@ export const metadata: Metadata = {
     locale: 'en_US',
     url: SITE_URL,
     siteName: 'FreelancerToolkit',
-    title: 'FreelancerToolkit – Free Tools for Freelancers & Agencies',
+    title: `FreelancerToolkit – ${TOOL_COUNT_LABEL} Free Tools for Freelancers & Agencies`,
     description:
       'Free calculators and generators for freelancers, agencies, and consultants. No login required.',
     images: [
@@ -105,7 +98,7 @@ export const metadata: Metadata = {
         url: OG_IMAGE,
         width: 1200,
         height: 630,
-        alt: `${TOTAL_TOOLS} free tools for freelancers and agencies`,
+        alt: `${TOOL_COUNT_LABEL} free tools for freelancers and agencies`,
       },
     ],
   },
@@ -113,7 +106,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     site: '@freelancertoolkit',
     creator: '@freelancertoolkit',
-    title: 'FreelancerToolkit – Free Tools for Freelancers & Agencies',
+    title: `FreelancerToolkit – ${TOOL_COUNT_LABEL} Free Tools for Freelancers & Agencies`,
     description:
       'Free calculators and generators for freelancers, agencies, and consultants. No login required.',
     images: [OG_IMAGE],
@@ -139,7 +132,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`scroll-smooth ${inter.variable}`}>
+    <html lang="en" className="scroll-smooth">
       <head>
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         {/* Preconnect to GA domains to reduce connection latency */}
@@ -155,7 +148,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
         />
       </head>
-      <body className={`flex min-h-screen flex-col ${inter.className}`}>
+      <body className="flex min-h-screen flex-col font-sans">
         <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:rounded-lg focus:bg-brand-600 focus:px-4 focus:py-2 focus:text-white focus:shadow-lg">
           Skip to content
         </a>

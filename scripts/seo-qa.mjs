@@ -4,6 +4,14 @@ import path from 'node:path'
 const ROOT = process.cwd()
 const BLOG_DIR = path.join(ROOT, 'src/content/blog')
 const APP_DIR = path.join(ROOT, 'src/app')
+const PUBLIC_SEO_SOURCE_FILES = [
+  path.join(ROOT, 'src/app/layout.tsx'),
+  path.join(ROOT, 'src/app/page.tsx'),
+  path.join(ROOT, 'src/app/opengraph-image.tsx'),
+  path.join(ROOT, 'src/app/admin/seo/page.tsx'),
+  path.join(ROOT, 'src/components/Header.tsx'),
+  path.join(ROOT, 'src/components/Footer.tsx'),
+]
 const TOOL_FILES = [
   path.join(ROOT, 'src/lib/tools.ts'),
   path.join(ROOT, 'src/lib/advancedTools.ts'),
@@ -90,6 +98,57 @@ function collectBlogFiles() {
     .map((file) => path.join(BLOG_DIR, file))
 }
 
+function checkPublicToolCountSource() {
+  const hardcodedCountPattern = /\b\d{2,4}\s+(?:Free\s+)?Tools?\b/i
+
+  for (const file of PUBLIC_SEO_SOURCE_FILES) {
+    if (!exists(file)) continue
+    const rel = path.relative(ROOT, file)
+    const content = read(file)
+
+    for (const [index, line] of content.split('\n').entries()) {
+      if (hardcodedCountPattern.test(line)) {
+        errors.push(
+          `${rel}:${index + 1} contains a hardcoded public tool count. Use ALL_TOOLS.length/TOTAL_TOOLS so title, schema, OG, nav, and previews stay current.`
+        )
+      }
+    }
+  }
+
+  const homepage = path.join(APP_DIR, 'page.tsx')
+  if (exists(homepage)) {
+    const content = read(homepage)
+    const requiredHomepageSignals = [
+      ['metadata title uses dynamic tool count label', /title:\s*`[^`]*\$\{TOOL_COUNT_LABEL\}[^`]*Free Tools/i],
+      ['Open Graph title uses dynamic tool count label', /openGraph:[\s\S]*?title:\s*`[^`]*\$\{TOOL_COUNT_LABEL\}[^`]*Free Tools/i],
+      ['Twitter title uses dynamic tool count label', /twitter:[\s\S]*?title:\s*`[^`]*\$\{TOOL_COUNT_LABEL\}[^`]*Free Tools/i],
+      ['ItemList schema exposes numberOfItems', /numberOfItems:\s*allTools\.length/],
+      ['homepage FAQ schema uses dynamic tool count label', /FAQPage[\s\S]*\$\{TOOL_COUNT_LABEL\}/],
+    ]
+
+    for (const [label, pattern] of requiredHomepageSignals) {
+      if (!pattern.test(content)) {
+        errors.push(`src/app/page.tsx schema QA failed: ${label}`)
+      }
+    }
+  }
+
+  const layout = path.join(APP_DIR, 'layout.tsx')
+  if (exists(layout)) {
+    const content = read(layout)
+    const requiredLayoutSignals = [
+      ['Organization schema description uses dynamic tool count label', /Organization[\s\S]*description:\s*`[^`]*\$\{TOOL_COUNT_LABEL\}/],
+      ['Open Graph image alt uses dynamic tool count label', /alt:\s*`\$\{TOOL_COUNT_LABEL\}\s+free tools/i],
+    ]
+
+    for (const [label, pattern] of requiredLayoutSignals) {
+      if (!pattern.test(content)) {
+        errors.push(`src/app/layout.tsx schema QA failed: ${label}`)
+      }
+    }
+  }
+}
+
 function checkInternalLink(href, sourceFile, blogSlugs, toolSlugs) {
   const normalized = normalizeInternalHref(href)
   if (!normalized || normalized === '/') return
@@ -161,6 +220,8 @@ const blogSlugs = new Set(blogFiles.map((file) => path.basename(file, '.mdx')))
 const toolSlugs = collectToolSlugs()
 const seenTitles = new Set()
 const seenDescriptions = new Set()
+
+checkPublicToolCountSource()
 
 for (const file of blogFiles) {
   const { data, content } = parseFrontmatter(read(file))

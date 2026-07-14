@@ -8,23 +8,24 @@ import { TOOL_CATEGORIES } from '@/lib/tools'
 
 const SITE_URL = 'https://freeltools.com'
 const TOTAL_TOOLS = TOOL_CATEGORIES.reduce((sum, cat) => sum + cat.tools.length, 0)
+const TOOL_COUNT_LABEL = TOTAL_TOOLS >= 100 ? '100+' : String(TOTAL_TOOLS)
 const OG_IMAGE = `${SITE_URL}/opengraph-image`
 
 export const metadata: Metadata = {
-  title: `FreelancerToolkit – ${TOTAL_TOOLS} Free Tools for Freelancers & Agencies`,
+  title: `FreelancerToolkit – ${TOOL_COUNT_LABEL} Free Tools for Freelancers & Agencies`,
   description:
     'Free calculators, generators, passport photo makers, PDF converters, and image tools for freelancers and agencies. No login required.',
   openGraph: {
-    title: `FreelancerToolkit – ${TOTAL_TOOLS} Free Tools for Freelancers & Agencies`,
+    title: `FreelancerToolkit – ${TOOL_COUNT_LABEL} Free Tools for Freelancers & Agencies`,
     description:
       'Free calculators, generators, passport photo makers, PDF converters, and image tools for freelancers and agencies. No login required.',
     url: SITE_URL,
     type: 'website',
-    images: [{ url: OG_IMAGE, width: 1200, height: 630, alt: `${TOTAL_TOOLS} free freelancer tools` }],
+    images: [{ url: OG_IMAGE, width: 1200, height: 630, alt: `${TOOL_COUNT_LABEL} free freelancer tools` }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: `FreelancerToolkit – ${TOTAL_TOOLS} Free Tools for Freelancers & Agencies`,
+    title: `FreelancerToolkit – ${TOOL_COUNT_LABEL} Free Tools for Freelancers & Agencies`,
     description:
       'Free calculators, generators, passport photo makers, PDF converters, and image tools for freelancers and agencies. No login required.',
     images: [OG_IMAGE],
@@ -37,7 +38,7 @@ function buildItemListSchema() {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
     name: 'Free Tools for Freelancers — FreelancerToolkit',
-    description: `${TOTAL_TOOLS} free business, document, image, and passport photo tools. No account required.`,
+    description: `${TOOL_COUNT_LABEL} free business, document, image, and passport photo tools. No account required.`,
     url: SITE_URL,
     numberOfItems: allTools.length,
     itemListElement: allTools.map((tool, i) => ({
@@ -67,7 +68,7 @@ const homepageFaqSchema = {
       name: 'What is FreelancerToolkit?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: `FreelancerToolkit (freeltools.com) is a free collection of ${TOTAL_TOOLS} tools for freelancers, agencies, and independent consultants. Tools include business calculators, proposal generators, invoice tools, passport and visa photo makers, PDF converters, image resizers, and more. No account or login is required.`,
+        text: `FreelancerToolkit (freeltools.com) is a free collection of ${TOOL_COUNT_LABEL} tools for freelancers, agencies, and independent consultants. Tools include business calculators, proposal generators, invoice tools, passport and visa photo makers, PDF converters, image resizers, and more. No account or login is required.`,
       },
     },
     {
@@ -75,7 +76,7 @@ const homepageFaqSchema = {
       name: 'Are the tools on FreelancerToolkit free?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: `Yes. All ${TOTAL_TOOLS} tools on FreelancerToolkit are completely free. There is no account required, no credit card, no subscription, and no free trial. Many tools run entirely in your browser.`,
+        text: `Yes. All ${TOOL_COUNT_LABEL} tools on FreelancerToolkit are completely free. There is no account required, no credit card, no subscription, and no free trial. Many tools run entirely in your browser.`,
       },
     },
     {
@@ -107,14 +108,14 @@ const homepageFaqSchema = {
       name: 'What tools does FreelancerToolkit include?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: `FreelancerToolkit includes ${TOTAL_TOOLS} free tools across freelance pricing, client operations, marketplace fees, passport and visa photos, image resizing, PDF conversion, and document generation.`,
+        text: `FreelancerToolkit includes ${TOOL_COUNT_LABEL} free tools across freelance pricing, client operations, marketplace fees, passport and visa photos, image resizing, PDF conversion, and document generation.`,
       },
     },
   ],
 }
 
 const stats = [
-  { label: 'Free Tools', value: String(TOTAL_TOOLS) },
+  { label: 'Free Tools', value: TOOL_COUNT_LABEL },
   { label: 'No Login Required', value: '✓' },
   { label: 'Data Stored', value: '0' },
 ]
@@ -132,7 +133,7 @@ export default function HomePage() {
         <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
           <div className="mx-auto max-w-[22rem] text-center sm:max-w-3xl">
             <span className="mb-4 inline-block rounded-full bg-brand-100 px-4 py-1.5 text-sm font-medium text-brand-700">
-              {totalTools} Free Tools · No Account Needed
+              {TOOL_COUNT_LABEL} Free Tools · No Account Needed
             </span>
             <h1 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-5xl lg:text-6xl">
               <span className="block sm:inline">Tools That Help</span>{' '}
@@ -148,7 +149,7 @@ export default function HomePage() {
                 Calculate Your Rate →
               </Link>
               <Link href="#tools" className="btn-secondary px-6 py-3 text-base">
-                Browse All {totalTools} Tools
+                Browse All {TOOL_COUNT_LABEL} Tools
               </Link>
             </div>
             <div className="mx-auto mt-5 flex max-w-2xl flex-wrap justify-center gap-2 text-xs font-medium text-gray-500">
@@ -234,7 +235,7 @@ export default function HomePage() {
           <h2 className="text-xl font-bold text-gray-900 sm:text-2xl">Free Tools Built for Freelancers, Agencies & Consultants</h2>
           <div className="mt-4 space-y-4 text-sm leading-relaxed text-gray-600 sm:text-base">
             <p>
-              FreelancerToolkit provides <strong>{totalTools} free tools</strong> designed for independent professionals and people who need fast document utilities. Whether you&apos;re pricing client work, preparing a proposal, creating a passport photo, resizing an application upload, or converting images to PDF, the tools work instantly — no login or subscription required.
+              FreelancerToolkit provides <strong>{TOOL_COUNT_LABEL} free tools</strong> designed for independent professionals and people who need fast document utilities. Whether you&apos;re pricing client work, preparing a proposal, creating a passport photo, resizing an application upload, or converting images to PDF, the tools work instantly — no login or subscription required.
             </p>
             <p>
               Our <strong>freelance rate calculator</strong> helps you set your hourly rate based on your income goal, tax rate, and expenses. The <strong>project cost calculator</strong> lets you build a quote with scope buffers and revision rounds built in. The <strong>commission calculator</strong> compares fees across Upwork, Fiverr, Freelancer.com, and PeoplePerHour side by side.
