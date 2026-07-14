@@ -183,6 +183,7 @@ const imagePresets: Array<{
   dpi?: number
   fit?: 'cover' | 'contain'
   note?: string
+  useCase?: string
 }> = [
   { slug: 'resize-image-to-35x45mm', title: 'Resize Image to 35x45mm', keyword: 'resize image to 35x45mm', width: 413, height: 531, format: 'jpeg', dpi: 300, note: '35x45 mm at 300 DPI' },
   { slug: 'resize-image-to-2x2-inch', title: 'Resize Image to 2x2 Inch', keyword: 'resize image to 2x2 inch', width: 600, height: 600, format: 'jpeg', dpi: 300, note: '2x2 inches at 300 DPI' },
@@ -229,6 +230,26 @@ const imagePresets: Array<{
   { slug: 'app-icon-generator', title: 'App Icon Generator', keyword: 'app icon generator', width: 1024, height: 1024, format: 'png' },
   { slug: 'youtube-thumbnail-resizer', title: 'YouTube Thumbnail Resizer', keyword: 'youtube thumbnail resizer', width: 1280, height: 720, format: 'jpeg' },
   { slug: 'linkedin-banner-resizer', title: 'LinkedIn Banner Resizer', keyword: 'linkedin banner resizer', width: 1584, height: 396, format: 'jpeg' },
+  { slug: 'instagram-profile-picture-resizer', title: 'Instagram Profile Picture Resizer', keyword: 'instagram profile picture resizer', width: 320, height: 320, format: 'jpeg', fit: 'cover', useCase: 'Instagram profile uploads' },
+  { slug: 'instagram-post-resizer', title: 'Instagram Post Resizer', keyword: 'instagram post resizer', width: 1080, height: 1080, format: 'jpeg', fit: 'cover', useCase: 'Instagram square posts' },
+  { slug: 'instagram-story-resizer', title: 'Instagram Story Resizer', keyword: 'instagram story resizer', width: 1080, height: 1920, format: 'jpeg', fit: 'cover', useCase: 'Instagram Stories and Reels covers' },
+  { slug: 'facebook-cover-photo-resizer', title: 'Facebook Cover Photo Resizer', keyword: 'facebook cover photo resizer', width: 1640, height: 924, format: 'jpeg', fit: 'cover', useCase: 'Facebook cover photos' },
+  { slug: 'facebook-profile-picture-resizer', title: 'Facebook Profile Picture Resizer', keyword: 'facebook profile picture resizer', width: 400, height: 400, format: 'jpeg', fit: 'cover', useCase: 'Facebook profile uploads' },
+  { slug: 'linkedin-profile-picture-resizer', title: 'LinkedIn Profile Picture Resizer', keyword: 'linkedin profile picture resizer', width: 400, height: 400, format: 'jpeg', fit: 'cover', useCase: 'LinkedIn profile uploads' },
+  { slug: 'twitter-header-resizer', title: 'Twitter Header Resizer', keyword: 'twitter header resizer', width: 1500, height: 500, format: 'jpeg', fit: 'cover', useCase: 'X/Twitter profile headers' },
+  { slug: 'twitter-post-image-resizer', title: 'Twitter Post Image Resizer', keyword: 'twitter post image resizer', width: 1600, height: 900, format: 'jpeg', fit: 'cover', useCase: 'X/Twitter post images' },
+  { slug: 'youtube-channel-art-resizer', title: 'YouTube Channel Art Resizer', keyword: 'youtube channel art resizer', width: 2560, height: 1440, format: 'jpeg', fit: 'cover', useCase: 'YouTube channel art' },
+  { slug: 'tiktok-profile-picture-resizer', title: 'TikTok Profile Picture Resizer', keyword: 'tiktok profile picture resizer', width: 200, height: 200, format: 'jpeg', fit: 'cover', useCase: 'TikTok profile uploads' },
+  { slug: 'tiktok-video-cover-resizer', title: 'TikTok Video Cover Resizer', keyword: 'tiktok video cover resizer', width: 1080, height: 1920, format: 'jpeg', fit: 'cover', useCase: 'TikTok video covers' },
+  { slug: 'pinterest-pin-resizer', title: 'Pinterest Pin Resizer', keyword: 'pinterest pin resizer', width: 1000, height: 1500, format: 'jpeg', fit: 'cover', useCase: 'Pinterest pins' },
+  { slug: 'google-business-profile-photo-resizer', title: 'Google Business Profile Photo Resizer', keyword: 'google business profile photo resizer', width: 720, height: 720, format: 'jpeg', fit: 'cover', useCase: 'Google Business Profile photos' },
+  { slug: 'shopify-product-image-resizer', title: 'Shopify Product Image Resizer', keyword: 'shopify product image resizer', width: 2048, height: 2048, format: 'jpeg', fit: 'contain', useCase: 'Shopify product images' },
+  { slug: 'amazon-product-image-resizer', title: 'Amazon Product Image Resizer', keyword: 'amazon product image resizer', width: 2000, height: 2000, format: 'jpeg', fit: 'contain', useCase: 'Amazon product images' },
+  { slug: 'etsy-listing-photo-resizer', title: 'Etsy Listing Photo Resizer', keyword: 'etsy listing photo resizer', width: 2000, height: 2000, format: 'jpeg', fit: 'contain', useCase: 'Etsy listing photos' },
+  { slug: 'website-hero-image-resizer', title: 'Website Hero Image Resizer', keyword: 'website hero image resizer', width: 1920, height: 1080, format: 'jpeg', fit: 'cover', useCase: 'website hero sections' },
+  { slug: 'open-graph-image-resizer', title: 'Open Graph Image Resizer', keyword: 'open graph image resizer', width: 1200, height: 630, format: 'jpeg', fit: 'cover', useCase: 'Open Graph and social share cards' },
+  { slug: 'blog-featured-image-resizer', title: 'Blog Featured Image Resizer', keyword: 'blog featured image resizer', width: 1200, height: 675, format: 'jpeg', fit: 'cover', useCase: 'blog featured images' },
+  { slug: 'email-header-image-resizer', title: 'Email Header Image Resizer', keyword: 'email header image resizer', width: 600, height: 200, format: 'jpeg', fit: 'cover', useCase: 'email newsletter headers' },
 ]
 
 const imageToolOverrides: Record<
@@ -418,7 +439,7 @@ function makeImageTool(preset: (typeof imagePresets)[number]): AdvancedTool {
     slug: preset.slug,
     title: preset.title,
     headline: `${preset.title} Online`,
-    description: overrides?.description ?? `Free ${preset.keyword} tool. Upload an image, crop or fit it to ${preset.width}x${preset.height}px, compress it, and download the result in your browser.`,
+    description: overrides?.description ?? `Free ${preset.keyword} tool. Upload an image, crop or fit it to ${preset.width}x${preset.height}px, compress it, and download a file ready for ${preset.useCase ?? 'forms and uploads'} in your browser.`,
     seoTitle: overrides?.seoTitle ?? `Free ${preset.title} Online | No Signup`,
     icon: '🖼️',
     category: 'Image & Application File Tools',
@@ -430,8 +451,10 @@ function makeImageTool(preset: (typeof imagePresets)[number]): AdvancedTool {
     ],
     bodySections: overrides?.bodySections ?? [
       {
-        heading: `${preset.keyword} for forms and uploads`,
-        body: 'Application portals often reject files that are the wrong pixel size or too large. This tool gives you a targeted output without installing design software.',
+        heading: `${preset.keyword} for ${preset.useCase ?? 'forms and uploads'}`,
+        body: preset.useCase
+          ? 'Social platforms, marketplaces, websites, and email tools often crop images awkwardly when the aspect ratio is wrong. This preset gives you a targeted output without opening design software.'
+          : 'Application portals often reject files that are the wrong pixel size or too large. This tool gives you a targeted output without installing design software.',
       },
       {
         heading: 'Fast private browser processing',
