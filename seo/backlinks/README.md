@@ -12,7 +12,10 @@ Prioritize links to pages that are genuinely useful as free resources:
 - `/tools/freelance-services-pricing-calculator`
 - `/tools/germany-visa-photo-generator`
 - `/tools/35x45mm-photo-maker`
+- `/tools/resize-image-to-10kb`
 - `/tools/resize-image-to-50kb`
+- `/tools/resize-image-to-200kb`
+- `/tools/compress-image-to-100kb`
 - `/tools/passport-size-photo-resizer`
 - `/tools/proposal-generator`
 - `/tools/invoice-generator`

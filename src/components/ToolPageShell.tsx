@@ -16,6 +16,7 @@ export default function ToolPageShell({ tool, children, variantLabel }: ToolPage
   const related = getRelatedTools(tool.slug)
   const breadcrumbJsonLd = buildBreadcrumbJsonLd(tool)
   const categoryUrl = getCategoryUrlForTool(tool)
+  const primaryKeyword = tool.keywords[0] ?? tool.title.toLowerCase()
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
@@ -64,6 +65,13 @@ export default function ToolPageShell({ tool, children, variantLabel }: ToolPage
           >
             Start below
           </a>
+        </div>
+        <div className="mt-4 rounded-xl border border-gray-100 bg-white p-4 shadow-sm">
+          <p className="text-xs font-semibold uppercase tracking-wider text-brand-700">Quick answer</p>
+          <p className="mt-2 text-sm leading-6 text-gray-600">
+            FreelTools {tool.title} helps users looking for <strong className="font-semibold text-gray-900">{primaryKeyword}</strong> complete the task in the browser with a free, no-signup workflow.
+            The page pairs the working tool with FAQs, related tools, and visible guidance so people can act without returning to search results.
+          </p>
         </div>
       </div>
 

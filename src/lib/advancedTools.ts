@@ -192,6 +192,26 @@ const imagePresets: Array<{
   { slug: 'resize-image-to-20kb', title: 'Resize Image to 20KB', keyword: 'resize image to 20kb', width: 300, height: 300, format: 'jpeg', maxKb: 20 },
   { slug: 'resize-image-to-50kb', title: 'Resize Image to 50KB', keyword: 'resize image to 50kb', width: 600, height: 600, format: 'jpeg', maxKb: 50 },
   { slug: 'resize-image-to-100kb', title: 'Resize Image to 100KB', keyword: 'resize image to 100kb', width: 800, height: 800, format: 'jpeg', maxKb: 100 },
+  { slug: 'resize-image-to-10kb', title: 'Resize Image to 10KB', keyword: 'resize image to 10kb', width: 240, height: 240, format: 'jpeg', maxKb: 10 },
+  { slug: 'resize-image-to-15kb', title: 'Resize Image to 15KB', keyword: 'resize image to 15kb', width: 300, height: 300, format: 'jpeg', maxKb: 15 },
+  { slug: 'resize-image-to-25kb', title: 'Resize Image to 25KB', keyword: 'resize image to 25kb', width: 400, height: 400, format: 'jpeg', maxKb: 25 },
+  { slug: 'resize-image-to-30kb', title: 'Resize Image to 30KB', keyword: 'resize image to 30kb', width: 450, height: 450, format: 'jpeg', maxKb: 30 },
+  { slug: 'resize-image-to-40kb', title: 'Resize Image to 40KB', keyword: 'resize image to 40kb', width: 500, height: 500, format: 'jpeg', maxKb: 40 },
+  { slug: 'resize-image-to-75kb', title: 'Resize Image to 75KB', keyword: 'resize image to 75kb', width: 700, height: 700, format: 'jpeg', maxKb: 75 },
+  { slug: 'resize-image-to-150kb', title: 'Resize Image to 150KB', keyword: 'resize image to 150kb', width: 1000, height: 1000, format: 'jpeg', maxKb: 150 },
+  { slug: 'resize-image-to-200kb', title: 'Resize Image to 200KB', keyword: 'resize image to 200kb', width: 1200, height: 1200, format: 'jpeg', maxKb: 200 },
+  { slug: 'resize-image-to-250kb', title: 'Resize Image to 250KB', keyword: 'resize image to 250kb', width: 1200, height: 1200, format: 'jpeg', maxKb: 250 },
+  { slug: 'resize-image-to-500kb', title: 'Resize Image to 500KB', keyword: 'resize image to 500kb', width: 1600, height: 1600, format: 'jpeg', maxKb: 500 },
+  { slug: 'compress-image-to-50kb', title: 'Compress Image to 50KB', keyword: 'compress image to 50kb', width: 800, height: 800, format: 'jpeg', maxKb: 50, fit: 'contain' },
+  { slug: 'compress-image-to-100kb', title: 'Compress Image to 100KB', keyword: 'compress image to 100kb', width: 1000, height: 1000, format: 'jpeg', maxKb: 100, fit: 'contain' },
+  { slug: 'compress-image-to-200kb', title: 'Compress Image to 200KB', keyword: 'compress image to 200kb', width: 1400, height: 1400, format: 'jpeg', maxKb: 200, fit: 'contain' },
+  { slug: 'jpg-resize-to-50kb', title: 'JPG Resize to 50KB', keyword: 'jpg resize to 50kb', width: 600, height: 600, format: 'jpeg', maxKb: 50 },
+  { slug: 'jpg-resize-to-100kb', title: 'JPG Resize to 100KB', keyword: 'jpg resize to 100kb', width: 800, height: 800, format: 'jpeg', maxKb: 100 },
+  { slug: 'png-to-webp-converter', title: 'PNG to WebP Converter', keyword: 'png to webp converter', width: 1600, height: 1200, format: 'webp', fit: 'contain' },
+  { slug: 'webp-to-png-converter', title: 'WebP to PNG Converter', keyword: 'webp to png converter', width: 1600, height: 1200, format: 'png', fit: 'contain' },
+  { slug: 'resume-photo-resizer', title: 'Resume Photo Resizer', keyword: 'resume photo resizer', width: 600, height: 600, format: 'jpeg', maxKb: 100 },
+  { slug: 'job-application-photo-resizer', title: 'Job Application Photo Resizer', keyword: 'job application photo resizer', width: 600, height: 600, format: 'jpeg', maxKb: 50 },
+  { slug: 'online-form-photo-resizer', title: 'Online Form Photo Resizer', keyword: 'online form photo resizer', width: 500, height: 500, format: 'jpeg', maxKb: 50 },
   { slug: 'compress-image-to-20kb', title: 'Compress Image to 20KB', keyword: 'compress image to 20kb', width: 1000, height: 1000, format: 'jpeg', maxKb: 20, fit: 'contain' },
   { slug: 'jpg-resize-to-20kb', title: 'JPG Resize to 20KB', keyword: 'jpg resize 20kb', width: 300, height: 300, format: 'jpeg', maxKb: 20 },
   { slug: 'make-photo-100kb', title: 'Make Photo 100KB', keyword: 'make 100 kb photo', width: 800, height: 800, format: 'jpeg', maxKb: 100, fit: 'contain' },
@@ -215,6 +235,60 @@ const imageToolOverrides: Record<
   string,
   Partial<Pick<AdvancedTool, 'description' | 'seoTitle' | 'keywords' | 'faqs' | 'bodySections'>>
 > = {
+  'resize-image-to-10kb': {
+    description: 'Free resize image to 10KB tool. Compress a JPG, PNG, or WebP into a tiny upload-ready image in your browser without signup.',
+    seoTitle: 'Resize Image to 10KB Online Free',
+    keywords: ['resize image to 10kb', 'image under 10kb', 'compress photo to 10kb', '10kb image resizer', 'photo size 10kb'],
+    faqs: [
+      { q: 'Can an image still look clear at 10KB?', a: 'Only simple profile photos, icons, signatures, and small headshots usually hold up at 10KB. Use a higher limit if the upload form allows it.' },
+      { q: 'Is this good for strict application forms?', a: 'Yes. Use it when a portal gives a very small maximum file size and rejects anything larger.' },
+      { q: 'Are files uploaded to a server?', a: 'No. The resize and compression process runs locally in your browser.' },
+    ],
+    bodySections: [
+      { heading: 'Resize image to 10KB for strict upload portals', body: 'A 10KB image limit is unusually tight, so this preset focuses on small square outputs that can pass older forms, profile uploads, and lightweight attachment checks.' },
+      { heading: 'Start from a simple crop', body: 'For the best result, crop out empty background first. A clean face photo or signature compresses better than a full-resolution phone image.' },
+    ],
+  },
+  'resize-image-to-15kb': {
+    description: 'Free resize image to 15KB tool. Reduce a photo below 15KB in your browser for application portals, profile images, and small form uploads.',
+    seoTitle: 'Resize Image to 15KB Online Free',
+    keywords: ['resize image to 15kb', 'image under 15kb', 'compress image to 15kb', 'photo under 15kb', '15kb image resizer'],
+  },
+  'resize-image-to-30kb': {
+    description: 'Free resize image to 30KB tool. Make a photo or form image fit under a 30KB upload limit without installing software.',
+    seoTitle: 'Resize Image to 30KB Online Free',
+    keywords: ['resize image to 30kb', 'photo under 30kb', 'compress image to 30kb', 'image size 30kb', '30kb photo resizer'],
+  },
+  'resize-image-to-200kb': {
+    description: 'Free resize image to 200KB tool. Compress large photos into a cleaner 200KB upload file while keeping more detail than tiny 20KB limits.',
+    seoTitle: 'Resize Image to 200KB Online Free',
+    keywords: ['resize image to 200kb', 'compress image to 200kb', 'photo under 200kb', 'image size 200kb', '200kb image resizer'],
+  },
+  'resize-image-to-500kb': {
+    description: 'Free resize image to 500KB tool. Reduce a large image under 500KB for web uploads, forms, CMS images, and email attachments.',
+    seoTitle: 'Resize Image to 500KB Online Free',
+    keywords: ['resize image to 500kb', 'compress image to 500kb', 'photo under 500kb', '500kb image resizer', 'reduce image size to 500kb'],
+  },
+  'compress-image-to-50kb': {
+    description: 'Free compress image to 50KB tool. Reduce a photo or form image below 50KB in your browser without an account or watermark.',
+    seoTitle: 'Compress Image to 50KB Online Free',
+    keywords: ['compress image to 50kb', 'image under 50kb', 'reduce photo size to 50kb', 'photo compressor 50kb', 'resize image to 50kb'],
+  },
+  'compress-image-to-100kb': {
+    description: 'Free compress image to 100KB tool. Make a photo smaller for upload forms, web profiles, and document portals while keeping useful detail.',
+    seoTitle: 'Compress Image to 100KB Online Free',
+    keywords: ['compress image to 100kb', 'image under 100kb', 'reduce photo size to 100kb', 'photo compressor 100kb', 'resize image to 100kb'],
+  },
+  'job-application-photo-resizer': {
+    description: 'Free job application photo resizer. Resize and compress a profile photo for job portals, resumes, and application forms in your browser.',
+    seoTitle: 'Job Application Photo Resizer Online Free',
+    keywords: ['job application photo resizer', 'resume photo resizer', 'profile photo for job application', 'photo under 50kb', 'application photo resizer'],
+  },
+  'online-form-photo-resizer': {
+    description: 'Free online form photo resizer. Prepare a small JPG photo for portals that require specific dimensions or a strict file-size limit.',
+    seoTitle: 'Online Form Photo Resizer Free',
+    keywords: ['online form photo resizer', 'application form photo resizer', 'resize photo for form', 'photo upload size reducer', 'profile photo resizer'],
+  },
   'resize-image-to-20kb': {
     description: 'Free resize image to 20KB tool. Upload a JPG, PNG, or photo, reduce the file to 20KB or less, and download the result in your browser without signup.',
     seoTitle: 'Resize Image to 20KB Online Free | Photo Under 20KB',
@@ -443,6 +517,9 @@ const textToolData: Array<{
   { slug: 'testimonial-request-generator', title: 'Testimonial Request Generator', keyword: 'testimonial request generator', template: 'testimonial-request', resultLabel: 'testimonial request' },
   { slug: 'client-offboarding-checklist-generator', title: 'Client Offboarding Checklist Generator', keyword: 'client offboarding checklist generator', template: 'offboarding-checklist', resultLabel: 'offboarding checklist' },
   { slug: 'seo-meta-description-generator', title: 'SEO Meta Description Generator', keyword: 'seo meta description generator', template: 'seo-meta', resultLabel: 'meta descriptions' },
+  { slug: 'case-study-outline-generator', title: 'Case Study Outline Generator', keyword: 'case study outline generator', template: 'case-study', resultLabel: 'case study outline' },
+  { slug: 'payment-terms-generator', title: 'Payment Terms Generator', keyword: 'payment terms generator', template: 'payment-terms', resultLabel: 'payment terms' },
+  { slug: 'freelance-rate-card-generator', title: 'Freelance Rate Card Generator', keyword: 'freelance rate card generator', template: 'rate-card', resultLabel: 'rate card' },
 ]
 
 function makeTextTool(data: (typeof textToolData)[number]): AdvancedTool {
