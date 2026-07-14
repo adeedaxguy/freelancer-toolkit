@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-07-13T23:01:28.996Z",
+  "generatedAt": "2026-07-14T00:35:57.050Z",
   "project": "FreelTools.com",
   "exportDir": "seo/exports",
   "inventory": {
-    "tools": 198,
+    "tools": 203,
     "blogPosts": 65
   },
   "missingExports": [
@@ -155,15 +155,6 @@
       "url": "/blog/freelance-profit-margin"
     },
     {
-      "slug": "freelance-proposal-template",
-      "title": "Freelance Proposal Template That Wins Clients",
-      "score": 9,
-      "issues": [
-        "missing FAQ"
-      ],
-      "url": "/blog/freelance-proposal-template"
-    },
-    {
       "slug": "freelance-retainer-pricing",
       "title": "How to Price a Freelance Retainer (And Why You Should)",
       "score": 9,
@@ -225,6 +216,15 @@
         "missing FAQ"
       ],
       "url": "/blog/how-to-price-rush-job-freelance"
+    },
+    {
+      "slug": "project-cost-estimate-clients",
+      "title": "How to Estimate Project Costs for Clients Accurately",
+      "score": 9,
+      "issues": [
+        "missing FAQ"
+      ],
+      "url": "/blog/project-cost-estimate-clients"
     }
   ],
   "topPages": [],

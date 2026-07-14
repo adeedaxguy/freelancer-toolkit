@@ -86,16 +86,18 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
         slug: 'project-price-calculator',
         title: 'Project Price Calculator',
         headline: 'Calculate the Right Price for a Freelance Project',
-        description: 'Free project price calculator for freelancers and agencies. Estimate hours, rate, revision time, and scope buffer to turn project cost into a client-ready quote.',
-        seoTitle: 'Project Price Calculator | Free Freelance Quote Tool',
+        description: 'Free project price calculator for freelancers and agencies. Estimate hours, rate, revision time, scope buffer, and fixed-price risk before sending a client quote.',
+        seoTitle: 'Project Price Calculator for Freelancers | Free Quote Tool',
         icon: '🏷️',
         category: 'Pricing & Profitability',
-        keywords: ['project price calculator', 'freelance project price calculator', 'project quote calculator', 'fixed price project calculator', 'client project pricing tool'],
+        keywords: ['project price calculator', 'freelance project price calculator', 'project quote calculator', 'fixed price project calculator', 'client project pricing tool', 'project pricing calculator for freelancers', 'freelance quote calculator'],
         faqs: [
           { q: 'What is a project price calculator?', a: 'A project price calculator turns estimated work, hourly rate, revisions, and scope buffer into a client-facing fixed price. It helps you quote based on real effort instead of guessing.' },
           { q: 'Is project price different from project cost?', a: 'Yes. Project cost is what it takes you to deliver the work. Project price is what the client pays after adding margin, risk buffer, revisions, and value.' },
           { q: 'How much buffer should I add to a fixed-price project?', a: 'Most freelancers add a 15-25% scope buffer. Use a higher buffer if requirements are unclear, stakeholders are slow, or the project has technical risk.' },
           { q: 'Can I use this for agency pricing?', a: 'Yes. It works for freelancers and agencies when you know the estimated hours, blended rate, revision time, and scope buffer.' },
+          { q: 'Can I use this for web design or SEO projects?', a: 'Yes. Use it for web design, SEO, development, writing, consulting, and other fixed-scope services where you need to turn effort and risk into a quote.' },
+          { q: 'What should I do after calculating the project price?', a: 'Turn the price into a proposal, then document the scope. FreelTools pairs this calculator with the Proposal Generator and Scope of Work Generator so the quote is easier to explain.' },
         ],
         bodySections: [
           {
@@ -106,6 +108,21 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
             heading: 'Built for fixed-price freelance work',
             body: 'Fixed-price work can be profitable only when the quote includes non-obvious time. This calculator makes room for project management, QA, revisions, and the uncertainty that usually appears after kickoff.',
           },
+          {
+            heading: 'From calculator to proposal',
+            body: 'After you calculate the price, use the Proposal Generator to explain the value and the Scope of Work Generator to define what is included. That workflow keeps the client-facing number connected to deliverables, timeline, revisions, and payment terms.',
+          },
+          {
+            heading: 'Useful across service types',
+            body: 'The same pricing logic works for web design, development, SEO, writing, consulting, design, and agency services. Adjust the hours, revision allowance, and buffer based on how clear the scope is.',
+          },
+        ],
+        programmaticVariants: [
+          { slug: 'for-web-design-projects', label: 'for Web Design Projects' },
+          { slug: 'for-seo-projects', label: 'for SEO Projects' },
+          { slug: 'for-consulting-projects', label: 'for Consulting Projects' },
+          { slug: 'for-fixed-price-projects', label: 'for Fixed-Price Projects' },
+          { slug: 'for-agency-projects', label: 'for Agency Projects' },
         ],
       },
       {
