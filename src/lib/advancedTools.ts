@@ -56,6 +56,7 @@ type AdvancedTool = {
   category: string
   keywords: string[]
   faqs: { q: string; a: string }[]
+  answerBox?: { short: string; bullets?: string[] }
   seoTitle?: string
   bodySections?: { heading: string; body: string }[]
   advancedTool: AdvancedToolConfig
@@ -254,7 +255,7 @@ const imagePresets: Array<{
 
 const imageToolOverrides: Record<
   string,
-  Partial<Pick<AdvancedTool, 'description' | 'seoTitle' | 'keywords' | 'faqs' | 'bodySections'>>
+  Partial<Pick<AdvancedTool, 'description' | 'seoTitle' | 'keywords' | 'faqs' | 'bodySections' | 'answerBox'>>
 > = {
   'resize-image-to-10kb': {
     description: 'Free resize image to 10KB tool. Compress a JPG, PNG, or WebP into a tiny upload-ready image in your browser without signup.',
@@ -314,6 +315,10 @@ const imageToolOverrides: Record<
     description: 'Free resize image to 20KB tool. Upload a JPG, PNG, or photo, reduce the file to 20KB or less, and download the result in your browser without signup.',
     seoTitle: 'Resize Image to 20KB Online Free | Photo Under 20KB',
     keywords: ['resize image to 20kb', 'photo under 20kb', 'image size 20kb', 'compress image to 20kb', 'resize photo under 20kb'],
+    answerBox: {
+      short: 'To resize an image to 20KB, start with the smallest clean crop possible, then reduce dimensions and JPEG quality until the file lands at 20KB or less. This tool is built for that exact upload-form workflow.',
+      bullets: ['Best fit: government, school, and job portals with strict size limits', 'Outperformance angle: exact-size workflow plus private in-browser processing'],
+    },
     faqs: [
       { q: 'Can I resize an image to exactly 20KB?', a: 'The tool targets 20KB or less by adjusting dimensions and JPEG quality. Exact file size can vary slightly by the source image, but it is built for strict upload limits.' },
       { q: 'Does this work for photos and scanned documents?', a: 'Yes. It works best for JPG-style photos, form uploads, passport images, signatures, and other files that need a small size target.' },
@@ -354,6 +359,10 @@ const imageToolOverrides: Record<
     description: 'Free JPG resize to 20KB tool. Reduce a JPG photo under a 20KB limit and download the compressed version instantly in your browser.',
     seoTitle: 'JPG Resize to 20KB Online | Free JPG Compressor',
     keywords: ['jpg resize 20kb', 'jpg to 20kb', 'resize jpg to 20kb', 'compress jpg under 20kb', 'jpg file size 20kb'],
+    answerBox: {
+      short: 'JPG is usually the fastest format for hitting a 20KB limit because JPEG compression removes more weight than PNG on photo-style images. This page focuses on the strict JPG upload use case rather than generic image editing.',
+      bullets: ['Best fit: JPG-only forms, signatures, profile photos, and attachments', 'Outperformance angle: JPG-first workflow for repeat low-KB uploads'],
+    },
     faqs: [
       { q: 'Does this work only for JPG images?', a: 'This preset is optimized for JPG output because JPEG compression is usually the fastest way to reach a strict 20KB size target.' },
       { q: 'Can I convert a PNG photo and still hit 20KB?', a: 'Yes. Upload the file and the tool can export it as a JPG to help reduce the final size for upload forms.' },
@@ -367,6 +376,54 @@ const imageToolOverrides: Record<
       {
         heading: 'Fast for repeat document uploads',
         body: 'If you regularly prepare profile photos, signatures, or scanned JPG attachments, this preset helps you get under 20KB faster than resizing by hand.',
+      },
+    ],
+  },
+  'resize-photo-to-413x531': {
+    description: 'Free resize photo to 413x531 tool. Export a 35x45mm-style photo at 300 DPI for passport, visa, and form uploads without using desktop software.',
+    seoTitle: 'Resize Photo to 413x531 Online Free',
+    keywords: ['resize photo to 413x531', '413x531 photo resize', '413x531 passport photo', '35x45mm photo in pixels', '413x531 image resizer'],
+    answerBox: {
+      short: 'A 35x45mm passport-style photo exported at 300 DPI is about 413x531 pixels. This tool is for people who already know the pixel target and need the file quickly for a visa, passport, or application upload.',
+      bullets: ['Best fit: 35x45mm digital uploads and print-ready passport photos', 'Outperformance angle: exact 413x531 export instead of generic square passport croppers'],
+    },
+    faqs: [
+      { q: 'Why is 35x45mm often saved as 413x531 pixels?', a: 'At 300 DPI, 35x45mm converts to roughly 413x531 pixels. That is why many passport-style digital workflows use this exact pixel size.' },
+      { q: 'Is 413x531 the same as every passport photo size?', a: 'No. It matches the common 35x45mm format, but some countries and portals ask for 2x2 inch, 600x600, or other exact dimensions.' },
+      { q: 'Can I print the result after resizing?', a: 'Yes. This output is aligned with 300 DPI print sizing, but you should still confirm the official photo rules before submitting or printing.' },
+    ],
+    bodySections: [
+      {
+        heading: 'Resize photo to 413x531 for 35x45mm requirements',
+        body: 'People searching for 413x531 usually already know the target and want the file, not a long tutorial. This page gives them the exact pixel workflow tied to the common 35x45mm passport-photo format.',
+      },
+      {
+        heading: 'Useful for passport, visa, and portal uploads',
+        body: 'Use this preset when a portal asks for 35x45mm sizing in pixel form or when you want to prepare a clean digital file before creating a print sheet or country-specific photo export.',
+      },
+    ],
+  },
+  'passport-size-photo-resizer': {
+    description: 'Free passport size photo resizer. Resize a portrait into a passport-style crop, export a 35x45mm-ready JPG, and prepare a clean upload file in your browser.',
+    seoTitle: 'Passport Size Photo Resizer Online Free',
+    keywords: ['passport size photo resizer', 'resize picture passport size', 'passport photo resizer online', 'passport size photo maker', 'passport image resizer'],
+    answerBox: {
+      short: 'A passport size photo resizer should do more than shrink the file. It needs the right crop ratio, a clean export, and enough detail for form uploads or print sheets.',
+      bullets: ['Best fit: generic passport-style crops before country-specific checks', 'Outperformance angle: privacy-safe cropper for both upload and print prep'],
+    },
+    faqs: [
+      { q: 'What passport size does this resizer make?', a: 'This preset is built around a common 35x45mm passport-style output at 300 DPI. Always confirm whether your application wants that size or another format such as 2x2 inches.' },
+      { q: 'Can I use this for visa photos too?', a: 'Yes, when the visa application uses a passport-style crop. If you already know the country format, a country-specific preset can be a safer choice.' },
+      { q: 'Will the file stay private?', a: 'Yes. The crop and export happen in your browser, so the source photo is not uploaded to a remote server.' },
+    ],
+    bodySections: [
+      {
+        heading: 'Passport size photo resizer for fast form prep',
+        body: 'Many searchers want a general passport-size workflow before they know the exact country rule. This page gives them a practical crop-and-export step without asking them to install photo software.',
+      },
+      {
+        heading: 'Use this before a country-specific final check',
+        body: 'The safest workflow is to resize the portrait into a clean passport-style image first, then compare it against the government or visa portal rules for background, head size, and final upload format.',
       },
     ],
   },

@@ -9,6 +9,7 @@ export interface ToolMeta {
   category: string
   keywords: string[]
   faqs: { q: string; a: string }[]
+  answerBox?: { short: string; bullets?: string[] }
   programmaticVariants?: { slug: string; label: string; values?: Record<string, number | string> }[]
   seoTitle?: string
   bodySections?: { heading: string; body: string }[]
@@ -59,6 +60,10 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
         icon: '📋',
         category: 'Pricing & Profitability',
         keywords: ['project cost calculator', 'project price calculator', 'freelance project pricing', 'how to quote a freelance project', 'freelance services pricing calculator', 'freelance price calculator', 'project quote calculator'],
+        answerBox: {
+          short: 'A freelance project cost calculator should start with delivery hours, then add revision time and a 15-25% scope buffer before you send a fixed quote. That keeps the client price tied to real effort instead of guesswork.',
+          bullets: ['Best fit: fixed-scope freelance and agency quotes', 'Outperformance angle: reverse-pricing plus revision and scope-risk protection'],
+        },
         faqs: [
           { q: 'How do I price a freelance project?', a: "Estimate hours × your hourly rate, then add a 15–25% scope buffer for unknowns, plus hours for revisions. This gives a quote that protects your margin." },
           { q: 'What is a scope buffer?', a: "A scope buffer (typically 15–25%) is padding added to your base estimate to cover unexpected work, client changes, or complexity you didn't anticipate." },
@@ -91,6 +96,10 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
         icon: '🏷️',
         category: 'Pricing & Profitability',
         keywords: ['project price calculator', 'freelance project price calculator', 'project quote calculator', 'fixed price project calculator', 'client project pricing tool', 'project pricing calculator for freelancers', 'freelance quote calculator'],
+        answerBox: {
+          short: 'Use a project price calculator when you need the client-facing quote, not just the internal delivery cost. The safe workflow is hours + rate + revisions + scope buffer, then convert that into a price you can defend in a proposal.',
+          bullets: ['Best fit: freelancer, agency, and consulting project quotes', 'Outperformance angle: freelancer-specific pricing instead of generic construction or software estimators'],
+        },
         faqs: [
           { q: 'What is a project price calculator?', a: 'A project price calculator turns estimated work, hourly rate, revisions, and scope buffer into a client-facing fixed price. It helps you quote based on real effort instead of guessing.' },
           { q: 'Is project price different from project cost?', a: 'Yes. Project cost is what it takes you to deliver the work. Project price is what the client pays after adding margin, risk buffer, revisions, and value.' },
@@ -134,6 +143,10 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
         icon: '🧾',
         category: 'Pricing & Profitability',
         keywords: ['freelance services pricing calculator', 'freelance service pricing tool', 'price freelance services', 'service business pricing calculator', 'freelance pricing calculator'],
+        answerBox: {
+          short: 'A freelance services pricing calculator helps you price packaged services by including production time, revisions, project management, and a scope buffer. It is more useful than a plain hourly worksheet when you sell service bundles or retainers.',
+          bullets: ['Best fit: packaged SEO, design, writing, and consulting offers', 'Outperformance angle: ties service pricing to real delivery time and margin protection'],
+        },
         faqs: [
           { q: 'How do I price freelance services?', a: 'Break the service into tasks, estimate hours, multiply by your rate, then add time for revisions, communication, QA, and scope risk. The calculator turns that into a quote.' },
           { q: 'What services can I price with this?', a: 'Use it for web design, development, SEO, copywriting, content, consulting, creative services, and agency packages.' },
@@ -160,6 +173,10 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
         icon: '💵',
         category: 'Pricing & Profitability',
         keywords: ['freelance pricing calculator', 'freelance price calculator', 'freelance quote calculator', 'freelance project pricing calculator', 'freelance pricing template'],
+        answerBox: {
+          short: 'A freelance pricing calculator should show the price that protects your take-home income after revision time and scope risk, not only hours times rate. That makes it useful for fast quotes when you do not want to rebuild a spreadsheet.',
+          bullets: ['Best fit: one-off quotes and simple service packages', 'Outperformance angle: faster browser workflow than generic spreadsheet templates'],
+        },
         faqs: [
           { q: 'What should I enter in a freelance pricing calculator?', a: 'Enter your estimated hours, hourly rate, revision time, and scope buffer. The calculator will turn those inputs into a recommended project price.' },
           { q: 'Can this replace a pricing spreadsheet?', a: 'For many simple quotes, yes. It gives you a fast browser-based pricing workflow without downloading a spreadsheet or template.' },
@@ -347,6 +364,10 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
         icon: '🟢',
         category: 'Marketplace Tools',
         keywords: ['fiverr fee calculator', 'fiverr calculator', 'fiverr seller fee calculator', 'fiverr buyer fee calculator', 'how much does fiverr take', 'fiverr seller fees', 'fiverr buyer service fee', 'fiverr small order fee', 'fiverr profit calculator', 'fiverr 20 percent calculator', 'fiverr commission calculator', 'fiverr gig price calculator', 'fiverr take home calculator'],
+        answerBox: {
+          short: 'For planning, many freelancers model Fiverr seller fees at 20% of the order value, so a $100 order leaves about $80 before taxes and withdrawal costs. This calculator goes further by showing buyer fees, small-order fees, tips, and the gross price needed to hit a target net.',
+          bullets: ['Best fit: sellers pricing gigs and buyers checking checkout totals', 'Outperformance angle: seller net, buyer total, and reverse pricing on one page'],
+        },
         faqs: [
           { q: 'How much does Fiverr take from a $100 gig?', a: 'Using the common 20% seller-fee planning model, Fiverr takes about $20 from a $100 order and the seller keeps about $80 before taxes, withdrawal costs, or currency conversion.' },
           { q: 'How much does Fiverr take from sellers?', a: 'The standard Fiverr seller fee is commonly planned as 20% of the order value. If your gig is priced at $100, the calculator shows a $20 Fiverr fee and $80 seller net before taxes, withdrawal costs, or currency conversion.' },
@@ -402,6 +423,10 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
         icon: '🟢',
         category: 'Marketplace Tools',
         keywords: ['fiverr seller fee calculator', 'fiverr fees for sellers', 'fiverr seller fees', 'how much fiverr charge from seller', 'fiverr seller commission calculator'],
+        answerBox: {
+          short: 'A Fiverr seller fee calculator is for one decision: how much of the order you actually keep. Start with the gig price or target take-home amount, then check the seller fee and reverse-price the offer before you publish it.',
+          bullets: ['Best fit: take-home pricing for gigs, custom offers, and milestones', 'Outperformance angle: reverse-price from target net instead of only showing commission math'],
+        },
         faqs: [
           { q: 'How much does Fiverr take from sellers?', a: 'Sellers commonly plan around a 20% Fiverr fee on order value. A $100 gig would net about $80 before taxes, withdrawal fees, and currency conversion.' },
           { q: 'Does this include tips?', a: 'Yes. Enter the tip amount separately and the calculator estimates seller fees and net earnings on the full order plus tip.' },
@@ -416,6 +441,10 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
           {
             heading: 'Reverse price from your target net',
             body: 'Most Fiverr pricing mistakes happen when sellers quote the amount they want to keep. This calculator starts from target net income and shows the gross gig price needed after fees.',
+          },
+          {
+            heading: 'Useful when comparing simple gigs against custom offers',
+            body: 'The same fee math applies to a low-ticket gig, a package upgrade, or a larger custom offer. Running all three through the calculator makes it easier to spot when a gig price looks attractive in search results but is too thin after Fiverr takes its cut.',
           },
         ],
       },
