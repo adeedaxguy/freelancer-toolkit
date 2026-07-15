@@ -14,6 +14,8 @@ const popularToolSlugs = [
 ]
 
 const resourceLinks = [
+  { label: 'About', href: '/about' },
+  { label: 'Contact', href: '/contact' },
   { label: 'Blog', href: '/blog' },
   { label: 'Browse all tools', href: '/#tools' },
   { label: 'Request a tool', href: '/#request-tool' },
@@ -116,6 +118,12 @@ export default function Footer() {
             © {new Date().getFullYear()} FreelancerToolkit. All rights reserved.
           </p>
           <div className="flex flex-wrap gap-4 text-xs text-gray-400">
+            <Link href="/about" className="hover:text-white">
+              About
+            </Link>
+            <Link href="/contact" className="hover:text-white">
+              Contact
+            </Link>
             <Link href="/privacy" className="hover:text-white">
               Privacy
             </Link>

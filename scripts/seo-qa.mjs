@@ -98,6 +98,57 @@ function collectBlogFiles() {
     .map((file) => path.join(BLOG_DIR, file))
 }
 
+function checkAdSenseReadinessSignals() {
+  const requiredRoutes = ['about', 'contact', 'privacy', 'terms']
+  const sitemap = path.join(APP_DIR, 'sitemap.ts')
+  const footer = path.join(ROOT, 'src/components/Footer.tsx')
+  const privacy = path.join(APP_DIR, 'privacy/page.tsx')
+  const terms = path.join(APP_DIR, 'terms/page.tsx')
+
+  for (const route of requiredRoutes) {
+    const routeFile = path.join(APP_DIR, route, 'page.tsx')
+    if (!exists(routeFile)) {
+      errors.push(`AdSense readiness failed: missing /${route} page`)
+    }
+  }
+
+  if (exists(sitemap)) {
+    const sitemapContent = read(sitemap)
+    for (const route of requiredRoutes) {
+      if (!sitemapContent.includes(`/${route}`)) {
+        errors.push(`AdSense readiness failed: /${route} is missing from sitemap.ts`)
+      }
+    }
+  }
+
+  if (exists(footer)) {
+    const footerContent = read(footer)
+    for (const route of requiredRoutes) {
+      if (!footerContent.includes(`href="/${route}"`) && !footerContent.includes(`href: '/${route}'`)) {
+        errors.push(`AdSense readiness failed: footer does not link /${route}`)
+      }
+    }
+  }
+
+  if (exists(privacy)) {
+    const privacyContent = read(privacy).toLowerCase()
+    for (const term of ['cookies', 'analytics', 'advertising', 'children', 'contact']) {
+      if (!privacyContent.includes(term)) {
+        errors.push(`AdSense readiness failed: privacy policy is missing ${term} coverage`)
+      }
+    }
+  }
+
+  if (exists(terms)) {
+    const termsContent = read(terms).toLowerCase()
+    for (const term of ['advertising', 'third-party', 'professional advice', 'contact']) {
+      if (!termsContent.includes(term)) {
+        errors.push(`AdSense readiness failed: terms page is missing ${term} coverage`)
+      }
+    }
+  }
+}
+
 function checkPublicToolCountSource() {
   const hardcodedCountPattern = /\b\d{2,4}\s+(?:Free\s+)?Tools?\b/i
 
@@ -222,6 +273,7 @@ const seenTitles = new Set()
 const seenDescriptions = new Set()
 
 checkPublicToolCountSource()
+checkAdSenseReadinessSignals()
 
 for (const file of blogFiles) {
   const { data, content } = parseFrontmatter(read(file))

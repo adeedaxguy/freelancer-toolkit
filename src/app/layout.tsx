@@ -37,6 +37,8 @@ const organizationSchema = {
     '@type': 'ContactPoint',
     email: 'adnan@technodigg.com',
     contactType: 'customer support',
+    url: `${SITE_URL}/contact`,
+    availableLanguage: ['en'],
   },
   sameAs: [],
 }
