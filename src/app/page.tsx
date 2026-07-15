@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import ToolCard from '@/components/ToolCard'
 import EmailCapture from '@/components/EmailCapture'
 import RequestATool from '@/components/RequestATool'
 import { getCategoryUrl } from '@/lib/categoryPages'
@@ -100,7 +99,7 @@ const homepageFaqSchema = {
       name: 'Does FreelancerToolkit store my financial data?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'No. All calculations on FreelancerToolkit happen in your browser. Nothing is sent to a server or stored. Your financial numbers stay completely private on your device.',
+        text: 'No. Most calculations and browser-based file tools on FreelancerToolkit run locally in your browser. Your financial numbers and many uploaded files stay on your device.',
       },
     },
     {
@@ -114,158 +113,255 @@ const homepageFaqSchema = {
   ],
 }
 
-const stats = [
-  { label: 'Free Tools', value: TOOL_COUNT_LABEL },
-  { label: 'No Login Required', value: '✓' },
-  { label: 'Data Stored', value: '0' },
+const allTools = TOOL_CATEGORIES.flatMap((cat) => cat.tools)
+
+function getTool(slug: string) {
+  const tool = allTools.find((item) => item.slug === slug)
+  if (!tool) throw new Error(`Missing homepage tool: ${slug}`)
+  return tool
+}
+
+const primaryTools = [
+  getTool('freelancer-rate-calculator'),
+  getTool('project-cost-calculator'),
+  getTool('fiverr-fee-calculator'),
+  getTool('invoice-generator'),
+  getTool('proposal-generator'),
+  getTool('germany-visa-photo-generator'),
+]
+
+const quickTasks = [
+  { label: 'Price a project', href: '/tools/project-cost-calculator', eyebrow: 'Pricing' },
+  { label: 'Calculate platform fees', href: '/tools/fiverr-fee-calculator', eyebrow: 'Marketplace' },
+  { label: 'Create an invoice', href: '/tools/invoice-generator', eyebrow: 'Operations' },
+  { label: 'Generate a proposal', href: '/tools/proposal-generator', eyebrow: 'Client work' },
+  { label: 'Make a visa photo', href: '/tools/germany-visa-photo-generator', eyebrow: 'Applications' },
+  { label: 'Resize to 20KB', href: '/tools/resize-image-to-20kb', eyebrow: 'File upload' },
+]
+
+const proofPoints = [
+  { value: TOOL_COUNT_LABEL, label: 'free tools' },
+  { value: '0', label: 'accounts required' },
+  { value: 'Local', label: 'browser-first file tools' },
+]
+
+const workflowSteps = [
+  { title: 'Quote', body: 'Find your rate, project cost, retainers, fees, and profit targets before you send a price.' },
+  { title: 'Win', body: 'Turn discovery notes into proposals, scopes, contracts, questionnaires, and follow-up emails.' },
+  { title: 'Deliver', body: 'Prepare invoices, images, PDFs, passport photos, app files, and client documents faster.' },
 ]
 
 export default function HomePage() {
-  const totalTools = TOTAL_TOOLS
   const itemListSchema = buildItemListSchema()
 
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(homepageFaqSchema) }} />
-      {/* Hero */}
+
       <section className="border-b border-gray-100 bg-white">
-        <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
-          <div className="mx-auto max-w-[22rem] text-center sm:max-w-3xl">
-            <span className="mb-4 inline-block rounded-full bg-brand-100 px-4 py-1.5 text-sm font-medium text-brand-700">
-              {TOOL_COUNT_LABEL} Free Tools · No Account Needed
-            </span>
-            <h1 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-5xl lg:text-6xl">
-              <span className="block sm:inline">Tools That Help</span>{' '}
-              <span className="block sm:inline">Freelancers</span>{' '}
-              <span className="block text-brand-600 sm:inline">Charge What</span>{' '}
-              <span className="block text-brand-600 sm:inline">They&apos;re Worth</span>
+        <div className="mx-auto grid max-w-7xl gap-12 px-4 py-14 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:px-8 lg:py-20">
+          <div className="flex flex-col justify-center">
+            <div className="inline-flex w-fit items-center gap-2 rounded-full border border-brand-100 bg-brand-50 px-3 py-1 text-xs font-semibold text-brand-700">
+              <span className="h-1.5 w-1.5 rounded-full bg-brand-500" />
+              {TOOL_COUNT_LABEL} free freelancer tools
+            </div>
+            <h1 className="mt-6 max-w-3xl text-4xl font-extrabold leading-[1.05] text-gray-950 sm:text-5xl lg:text-6xl">
+              The freelancer operating system for pricing, paperwork, and files.
             </h1>
-            <p className="mt-6 text-base leading-7 text-gray-500 sm:text-lg">
-              Free calculators and generators for freelancers, agencies, and consultants. Calculate your rate, quote projects, generate proposals, create invoices, and grow your business.
+            <p className="mt-5 max-w-2xl text-base leading-8 text-gray-600 sm:text-lg">
+              Calculator-grade tools for client work, marketplace fees, invoices, proposals, passport photos, image resizing,
+              and PDFs. Free to use, fast to open, and built for people who bill their own work.
             </p>
-            <div className="mx-auto mt-8 flex max-w-xs flex-col justify-center gap-3 sm:max-w-none sm:flex-row sm:gap-4">
-              <Link href="/tools/freelancer-rate-calculator" className="btn-primary px-6 py-3 text-base">
-                Calculate Your Rate →
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <Link href="/tools/freelancer-rate-calculator" className="inline-flex justify-center rounded-full bg-gray-950 px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-gray-800">
+                Calculate your rate
               </Link>
-              <Link href="#tools" className="btn-secondary px-6 py-3 text-base">
-                Browse All {TOOL_COUNT_LABEL} Tools
-              </Link>
-            </div>
-            <div className="mx-auto mt-5 flex max-w-2xl flex-wrap justify-center gap-2 text-xs font-medium text-gray-500">
-              <Link href="/tools/fiverr-fee-calculator" className="rounded-full border border-gray-200 px-3 py-1.5 transition hover:border-brand-200 hover:bg-brand-50 hover:text-brand-700">
-                Estimate Fiverr fees
-              </Link>
-              <Link href="/tools/late-payment-fee-calculator" className="rounded-full border border-gray-200 px-3 py-1.5 transition hover:border-brand-200 hover:bg-brand-50 hover:text-brand-700">
-                Calculate late fees
-              </Link>
-              <Link href="/tools/resize-image-to-20kb" className="rounded-full border border-gray-200 px-3 py-1.5 transition hover:border-brand-200 hover:bg-brand-50 hover:text-brand-700">
-                Resize image to 20KB
-              </Link>
-              <Link href="/tools/germany-visa-photo-generator" className="rounded-full border border-gray-200 px-3 py-1.5 transition hover:border-brand-200 hover:bg-brand-50 hover:text-brand-700">
-                Make visa photos
-              </Link>
-              <Link href="/tools/app-icon-generator" className="rounded-full border border-gray-200 px-3 py-1.5 transition hover:border-brand-200 hover:bg-brand-50 hover:text-brand-700">
-                Generate app icons
+              <Link href="#tools" className="inline-flex justify-center rounded-full border border-gray-200 bg-white px-6 py-3 text-sm font-semibold text-gray-800 transition hover:border-brand-200 hover:text-brand-700">
+                Browse tool library
               </Link>
             </div>
-          </div>
-
-          {/* Stats */}
-          <div className="mt-12 grid grid-cols-3 gap-4 sm:gap-8">
-            {stats.map((s) => (
-              <div key={s.label} className="text-center">
-                <p className="text-2xl font-bold text-brand-600 sm:text-3xl">{s.value}</p>
-                <p className="mt-1 text-sm text-gray-500">{s.label}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Tools by category */}
-      <section id="tools" className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 space-y-16">
-        {TOOL_CATEGORIES.map((cat) => (
-          <div key={cat.slug} id={cat.name.toLowerCase().replace(/\s+/g, '-')}>
-            <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-              <div>
-                <h2 className="text-2xl font-bold text-gray-900 sm:text-3xl">
-                  <Link href={getCategoryUrl(cat)} className="hover:text-brand-600">{cat.name}</Link>
-                </h2>
-                <p className="mt-1 text-gray-500">{cat.description}</p>
-              </div>
-              <Link href={getCategoryUrl(cat)} className="text-sm font-semibold text-brand-600 hover:underline">
-                View category →
-              </Link>
-            </div>
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
-              {cat.tools.map((tool) => (
-                <ToolCard
-                  key={tool.slug}
-                  title={tool.title}
-                  description={tool.description}
-                  href={`/tools/${tool.slug}`}
-                  icon={tool.icon}
-                  keywords={tool.keywords}
-                />
+            <div className="mt-8 grid max-w-2xl grid-cols-3 gap-3">
+              {proofPoints.map((point) => (
+                <div key={point.label} className="rounded-lg border border-gray-100 bg-gray-50 p-4">
+                  <p className="text-xl font-bold text-gray-950">{point.value}</p>
+                  <p className="mt-1 text-xs leading-5 text-gray-500">{point.label}</p>
+                </div>
               ))}
             </div>
           </div>
-        ))}
-      </section>
 
-      {/* Email Capture */}
-      <section className="border-t border-gray-100 bg-brand-600">
-        <div className="mx-auto max-w-3xl px-4 py-16 text-center sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-white sm:text-3xl">Get New Tools First</h2>
-          <p className="mt-3 text-brand-100">
-            We&apos;re building even more free tools for freelancers. Join the list and be the first to know.
-          </p>
-          <EmailCapture />
-          <p className="mt-3 text-xs text-brand-200">No spam. Unsubscribe anytime.</p>
-        </div>
-      </section>
-
-      {/* Request a Tool */}
-      <RequestATool />
-
-      {/* SEO content section */}
-      <section className="border-t border-gray-100 bg-white">
-        <div className="mx-auto max-w-4xl px-4 py-14 sm:px-6 lg:px-8">
-          <h2 className="text-xl font-bold text-gray-900 sm:text-2xl">Free Tools Built for Freelancers, Agencies & Consultants</h2>
-          <div className="mt-4 space-y-4 text-sm leading-relaxed text-gray-600 sm:text-base">
-            <p>
-              FreelancerToolkit provides <strong>{TOOL_COUNT_LABEL} free tools</strong> designed for independent professionals and people who need fast document utilities. Whether you&apos;re pricing client work, preparing a proposal, creating a passport photo, resizing an application upload, or converting images to PDF, the tools work instantly — no login or subscription required.
-            </p>
-            <p>
-              Our <strong>freelance rate calculator</strong> helps you set your hourly rate based on your income goal, tax rate, and expenses. The <strong>project cost calculator</strong> lets you build a quote with scope buffers and revision rounds built in. The <strong>commission calculator</strong> compares fees across Upwork, Fiverr, Freelancer.com, and PeoplePerHour side by side.
-            </p>
-            <p>
-              For client acquisition, our <strong>proposal generator</strong> and <strong>scope of work generator</strong> produce professional documents you can copy and send in minutes. The <strong>discovery call script generator</strong> gives you a structured, category-specific script for winning new clients.
-            </p>
-            <p>
-              All tools are completely free, mobile-friendly, and optimized for search. No ads interrupt the experience. Built by freelancers, for freelancers.
-            </p>
+          <div className="rounded-lg border border-gray-200 bg-gray-950 p-4 shadow-2xl">
+            <div className="rounded-lg bg-white p-4">
+              <div className="flex items-center justify-between border-b border-gray-100 pb-3">
+                <div>
+                  <p className="text-xs font-semibold uppercase text-gray-400">Start with a job to be done</p>
+                  <p className="mt-1 text-sm font-bold text-gray-900">Popular workflows</p>
+                </div>
+                <span className="rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold text-brand-700">No login</span>
+              </div>
+              <div className="mt-4 grid gap-2">
+                {quickTasks.map((task) => (
+                  <Link
+                    key={task.href}
+                    href={task.href}
+                    className="group flex items-center justify-between rounded-lg border border-gray-100 px-4 py-3 transition hover:border-brand-200 hover:bg-brand-50"
+                  >
+                    <span>
+                      <span className="block text-[11px] font-semibold uppercase text-gray-400">{task.eyebrow}</span>
+                      <span className="mt-0.5 block text-sm font-semibold text-gray-900 group-hover:text-brand-700">{task.label}</span>
+                    </span>
+                    <span className="text-gray-300 group-hover:text-brand-600">→</span>
+                  </Link>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Why section */}
-      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-3xl text-center">
-          <h2 className="text-2xl font-bold text-gray-900">Why FreelancerToolkit?</h2>
-          <div className="mt-8 grid gap-6 sm:grid-cols-3">
-            {[
-              { icon: '⚡', title: 'Instant Results', body: 'All calculations happen in your browser. No waiting, no servers, no login.' },
-              { icon: '🔒', title: 'Private by Default', body: "We don't store your numbers. Your financial data stays on your device." },
-              { icon: '🎯', title: 'Built for Freelancers', body: 'Every input and formula is designed around how freelancers and agencies actually price their work.' },
-            ].map((f) => (
-              <div key={f.title} className="rounded-2xl border border-gray-100 bg-white p-6 text-left shadow-sm">
-                <span className="text-2xl">{f.icon}</span>
-                <h3 className="mt-3 font-semibold text-gray-900">{f.title}</h3>
-                <p className="mt-2 text-sm text-gray-500">{f.body}</p>
+      <section className="border-b border-gray-100 bg-gray-50">
+        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+          <div className="grid gap-4 md:grid-cols-3">
+            {workflowSteps.map((step) => (
+              <div key={step.title} className="rounded-lg border border-gray-200 bg-white p-5">
+                <h2 className="text-base font-bold text-gray-950">{step.title}</h2>
+                <p className="mt-2 text-sm leading-6 text-gray-600">{step.body}</p>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="tools" className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+        <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+          <div>
+            <p className="text-sm font-semibold uppercase text-brand-700">Most used tools</p>
+            <h2 className="mt-2 text-3xl font-extrabold text-gray-950">Open the right tool in one click</h2>
+            <p className="mt-3 max-w-2xl text-sm leading-7 text-gray-600">
+              Start with the highest-intent tools first, then browse the full library by category below.
+            </p>
+          </div>
+          <Link href="/tools/category/pricing" className="inline-flex w-fit rounded-full border border-gray-200 px-4 py-2 text-sm font-semibold text-gray-800 transition hover:border-brand-200 hover:text-brand-700">
+            View pricing tools
+          </Link>
+        </div>
+
+        <div className="mt-8 grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+          {primaryTools.map((tool) => (
+            <Link
+              key={tool.slug}
+              href={`/tools/${tool.slug}`}
+              className="group rounded-lg border border-gray-200 bg-white p-5 transition hover:border-brand-200 hover:shadow-md"
+            >
+              <div className="flex items-start gap-4">
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-brand-50 text-xl">{tool.icon}</span>
+                <div className="min-w-0">
+                  <h3 className="text-base font-bold text-gray-950 group-hover:text-brand-700">{tool.title}</h3>
+                  <p className="mt-1 line-clamp-2 text-sm leading-6 text-gray-600">{tool.description}</p>
+                  <span className="mt-3 inline-flex text-sm font-semibold text-brand-700">Use tool →</span>
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      <section className="border-y border-gray-100 bg-white">
+        <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+          <div className="max-w-2xl">
+            <p className="text-sm font-semibold uppercase text-brand-700">Tool library</p>
+            <h2 className="mt-2 text-3xl font-extrabold text-gray-950">Browse by outcome, not by clutter</h2>
+            <p className="mt-3 text-sm leading-7 text-gray-600">
+              Each category has its own SEO hub and full tool list. The homepage shows a preview so visitors can choose a lane
+              quickly without scanning every utility at once.
+            </p>
+          </div>
+
+          <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {TOOL_CATEGORIES.map((cat) => (
+              <section key={cat.slug} className="rounded-lg border border-gray-200 bg-gray-50 p-5">
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <h3 className="text-base font-bold text-gray-950">
+                      <Link href={getCategoryUrl(cat)} className="hover:text-brand-700">{cat.name}</Link>
+                    </h3>
+                    <p className="mt-2 line-clamp-2 text-sm leading-6 text-gray-600">{cat.description}</p>
+                  </div>
+                  <span className="shrink-0 rounded-full bg-white px-3 py-1 text-xs font-semibold text-gray-500 shadow-sm">{cat.tools.length}</span>
+                </div>
+                <div className="mt-4 space-y-2">
+                  {cat.tools.slice(0, 4).map((tool) => (
+                    <Link key={tool.slug} href={`/tools/${tool.slug}`} className="flex min-w-0 items-center gap-2 text-sm font-medium text-gray-700 hover:text-brand-700">
+                      <span className="shrink-0">{tool.icon}</span>
+                      <span className="truncate">{tool.title}</span>
+                    </Link>
+                  ))}
+                </div>
+                <Link href={getCategoryUrl(cat)} className="mt-5 inline-flex text-sm font-semibold text-brand-700 hover:text-brand-800">
+                  View all {cat.name.toLowerCase()} →
+                </Link>
+              </section>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-gray-950 text-white">
+        <div className="mx-auto grid max-w-7xl gap-8 px-4 py-14 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-8">
+          <div>
+            <p className="text-sm font-semibold uppercase text-brand-300">Private by design</p>
+            <h2 className="mt-2 text-3xl font-extrabold">Useful tools without account friction.</h2>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-3">
+            {[
+              ['No login wall', 'Open tools instantly without creating an account.'],
+              ['Browser-first', 'Many image, PDF, and calculator workflows run locally.'],
+              ['Clear pages', 'Every major tool has its own focused SEO page.'],
+            ].map(([title, body]) => (
+              <div key={title} className="rounded-lg border border-white/10 bg-white/5 p-4">
+                <h3 className="font-bold text-white">{title}</h3>
+                <p className="mt-2 text-sm leading-6 text-gray-300">{body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="border-b border-gray-100 bg-white">
+        <div className="mx-auto max-w-3xl px-4 py-14 text-center sm:px-6 lg:px-8">
+          <h2 className="text-2xl font-extrabold text-gray-950">Get new tools first</h2>
+          <p className="mt-3 text-sm leading-7 text-gray-600">
+            Join for practical new calculators, file utilities, and freelancer workflows as they go live.
+          </p>
+          <EmailCapture />
+          <p className="mt-3 text-xs text-gray-500">No spam. Unsubscribe anytime.</p>
+        </div>
+      </section>
+
+      <RequestATool />
+
+      <section className="border-t border-gray-100 bg-white">
+        <div className="mx-auto max-w-4xl px-4 py-14 sm:px-6 lg:px-8">
+          <h2 className="text-2xl font-extrabold text-gray-950">Free tools built for freelancers, agencies, and consultants</h2>
+          <div className="mt-5 space-y-4 text-sm leading-7 text-gray-600 sm:text-base">
+            <p>
+              FreelancerToolkit provides <strong>{TOOL_COUNT_LABEL} free tools</strong> designed for independent professionals
+              and people who need fast document utilities. Whether you are pricing client work, preparing a proposal, creating a
+              passport photo, resizing an application upload, or converting images to PDF, the tools work instantly with no login
+              or subscription required.
+            </p>
+            <p>
+              The <strong>freelance rate calculator</strong> helps you set your hourly rate based on your income goal, tax rate,
+              expenses, and billable time. The <strong>project cost calculator</strong> helps you build a quote with scope,
+              revision, and buffer assumptions. Marketplace calculators estimate Fiverr, Upwork, and commission fees before you
+              send a price.
+            </p>
+            <p>
+              For client acquisition, the <strong>proposal generator</strong>, <strong>scope of work generator</strong>, and
+              <strong> discovery call script generator</strong> help turn messy client notes into usable business documents.
+              File utilities handle passport photos, application images, PDF conversion, compression, and upload-size limits.
+            </p>
           </div>
         </div>
       </section>
