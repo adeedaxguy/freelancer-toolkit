@@ -7,7 +7,7 @@ import { TOOL_CATEGORIES } from '@/lib/tools'
 
 const SITE_URL = 'https://freeltools.com'
 const TOTAL_TOOLS = TOOL_CATEGORIES.reduce((sum, cat) => sum + cat.tools.length, 0)
-const TOOL_COUNT_LABEL = TOTAL_TOOLS >= 100 ? '100+' : String(TOTAL_TOOLS)
+const TOOL_COUNT_LABEL = String(TOTAL_TOOLS)
 const OG_IMAGE = `${SITE_URL}/opengraph-image`
 
 export const metadata: Metadata = {

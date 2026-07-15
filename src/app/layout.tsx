@@ -9,7 +9,7 @@ import { ALL_TOOLS } from '@/lib/tools'
 
 const SITE_URL = 'https://freeltools.com'
 const TOTAL_TOOLS = ALL_TOOLS.length
-const TOOL_COUNT_LABEL = TOTAL_TOOLS >= 100 ? '100+' : String(TOTAL_TOOLS)
+const TOOL_COUNT_LABEL = String(TOTAL_TOOLS)
 const OG_IMAGE = `${SITE_URL}/opengraph-image`
 
 const organizationSchema = {
