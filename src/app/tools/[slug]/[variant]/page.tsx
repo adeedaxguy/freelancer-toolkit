@@ -4,6 +4,7 @@ import ToolPageShell from '@/components/ToolPageShell'
 import AdvancedToolRenderer from '@/components/calculators/AdvancedToolRenderer'
 import ProjectCostCalculator from '@/components/calculators/ProjectCostCalculator'
 import InsuranceAndEventCalculator from '@/components/calculators/InsuranceAndEventCalculator'
+import SeoToolsCalculator from '@/components/calculators/SeoToolsCalculator'
 import { ALL_TOOLS, getToolBySlug } from '@/lib/tools'
 import { buildFaqJsonLd, buildToolJsonLd, buildToolMetadata } from '@/lib/pageFactory'
 
@@ -21,6 +22,14 @@ const sharedCalculatorRenderers = {
   'actual-cash-value-calculator': InsuranceAndEventCalculator,
   'coinsurance-penalty-calculator': InsuranceAndEventCalculator,
   'world-cup-match-time-converter': InsuranceAndEventCalculator,
+  'on-page-seo-audit-tool': SeoToolsCalculator,
+  'serp-snippet-preview-tool': SeoToolsCalculator,
+  'meta-tag-generator': SeoToolsCalculator,
+  'schema-markup-generator': SeoToolsCalculator,
+  'robots-txt-generator': SeoToolsCalculator,
+  'xml-sitemap-generator': SeoToolsCalculator,
+  'hreflang-tag-generator': SeoToolsCalculator,
+  'keyword-density-checker': SeoToolsCalculator,
 }
 
 function getSharedCalculator(slug: string) {

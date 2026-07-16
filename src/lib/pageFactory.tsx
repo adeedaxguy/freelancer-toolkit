@@ -236,6 +236,51 @@ const HOW_TO_STEPS: Record<string, { name: string; text: string }[]> = {
     { name: 'Read country times', text: 'Review converted kickoff times for US, UK, Europe, UAE, Pakistan, India, Bangladesh, and Australia.' },
     { name: 'Add to calendar', text: 'Use the Google Calendar link to save the match time in your own calendar.' },
   ],
+  'on-page-seo-audit-tool': [
+    { name: 'Enter the page URL and target keyword', text: 'Add the page URL and the main keyword you want the page to target.' },
+    { name: 'Paste HTML or enter fields manually', text: 'Paste rendered HTML to extract page elements, or fill in title, description, H1, canonical, content, images, and links manually.' },
+    { name: 'Review the score', text: 'Check which on-page SEO basics passed and which need work before publishing.' },
+    { name: 'Fix weak sections', text: 'Improve metadata, keyword placement, content depth, internal links, external citations, and image alt text.' },
+  ],
+  'serp-snippet-preview-tool': [
+    { name: 'Enter the page title', text: 'Paste the title tag you plan to use for the page.' },
+    { name: 'Add the meta description and URL', text: 'Enter the description and canonical page URL to preview the search result.' },
+    { name: 'Check desktop and mobile previews', text: 'Switch preview width to spot awkward wrapping or unclear wording.' },
+    { name: 'Revise for clarity', text: 'Adjust the title and description until the snippet explains the page and gives a reason to click.' },
+  ],
+  'meta-tag-generator': [
+    { name: 'Enter page metadata', text: 'Add the SEO title, meta description, canonical URL, Open Graph image, and robots directive.' },
+    { name: 'Generate head tags', text: 'The tool creates search, canonical, robots, Open Graph, and Twitter card tags.' },
+    { name: 'Copy the output', text: 'Copy the tags into your page template or use them as a reference for your framework metadata API.' },
+  ],
+  'schema-markup-generator': [
+    { name: 'Choose a schema type', text: 'Select FAQPage, Article, HowTo, LocalBusiness, or SoftwareApplication.' },
+    { name: 'Enter visible page details', text: 'Fill in the name, description, URL, image, questions, or other fields that match the visible page.' },
+    { name: 'Copy JSON-LD', text: 'Copy the generated application/ld+json script and add it to the page.' },
+    { name: 'Validate before publishing', text: 'Confirm the markup is truthful, visible on the page, and valid in a structured data testing tool.' },
+  ],
+  'robots-txt-generator': [
+    { name: 'Add sitemap and crawl rules', text: 'Enter your sitemap URL and one disallow path per line.' },
+    { name: 'Choose AI crawler rules', text: 'Optionally add common AI crawler disallow rules based on your content policy.' },
+    { name: 'Test a path', text: 'Use the simple path tester to see whether a URL path matches a disallow rule.' },
+    { name: 'Copy robots.txt', text: 'Copy the output and publish it at the root of the site.' },
+  ],
+  'xml-sitemap-generator': [
+    { name: 'Paste canonical URLs', text: 'Add one indexable URL per line and remove redirects, duplicates, and noindex pages.' },
+    { name: 'Choose sitemap fields', text: 'Select change frequency, priority, and whether to include lastmod.' },
+    { name: 'Copy sitemap XML', text: 'Copy the generated XML and save it as sitemap.xml or merge it into your sitemap workflow.' },
+  ],
+  'hreflang-tag-generator': [
+    { name: 'Enter language URL pairs', text: 'Add one language code and URL per line, such as en-us followed by the page URL.' },
+    { name: 'Add x-default', text: 'Enter the fallback URL for users who do not match a specific language or region.' },
+    { name: 'Copy alternate tags', text: 'Copy the hreflang link tags and add them consistently across every alternate page.' },
+  ],
+  'keyword-density-checker': [
+    { name: 'Enter the target keyword', text: 'Add the keyword or phrase you want to check in the content.' },
+    { name: 'Paste the page copy', text: 'Paste your article, landing page, or tool page content into the text box.' },
+    { name: 'Review density and top terms', text: 'Check word count, reading time, keyword uses, density, and repeated terms.' },
+    { name: 'Improve naturally', text: 'Use the result to catch missing usage or stuffing, then revise for readability and intent.' },
+  ],
   'rate-increase-calculator': [
     { name: 'Enter your current hourly rate', text: 'Type your current freelance hourly rate.' },
     { name: 'Set your planned increase percentage', text: 'Enter how much you want to raise your rate (10–25% is typical for annual increases).' },

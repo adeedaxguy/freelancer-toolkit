@@ -1303,6 +1303,305 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
     ],
   },
   {
+    name: 'SEO Tools',
+    slug: 'seo-tools',
+    description: 'Free SEO audit, metadata, schema, robots.txt, sitemap, hreflang, and content optimization tools.',
+    tools: [
+      {
+        slug: 'on-page-seo-audit-tool',
+        title: 'On-Page SEO Audit Tool',
+        headline: 'Run a Fast On-Page SEO Audit',
+        description: 'Free on-page SEO audit tool. Check title length, meta description, H1, canonical URL, keyword placement, content depth, image alt text, and internal links.',
+        seoTitle: 'Free On-Page SEO Audit Tool | Check Page SEO',
+        icon: '🔎',
+        category: 'SEO Tools',
+        keywords: ['on page seo audit tool', 'free seo audit tool', 'seo checker online', 'on page seo checker', 'website seo audit checklist', 'seo audit tool free'],
+        answerBox: {
+          short: 'A useful on-page SEO audit checks the page elements that can be fixed before publishing: title tag, meta description, H1, canonical URL, keyword placement, readable content depth, internal links, external citations, and image alt text.',
+          bullets: ['Best fit: quick pre-publish checks for pages and posts', 'Outperformance angle: audit from pasted HTML or manual inputs without a paid crawl account'],
+        },
+        faqs: [
+          { q: 'What does this SEO audit tool check?', a: 'It checks title length, meta description length, keyword placement, H1 count, canonical URL, content depth, image alt text, internal links, and external citations.' },
+          { q: 'Can it audit a live URL automatically?', a: 'This version is designed for privacy and reliability: paste rendered HTML or enter page fields manually. That avoids paid APIs, fragile scraping, and cross-origin fetch limits.' },
+          { q: 'What score should I aim for?', a: 'Use the score as a checklist, not a guarantee. A high score means the basics are covered, but ranking still depends on intent, usefulness, authority, competition, and technical health.' },
+          { q: 'Is this better than a full crawler?', a: 'It is better for fast page-level QA. A full crawler is still useful for large-site issues such as broken links, crawl depth, redirects, duplicate titles, and indexation patterns.' },
+          { q: 'Should I use this before publishing a blog post?', a: 'Yes. Paste the draft HTML or page copy before publishing to catch missing metadata, weak content depth, and internal-link gaps.' },
+        ],
+        bodySections: [
+          {
+            heading: 'Free SEO audit tool for page-level QA',
+            body: 'Paid SEO platforms are useful, but many publishing mistakes happen on one page at a time. This audit tool focuses on the checks you can fix before publishing a service page, blog post, tool page, or landing page.',
+          },
+          {
+            heading: 'Built for practical SEO, not vague scores',
+            body: 'The output explains why each check passed or needs work. That makes it useful for freelancers, site owners, and agencies that need a fast pre-publish workflow without opening a full crawler.',
+          },
+          {
+            heading: 'Use with metadata and schema tools',
+            body: 'After the audit, use the SERP preview, meta tag generator, and schema markup generator to tighten the page before it goes live. That creates a complete SEO QA path from one category.',
+          },
+        ],
+        programmaticVariants: [
+          { slug: 'for-blog-posts', label: 'for Blog Posts' },
+          { slug: 'for-service-pages', label: 'for Service Pages' },
+          { slug: 'for-homepages', label: 'for Homepages' },
+        ],
+      },
+      {
+        slug: 'serp-snippet-preview-tool',
+        title: 'SERP Snippet Preview Tool',
+        headline: 'Preview Your Google Search Snippet',
+        description: 'Free SERP snippet preview tool. Test title tags, meta descriptions, and URL display before publishing a page so the search result looks clear and clickable.',
+        seoTitle: 'SERP Snippet Preview Tool | Google Title & Meta Preview',
+        icon: '🔍',
+        category: 'SEO Tools',
+        keywords: ['serp snippet preview tool', 'google snippet preview', 'meta title checker', 'meta description preview', 'title tag preview tool', 'serp preview generator'],
+        answerBox: {
+          short: 'A SERP snippet preview helps you check whether a title tag and meta description are readable, click-focused, and close to a useful length before publishing.',
+          bullets: ['Best fit: title tag and meta description QA', 'Outperformance angle: live preview plus length checks on the same page'],
+        },
+        faqs: [
+          { q: 'Does Google always show my exact title and description?', a: 'No. Google can rewrite title links and snippets. A preview helps you write a stronger candidate, but it cannot force what appears in search.' },
+          { q: 'How long should a title tag be?', a: 'A practical range is roughly 35-62 characters. The best title is clear and click-worthy, not simply the longest possible title.' },
+          { q: 'How long should a meta description be?', a: 'A useful working range is about 110-160 characters. The description should summarize the offer, audience, and reason to click.' },
+          { q: 'Can I preview mobile snippets?', a: 'Yes. The tool includes desktop-style and mobile-style preview widths so you can spot awkward wrapping.' },
+          { q: 'Is this a ranking tool?', a: 'No. It is a click-through and quality tool. Better snippets can support CTR when the page is eligible to appear.' },
+        ],
+        bodySections: [
+          {
+            heading: 'Google snippet preview before publishing',
+            body: 'Searchers decide quickly. A title that is too vague or a description that fails to explain the page can waste impressions. This tool lets you test the visible search result before pushing the page live.',
+          },
+          {
+            heading: 'Useful for blogs, tools, and landing pages',
+            body: 'Use the preview after writing a blog post, category page, or tool page. It is especially helpful when you are targeting exact keywords and need the result to feel useful rather than stuffed.',
+          },
+        ],
+        programmaticVariants: [
+          { slug: 'google-title-preview', label: 'for Google Title Preview' },
+          { slug: 'meta-description-preview', label: 'for Meta Description Preview' },
+          { slug: 'mobile-serp-preview', label: 'for Mobile SERP Preview' },
+        ],
+      },
+      {
+        slug: 'meta-tag-generator',
+        title: 'Meta Tag Generator',
+        headline: 'Generate SEO, Open Graph, and Twitter Meta Tags',
+        description: 'Free meta tag generator. Create title, meta description, canonical, robots, Open Graph, and Twitter card tags for a webpage.',
+        seoTitle: 'Free Meta Tag Generator | SEO & Open Graph Tags',
+        icon: '🏷️',
+        category: 'SEO Tools',
+        keywords: ['meta tag generator', 'seo meta tag generator', 'open graph generator', 'twitter card generator', 'meta title description generator', 'canonical tag generator'],
+        answerBox: {
+          short: 'A meta tag generator creates the head tags search engines and social platforms read most often: title, meta description, canonical, robots, Open Graph, and Twitter card tags.',
+          bullets: ['Best fit: launching or refreshing one page at a time', 'Outperformance angle: SEO and social tags together, no signup'],
+        },
+        faqs: [
+          { q: 'Which meta tags does this generator create?', a: 'It creates a title tag, meta description, canonical tag, robots directive, Open Graph tags, and Twitter card tags.' },
+          { q: 'Do meta keywords matter?', a: 'No. Most modern SEO workflows ignore the old meta keywords tag. Focus on title, description, canonical, indexability, and useful content.' },
+          { q: 'Should every page have a canonical tag?', a: 'A self-referencing canonical is a good default for many indexable pages. Use canonical tags carefully when duplicate or near-duplicate URLs exist.' },
+          { q: 'What is an Open Graph image?', a: 'It is the image social platforms often show when someone shares the page. Use a clear 1200x630 image when possible.' },
+          { q: 'Can I paste the output into Next.js?', a: 'Use the generated tags as a reference. In Next.js App Router, you may prefer the Metadata API for production pages.' },
+        ],
+        bodySections: [
+          {
+            heading: 'Meta tag generator for SEO and sharing',
+            body: 'The tool covers both search and social preview basics, which makes it useful when launching a new page or cleaning up a page that looks bad in search or link previews.',
+          },
+          {
+            heading: 'No hidden meta keyword stuffing',
+            body: 'The generator intentionally skips outdated meta keywords. It focuses on visible, useful, and technically relevant tags that still matter in modern publishing workflows.',
+          },
+        ],
+        programmaticVariants: [
+          { slug: 'open-graph-tags', label: 'for Open Graph Tags' },
+          { slug: 'twitter-card-tags', label: 'for Twitter Cards' },
+          { slug: 'canonical-tags', label: 'for Canonical Tags' },
+        ],
+      },
+      {
+        slug: 'schema-markup-generator',
+        title: 'Schema Markup Generator',
+        headline: 'Generate JSON-LD Schema Markup',
+        description: 'Free schema markup generator. Create JSON-LD for FAQPage, Article, HowTo, LocalBusiness, and SoftwareApplication pages.',
+        seoTitle: 'Free Schema Markup Generator | JSON-LD Tool',
+        icon: '🧩',
+        category: 'SEO Tools',
+        keywords: ['schema markup generator', 'json ld generator', 'faq schema generator', 'article schema generator', 'local business schema generator', 'structured data generator'],
+        answerBox: {
+          short: 'A schema markup generator turns visible page information into JSON-LD structured data, helping search engines understand the page type, questions, steps, software, article, or business entity.',
+          bullets: ['Best fit: FAQ, Article, HowTo, LocalBusiness, and SoftwareApplication markup', 'Outperformance angle: fast JSON-LD output with visible-content reminders'],
+        },
+        faqs: [
+          { q: 'What schema types can this tool generate?', a: 'It can generate FAQPage, Article, HowTo, LocalBusiness, and SoftwareApplication JSON-LD.' },
+          { q: 'Does schema guarantee rich results?', a: 'No. Structured data can make a page eligible for enhanced understanding or rich results, but search engines decide what to show.' },
+          { q: 'Should schema match visible content?', a: 'Yes. Do not add FAQ, review, local business, or product claims that users cannot see on the page.' },
+          { q: 'Where do I put JSON-LD?', a: 'Most sites place JSON-LD in the page head or body inside a script tag with type application/ld+json.' },
+          { q: 'Can I use this for tool pages?', a: 'Yes. SoftwareApplication schema can be useful for free web tools when it accurately reflects the visible tool and offer.' },
+        ],
+        bodySections: [
+          {
+            heading: 'Schema generator for modern SEO pages',
+            body: 'Structured data is useful when it describes content that already exists on the page. This generator helps site owners create clean JSON-LD for common SEO page types without writing the object by hand.',
+          },
+          {
+            heading: 'Best used after content is final',
+            body: 'Write the page first, then generate schema that mirrors the page. That keeps the markup truthful and reduces the risk of invalid or misleading structured data.',
+          },
+        ],
+        programmaticVariants: [
+          { slug: 'faq-schema', label: 'for FAQ Schema' },
+          { slug: 'article-schema', label: 'for Article Schema' },
+          { slug: 'local-business-schema', label: 'for LocalBusiness Schema' },
+        ],
+      },
+      {
+        slug: 'robots-txt-generator',
+        title: 'Robots.txt Generator',
+        headline: 'Generate a Clean Robots.txt File',
+        description: 'Free robots.txt generator. Create crawl rules, add sitemap location, test a path, and optionally add common AI crawler disallow rules.',
+        seoTitle: 'Free Robots.txt Generator | Sitemap & AI Bot Rules',
+        icon: '🤖',
+        category: 'SEO Tools',
+        keywords: ['robots txt generator', 'robots.txt generator', 'robots txt tester', 'ai crawler robots txt', 'generate robots txt file', 'robots txt sitemap generator'],
+        answerBox: {
+          short: 'A robots.txt generator helps create crawler instructions for public websites, including allow rules, disallow paths, sitemap location, and optional AI crawler rules.',
+          bullets: ['Best fit: new sites, staging cleanup, and crawl-control checks', 'Outperformance angle: generator plus simple path tester and AI bot options'],
+        },
+        faqs: [
+          { q: 'What does robots.txt do?', a: 'A robots.txt file gives crawler instructions for which paths may or may not be crawled. It is not a security system and should not expose sensitive paths.' },
+          { q: 'Where should robots.txt be placed?', a: 'Place it at the root of the site, such as https://example.com/robots.txt.' },
+          { q: 'Should I add my sitemap to robots.txt?', a: 'Yes. Adding the full sitemap URL is a simple discovery hint for crawlers.' },
+          { q: 'Can robots.txt block pages from being indexed?', a: 'Not reliably. A blocked URL can still appear if discovered elsewhere. Use noindex for pages that should not appear in search.' },
+          { q: 'Should I block AI crawlers?', a: 'That depends on your content policy. The tool can add common AI crawler rules, but crawler behavior and user-agent names can change.' },
+        ],
+        bodySections: [
+          {
+            heading: 'Robots.txt generator for crawl control',
+            body: 'Use this tool when launching a site, cleaning up crawl paths, or adding a sitemap directive. It gives you a clean starting file without memorizing the syntax.',
+          },
+          {
+            heading: 'Do not use robots.txt as security',
+            body: 'Robots.txt is public. Use it for crawler guidance, not for hiding private admin paths, customer data, or sensitive files from people.',
+          },
+        ],
+        programmaticVariants: [
+          { slug: 'with-sitemap', label: 'With Sitemap' },
+          { slug: 'for-ai-crawlers', label: 'for AI Crawlers' },
+          { slug: 'for-wordpress', label: 'for WordPress' },
+        ],
+      },
+      {
+        slug: 'xml-sitemap-generator',
+        title: 'XML Sitemap Generator',
+        headline: 'Generate an XML Sitemap from a URL List',
+        description: 'Free XML sitemap generator. Paste URLs, remove duplicates, add lastmod, changefreq, and priority, then copy a clean sitemap.xml file.',
+        seoTitle: 'Free XML Sitemap Generator | Create Sitemap.xml',
+        icon: '🗺️',
+        category: 'SEO Tools',
+        keywords: ['xml sitemap generator', 'sitemap generator free', 'create sitemap xml', 'url list to sitemap', 'sitemap.xml generator', 'generate sitemap from urls'],
+        answerBox: {
+          short: 'An XML sitemap generator turns a clean URL list into a sitemap.xml file with loc, lastmod, changefreq, and priority fields so crawlers can discover important URLs more easily.',
+          bullets: ['Best fit: small sites, landing-page batches, and manual URL lists', 'Outperformance angle: URL dedupe, lastmod, and copy-ready XML in one screen'],
+        },
+        faqs: [
+          { q: 'What is an XML sitemap?', a: 'An XML sitemap is a file that lists URLs you want crawlers to discover, often with optional lastmod, changefreq, and priority fields.' },
+          { q: 'Does a sitemap guarantee indexing?', a: 'No. A sitemap helps discovery, but search engines decide whether to crawl and index each URL.' },
+          { q: 'How many URLs can a sitemap include?', a: 'A standard sitemap file should stay under 50,000 URLs and under the size limits defined by the sitemap protocol.' },
+          { q: 'Should every URL be in a sitemap?', a: 'Include canonical, indexable, useful URLs. Avoid noindex pages, redirects, duplicate URLs, and low-value parameter URLs.' },
+          { q: 'Where should I submit the sitemap?', a: 'Add it to robots.txt and submit the sitemap URL inside Google Search Console and Bing Webmaster Tools when available.' },
+        ],
+        bodySections: [
+          {
+            heading: 'Sitemap generator for clean URL batches',
+            body: 'This tool is ideal when you have a small site, a set of new landing pages, or a manually exported URL list that needs to become sitemap XML quickly.',
+          },
+          {
+            heading: 'Use only canonical indexable URLs',
+            body: 'A sitemap should help crawlers discover the pages you actually want indexed. Keep redirect, duplicate, noindex, filtered, and parameter-heavy URLs out of the file when possible.',
+          },
+        ],
+        programmaticVariants: [
+          { slug: 'from-url-list', label: 'from URL List' },
+          { slug: 'for-small-websites', label: 'for Small Websites' },
+          { slug: 'with-lastmod', label: 'With Lastmod' },
+        ],
+      },
+      {
+        slug: 'hreflang-tag-generator',
+        title: 'Hreflang Tag Generator',
+        headline: 'Generate Hreflang Alternate Tags',
+        description: 'Free hreflang tag generator. Paste language and URL pairs, add x-default, and copy alternate link tags for international SEO pages.',
+        seoTitle: 'Free Hreflang Tag Generator | Alternate URL Tags',
+        icon: '🌐',
+        category: 'SEO Tools',
+        keywords: ['hreflang tag generator', 'hreflang generator', 'alternate hreflang tags', 'x default hreflang generator', 'international seo tool', 'hreflang checker'],
+        answerBox: {
+          short: 'A hreflang tag generator creates alternate language and regional URL tags so search engines can understand which version of a page belongs to each audience.',
+          bullets: ['Best fit: multilingual and multi-region pages', 'Outperformance angle: language pair input plus x-default output'],
+        },
+        faqs: [
+          { q: 'What does hreflang do?', a: 'Hreflang tells search engines about alternate language or regional versions of a page, such as en-us, en-gb, es, or fr-ca.' },
+          { q: 'What is x-default?', a: 'x-default points to the fallback page for users who do not match a specific language or region, often a global homepage or language selector.' },
+          { q: 'Do hreflang tags need to be reciprocal?', a: 'Yes. Each alternate page should usually reference the others, including itself, to avoid implementation gaps.' },
+          { q: 'Can I use hreflang across domains?', a: 'Yes, if the alternates are equivalent pages and the tags are implemented consistently across the set.' },
+          { q: 'Is hreflang a translation tool?', a: 'No. It only generates tags. The pages themselves should be properly localized and useful for each audience.' },
+        ],
+        bodySections: [
+          {
+            heading: 'Hreflang generator for international SEO',
+            body: 'Use this when a page has translated or region-specific versions. The tool keeps the syntax clean and makes it easier to include x-default when a fallback page exists.',
+          },
+          {
+            heading: 'Avoid partial alternate sets',
+            body: 'The biggest hreflang mistake is adding tags on one page but not the others. Treat every language URL as part of one reciprocal cluster.',
+          },
+        ],
+        programmaticVariants: [
+          { slug: 'x-default', label: 'With x-default' },
+          { slug: 'for-en-es', label: 'for English and Spanish' },
+          { slug: 'for-international-seo', label: 'for International SEO' },
+        ],
+      },
+      {
+        slug: 'keyword-density-checker',
+        title: 'Keyword Density Checker',
+        headline: 'Check Keyword Usage and Top Terms',
+        description: 'Free keyword density checker. Paste content, enter a target keyword, and review word count, reading time, keyword uses, density, and top repeated terms.',
+        seoTitle: 'Free Keyword Density Checker | SEO Content Tool',
+        icon: '📝',
+        category: 'SEO Tools',
+        keywords: ['keyword density checker', 'keyword density tool', 'seo content checker', 'keyword frequency checker', 'keyword stuffing checker', 'content optimization tool'],
+        answerBox: {
+          short: 'A keyword density checker helps spot whether a target phrase is missing, overused, or supported by related terms, but it should be used as a quality check rather than a ranking formula.',
+          bullets: ['Best fit: draft blog posts, landing pages, and SEO briefs', 'Outperformance angle: target phrase density plus top repeated terms and reading time'],
+        },
+        faqs: [
+          { q: 'What is keyword density?', a: 'Keyword density is the number of times a keyword appears divided by total word count. It can reveal missing usage or obvious stuffing.' },
+          { q: 'What keyword density is best for SEO?', a: 'There is no magic percentage. Use the checker to make sure the topic is clear, then focus on answering search intent better than competing pages.' },
+          { q: 'Can high keyword density hurt content quality?', a: 'Yes. Repeating the same phrase unnaturally can make content harder to read and less trustworthy.' },
+          { q: 'Does this tool check related terms?', a: 'It shows top repeated terms so you can see whether the content naturally covers the topic or over-relies on one phrase.' },
+          { q: 'Should I use this before publishing?', a: 'Yes. It is useful as a final content QA pass after writing and before running the on-page SEO audit.' },
+        ],
+        bodySections: [
+          {
+            heading: 'Keyword density checker for practical content QA',
+            body: 'This tool helps writers and site owners catch two common issues: the target phrase never appears clearly, or it appears so often that the copy feels forced.',
+          },
+          {
+            heading: 'Density is not the goal',
+            body: 'Strong SEO content answers the query, uses related concepts naturally, links to the right next step, and reads well. Use density as a signal, not a formula.',
+          },
+        ],
+        programmaticVariants: [
+          { slug: 'for-blog-posts', label: 'for Blog Posts' },
+          { slug: 'for-seo-content', label: 'for SEO Content' },
+          { slug: 'keyword-stuffing-checker', label: 'as a Keyword Stuffing Checker' },
+        ],
+      },
+    ],
+  },
+  {
     name: 'Sports & Event Tools',
     slug: 'sports-event-tools',
     description: 'Free match-time, tournament, and event planning tools that avoid betting and focus on useful fan workflows.',
