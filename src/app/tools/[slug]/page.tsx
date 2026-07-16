@@ -5,6 +5,7 @@ import AdvancedToolRenderer from '@/components/calculators/AdvancedToolRenderer'
 import ProjectCostCalculator from '@/components/calculators/ProjectCostCalculator'
 import FiverrFeeCalculator from '@/components/calculators/FiverrFeeCalculator'
 import LatePaymentCalculator from '@/components/calculators/LatePaymentCalculator'
+import InsuranceAndEventCalculator from '@/components/calculators/InsuranceAndEventCalculator'
 import { ALL_TOOLS, getToolBySlug } from '@/lib/tools'
 import { buildFaqJsonLd, buildToolJsonLd, buildToolMetadata } from '@/lib/pageFactory'
 
@@ -21,6 +22,12 @@ const sharedCalculatorRenderers = {
   'fiverr-commission-calculator': FiverrFeeCalculator,
   'late-charge-calculator': LatePaymentCalculator,
   'invoice-late-fee-calculator': LatePaymentCalculator,
+  'gap-insurance-refund-calculator': InsuranceAndEventCalculator,
+  'home-replacement-cost-calculator': InsuranceAndEventCalculator,
+  'dwelling-coverage-calculator': InsuranceAndEventCalculator,
+  'actual-cash-value-calculator': InsuranceAndEventCalculator,
+  'coinsurance-penalty-calculator': InsuranceAndEventCalculator,
+  'world-cup-match-time-converter': InsuranceAndEventCalculator,
 }
 
 function getSharedCalculator(slug: string) {

@@ -1093,6 +1093,264 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
       },
     ],
   },
+  {
+    name: 'Insurance Calculators',
+    slug: 'insurance-calculators',
+    description: 'Free insurance calculators for refunds, replacement cost, dwelling coverage, depreciation, and coinsurance planning.',
+    tools: [
+      {
+        slug: 'gap-insurance-refund-calculator',
+        title: 'GAP Insurance Refund Calculator',
+        headline: 'Estimate Your GAP Insurance Refund After Payoff or Cancellation',
+        description: 'Free GAP insurance refund calculator. Estimate a prorated refund after early loan payoff, trade-in, cancellation, or refinance using your premium, term, months used, and fees.',
+        seoTitle: 'GAP Insurance Refund Calculator | Free Prorated Refund Tool',
+        icon: '🚗',
+        category: 'Insurance Calculators',
+        keywords: ['gap insurance refund calculator', 'gap refund calculator', 'gap refund after payoff calculator', 'prorated gap insurance refund', 'gap insurance cancellation refund', 'auto gap refund calculator'],
+        answerBox: {
+          short: 'A GAP insurance refund is often estimated by prorating the unused part of the original premium, then subtracting any cancellation or admin fee. The exact refund depends on the contract, payoff date, and administrator rules.',
+          bullets: ['Best fit: early payoff, trade-in, refinance, or GAP cancellation', 'Outperformance angle: refund estimate plus cancellation checklist, not only generic GAP coverage math'],
+        },
+        faqs: [
+          { q: 'How do I calculate a GAP insurance refund?', a: 'A common planning estimate is original GAP premium x unused months / original term, minus any cancellation fee. Your contract can use different refund rules, so confirm the final amount with the administrator.' },
+          { q: 'Can I get a GAP refund after paying off my car early?', a: 'Often yes, if the GAP contract is cancelable and unused premium remains. The refund may come from the dealer, lender, insurer, or administrator depending on how the coverage was sold.' },
+          { q: 'What information do I need for a GAP refund?', a: 'Use the original GAP premium, contract term, cancellation or payoff date, months used, and any non-refundable fee listed in the contract.' },
+          { q: 'Does the calculator guarantee my refund?', a: 'No. It is a planning estimate. Refund formulas vary by state, contract, lender, and administrator, and some fees may be non-refundable.' },
+          { q: 'What should I do after estimating the refund?', a: 'Request a written cancellation quote and ask when the refund will be issued, whether it goes to you or the lender, and which fees were deducted.' },
+        ],
+        bodySections: [
+          {
+            heading: 'GAP insurance refund calculator for early payoff',
+            body: 'This tool is built for the exact searcher who paid off a loan early, traded in a vehicle, refinanced, or cancelled GAP coverage and wants to know what refund might be left. Enter the premium, original term, months used, and cancellation fee to estimate the unused portion.',
+          },
+          {
+            heading: 'Why this beats a generic GAP calculator',
+            body: 'Many GAP calculators estimate coverage shortfall after a total loss. This page focuses on refund intent: unused premium, prorated months, cancellation fees, and what to ask the lender or administrator before accepting the number.',
+          },
+          {
+            heading: 'Refund request checklist',
+            body: 'After calculating, gather the GAP contract, payoff confirmation, vehicle sale or refinance documents, cancellation form, and the administrator contact. Ask for the refund formula in writing if the number differs from your estimate.',
+          },
+        ],
+        programmaticVariants: [
+          { slug: 'after-early-payoff', label: 'After Early Payoff' },
+          { slug: 'after-trade-in', label: 'After Trade-In' },
+          { slug: 'after-refinance', label: 'After Refinance' },
+          { slug: 'with-cancellation-fee', label: 'With Cancellation Fee' },
+        ],
+      },
+      {
+        slug: 'home-replacement-cost-calculator',
+        title: 'Home Replacement Cost Calculator',
+        headline: 'Estimate the Cost to Rebuild Your Home',
+        description: 'Free home replacement cost calculator. Estimate rebuild cost using square footage, local cost per square foot, quality adjustments, detached structures, debris removal, permits, and inflation buffer.',
+        seoTitle: 'Home Replacement Cost Calculator | Free Rebuild Estimate Tool',
+        icon: '🏠',
+        category: 'Insurance Calculators',
+        keywords: ['home replacement cost calculator', 'replacement cost estimator', 'home rebuild cost calculator', 'home insurance replacement cost calculator', 'cost to rebuild house calculator', 'dwelling replacement cost estimator'],
+        answerBox: {
+          short: 'Home replacement cost is a planning estimate for rebuilding the structure after a covered loss. Start with finished square feet x local rebuild cost per square foot, then adjust for quality, code costs, debris removal, detached structures, and inflation.',
+          bullets: ['Best fit: checking whether Coverage A may be too low', 'Outperformance angle: rebuild estimate with debris, code, structures, and inflation assumptions in one tool'],
+        },
+        faqs: [
+          { q: 'How do I estimate home replacement cost?', a: 'Multiply finished square feet by local rebuild cost per square foot, then adjust for home quality, custom features, detached structures, debris removal, permits, code upgrades, and inflation buffer.' },
+          { q: 'Is replacement cost the same as market value?', a: 'No. Market value includes land and buyer demand. Replacement cost focuses on what it may cost to rebuild the structure with similar materials and labor.' },
+          { q: 'What cost per square foot should I use?', a: 'Use a local rebuild estimate from your insurer, contractor, builder, or appraiser. General online averages can be too low or too high for your area.' },
+          { q: 'Should I include detached structures?', a: 'Yes, if you want a broader planning picture. Garages, sheds, fences, pools, and other structures may have separate policy limits, so check your declarations page.' },
+          { q: 'Can I use this for an insurance application?', a: 'Use it as a sanity check, not a final underwriting estimate. Insurers may use proprietary replacement cost systems and local construction data.' },
+        ],
+        bodySections: [
+          {
+            heading: 'Replacement cost estimator for insurance planning',
+            body: 'This page helps homeowners check whether the dwelling limit on a policy roughly matches the cost to rebuild. It is not about sale price or land value. It focuses on structure rebuild cost and common extras that get missed in quick estimates.',
+          },
+          {
+            heading: 'The inputs that change the rebuild number',
+            body: 'Square footage matters, but local labor costs, material grade, custom features, code upgrades, debris removal, permits, and demand surge after a regional disaster can move the estimate significantly. That is why the calculator makes each assumption visible.',
+          },
+          {
+            heading: 'Use with the dwelling coverage gap calculator',
+            body: 'After estimating replacement cost, compare it against your Coverage A dwelling limit and any extended replacement cost endorsement. That second step shows whether you may have a coverage gap.',
+          },
+        ],
+        programmaticVariants: [
+          { slug: 'for-1500-sq-ft-home', label: 'for a 1,500 Sq Ft Home' },
+          { slug: 'for-2000-sq-ft-home', label: 'for a 2,000 Sq Ft Home' },
+          { slug: 'for-2500-sq-ft-home', label: 'for a 2,500 Sq Ft Home' },
+          { slug: 'with-inflation-buffer', label: 'With Inflation Buffer' },
+        ],
+      },
+      {
+        slug: 'dwelling-coverage-calculator',
+        title: 'Dwelling Coverage Calculator',
+        headline: 'Check Whether Your Dwelling Coverage May Be Enough',
+        description: 'Free dwelling coverage calculator. Compare your Coverage A limit against estimated replacement cost, extended replacement cost percentage, deductible, and possible coverage gap.',
+        seoTitle: 'Dwelling Coverage Calculator | Estimate Home Insurance Gap',
+        icon: '🧱',
+        category: 'Insurance Calculators',
+        keywords: ['dwelling coverage calculator', 'home insurance coverage calculator', 'coverage a calculator', 'dwelling coverage gap calculator', 'how much dwelling coverage do I need', 'home insurance dwelling limit calculator'],
+        answerBox: {
+          short: 'Dwelling coverage should generally track the estimated cost to rebuild the home, not the real estate market value. Compare your Coverage A limit plus any extended replacement cost endorsement against the rebuild estimate to spot a possible gap.',
+          bullets: ['Best fit: homeowners reviewing Coverage A before renewal', 'Outperformance angle: shows gap before and after extended replacement coverage'],
+        },
+        faqs: [
+          { q: 'How much dwelling coverage do I need?', a: 'A common target is enough Coverage A to rebuild the home with similar materials after a covered total loss. Use a current replacement cost estimate, not the purchase price or tax value.' },
+          { q: 'What is Coverage A?', a: 'Coverage A is the dwelling limit on a homeowners policy. It generally applies to the main structure, but policy language and exclusions vary.' },
+          { q: 'What is extended replacement cost?', a: 'Extended replacement cost can increase the available dwelling limit by a percentage, such as 10%, 25%, or 50%, if rebuilding costs exceed the base Coverage A limit.' },
+          { q: 'Does this calculator include personal property?', a: 'No. It focuses on dwelling coverage. Personal property, loss of use, other structures, and liability limits are separate parts of a homeowners policy.' },
+          { q: 'What if the calculator shows a gap?', a: 'Ask your insurer for an updated replacement cost estimate and quote higher dwelling coverage or extended replacement cost if available.' },
+        ],
+        bodySections: [
+          {
+            heading: 'Dwelling coverage calculator for Coverage A checks',
+            body: 'This tool compares the number on your declarations page with a replacement cost estimate. It helps you see whether a total-loss rebuild could exceed your current dwelling limit.',
+          },
+          {
+            heading: 'Why extended replacement cost matters',
+            body: 'Some policies include an endorsement that adds extra coverage above the base dwelling limit. The calculator shows both the base gap and the gap after extension, which is the number homeowners often miss.',
+          },
+          {
+            heading: 'Use before renewal or after home improvements',
+            body: 'Coverage can become stale after renovations, additions, material inflation, or local construction cost changes. Run the check before renewal and after major improvements.',
+          },
+        ],
+        programmaticVariants: [
+          { slug: 'coverage-a', label: 'for Coverage A' },
+          { slug: 'with-25-percent-extension', label: 'With 25% Extension' },
+          { slug: 'before-renewal', label: 'Before Renewal' },
+        ],
+      },
+      {
+        slug: 'actual-cash-value-calculator',
+        title: 'Actual Cash Value Calculator',
+        headline: 'Estimate Actual Cash Value After Depreciation',
+        description: 'Free actual cash value calculator. Estimate ACV by starting with replacement cost, then subtracting age-based depreciation, condition adjustment, and deductible.',
+        seoTitle: 'Actual Cash Value Calculator | ACV Depreciation Estimate',
+        icon: '📉',
+        category: 'Insurance Calculators',
+        keywords: ['actual cash value calculator', 'acv calculator', 'depreciation calculator insurance claim', 'replacement cost vs actual cash value calculator', 'insurance depreciation calculator', 'actual cash value of my car'],
+        answerBox: {
+          short: 'Actual cash value is commonly estimated as replacement cost minus depreciation, adjusted for condition, then reduced by the deductible when estimating a payout. Policy wording and claim rules can change the final settlement.',
+          bullets: ['Best fit: personal property, vehicle, roof, or claim depreciation estimates', 'Outperformance angle: shows depreciation, condition adjustment, ACV, and payout in one workflow'],
+        },
+        faqs: [
+          { q: 'How is actual cash value calculated?', a: 'A common planning formula is replacement cost minus depreciation, adjusted for condition. A deductible may then reduce the payout amount.' },
+          { q: 'What is the difference between replacement cost and actual cash value?', a: 'Replacement cost estimates the cost to buy or rebuild new. Actual cash value subtracts depreciation for age, wear, and condition.' },
+          { q: 'Can this estimate vehicle actual cash value?', a: 'It can model depreciation logic for planning, but vehicle ACV usually depends on comparable sales, mileage, condition, options, and market data.' },
+          { q: 'Can this estimate roof depreciation?', a: 'Yes for planning, if you know replacement cost, roof age, and expected useful life. The insurer may apply different schedules or recoverable depreciation rules.' },
+          { q: 'Is condition adjustment required?', a: 'No. Leave it at 0 if you do not want to adjust the estimate. Add a positive percentage for unusually good condition or a negative percentage for heavy wear.' },
+        ],
+        bodySections: [
+          {
+            heading: 'Actual cash value calculator for claim planning',
+            body: 'Searchers usually want to know why a payout is lower than replacement cost. This calculator makes the depreciation math visible so the difference between replacement cost, ACV, deductible, and estimated payout is easier to understand.',
+          },
+          {
+            heading: 'Useful for property, roof, and vehicle examples',
+            body: 'The same planning idea can help with personal property, roof depreciation, and vehicle loss estimates, although insurers may use specific schedules, appraisal data, or policy rules for the final number.',
+          },
+          {
+            heading: 'What to compare against the insurer estimate',
+            body: 'If a claim estimate feels low, compare the replacement cost, age, useful life, condition adjustment, depreciation amount, and deductible. Those are the inputs most likely to explain the difference.',
+          },
+        ],
+        programmaticVariants: [
+          { slug: 'for-car', label: 'for a Car' },
+          { slug: 'for-roof', label: 'for a Roof' },
+          { slug: 'for-personal-property', label: 'for Personal Property' },
+        ],
+      },
+      {
+        slug: 'coinsurance-penalty-calculator',
+        title: 'Coinsurance Penalty Calculator',
+        headline: 'Estimate a Property Insurance Coinsurance Penalty',
+        description: 'Free coinsurance penalty calculator. Estimate required insurance, compliance ratio, penalty, deductible impact, and claim payout under a property insurance coinsurance clause.',
+        seoTitle: 'Coinsurance Penalty Calculator | Property Insurance Claim Tool',
+        icon: '📐',
+        category: 'Insurance Calculators',
+        keywords: ['coinsurance penalty calculator', 'coinsurance calculator', 'property insurance coinsurance calculator', '80 percent coinsurance calculator', 'insurance coinsurance penalty formula', 'commercial property coinsurance calculator'],
+        answerBox: {
+          short: 'A property coinsurance penalty can apply when insurance carried is less than the required percentage of replacement value. The planning formula is loss x insurance carried / insurance required, then subtract the deductible.',
+          bullets: ['Best fit: commercial property and policy review scenarios', 'Outperformance angle: explains the formula and shows shortage, ratio, penalty, and payout'],
+        },
+        faqs: [
+          { q: 'What is a coinsurance penalty?', a: 'A coinsurance penalty can reduce a claim payment when the insured carried less insurance than the policy required, often 80%, 90%, or 100% of the property value.' },
+          { q: 'How do I calculate coinsurance required?', a: 'Multiply the property replacement value by the coinsurance percentage. For example, a $1,000,000 property with an 80% requirement needs $800,000 of insurance.' },
+          { q: 'What is the coinsurance penalty formula?', a: 'A common formula is loss amount x insurance carried / insurance required, then subtract the deductible. The calculator caps the ratio at 100%.' },
+          { q: 'Does coinsurance apply to every policy?', a: 'No. It depends on the policy. Some property policies include coinsurance clauses, agreed value endorsements, or other terms that change the calculation.' },
+          { q: 'How can I avoid a coinsurance penalty?', a: 'Keep limits aligned with current replacement value, review valuations regularly, and ask your agent whether agreed value or inflation guard endorsements are appropriate.' },
+        ],
+        bodySections: [
+          {
+            heading: 'Coinsurance penalty calculator for property claims',
+            body: 'This tool is designed for the high-intent searcher who sees an 80%, 90%, or 100% coinsurance clause and needs to understand how underinsurance could reduce a claim.',
+          },
+          {
+            heading: 'Shows the full penalty path',
+            body: 'Instead of only showing the formula, the calculator breaks out required insurance, shortage, compliance ratio, claim before deductible, deductible, and estimated payout.',
+          },
+          {
+            heading: 'Useful before a renewal review',
+            body: 'Run the calculation before policy renewal if building values have changed. A small premium saving from lower limits can become expensive if it triggers a penalty after a loss.',
+          },
+        ],
+        programmaticVariants: [
+          { slug: '80-percent', label: '80% Coinsurance' },
+          { slug: '90-percent', label: '90% Coinsurance' },
+          { slug: 'commercial-property', label: 'for Commercial Property' },
+        ],
+      },
+    ],
+  },
+  {
+    name: 'Sports & Event Tools',
+    slug: 'sports-event-tools',
+    description: 'Free match-time, tournament, and event planning tools that avoid betting and focus on useful fan workflows.',
+    tools: [
+      {
+        slug: 'world-cup-match-time-converter',
+        title: 'World Cup Match Time Converter',
+        headline: 'Convert World Cup Kickoff Times Across Countries',
+        description: 'Free World Cup match time converter. Convert kickoff times between US, UK, Europe, UAE, Pakistan, India, Bangladesh, and Australia, then add the match to Google Calendar.',
+        seoTitle: 'World Cup Match Time Converter | Kickoff Time in Your Country',
+        icon: '⚽',
+        category: 'Sports & Event Tools',
+        keywords: ['world cup match time converter', 'world cup final time in india', 'world cup final time in pakistan', 'world cup final time uk', 'world cup kickoff time converter', 'football match time converter', 'world cup schedule calendar'],
+        answerBox: {
+          short: 'A World Cup match time converter turns the official kickoff time into local times for fans in different countries. It is safer and more useful than betting-style prediction tools because it answers schedule intent directly.',
+          bullets: ['Best fit: final, semi-final, and match-day time searches', 'Outperformance angle: country table plus one-click calendar event'],
+        },
+        faqs: [
+          { q: 'What is the default World Cup final time in this tool?', a: 'The default is set to July 19, 2026 at 3:00 PM US Eastern as a planning preset for the 2026 final. Always confirm the final kickoff with the tournament organizer or broadcaster.' },
+          { q: 'Can I use this for any World Cup match?', a: 'Yes. Change the date, kickoff time, and source time zone to convert any match into local times for other countries.' },
+          { q: 'Does this handle daylight saving time?', a: 'The listed zone options use common daylight-saving offsets for the 2026 summer tournament, such as EDT, BST, and CEST. Confirm official time-zone labels for final fixtures.' },
+          { q: 'Can I add the match to my calendar?', a: 'Yes. The tool builds a Google Calendar event using the converted UTC kickoff time so you can save it quickly.' },
+          { q: 'Why not build betting or odds tools?', a: 'FreelTools keeps sports tools focused on schedules, brackets, and fan planning. That is more useful for a broad audience and safer for AdSense compliance.' },
+        ],
+        bodySections: [
+          {
+            heading: 'World Cup time converter for country-specific searches',
+            body: 'Fans often search for kickoff time in their own country, especially for finals and knockout matches. This tool converts one official match time into a clean country table for US, UK, Europe, UAE, Pakistan, India, Bangladesh, and Australia.',
+          },
+          {
+            heading: 'Built for useful event planning, not betting',
+            body: 'The best opportunity in football tools is not odds or score prediction. It is practical fan utility: match time conversion, calendar saving, bracket planning, and office-pool workflows that answer a real search need without gambling risk.',
+          },
+          {
+            heading: 'Use it for finals, semi-finals, and major fixtures',
+            body: 'Keep the preset for the final, or change the date and kickoff time for another match. The generated calendar link makes it easy to turn search traffic into an immediate action.',
+          },
+        ],
+        programmaticVariants: [
+          { slug: 'final-time-in-india', label: 'Final Time in India' },
+          { slug: 'final-time-in-pakistan', label: 'Final Time in Pakistan' },
+          { slug: 'final-time-in-uk', label: 'Final Time in the UK' },
+          { slug: 'final-time-in-uae', label: 'Final Time in UAE' },
+          { slug: 'final-time-in-australia', label: 'Final Time in Australia' },
+        ],
+      },
+    ],
+  },
   ...ADVANCED_TOOL_CATEGORIES,
 ]
 
