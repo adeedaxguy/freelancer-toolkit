@@ -30,6 +30,16 @@ const sharedCalculatorRenderers = {
   'xml-sitemap-generator': SeoToolsCalculator,
   'hreflang-tag-generator': SeoToolsCalculator,
   'keyword-density-checker': SeoToolsCalculator,
+  'utm-builder': SeoToolsCalculator,
+  'broken-link-checker': SeoToolsCalculator,
+  'redirect-chain-checker': SeoToolsCalculator,
+  'keyword-cannibalization-checker': SeoToolsCalculator,
+  'url-slug-generator': SeoToolsCalculator,
+  'faq-schema-generator': SeoToolsCalculator,
+  'canonical-tag-checker': SeoToolsCalculator,
+  'keyword-clustering-tool': SeoToolsCalculator,
+  'open-graph-preview-tool': SeoToolsCalculator,
+  'content-brief-generator': SeoToolsCalculator,
 }
 
 function getSharedCalculator(slug: string) {

@@ -68,6 +68,37 @@ function slugHost(url: string) {
   }
 }
 
+function titleCase(value: string) {
+  return value
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(' ')
+}
+
+function makeSlug(value: string, separator: string, lowercase: boolean, maxLength: number) {
+  const base = (lowercase ? value.toLowerCase() : value)
+    .normalize('NFKD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/&/g, ' and ')
+    .replace(/[^a-zA-Z0-9]+/g, separator)
+    .replace(new RegExp(`${separator}+`, 'g'), separator)
+    .replace(new RegExp(`^${separator}|${separator}$`, 'g'), '')
+  return base.slice(0, Math.max(maxLength, 1)).replace(new RegExp(`${separator}$`, 'g'), '')
+}
+
+function splitLines(value: string) {
+  return value
+    .split('\n')
+    .map((line) => line.trim())
+    .filter(Boolean)
+}
+
+function keywordCore(value: string) {
+  const words = value.toLowerCase().match(/[a-z0-9]+/g) ?? []
+  return words.filter((word) => word.length > 2 && !stopWords.has(word))
+}
+
 function Field({
   label,
   value,
@@ -727,6 +758,433 @@ function KeywordDensityChecker() {
   )
 }
 
+function UtmBuilder() {
+  const [baseUrl, setBaseUrl] = useState('https://example.com/landing-page')
+  const [source, setSource] = useState('newsletter')
+  const [medium, setMedium] = useState('email')
+  const [campaign, setCampaign] = useState('free_seo_tools')
+  const [term, setTerm] = useState('')
+  const [content, setContent] = useState('cta_button')
+
+  const result = useMemo(() => {
+    try {
+      const url = new URL(baseUrl)
+      const params = new URLSearchParams(url.search)
+      params.set('utm_source', source.trim())
+      params.set('utm_medium', medium.trim())
+      params.set('utm_campaign', campaign.trim())
+      if (term.trim()) params.set('utm_term', term.trim())
+      else params.delete('utm_term')
+      if (content.trim()) params.set('utm_content', content.trim())
+      else params.delete('utm_content')
+      url.search = params.toString()
+      return { url: url.toString(), valid: true }
+    } catch {
+      return { url: 'Enter a valid URL that starts with https://', valid: false }
+    }
+  }, [baseUrl, campaign, content, medium, source, term])
+
+  return (
+    <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_420px]">
+      <Panel title="UTM inputs">
+        <Field label="Destination URL" value={baseUrl} onChange={setBaseUrl} />
+        <div className="grid gap-4 sm:grid-cols-2">
+          <Field label="utm_source" value={source} onChange={setSource} placeholder="google, newsletter, linkedin" />
+          <Field label="utm_medium" value={medium} onChange={setMedium} placeholder="cpc, email, social" />
+        </div>
+        <Field label="utm_campaign" value={campaign} onChange={setCampaign} placeholder="summer_launch" />
+        <div className="grid gap-4 sm:grid-cols-2">
+          <Field label="utm_term (optional)" value={term} onChange={setTerm} placeholder="keyword or ad group" />
+          <Field label="utm_content (optional)" value={content} onChange={setContent} placeholder="button_a" />
+        </div>
+        <Stat label="URL status" value={result.valid ? 'Valid' : 'Check URL'} detail="Use consistent lowercase names so analytics stays clean." highlight={result.valid} />
+      </Panel>
+      <CopyBox label="Campaign URL" value={result.url} />
+    </div>
+  )
+}
+
+function SlugGenerator() {
+  const [title, setTitle] = useState('Free SEO Audit Tool for Small Websites')
+  const [separator, setSeparator] = useState('-')
+  const [lowercase, setLowercase] = useState('yes')
+  const [maxLength, setMaxLength] = useState('70')
+
+  const slug = makeSlug(title, separator, lowercase === 'yes', Number(maxLength) || 70)
+  const words = keywordCore(title)
+
+  return (
+    <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_420px]">
+      <Panel title="Slug inputs">
+        <TextArea label="Page title or phrase" value={title} onChange={setTitle} rows={4} />
+        <div className="grid gap-4 sm:grid-cols-3">
+          <SelectField label="Separator" value={separator} onChange={setSeparator} options={[{ label: 'Hyphen', value: '-' }, { label: 'Underscore', value: '_' }]} />
+          <SelectField label="Case" value={lowercase} onChange={setLowercase} options={[{ label: 'Lowercase', value: 'yes' }, { label: 'Keep case', value: 'no' }]} />
+          <Field label="Max length" value={maxLength} onChange={setMaxLength} type="number" />
+        </div>
+        <div className="grid gap-3 sm:grid-cols-2">
+          <Stat label="Slug length" value={`${slug.length}`} detail="Short, readable slugs are easier to scan." highlight={slug.length > 0 && slug.length <= 70} />
+          <Stat label="Core terms" value={`${words.length}`} detail={words.slice(0, 5).join(', ') || 'Add descriptive words.'} highlight={words.length > 0} />
+        </div>
+      </Panel>
+      <CopyBox label="SEO slug" value={slug} />
+    </div>
+  )
+}
+
+function FaqSchemaGenerator() {
+  const [pageUrl, setPageUrl] = useState('https://example.com/free-seo-tools')
+  const [faqText, setFaqText] = useState('What is a free SEO tool?\nA free SEO tool helps you check or generate one useful SEO item without paying for a full platform.\n\nDoes schema guarantee rich results?\nNo. Schema can help search engines understand eligible content, but rich results are not guaranteed.\n\nShould FAQs be visible on the page?\nYes. FAQ schema should match questions and answers users can actually see.')
+
+  const faqs = useMemo(() => {
+    const blocks = faqText.split(/\n\s*\n/).map((block) => splitLines(block)).filter((block) => block.length >= 2)
+    return blocks.map((block) => ({ question: block[0], answer: block.slice(1).join(' ') }))
+  }, [faqText])
+
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+    })),
+  }
+
+  const output = `<script type="application/ld+json">
+${JSON.stringify(schema, null, 2)}
+</script>`
+
+  return (
+    <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_420px]">
+      <Panel title="FAQ schema inputs">
+        <Field label="Page URL" value={pageUrl} onChange={setPageUrl} />
+        <TextArea label="Questions and answers" value={faqText} onChange={setFaqText} rows={12} hint="Use one question, then its answer, then a blank line before the next FAQ." />
+        <div className="grid gap-3 sm:grid-cols-2">
+          <Stat label="FAQ count" value={`${faqs.length}`} detail="Use only FAQs visible on the page." highlight={faqs.length >= 2} />
+          <Stat label="Page URL" value={pageUrl.startsWith('http') ? 'Valid' : 'Missing'} detail="Keep schema tied to a real page." highlight={pageUrl.startsWith('http')} />
+        </div>
+      </Panel>
+      <CopyBox label="FAQ JSON-LD" value={output} />
+    </div>
+  )
+}
+
+function CanonicalTagChecker() {
+  const [pageUrl, setPageUrl] = useState('https://example.com/free-seo-tools?utm_source=newsletter')
+  const [canonicalUrl, setCanonicalUrl] = useState('https://example.com/free-seo-tools')
+  const [robots, setRobots] = useState('index')
+  const [duplicates, setDuplicates] = useState('https://example.com/free-seo-tools/\nhttps://www.example.com/free-seo-tools\nhttps://example.com/free-seo-tools?utm_source=ad')
+
+  const normalize = (value: string) => {
+    try {
+      const url = new URL(value)
+      url.hash = ''
+      url.search = ''
+      return url.toString().replace(/\/$/, '')
+    } catch {
+      return ''
+    }
+  }
+  const pageNormalized = normalize(pageUrl)
+  const canonicalNormalized = normalize(canonicalUrl)
+  const duplicateRows = splitLines(duplicates)
+  const matchingDuplicates = duplicateRows.filter((row) => normalize(row) === canonicalNormalized).length
+  const items: ScoreItem[] = [
+    { label: 'Canonical URL is valid', ok: canonicalNormalized.length > 0, detail: canonicalUrl },
+    { label: 'Page and canonical align', ok: pageNormalized === canonicalNormalized || pageUrl.includes('?'), detail: pageNormalized === canonicalNormalized ? 'Self-referencing canonical.' : 'Parameter or duplicate URL can canonicalize to the clean URL.' },
+    { label: 'Page is indexable', ok: robots === 'index', detail: robots === 'index' ? 'Indexable page can use a canonical hint.' : 'Do not canonicalize noindex pages unless you understand the tradeoff.' },
+    { label: 'Duplicates point to canonical', ok: duplicateRows.length === 0 || matchingDuplicates > 0, detail: `${matchingDuplicates} duplicate examples normalize to the canonical target.` },
+  ]
+
+  return (
+    <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_380px]">
+      <Panel title="Canonical inputs">
+        <Field label="Current page URL" value={pageUrl} onChange={setPageUrl} />
+        <Field label="Canonical URL" value={canonicalUrl} onChange={setCanonicalUrl} />
+        <SelectField label="Robots state" value={robots} onChange={setRobots} options={[{ label: 'Indexable', value: 'index' }, { label: 'Noindex', value: 'noindex' }]} />
+        <TextArea label="Duplicate or parameter URL examples" value={duplicates} onChange={setDuplicates} rows={5} />
+        <CopyBox label="Canonical tag" value={`<link rel="canonical" href="${canonicalUrl}" />`} />
+      </Panel>
+      <ScoreList items={items} />
+    </div>
+  )
+}
+
+function RedirectChainChecker() {
+  const [chainText, setChainText] = useState('http://example.com/page 301\nhttps://example.com/page 301\nhttps://www.example.com/page 200')
+
+  const hops = splitLines(chainText).map((line) => {
+    const statusMatch = line.match(/\b([12345]\d{2})\b/)
+    const urlMatch = line.match(/https?:\/\/\S+/)
+    return { line, url: urlMatch?.[0] ?? line, status: statusMatch?.[1] ?? 'unknown' }
+  })
+  const finalHop = hops[hops.length - 1]
+  const uniqueUrls = new Set(hops.map((hop) => hop.url))
+  const loop = uniqueUrls.size < hops.length
+  const tooMany = hops.length > 3
+  const finalOk = finalHop?.status === '200'
+
+  return (
+    <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_380px]">
+      <Panel title="Redirect chain inputs">
+        <TextArea label="Paste redirect chain" value={chainText} onChange={setChainText} rows={9} hint="Paste one hop per line with the URL and status code, for example: http://example.com 301." />
+        <div className="grid gap-3 sm:grid-cols-3">
+          <Stat label="Hops" value={`${hops.length}`} detail={tooMany ? 'Try to reduce to one redirect.' : 'Short chain.'} highlight={!tooMany} />
+          <Stat label="Final status" value={finalHop?.status ?? 'None'} detail="Final URL should usually return 200." highlight={finalOk} />
+          <Stat label="Loop check" value={loop ? 'Loop risk' : 'No loop'} detail="Repeated URLs can indicate a redirect loop." highlight={!loop} />
+        </div>
+      </Panel>
+      <div className="space-y-3">
+        {hops.map((hop, index) => (
+          <div key={`${hop.url}-${index}`} className="rounded-xl border border-gray-100 bg-white p-3 shadow-sm">
+            <p className="text-xs font-semibold uppercase tracking-wider text-gray-400">Hop {index + 1}</p>
+            <p className="mt-1 break-all text-sm font-medium text-gray-900">{hop.url}</p>
+            <p className="mt-1 text-xs text-gray-500">Status: {hop.status}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function BrokenLinkChecker() {
+  const [input, setInput] = useState('<a href="https://example.com/">Home</a>\n<a href="/old-page">Old page</a>\n<a href="#">Empty anchor</a>\nhttps://example.com/missing 404\nhttps://example.com/server-error 500')
+
+  const links = useMemo(() => {
+    const htmlLinks = Array.from(input.matchAll(/href=["']([^"']+)["']/gi)).map((match) => match[1])
+    const lineLinks = splitLines(input)
+      .filter((line) => !line.includes('href='))
+      .map((line) => {
+        const status = line.match(/\b([12345]\d{2})\b/)?.[1]
+        const url = line.match(/(https?:\/\/\S+|\/[^\s]+)/)?.[1]
+        return url ? { url, status } : null
+      })
+      .filter((item): item is { url: string; status: string | undefined } => Boolean(item))
+    return [...htmlLinks.map((url) => ({ url, status: undefined })), ...lineLinks]
+  }, [input])
+
+  const broken = links.filter((link) => link.status?.startsWith('4') || link.status?.startsWith('5') || link.url === '#' || link.url.trim() === '')
+  const internal = links.filter((link) => link.url.startsWith('/')).length
+  const external = links.filter((link) => /^https?:\/\//.test(link.url)).length
+
+  return (
+    <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_380px]">
+      <Panel title="Link inputs">
+        <TextArea label="Paste HTML, URLs, or URL status rows" value={input} onChange={setInput} rows={12} hint="For status checks, paste rows like https://example.com/missing 404 from a crawler export." />
+        <div className="grid gap-3 sm:grid-cols-3">
+          <Stat label="Links found" value={`${links.length}`} detail={`${internal} internal, ${external} external`} highlight={links.length > 0} />
+          <Stat label="Broken signals" value={`${broken.length}`} detail="Includes 4xx, 5xx, and empty # anchors." highlight={broken.length === 0} />
+          <Stat label="Need crawler?" value="Maybe" detail="Browser-only tools cannot fetch every URL status safely." />
+        </div>
+      </Panel>
+      <Panel title="Broken or risky links">
+        {broken.length === 0 ? (
+          <p className="text-sm text-gray-600">No obvious broken links found in the pasted input.</p>
+        ) : (
+          <div className="space-y-2">
+            {broken.map((link, index) => (
+              <p key={`${link.url}-${index}`} className="break-all rounded-lg bg-amber-50 p-3 text-sm text-amber-800">
+                {link.url} {link.status ? `· ${link.status}` : '· empty or placeholder link'}
+              </p>
+            ))}
+          </div>
+        )}
+      </Panel>
+    </div>
+  )
+}
+
+function OpenGraphPreviewTool() {
+  const [title, setTitle] = useState('Free SEO Tools for Small Websites')
+  const [description, setDescription] = useState('Audit pages, generate schema, preview snippets, build sitemaps, and check content quality with free SEO tools.')
+  const [url, setUrl] = useState('https://freeltools.com/tools/category/seo-tools')
+  const [imageUrl, setImageUrl] = useState('https://freeltools.com/opengraph-image')
+
+  const tags = `<meta property="og:title" content="${title}" />
+<meta property="og:description" content="${description}" />
+<meta property="og:url" content="${url}" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="${imageUrl}" />
+<meta name="twitter:card" content="summary_large_image" />`
+
+  return (
+    <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_420px]">
+      <Panel title="Open Graph inputs">
+        <Field label="OG title" value={title} onChange={setTitle} />
+        <TextArea label="OG description" value={description} onChange={setDescription} rows={3} />
+        <Field label="Page URL" value={url} onChange={setUrl} />
+        <Field label="Image URL" value={imageUrl} onChange={setImageUrl} />
+        <div className="grid gap-3 sm:grid-cols-2">
+          <Stat label="Title length" value={`${title.length}`} detail="Keep it readable in cards." highlight={title.length <= 70} />
+          <Stat label="Description length" value={`${description.length}`} detail="Short descriptions are easier to share." highlight={description.length <= 200} />
+        </div>
+      </Panel>
+      <div className="space-y-4">
+        <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
+          <div className="flex aspect-[1.91/1] items-center justify-center bg-gray-100 p-4 text-center text-xs text-gray-500">
+            <span className="break-all">{imageUrl}</span>
+          </div>
+          <div className="p-4">
+            <p className="text-xs uppercase tracking-wide text-gray-400">{slugHost(url) || 'example.com'}</p>
+            <h3 className="mt-1 text-base font-semibold text-gray-900">{title}</h3>
+            <p className="mt-1 line-clamp-2 text-sm leading-5 text-gray-600">{description}</p>
+          </div>
+        </div>
+        <CopyBox label="Open Graph tags" value={tags} />
+      </div>
+    </div>
+  )
+}
+
+function KeywordClusteringTool() {
+  const [keywords, setKeywords] = useState('seo audit tool\nfree seo audit tool\non page seo checker\nschema markup generator\nfaq schema generator\nrobots txt generator\nxml sitemap generator\nsitemap generator free\nkeyword density checker\nkeyword stuffing checker')
+
+  const clusters = useMemo(() => {
+    const rows = splitLines(keywords)
+    const grouped = new Map<string, string[]>()
+    for (const row of rows) {
+      const terms = keywordCore(row)
+      const label = terms.find((term) => !['free', 'tool', 'generator', 'checker'].includes(term)) ?? terms[0] ?? 'misc'
+      grouped.set(label, [...(grouped.get(label) ?? []), row])
+    }
+    return Array.from(grouped.entries()).sort((a, b) => b[1].length - a[1].length)
+  }, [keywords])
+
+  const output = clusters.map(([label, rows]) => `# ${titleCase(label)}\n${rows.map((row) => `- ${row}`).join('\n')}`).join('\n\n')
+
+  return (
+    <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_420px]">
+      <Panel title="Keyword inputs">
+        <TextArea label="Keyword list" value={keywords} onChange={setKeywords} rows={12} />
+        <div className="grid gap-3 sm:grid-cols-2">
+          <Stat label="Keywords" value={`${splitLines(keywords).length}`} detail="One keyword per line." highlight />
+          <Stat label="Clusters" value={`${clusters.length}`} detail="Grouped by dominant non-generic term." highlight={clusters.length > 0} />
+        </div>
+      </Panel>
+      <CopyBox label="Keyword clusters" value={output} />
+    </div>
+  )
+}
+
+function KeywordCannibalizationChecker() {
+  const [rows, setRows] = useState('seo audit tool | /tools/on-page-seo-audit-tool | On-Page SEO Audit Tool\nseo audit tool | /blog/seo-audit-checklist | SEO Audit Checklist\nschema markup generator | /tools/schema-markup-generator | Schema Markup Generator\nfaq schema generator | /tools/faq-schema-generator | FAQ Schema Generator')
+
+  const grouped = useMemo(() => {
+    const map = new Map<string, { url: string; title: string }[]>()
+    for (const line of splitLines(rows)) {
+      const [keyword = '', url = '', title = ''] = line.split('|').map((part) => part.trim())
+      if (!keyword || !url) continue
+      map.set(keyword.toLowerCase(), [...(map.get(keyword.toLowerCase()) ?? []), { url, title }])
+    }
+    return Array.from(map.entries()).sort((a, b) => b[1].length - a[1].length)
+  }, [rows])
+
+  const risks = grouped.filter(([, pages]) => new Set(pages.map((page) => page.url)).size > 1)
+
+  return (
+    <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_420px]">
+      <Panel title="Cannibalization inputs">
+        <TextArea label="Keyword | URL | Title rows" value={rows} onChange={setRows} rows={12} hint="Paste export rows or write one target keyword, URL, and title per line separated by pipes." />
+        <div className="grid gap-3 sm:grid-cols-2">
+          <Stat label="Keyword groups" value={`${grouped.length}`} detail="Unique target keywords found." highlight />
+          <Stat label="Possible conflicts" value={`${risks.length}`} detail="More than one URL targets the same keyword." highlight={risks.length === 0} />
+        </div>
+      </Panel>
+      <Panel title="Cannibalization report">
+        {grouped.map(([keyword, pages]) => (
+          <div key={keyword} className={`rounded-xl border p-3 ${pages.length > 1 ? 'border-amber-200 bg-amber-50' : 'border-gray-100 bg-gray-50'}`}>
+            <p className="text-sm font-semibold text-gray-900">{keyword}</p>
+            <div className="mt-2 space-y-1">
+              {pages.map((page) => (
+                <p key={`${keyword}-${page.url}`} className="break-all text-xs leading-5 text-gray-600">
+                  {page.url} {page.title ? `· ${page.title}` : ''}
+                </p>
+              ))}
+            </div>
+          </div>
+        ))}
+      </Panel>
+    </div>
+  )
+}
+
+function ContentBriefGenerator() {
+  const [keyword, setKeyword] = useState('free seo audit tool')
+  const [audience, setAudience] = useState('small business owners and freelancers')
+  const [pageType, setPageType] = useState('tool page')
+  const [competitors, setCompetitors] = useState('SEO checker tools that only show a score\nPaid audit platforms that require signup\nBlog posts with checklists but no working tool')
+
+  const brief = useMemo(() => {
+    const related = keywordCore(keyword).filter((term) => term !== 'free')
+    const competitorAngles = splitLines(competitors)
+    return `# SEO Content Brief: ${titleCase(keyword)}
+
+## Search intent
+People searching "${keyword}" want a practical ${pageType} for ${audience}. The page should answer the query quickly and let the visitor act without a signup wall.
+
+## Recommended title
+Free ${titleCase(keyword)} | No Signup
+
+## H1
+${titleCase(keyword)}
+
+## First-screen answer
+Use this page to ${pageType.includes('tool') ? 'run the tool immediately' : 'get the answer quickly'}, then explain the workflow, limitations, and next step below the main action.
+
+## Sections to include
+- What the tool does
+- When to use it
+- Inputs required
+- How to interpret the result
+- Common mistakes
+- Related tools and next steps
+- FAQ
+
+## Terms and entities to cover
+${related.map((term) => `- ${term}`).join('\n')}
+
+## Competitor gaps to beat
+${competitorAngles.map((angle) => `- ${angle}`).join('\n')}
+
+## FAQ ideas
+- What is ${keyword}?
+- Is this tool free?
+- What should I do after using it?
+- Does this replace a full SEO audit?
+
+## Internal links
+- Link to the SEO Tools category
+- Link to the On-Page SEO Audit Tool
+- Link to related schema, meta, sitemap, or content tools when relevant
+
+## CTA
+Use the free tool, copy the output, then run the next SEO QA step before publishing.`
+  }, [audience, competitors, keyword, pageType])
+
+  return (
+    <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_420px]">
+      <Panel title="Brief inputs">
+        <Field label="Target keyword" value={keyword} onChange={setKeyword} />
+        <Field label="Audience" value={audience} onChange={setAudience} />
+        <SelectField
+          label="Page type"
+          value={pageType}
+          onChange={setPageType}
+          options={[
+            { label: 'Tool page', value: 'tool page' },
+            { label: 'Blog post', value: 'blog post' },
+            { label: 'Category page', value: 'category page' },
+            { label: 'Landing page', value: 'landing page' },
+          ]}
+        />
+        <TextArea label="Competitor gaps or SERP notes" value={competitors} onChange={setCompetitors} rows={5} />
+      </Panel>
+      <CopyBox label="SEO content brief" value={brief} />
+    </div>
+  )
+}
+
 export default function SeoToolsCalculator() {
   const pathname = usePathname()
   const slug = getSlug(pathname)
@@ -739,6 +1197,16 @@ export default function SeoToolsCalculator() {
   if (slug === 'xml-sitemap-generator') return <XmlSitemapGenerator />
   if (slug === 'hreflang-tag-generator') return <HreflangTagGenerator />
   if (slug === 'keyword-density-checker') return <KeywordDensityChecker />
+  if (slug === 'utm-builder') return <UtmBuilder />
+  if (slug === 'url-slug-generator') return <SlugGenerator />
+  if (slug === 'faq-schema-generator') return <FaqSchemaGenerator />
+  if (slug === 'canonical-tag-checker') return <CanonicalTagChecker />
+  if (slug === 'redirect-chain-checker') return <RedirectChainChecker />
+  if (slug === 'broken-link-checker') return <BrokenLinkChecker />
+  if (slug === 'open-graph-preview-tool') return <OpenGraphPreviewTool />
+  if (slug === 'keyword-clustering-tool') return <KeywordClusteringTool />
+  if (slug === 'keyword-cannibalization-checker') return <KeywordCannibalizationChecker />
+  if (slug === 'content-brief-generator') return <ContentBriefGenerator />
 
   return <OnPageSeoAuditTool />
 }

@@ -1305,7 +1305,7 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
   {
     name: 'SEO Tools',
     slug: 'seo-tools',
-    description: 'Free SEO audit, metadata, schema, robots.txt, sitemap, hreflang, and content optimization tools.',
+    description: 'Free SEO audit, metadata, schema, tracking, link, keyword, sitemap, hreflang, and content optimization tools.',
     tools: [
       {
         slug: 'on-page-seo-audit-tool',
@@ -1597,6 +1597,366 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
           { slug: 'for-blog-posts', label: 'for Blog Posts' },
           { slug: 'for-seo-content', label: 'for SEO Content' },
           { slug: 'keyword-stuffing-checker', label: 'as a Keyword Stuffing Checker' },
+        ],
+      },
+      {
+        slug: 'utm-builder',
+        title: 'UTM Builder',
+        headline: 'Build Clean Campaign Tracking URLs',
+        description: 'Free UTM builder. Create campaign tracking URLs with utm_source, utm_medium, utm_campaign, utm_term, and utm_content for GA4 and analytics reporting.',
+        seoTitle: 'Free UTM Builder | Campaign URL Generator',
+        icon: '🔗',
+        category: 'SEO Tools',
+        keywords: ['utm builder', 'utm link builder', 'utm generator', 'campaign url builder', 'google analytics url builder', 'utm tracking url builder'],
+        answerBox: {
+          short: 'A UTM builder creates a trackable campaign URL by adding source, medium, campaign, term, and content parameters to a destination URL so traffic can be grouped cleanly in analytics.',
+          bullets: ['Best fit: newsletters, paid ads, social campaigns, and partner links', 'Outperformance angle: copy-ready campaign URL with clean required and optional UTM fields'],
+        },
+        faqs: [
+          { q: 'What is a UTM builder?', a: 'A UTM builder adds campaign tracking parameters to a URL so analytics tools can identify the traffic source, medium, campaign, keyword, or creative.' },
+          { q: 'Which UTM fields are required?', a: 'Most campaigns should include utm_source, utm_medium, and utm_campaign. Use utm_term and utm_content when they add useful reporting detail.' },
+          { q: 'Should UTM values be lowercase?', a: 'Lowercase is a good habit because analytics treats different spellings and cases as separate values. Consistent naming keeps reports cleaner.' },
+          { q: 'Can I use this for GA4?', a: 'Yes. GA4 can read UTM parameters from campaign URLs, but your channel grouping and reports depend on how consistently you name them.' },
+          { q: 'Should I add UTMs to internal links?', a: 'Usually no. UTMs are best for external campaign links. Internal UTMs can overwrite original acquisition data and make reports harder to trust.' },
+        ],
+        bodySections: [
+          {
+            heading: 'UTM builder for clean campaign tracking',
+            body: 'Use this tool before sending a newsletter, launching ads, posting partner links, or sharing a campaign URL. It keeps tracking fields in one place and gives you a copy-ready URL.',
+          },
+          {
+            heading: 'Useful for GA4 and campaign reports',
+            body: 'Consistent UTM naming is more important than complex tagging. Keep sources, mediums, and campaigns readable so future reports explain what actually drove visits.',
+          },
+        ],
+        programmaticVariants: [
+          { slug: 'for-google-analytics', label: 'for Google Analytics' },
+          { slug: 'for-email-campaigns', label: 'for Email Campaigns' },
+          { slug: 'for-social-ads', label: 'for Social Ads' },
+        ],
+      },
+      {
+        slug: 'broken-link-checker',
+        title: 'Broken Link Checker',
+        headline: 'Find Broken Link Signals from HTML or Crawl Exports',
+        description: 'Free broken link checker. Paste HTML, URLs, or crawler status rows to spot 404 links, 5xx links, empty anchors, and risky placeholders before publishing.',
+        seoTitle: 'Free Broken Link Checker | 404 Link QA Tool',
+        icon: '🧯',
+        category: 'SEO Tools',
+        keywords: ['broken link checker', 'free broken link checker', 'dead link checker', '404 link checker', 'website broken link checker', 'link checker online'],
+        answerBox: {
+          short: 'A broken link checker helps find links that may lead to 404 pages, server errors, empty anchors, or placeholder URLs so you can fix them before users and crawlers hit dead ends.',
+          bullets: ['Best fit: checking pasted HTML, URL lists, and crawler exports', 'Outperformance angle: browser-only link QA without needing a paid crawl account for small batches'],
+        },
+        faqs: [
+          { q: 'Can this tool crawl my whole website?', a: 'No. This is a browser-based checker for pasted HTML, URL lists, and crawler status rows. Use a full crawler for large sites.' },
+          { q: 'What counts as a broken link?', a: 'Common broken link signals include 404 status codes, 5xx server errors, empty href values, and placeholder # links that users cannot actually follow.' },
+          { q: 'Why do broken links matter for SEO?', a: 'Broken links waste crawl paths, hurt user trust, and can make important pages harder to discover when internal links point to dead URLs.' },
+          { q: 'How should I fix broken internal links?', a: 'Update the link to the live canonical URL, restore the missing page, or redirect the old URL to the most relevant replacement.' },
+          { q: 'Should external broken links be removed?', a: 'Replace them with a working source when possible. If the citation no longer supports the point, remove it or rewrite the section.' },
+        ],
+        bodySections: [
+          {
+            heading: 'Broken link checker for pre-publish QA',
+            body: 'Paste a draft page, crawler export, or URL status list to catch obvious link issues before a page goes live. This is especially useful for blog updates, resource lists, and tool pages with many internal links.',
+          },
+          {
+            heading: 'Works best with a crawl export',
+            body: 'Browser tools cannot reliably fetch every live URL status because of cross-origin limits. For the most accurate batch check, paste status rows from your crawler or audit export.',
+          },
+        ],
+        programmaticVariants: [
+          { slug: 'for-404-errors', label: 'for 404 Errors' },
+          { slug: 'from-html', label: 'from HTML' },
+          { slug: 'for-seo-audits', label: 'for SEO Audits' },
+        ],
+      },
+      {
+        slug: 'redirect-chain-checker',
+        title: 'Redirect Chain Checker',
+        headline: 'Check Redirect Hops, Loops, and Final Status',
+        description: 'Free redirect chain checker. Paste URL hops and status codes to review 301 chains, redirect loops, too many hops, and whether the final URL returns 200.',
+        seoTitle: 'Free Redirect Chain Checker | 301 Redirect QA',
+        icon: '↪️',
+        category: 'SEO Tools',
+        keywords: ['redirect checker', 'redirect chain checker', '301 redirect checker', 'url redirect checker', 'http status redirect checker', 'redirect loop checker'],
+        answerBox: {
+          short: 'A redirect chain checker reviews each hop between an old URL and its final destination, helping you spot long chains, repeated URLs, loop risk, and final pages that do not return a clean 200 status.',
+          bullets: ['Best fit: migrations, HTTPS/www cleanup, and old URL redirects', 'Outperformance angle: simple hop-by-hop chain report you can paste from any crawl or header tool'],
+        },
+        faqs: [
+          { q: 'What is a redirect chain?', a: 'A redirect chain happens when one URL redirects to another URL, which redirects again before reaching the final page.' },
+          { q: 'How many redirects are too many?', a: 'One redirect is usually ideal. More than two or three hops can slow users, waste crawl budget, and make migrations harder to debug.' },
+          { q: 'What is a redirect loop?', a: 'A redirect loop happens when URLs keep redirecting back to a URL that already appeared in the chain, preventing the browser from reaching a final page.' },
+          { q: 'Should the final URL return 200?', a: 'Yes. Most SEO redirects should end at an indexable page that returns a 200 status, not another redirect, 404, or noindex destination.' },
+          { q: 'Can this tool fetch live headers?', a: 'No. It analyzes pasted chains or status rows. That keeps it reliable in the browser without paid APIs or cross-origin fetch issues.' },
+        ],
+        bodySections: [
+          {
+            heading: 'Redirect chain checker for SEO migrations',
+            body: 'Use this when changing domains, moving from HTTP to HTTPS, consolidating www and non-www URLs, or cleaning old campaign URLs. Short redirect paths are easier for both users and crawlers.',
+          },
+          {
+            heading: 'Paste from your crawler or header tool',
+            body: 'The tool is intentionally browser-safe. Paste each hop and status code from a crawl export, browser extension, or command-line header check to review the chain quickly.',
+          },
+        ],
+        programmaticVariants: [
+          { slug: '301-redirects', label: 'for 301 Redirects' },
+          { slug: 'redirect-loop-checker', label: 'as a Redirect Loop Checker' },
+          { slug: 'for-seo-migrations', label: 'for SEO Migrations' },
+        ],
+      },
+      {
+        slug: 'keyword-cannibalization-checker',
+        title: 'Keyword Cannibalization Checker',
+        headline: 'Find Pages Targeting the Same Keyword',
+        description: 'Free keyword cannibalization checker. Paste keyword, URL, and title rows to find overlapping target keywords and pages that may compete with each other.',
+        seoTitle: 'Free Keyword Cannibalization Checker | SEO URL Mapping Tool',
+        icon: '🧭',
+        category: 'SEO Tools',
+        keywords: ['keyword cannibalization checker', 'cannibalization checker', 'seo cannibalization tool', 'keyword overlap checker', 'multiple pages same keyword', 'keyword mapping checker'],
+        answerBox: {
+          short: 'A keyword cannibalization checker compares target keywords across URLs and highlights cases where more than one page appears to target the same search intent.',
+          bullets: ['Best fit: blog cleanups, service-page mapping, and SEO audits', 'Outperformance angle: quick keyword-to-URL conflict report from pasted rows'],
+        },
+        faqs: [
+          { q: 'What is keyword cannibalization?', a: 'Keyword cannibalization happens when multiple pages on the same site target the same query or intent so strongly that they compete instead of supporting one clear canonical page.' },
+          { q: 'Is every repeated keyword a problem?', a: 'No. Repetition is normal across a topical cluster. The risk is highest when two pages have the same primary intent and both deserve the same search result.' },
+          { q: 'How do I fix cannibalization?', a: 'Choose the strongest page, merge or differentiate overlapping content, update internal links, adjust titles, and redirect truly redundant URLs when appropriate.' },
+          { q: 'What data should I paste?', a: 'Paste rows with target keyword, URL, and page title separated by pipes. You can use exports from keyword maps, audits, or Search Console reviews.' },
+          { q: 'Can this replace GSC analysis?', a: 'No. Use it as a mapping aid, then confirm real cannibalization with Search Console query/page data and live SERP behavior.' },
+        ],
+        bodySections: [
+          {
+            heading: 'Keyword cannibalization checker for URL maps',
+            body: 'This tool turns a messy keyword map into a quick conflict report. It is useful when publishing many blog posts, tool pages, or service pages around related SEO terms.',
+          },
+          {
+            heading: 'Map one primary intent per page',
+            body: 'The cleanest SEO clusters have a clear parent page and supporting pages. If several URLs target the same main keyword, decide whether to merge, redirect, or reposition them.',
+          },
+        ],
+        programmaticVariants: [
+          { slug: 'for-blog-posts', label: 'for Blog Posts' },
+          { slug: 'for-service-pages', label: 'for Service Pages' },
+          { slug: 'from-keyword-map', label: 'from a Keyword Map' },
+        ],
+      },
+      {
+        slug: 'url-slug-generator',
+        title: 'URL Slug Generator',
+        headline: 'Generate Clean SEO-Friendly Slugs',
+        description: 'Free URL slug generator. Turn page titles, blog headlines, and product names into short, readable, SEO-friendly slugs with hyphens or underscores.',
+        seoTitle: 'Free URL Slug Generator | SEO Slugify Tool',
+        icon: '🔤',
+        category: 'SEO Tools',
+        keywords: ['slug generator', 'url slug generator', 'seo slug generator', 'permalink generator', 'blog slug generator', 'slugify online'],
+        answerBox: {
+          short: 'A URL slug generator converts a page title or phrase into a clean URL path by removing special characters, normalizing spacing, and using a readable separator.',
+          bullets: ['Best fit: blog posts, tool pages, product pages, and landing pages', 'Outperformance angle: slug length, separator, case, and core-term checks in one tool'],
+        },
+        faqs: [
+          { q: 'What is a URL slug?', a: 'A URL slug is the readable part of a URL path that usually describes the page, such as free-seo-audit-tool.' },
+          { q: 'Are hyphens or underscores better for SEO?', a: 'Hyphens are the common SEO-friendly default because they clearly separate words in readable URLs.' },
+          { q: 'How long should a slug be?', a: 'Short and descriptive is best. Many teams aim for 3-8 meaningful words and avoid unnecessary dates, filler words, and duplicate terms.' },
+          { q: 'Should I change old slugs?', a: 'Only change an existing slug if there is a strong reason. If you do, add a proper redirect from the old URL to the new one.' },
+          { q: 'Should the keyword be in the slug?', a: 'Use the core topic naturally if it helps the URL describe the page. Do not stuff multiple variations into one slug.' },
+        ],
+        bodySections: [
+          {
+            heading: 'URL slug generator for clean publishing',
+            body: 'Use this tool before creating a blog post, landing page, product page, or free tool. It keeps URLs readable and reduces messy punctuation or accidental long paths.',
+          },
+          {
+            heading: 'Readable slugs help users and teams',
+            body: 'A good slug is not a ranking trick. It helps users understand the page, makes analytics easier to scan, and keeps internal links cleaner over time.',
+          },
+        ],
+        programmaticVariants: [
+          { slug: 'for-blog-posts', label: 'for Blog Posts' },
+          { slug: 'for-product-pages', label: 'for Product Pages' },
+          { slug: 'with-hyphens', label: 'With Hyphens' },
+        ],
+      },
+      {
+        slug: 'faq-schema-generator',
+        title: 'FAQ Schema Generator',
+        headline: 'Generate FAQPage JSON-LD from Visible FAQs',
+        description: 'Free FAQ schema generator. Paste visible questions and answers, then copy clean FAQPage JSON-LD structured data for your page.',
+        seoTitle: 'Free FAQ Schema Generator | FAQPage JSON-LD Tool',
+        icon: '❓',
+        category: 'SEO Tools',
+        keywords: ['faq schema generator', 'faq json ld generator', 'faqpage schema generator', 'faq structured data generator', 'schema faq generator', 'free faq schema generator'],
+        answerBox: {
+          short: 'An FAQ schema generator turns visible question-and-answer content into FAQPage JSON-LD that helps search engines understand the page FAQ section.',
+          bullets: ['Best fit: blog posts, service pages, and tool pages with visible FAQs', 'Outperformance angle: simple pasted FAQ format with copy-ready JSON-LD'],
+        },
+        faqs: [
+          { q: 'What is FAQ schema?', a: 'FAQ schema is structured data that marks up a visible list of questions and answers on a page using the FAQPage type.' },
+          { q: 'Should FAQ schema match visible content?', a: 'Yes. The questions and answers in structured data should be visible to users on the page.' },
+          { q: 'Does FAQ schema guarantee rich results?', a: 'No. It can help search engines understand the content, but rich result display is controlled by search engines.' },
+          { q: 'How many FAQs should I include?', a: 'Use the FAQs that genuinely help the page. Two to six strong questions are often more useful than a long generic list.' },
+          { q: 'Where should I put the JSON-LD?', a: 'Place it in the page head or body inside a script tag with type application/ld+json, depending on your site framework.' },
+        ],
+        bodySections: [
+          {
+            heading: 'FAQ schema generator for visible page FAQs',
+            body: 'Paste the same questions and answers users can read on the page. The generator turns them into clean FAQPage JSON-LD without needing to hand-code the object.',
+          },
+          {
+            heading: 'Useful after writing the page',
+            body: 'FAQ schema works best when the FAQ section is already part of a helpful page. Write the human answer first, then generate structured data that mirrors it.',
+          },
+        ],
+        programmaticVariants: [
+          { slug: 'json-ld', label: 'JSON-LD' },
+          { slug: 'for-blog-posts', label: 'for Blog Posts' },
+          { slug: 'for-service-pages', label: 'for Service Pages' },
+        ],
+      },
+      {
+        slug: 'canonical-tag-checker',
+        title: 'Canonical Tag Checker',
+        headline: 'Check Canonical URL Alignment',
+        description: 'Free canonical tag checker. Compare current URL, canonical URL, robots state, and duplicate examples to catch canonicalization issues before publishing.',
+        seoTitle: 'Free Canonical Tag Checker | Rel Canonical QA Tool',
+        icon: '🎯',
+        category: 'SEO Tools',
+        keywords: ['canonical tag checker', 'canonical url checker', 'canonical checker', 'canonical tag generator', 'rel canonical checker', 'canonicalization checker'],
+        answerBox: {
+          short: 'A canonical tag checker helps confirm that duplicate, parameter, or alternate page URLs point toward the preferred canonical URL and that the canonical target is indexable.',
+          bullets: ['Best fit: duplicate pages, tracking parameters, and template QA', 'Outperformance angle: current URL, canonical tag, robots state, and duplicate examples together'],
+        },
+        faqs: [
+          { q: 'What does a canonical tag do?', a: 'A canonical tag tells search engines which URL is the preferred version when duplicate or near-duplicate pages exist.' },
+          { q: 'Should every page have a self-referencing canonical?', a: 'For many indexable pages, a self-referencing canonical is a strong default. Duplicate or parameter URLs can point to the clean canonical version.' },
+          { q: 'Can a noindex page have a canonical?', a: 'It can, but the signals can conflict depending on the situation. Be careful when combining noindex and canonical directives.' },
+          { q: 'Does canonical always force Google to choose that URL?', a: 'No. Canonical is a strong hint, not an absolute command. Internal links, sitemaps, redirects, and page quality also matter.' },
+          { q: 'What duplicate URLs should I check?', a: 'Check trailing slash versions, www/non-www, HTTP/HTTPS, parameter URLs, filtered pages, and copied landing pages.' },
+        ],
+        bodySections: [
+          {
+            heading: 'Canonical tag checker for duplicate URL QA',
+            body: 'Use this tool when templates create parameter URLs, campaign URLs, trailing-slash variants, or duplicate pages. It helps you decide whether the canonical hint matches the preferred URL.',
+          },
+          {
+            heading: 'Canonicals work best with consistent signals',
+            body: 'Keep internal links, sitemap URLs, redirects, and canonical tags aligned. Mixed signals make it harder for search engines to understand the page you want indexed.',
+          },
+        ],
+        programmaticVariants: [
+          { slug: 'for-duplicate-pages', label: 'for Duplicate Pages' },
+          { slug: 'for-parameter-urls', label: 'for Parameter URLs' },
+          { slug: 'self-referencing-canonical', label: 'for Self-Referencing Canonicals' },
+        ],
+      },
+      {
+        slug: 'keyword-clustering-tool',
+        title: 'Keyword Clustering Tool',
+        headline: 'Group Keywords into Topic Clusters',
+        description: 'Free keyword clustering tool. Paste a keyword list and group similar queries into practical SEO topic clusters for content planning.',
+        seoTitle: 'Free Keyword Clustering Tool | SEO Keyword Grouper',
+        icon: '🧠',
+        category: 'SEO Tools',
+        keywords: ['keyword clustering tool', 'keyword cluster tool', 'keyword grouping tool', 'seo keyword clustering', 'keyword list clustering', 'keyword grouping generator'],
+        answerBox: {
+          short: 'A keyword clustering tool groups related search queries so you can decide which terms belong on one page and which deserve separate supporting pages.',
+          bullets: ['Best fit: blog planning, tool category planning, and keyword exports', 'Outperformance angle: quick browser-side clustering without uploading keyword lists'],
+        },
+        faqs: [
+          { q: 'What is keyword clustering?', a: 'Keyword clustering groups related queries by topic or intent so each page can target a coherent search need.' },
+          { q: 'Is this semantic clustering?', a: 'This lightweight tool groups by dominant terms. Use it for fast planning, then manually review intent before publishing.' },
+          { q: 'How many keywords should be in one cluster?', a: 'There is no fixed number. A cluster should represent one page or one clear content section when the search intent is the same.' },
+          { q: 'Can clustering prevent cannibalization?', a: 'Yes, it can help. Clustering makes it easier to assign one primary page to a topic and avoid creating several pages for the same intent.' },
+          { q: 'Should I publish one page per keyword?', a: 'No. Publish one strong page per intent, then create supporting pages only when the user need is genuinely different.' },
+        ],
+        bodySections: [
+          {
+            heading: 'Keyword clustering tool for content planning',
+            body: 'Paste keywords from Ahrefs, Search Console, or brainstorming notes to create a rough cluster map. It helps turn a long keyword list into a cleaner publishing plan.',
+          },
+          {
+            heading: 'Use clusters as planning input',
+            body: 'Automated grouping is a starting point. Before publishing, check the SERP and decide whether the queries share the same intent or need separate pages.',
+          },
+        ],
+        programmaticVariants: [
+          { slug: 'for-topic-clusters', label: 'for Topic Clusters' },
+          { slug: 'for-blog-planning', label: 'for Blog Planning' },
+          { slug: 'from-keyword-list', label: 'from a Keyword List' },
+        ],
+      },
+      {
+        slug: 'open-graph-preview-tool',
+        title: 'Open Graph Preview Tool',
+        headline: 'Preview Social Link Cards Before Sharing',
+        description: 'Free Open Graph preview tool. Check OG title, description, URL, and image card layout for Facebook, LinkedIn, Twitter/X, and social sharing.',
+        seoTitle: 'Free Open Graph Preview Tool | Social Share Card Preview',
+        icon: '🖼️',
+        category: 'SEO Tools',
+        keywords: ['open graph preview', 'og preview tool', 'social share preview', 'open graph checker', 'facebook link preview', 'twitter card preview'],
+        answerBox: {
+          short: 'An Open Graph preview tool helps you see how a page title, description, URL, and image may appear when shared on social platforms.',
+          bullets: ['Best fit: launch pages, blog posts, tools, and social campaigns', 'Outperformance angle: visual preview plus copy-ready OG and Twitter card tags'],
+        },
+        faqs: [
+          { q: 'What is Open Graph?', a: 'Open Graph is metadata that helps social platforms understand the title, description, URL, image, and type of a shared page.' },
+          { q: 'What size should an OG image be?', a: 'A common working size is 1200x630 pixels for large link cards, though each platform may crop or cache images differently.' },
+          { q: 'Does this fetch the live URL?', a: 'No. It previews the values you enter and generates tags. That avoids cross-origin and cache issues inside the browser.' },
+          { q: 'Why does my social preview look different after publishing?', a: 'Platforms can cache old tags, crop images, or rewrite previews. Use their debugger tools after publishing when exact validation matters.' },
+          { q: 'Can I use this for Twitter/X cards?', a: 'Yes. The output includes a summary_large_image Twitter card tag along with Open Graph basics.' },
+        ],
+        bodySections: [
+          {
+            heading: 'Open Graph preview for launch QA',
+            body: 'Before sharing a new blog post, product page, free tool, or landing page, use the preview to catch weak titles, long descriptions, missing images, or unclear card text.',
+          },
+          {
+            heading: 'Social previews support SEO distribution',
+            body: 'Open Graph tags do not directly make a page rank, but better shared cards can improve distribution, clicks, and the chance that useful pages earn links and mentions.',
+          },
+        ],
+        programmaticVariants: [
+          { slug: 'twitter-card-preview', label: 'for Twitter Card Preview' },
+          { slug: 'facebook-link-preview', label: 'for Facebook Link Preview' },
+          { slug: 'linkedin-preview', label: 'for LinkedIn Preview' },
+        ],
+      },
+      {
+        slug: 'content-brief-generator',
+        title: 'Content Brief Generator',
+        headline: 'Create a Practical SEO Content Brief',
+        description: 'Free content brief generator. Turn a target keyword, audience, page type, and competitor notes into an SEO outline, sections, FAQ ideas, and CTA plan.',
+        seoTitle: 'Free SEO Content Brief Generator | Blog Outline Tool',
+        icon: '🗒️',
+        category: 'SEO Tools',
+        keywords: ['content brief generator', 'seo content brief generator', 'content outline generator', 'blog brief generator', 'seo brief template', 'content brief tool'],
+        answerBox: {
+          short: 'A content brief generator converts a target keyword, audience, page type, and competitor gaps into an actionable outline for a page, blog post, or tool page.',
+          bullets: ['Best fit: SEO agencies, freelancers, and site owners planning publishable pages', 'Outperformance angle: intent, title, H1, sections, FAQ ideas, internal links, and CTA in one brief'],
+        },
+        faqs: [
+          { q: 'What is a content brief?', a: 'A content brief is a planning document that defines the target keyword, search intent, audience, structure, entities, examples, FAQs, internal links, and conversion goal for a page.' },
+          { q: 'Can this replace keyword research?', a: 'No. Use it after keyword research and SERP review. The brief turns research into a writing and publishing plan.' },
+          { q: 'What should I add to competitor notes?', a: 'Add what current ranking pages do well, what they miss, what tools or examples they lack, and how your page can be more useful.' },
+          { q: 'Is this useful for tool pages?', a: 'Yes. A tool page still needs a clear first-screen action, explanations, FAQs, related tools, and internal links.' },
+          { q: 'Should every brief include a CTA?', a: 'Yes. The CTA can be a tool use, download, signup, quote request, or internal next step depending on the page.' },
+        ],
+        bodySections: [
+          {
+            heading: 'Content brief generator for SEO publishing',
+            body: 'Use this tool after keyword research to create a practical writing brief. It keeps the page tied to search intent, user action, internal links, and a clear reason to exist.',
+          },
+          {
+            heading: 'Briefs should make content more useful',
+            body: 'The goal is not to generate generic headings. A strong brief names the audience, the action, the competitor gaps, and the specific questions the page must answer.',
+          },
+        ],
+        programmaticVariants: [
+          { slug: 'for-blog-posts', label: 'for Blog Posts' },
+          { slug: 'for-tool-pages', label: 'for Tool Pages' },
+          { slug: 'for-seo-agencies', label: 'for SEO Agencies' },
         ],
       },
     ],
