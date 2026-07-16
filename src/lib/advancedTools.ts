@@ -275,31 +275,55 @@ const imageToolOverrides: Record<
     description: 'Free resize image to 15KB tool. Reduce a photo below 15KB in your browser for application portals, profile images, and small form uploads.',
     seoTitle: 'Resize Image to 15KB Online Free',
     keywords: ['resize image to 15kb', 'image under 15kb', 'compress image to 15kb', 'photo under 15kb', '15kb image resizer'],
+    answerBox: {
+      short: 'A 15KB image limit usually means the visitor needs a file that is small enough for an older portal but still readable. This page is built for that exact upload job, not for generic photo editing.',
+      bullets: ['Best fit: application forms, resume portals, and profile-photo uploads', 'Outperformance angle: exact low-KB workflow with private browser processing'],
+    },
   },
   'resize-image-to-30kb': {
     description: 'Free resize image to 30KB tool. Make a photo or form image fit under a 30KB upload limit without installing software.',
     seoTitle: 'Resize Image to 30KB Online Free',
     keywords: ['resize image to 30kb', 'photo under 30kb', 'compress image to 30kb', 'image size 30kb', '30kb photo resizer'],
+    answerBox: {
+      short: 'A 30KB image resizer should help users pass strict uploads quickly without forcing multiple export attempts. This page is tuned for that exact form-submission workflow.',
+      bullets: ['Best fit: lightweight document photos, headshots, and portal uploads', 'Outperformance angle: 30KB target page instead of a broad compressor landing page'],
+    },
   },
   'resize-image-to-200kb': {
     description: 'Free resize image to 200KB tool. Compress large photos into a cleaner 200KB upload file while keeping more detail than tiny 20KB limits.',
     seoTitle: 'Resize Image to 200KB Online Free',
     keywords: ['resize image to 200kb', 'compress image to 200kb', 'photo under 200kb', 'image size 200kb', '200kb image resizer'],
+    answerBox: {
+      short: 'A 200KB image target is common when the upload needs to stay reasonably sharp but still pass a file-size cap. This page is meant for that balance between clarity and compliance.',
+      bullets: ['Best fit: website forms, CMS uploads, and document attachments', 'Outperformance angle: higher-quality size target without a paid compressor gate'],
+    },
   },
   'resize-image-to-500kb': {
     description: 'Free resize image to 500KB tool. Reduce a large image under 500KB for web uploads, forms, CMS images, and email attachments.',
     seoTitle: 'Resize Image to 500KB Online Free',
     keywords: ['resize image to 500kb', 'compress image to 500kb', 'photo under 500kb', '500kb image resizer', 'reduce image size to 500kb'],
+    answerBox: {
+      short: 'A 500KB image resizer is useful when the file can stay fairly detailed but still needs to pass a web upload or attachment limit. This page gives users that practical middle-ground workflow fast.',
+      bullets: ['Best fit: CMS uploads, email attachments, and profile banners', 'Outperformance angle: exact 500KB target page with a no-signup workflow'],
+    },
   },
   'compress-image-to-50kb': {
     description: 'Free compress image to 50KB tool. Reduce a photo or form image below 50KB in your browser without an account or watermark.',
     seoTitle: 'Compress Image to 50KB Online Free',
     keywords: ['compress image to 50kb', 'image under 50kb', 'reduce photo size to 50kb', 'photo compressor 50kb', 'resize image to 50kb'],
+    answerBox: {
+      short: 'Compressing an image to 50KB is a common upload requirement for forms, directories, and profile pictures. This page is designed for that exact threshold so users can get a passable file quickly.',
+      bullets: ['Best fit: profile photos, small forms, and document portals', 'Outperformance angle: threshold-specific workflow instead of a generic compressor article'],
+    },
   },
   'compress-image-to-100kb': {
     description: 'Free compress image to 100KB tool. Make a photo smaller for upload forms, web profiles, and document portals while keeping useful detail.',
     seoTitle: 'Compress Image to 100KB Online Free',
     keywords: ['compress image to 100kb', 'image under 100kb', 'reduce photo size to 100kb', 'photo compressor 100kb', 'resize image to 100kb'],
+    answerBox: {
+      short: 'A 100KB image compressor should keep enough detail for a normal photo while still meeting the upload cap. This page focuses on that exact use case, with the working tool above the fold.',
+      bullets: ['Best fit: profile photos, forms, and lighter web uploads', 'Outperformance angle: exact 100KB intent plus immediate tool access'],
+    },
   },
   'job-application-photo-resizer': {
     description: 'Free job application photo resizer. Resize and compress a profile photo for job portals, resumes, and application forms in your browser.',
@@ -329,6 +353,25 @@ const imageToolOverrides: Record<
     description: 'Free online form photo resizer. Prepare a small JPG photo for portals that require specific dimensions or a strict file-size limit.',
     seoTitle: 'Online Form Photo Resizer Free',
     keywords: ['online form photo resizer', 'application form photo resizer', 'resize photo for form', 'photo upload size reducer', 'profile photo resizer'],
+    answerBox: {
+      short: 'An online form photo resizer should help the user match the portal requirement fast, whether the issue is pixel size, file weight, or both. This page is built for that utility-first upload workflow.',
+      bullets: ['Best fit: exam forms, job portals, and government uploads', 'Outperformance angle: portal-first page instead of a general-purpose image editor'],
+    },
+    faqs: [
+      { q: 'Can I use this for government and exam forms?', a: 'Yes. It is useful when a portal asks for a profile photo with a strict dimension or file-size requirement.' },
+      { q: 'Does it work for JPG-only uploads?', a: 'Yes. This kind of workflow is commonly used for JPG form uploads where the portal rejects larger or differently sized files.' },
+      { q: 'Are my photos uploaded anywhere?', a: 'No. The photo stays in your browser while you resize and export it.' },
+    ],
+    bodySections: [
+      {
+        heading: 'Online form photo resizer for exact upload requirements',
+        body: 'Many portals do not tell users how to hit the required size cleanly. This page gives them a direct resize-and-download path without opening desktop software.',
+      },
+      {
+        heading: 'Useful for application forms that reject the wrong file',
+        body: 'The search intent here is practical: get the image accepted by the form. That is why the page leads with the tool, not a long article.',
+      },
+    ],
   },
   'resize-image-to-20kb': {
     description: 'Free resize image to 20KB tool. Upload a JPG, PNG, or photo, reduce the file to 20KB or less, and download the result in your browser without signup.',
@@ -478,6 +521,10 @@ const imageToolOverrides: Record<
     description: 'Free resize photo under 20KB tool. Upload a passport photo, profile picture, or form image and reduce it below 20KB in your browser.',
     seoTitle: 'Resize Photo Under 20KB Online Free',
     keywords: ['resize photo under 20kb', 'photo under 20kb', 'reduce photo size under 20kb', 'passport photo under 20kb', 'resize image to 20kb'],
+    answerBox: {
+      short: 'A photo-under-20KB page needs to solve a very specific problem: pass a strict upload limit without the image becoming unusable. This page is built for that exact constraint.',
+      bullets: ['Best fit: passport uploads, profile photos, and old portal forms', 'Outperformance angle: exact under-20KB photo workflow rather than a broad image guide'],
+    },
     faqs: [
       { q: 'Can I make a passport-style photo under 20KB?', a: 'Yes. Many users need a small profile or document photo for application forms. The tool helps reduce the file size while keeping the picture usable.' },
       { q: 'Why would a website require a photo under 20KB?', a: 'Some older forms and public-sector portals still enforce very small upload limits. This tool is designed for those exact cases.' },
