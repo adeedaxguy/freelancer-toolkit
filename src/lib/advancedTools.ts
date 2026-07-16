@@ -305,6 +305,25 @@ const imageToolOverrides: Record<
     description: 'Free job application photo resizer. Resize and compress a profile photo for job portals, resumes, and application forms in your browser.',
     seoTitle: 'Job Application Photo Resizer Online Free',
     keywords: ['job application photo resizer', 'resume photo resizer', 'profile photo for job application', 'photo under 50kb', 'application photo resizer'],
+    answerBox: {
+      short: 'A job application photo resizer should help you hit the upload size quickly without turning the picture into a blurry thumbnail. This page is built for profile-photo and resume-portal uploads where the real job is getting a clean, compliant file fast.',
+      bullets: ['Best fit: job portals, resume profiles, and application forms', 'Outperformance angle: upload-first workflow instead of a generic image editor'],
+    },
+    faqs: [
+      { q: 'Can I use this for LinkedIn-style profile photos too?', a: 'Yes. It works for job boards, resume portals, and profile-photo uploads when you need a smaller file or a cleaner aspect ratio.' },
+      { q: 'Does it help with strict file-size limits?', a: 'Yes. The workflow is designed for applications that reject files over a small size limit, so you can resize and compress in one step.' },
+      { q: 'Will the photo stay private?', a: 'Yes. The image is processed in your browser and is not uploaded to a remote server.' },
+    ],
+    bodySections: [
+      {
+        heading: 'Job application photo resizer for upload-ready profile images',
+        body: 'Use this when a hiring portal asks for a small profile image and you do not want to keep exporting files by trial and error. The page is tuned for application-photo use rather than general image editing.',
+      },
+      {
+        heading: 'Useful for resumes, portals, and candidate profiles',
+        body: 'Many job systems ask for a headshot that is both small and clean. This tool helps you fit the image, reduce the weight, and download a file ready for the application form.',
+      },
+    ],
   },
   'online-form-photo-resizer': {
     description: 'Free online form photo resizer. Prepare a small JPG photo for portals that require specific dimensions or a strict file-size limit.',
@@ -479,6 +498,10 @@ const imageToolOverrides: Record<
     description: 'Free favicon generator. Upload a square image, export a clean favicon-ready PNG, and prepare a browser-tab icon without opening design software.',
     seoTitle: 'Favicon Generator Online Free | Create a Browser Icon',
     keywords: ['favicon generator', 'create favicon online', 'website icon generator', 'browser tab icon generator', 'favicon maker free'],
+    answerBox: {
+      short: 'A favicon generator should turn a simple square mark into a browser-tab icon quickly, without forcing you into a full design workflow. This page is built for that exact use case: preparing a clean favicon-ready asset in the browser.',
+      bullets: ['Best fit: browser-tab icons, bookmarks, and quick website branding', 'Outperformance angle: square favicon prep without a heavier design tool'],
+    },
     faqs: [
       { q: 'What image should I upload to make a favicon?', a: 'Start with a square logo or symbol that stays clear at very small sizes. Simple shapes and strong contrast work best for browser tabs.' },
       { q: 'Is this good for website favicons and app shortcuts?', a: 'Yes. It helps you create a clean square source image that can be used for browser tabs, bookmarks, and related icon workflows.' },
@@ -537,6 +560,7 @@ function makeImageTool(preset: (typeof imagePresets)[number]): AdvancedTool {
     icon: '🖼️',
     category: 'Image & Application File Tools',
     keywords: overrides?.keywords ?? [preset.keyword, 'resize image online free', 'compress photo online', `${preset.width}x${preset.height} image resizer`],
+    answerBox: overrides?.answerBox,
     faqs: overrides?.faqs ?? [
       { q: 'Does this tool upload my image?', a: 'No. Image processing runs in your browser. The file stays on your device.' },
       { q: 'Can I control the final file size?', a: preset.maxKb ? `Yes. This preset targets ${preset.maxKb}KB or less by lowering JPEG quality when possible.` : 'Yes. Use the quality slider to reduce file size before downloading.' },
