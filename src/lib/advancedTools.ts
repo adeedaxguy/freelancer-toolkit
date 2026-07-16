@@ -384,7 +384,7 @@ const imageToolOverrides: Record<
     seoTitle: 'Resize Photo to 413x531 Online Free',
     keywords: ['resize photo to 413x531', '413x531 photo resize', '413x531 passport photo', '35x45mm photo in pixels', '413x531 image resizer'],
     answerBox: {
-      short: 'A 35x45mm passport-style photo exported at 300 DPI is about 413x531 pixels. This tool is for people who already know the pixel target and need the file quickly for a visa, passport, or application upload.',
+      short: 'A 35x45mm passport-style photo exported at 300 DPI is about 413x531 pixels. This page is for people who already know the exact pixel target and need the file quickly for a visa, passport, or application upload without guessing the conversion.',
       bullets: ['Best fit: 35x45mm digital uploads and print-ready passport photos', 'Outperformance angle: exact 413x531 export instead of generic square passport croppers'],
     },
     faqs: [
@@ -400,6 +400,34 @@ const imageToolOverrides: Record<
       {
         heading: 'Useful for passport, visa, and portal uploads',
         body: 'Use this preset when a portal asks for 35x45mm sizing in pixel form or when you want to prepare a clean digital file before creating a print sheet or country-specific photo export.',
+      },
+      {
+        heading: 'Matches the exact 413x531 search job',
+        body: 'Searchers using this query usually do not need photo theory. They need the exact pixel output tied to the 35x45mm standard, plus a quick explanation of why the conversion lands at 413x531.',
+      },
+    ],
+  },
+  'passport-photo-4x6-print-maker': {
+    description: 'Free passport photo 4x6 print maker. Place passport-size photos on a 4x6 sheet, export a clean print-ready image, and avoid manual photo-sheet layouts.',
+    seoTitle: 'Passport Photo 4x6 Print Maker Online Free',
+    keywords: ['passport photo 4x6 print maker', 'passport photo print sheet', '4x6 passport photo template', 'print passport photo at home', 'passport photo 4x6 layout'],
+    answerBox: {
+      short: 'A passport photo 4x6 print maker should take a correctly sized portrait and place multiple copies on a 4x6 sheet you can print at home or at a photo counter. This page is built for that exact print-sheet workflow.',
+      bullets: ['Best fit: printing passport-style photos on a standard 4x6 sheet', 'Outperformance angle: print-sheet output instead of only a single cropped passport image'],
+    },
+    faqs: [
+      { q: 'Why print passport photos on a 4x6 sheet?', a: 'A 4x6 print is a common low-cost photo size at home printers and retail photo counters. A print sheet lets you place multiple passport photos on that format instead of printing one small image at a time.' },
+      { q: 'Does this replace country-specific passport rules?', a: 'No. Use it after you have the right crop and photo dimensions for your country or visa process. The print maker helps with layout, not the underlying legal photo requirements.' },
+      { q: 'Can I use this for U.S. 2x2 passport photos?', a: 'Yes. A 4x6 sheet is a common way to print multiple 2x2 inch passport photos as long as the source image already matches the correct U.S. passport requirements.' },
+    ],
+    bodySections: [
+      {
+        heading: 'Passport photo 4x6 print maker for home and retail printing',
+        body: 'Use this when you already have the correct passport-style crop and need a clean print sheet fast. The page focuses on arranging multiple copies on a 4x6 layout without opening desktop photo software.',
+      },
+      {
+        heading: 'Useful after resizing a passport or visa photo',
+        body: 'The usual workflow is resize first, then build the print sheet. This tool fits that search intent by giving users the layout step they need after preparing a compliant digital passport image.',
       },
     ],
   },
@@ -471,6 +499,10 @@ const imageToolOverrides: Record<
     description: 'Free app icon generator. Upload artwork, fit it to a clean 1024x1024 canvas, and export an app-store-ready icon in your browser.',
     seoTitle: 'App Icon Generator Online Free | 1024x1024 Icon Tool',
     keywords: ['app icon generator', 'app icon maker', '1024x1024 app icon', 'ios app icon generator', 'android app icon generator'],
+    answerBox: {
+      short: 'An app icon generator should give you a clean 1024x1024 master icon with enough padding and contrast to test store-readiness quickly. This page is built for that fast iteration workflow before you export platform-specific variants.',
+      bullets: ['Best fit: app-store master icon prep and fast icon iteration', 'Outperformance angle: simple browser workflow for a clean 1024x1024 source asset'],
+    },
     faqs: [
       { q: 'What size does this app icon generator export?', a: 'This preset creates a 1024x1024 PNG, which is a common master size for app-store and launcher icon workflows.' },
       { q: 'Can I use this for iOS and Android icon prep?', a: 'Yes. It is useful as a clean master icon before you generate platform-specific sizes in your build or design workflow.' },
@@ -484,6 +516,10 @@ const imageToolOverrides: Record<
       {
         heading: 'Good for fast iteration before a design polish pass',
         body: 'Teams often need a usable icon before they finalize every detail. This preset helps you test composition, padding, and readability without opening a heavier design tool.',
+      },
+      {
+        heading: 'Useful when the search intent is 1024x1024 app icon prep',
+        body: 'Many searchers are not looking for a full design suite. They just need a clean 1024x1024 output to test an app listing, send to a developer, or validate how the icon reads at small sizes.',
       },
     ],
   },

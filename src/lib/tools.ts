@@ -34,14 +34,29 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
         title: 'Freelancer Rate Calculator',
         headline: 'Calculate Your Freelance Hourly Rate',
         description: 'Free freelancer rate calculator. Enter your income goal, working hours, tax rate, and expenses to get your minimum hourly, daily, and monthly rate.',
+        seoTitle: 'Freelancer Rate Calculator | Hourly, Day, and Monthly Targets',
         icon: '💰',
         category: 'Pricing & Profitability',
         keywords: ['freelancer rate calculator', 'freelance hourly rate calculator', 'how much should I charge as a freelancer'],
+        answerBox: {
+          short: 'A freelancer rate calculator should start with your take-home target, tax reserve, business expenses, and realistic billable hours. That gives you the minimum hourly rate you need before you price projects or platform gigs.',
+          bullets: ['Best fit: setting a floor rate before proposals, gigs, and retainers', 'Outperformance angle: take-home-first pricing instead of copying market averages'],
+        },
         faqs: [
           { q: 'How do I calculate my freelance hourly rate?', a: 'Divide your required gross annual income (take-home goal + taxes + expenses) by the number of billable hours per year. For example, $100,000 gross ÷ 1,440 hours = ~$69/hr.' },
           { q: 'What is a good freelance hourly rate?', a: 'Rates vary by skill and market. Entry-level freelancers often charge $25–$50/hr, mid-level $50–$150/hr, and senior specialists $150–$500/hr.' },
           { q: 'Should I charge more than my full-time equivalent?', a: 'Yes. As a freelancer you pay self-employment taxes, your own benefits, and have unbillable admin time. A 1.5–2× multiplier over your employee rate is common.' },
           { q: 'How many billable hours should I plan for?', a: 'Most freelancers bill 15–25 hours out of a 40-hour week. The rest is sales, admin, and non-billable work. Plan conservatively to avoid undercharging.' },
+        ],
+        bodySections: [
+          {
+            heading: 'Set your minimum freelance rate before quoting',
+            body: 'Use this when you need a rate floor you can trust, not a number copied from a salary thread or competitor profile. The calculator works backward from your income target so your quote starts with what the business actually needs to survive.',
+          },
+          {
+            heading: 'Billable hours matter more than total work hours',
+            body: 'Freelancers usually overestimate how many hours they can bill. This page is built for the real workflow: subtract admin, sales, meetings, and gaps between projects before you decide what an hour must be worth.',
+          },
         ],
         programmaticVariants: [
           { slug: 'for-web-developers', label: 'for Web Developers' },
@@ -74,11 +89,15 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
         bodySections: [
           {
             heading: 'Project price calculator for real quotes',
-            body: 'Use this when a client asks for a fixed project price and you need a defensible number fast. It converts estimated hours, your rate, revision time, and scope buffer into a quote you can explain in a proposal.',
+            body: 'Use this when a client asks for a fixed project price and you need a defensible number fast. It converts estimated hours, your rate, revision time, and scope buffer into a quote you can explain in a proposal without reaching for a spreadsheet.',
           },
           {
             heading: 'Freelance services pricing without guesswork',
             body: 'The safest price starts with your costs, then adds protection for unknowns. This calculator helps freelancers and agencies avoid undercharging by including the non-obvious work around communication, revisions, QA, and handoff.',
+          },
+          {
+            heading: 'Useful when searchers really mean project price calculator',
+            body: 'Many people search for a project price calculator even when they need the delivery-cost side first. This page handles both steps: estimate the internal cost, then turn it into a client-facing fixed quote with margin protection built in.',
           },
         ],
         programmaticVariants: [
@@ -97,8 +116,8 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
         category: 'Pricing & Profitability',
         keywords: ['project price calculator', 'freelance project price calculator', 'project quote calculator', 'fixed price project calculator', 'client project pricing tool', 'project pricing calculator for freelancers', 'freelance quote calculator'],
         answerBox: {
-          short: 'Use a project price calculator when you need the client-facing quote, not just the internal delivery cost. The safe workflow is hours + rate + revisions + scope buffer, then convert that into a price you can defend in a proposal.',
-          bullets: ['Best fit: freelancer, agency, and consulting project quotes', 'Outperformance angle: freelancer-specific pricing instead of generic construction or software estimators'],
+          short: 'Use a project price calculator when you need the client-facing quote, not just the internal delivery cost. The safe workflow is hours + rate + revisions + scope buffer, then convert that into a fixed price you can defend in a proposal or call.',
+          bullets: ['Best fit: freelancer, agency, and consulting project quotes', 'Outperformance angle: freelancer-specific pricing instead of generic construction, staffing, or software estimators'],
         },
         faqs: [
           { q: 'What is a project price calculator?', a: 'A project price calculator turns estimated work, hourly rate, revisions, and scope buffer into a client-facing fixed price. It helps you quote based on real effort instead of guessing.' },
@@ -125,6 +144,10 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
             heading: 'Useful across service types',
             body: 'The same pricing logic works for web design, development, SEO, writing, consulting, design, and agency services. Adjust the hours, revision allowance, and buffer based on how clear the scope is.',
           },
+          {
+            heading: 'Better fit for freelance quoting than generic project estimators',
+            body: 'Most competing project price calculators are built for construction, staffing, or broad business estimating. This page is tuned for service providers who need to price scope, revisions, delivery effort, and client risk inside a freelance or agency quote.',
+          },
         ],
         programmaticVariants: [
           { slug: 'for-web-design-projects', label: 'for Web Design Projects' },
@@ -144,14 +167,15 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
         category: 'Pricing & Profitability',
         keywords: ['freelance services pricing calculator', 'freelance service pricing tool', 'price freelance services', 'service business pricing calculator', 'freelance pricing calculator'],
         answerBox: {
-          short: 'A freelance services pricing calculator helps you price packaged services by including production time, revisions, project management, and a scope buffer. It is more useful than a plain hourly worksheet when you sell service bundles or retainers.',
-          bullets: ['Best fit: packaged SEO, design, writing, and consulting offers', 'Outperformance angle: ties service pricing to real delivery time and margin protection'],
+          short: 'A freelance services pricing calculator should turn a service package into a number that still works after delivery time, revisions, project management, and margin protection are counted. That makes it more useful than a plain hourly worksheet when you sell packaged offers.',
+          bullets: ['Best fit: packaged SEO, design, writing, consulting, and agency offers', 'Outperformance angle: package pricing tied to real delivery effort and quote defense'],
         },
         faqs: [
           { q: 'How do I price freelance services?', a: 'Break the service into tasks, estimate hours, multiply by your rate, then add time for revisions, communication, QA, and scope risk. The calculator turns that into a quote.' },
           { q: 'What services can I price with this?', a: 'Use it for web design, development, SEO, copywriting, content, consulting, creative services, and agency packages.' },
           { q: 'Should I charge hourly or fixed price?', a: 'If the scope is clear, use the calculator to create a fixed price. If the scope is unclear or ongoing, hourly or retainer pricing may be safer.' },
           { q: 'How do I avoid underpricing services?', a: 'Include non-billable delivery time, revisions, project management, and a scope buffer. Underpricing usually happens when freelancers only count production hours.' },
+          { q: 'Can I use this as a project price calculator?', a: 'Yes. It is especially useful when the service is sold as a fixed package and you need to translate internal effort into a client-facing price.' },
         ],
         bodySections: [
           {
@@ -161,6 +185,10 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
           {
             heading: 'Useful for packaged services',
             body: 'If you sell service packages, run each package through the calculator before publishing prices. A package should cover delivery time, meetings, revisions, admin, and enough margin to stay worth selling.',
+          },
+          {
+            heading: 'Built for service pages and proposal follow-through',
+            body: 'This workflow is strongest when you use the resulting number inside a proposal, scope document, or service page. It helps bridge the gap between a package headline price and the real work needed to deliver it.',
           },
         ],
       },
@@ -199,13 +227,29 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
         title: 'Agency Pricing Calculator',
         headline: 'Price Agency Services for Profit',
         description: 'Free agency pricing calculator. Enter team costs, overhead, and desired margin to get the right client price and see your gross profit.',
+        seoTitle: 'Agency Pricing Calculator | Margin, Overhead, and Client Price',
         icon: '🏢',
         category: 'Pricing & Profitability',
         keywords: ['agency pricing calculator', 'agency profit calculator', 'how to price agency services'],
+        answerBox: {
+          short: 'An agency pricing calculator should include delivery labor, management time, software, and overhead before you choose a margin target. That gives you a client price that supports payroll and profit instead of guessing from competitor retainers.',
+          bullets: ['Best fit: digital agencies, boutique studios, and service teams', 'Outperformance angle: overhead-plus-margin pricing instead of copying package menus'],
+        },
         faqs: [
           { q: 'What gross margin should an agency target?', a: 'Most healthy agencies target 40–60% gross margin (revenue minus direct labor). Below 30% is a warning sign; above 60% is exceptional.' },
           { q: 'What is included in agency overhead?', a: 'Overhead includes office rent, software subscriptions, sales and marketing costs, management time, and any admin expenses not directly tied to a client.' },
           { q: 'How should I price a new agency client?', a: "Start by calculating your fully-loaded monthly cost (team + overhead), then mark it up to your target margin. Adjust based on market rates and client value." },
+          { q: 'Why do agencies underprice profitable-looking work?', a: 'They often count delivery hours but forget account management, revisions, strategy time, tooling, and idle capacity. This calculator is built to surface those hidden costs before you send a quote.' },
+        ],
+        bodySections: [
+          {
+            heading: 'Agency pricing calculator for margin-safe quotes',
+            body: 'Use this when a project looks profitable on paper but the team still feels squeezed after delivery. The calculator helps you price from total operating reality instead of only billable execution time.',
+          },
+          {
+            heading: 'Useful for retainers, projects, and blended teams',
+            body: 'Agency pricing breaks when designers, strategists, developers, and account managers all touch the work but only one labor line gets counted. This page helps agencies price blended delivery with overhead and target margin included.',
+          },
         ],
         programmaticVariants: [
           { slug: 'for-small-agencies', label: 'for Small Agencies' },
@@ -237,13 +281,29 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
         title: 'Profit Calculator',
         headline: 'Calculate Your Freelance Profit & Margins',
         description: 'Free profit calculator for freelancers and small businesses. Enter revenue, costs, and tax rate to get gross profit, net profit, and margin percentages.',
+        seoTitle: 'Profit Calculator | Gross Profit, Net Profit, and Margins',
         icon: '📊',
         category: 'Pricing & Profitability',
         keywords: ['freelance profit calculator', 'business profit calculator', 'profit margin calculator'],
+        answerBox: {
+          short: 'A profit calculator should show the difference between revenue, direct costs, operating expenses, and tax reserve in one place. That makes it easier to see whether a month, client, or service line is actually worth repeating.',
+          bullets: ['Best fit: freelancers and small agencies checking margin health', 'Outperformance angle: separates gross profit, net profit, and margin without spreadsheet setup'],
+        },
         faqs: [
           { q: 'What is the difference between gross profit and net profit?', a: 'Gross profit is revenue minus direct costs (COGS). Net profit is what remains after subtracting all expenses and taxes from gross profit.' },
           { q: 'What is a good profit margin for a freelancer?', a: 'A net margin of 30–50% is considered healthy for freelancers. Agencies typically run 10–20% net margin due to higher overhead.' },
           { q: 'What counts as COGS for a freelancer?', a: 'Direct costs tied to delivery: subcontractors, stock assets, project-specific software, or any tool/service billed only when you have a client.' },
+          { q: 'When should I use a profit calculator instead of a pricing calculator?', a: 'Use a pricing calculator before you quote the work. Use a profit calculator after you know the revenue and costs, or when you want to check whether your current pricing is producing enough margin.' },
+        ],
+        bodySections: [
+          {
+            heading: 'Profit calculator for client and service reviews',
+            body: 'This page is useful when revenue looks healthy but take-home profit still feels thin. Run a client, month, or service package through the calculator to see whether margin is being lost on delivery costs, overhead, or tax planning.',
+          },
+          {
+            heading: 'Connect pricing decisions to actual margin',
+            body: 'A profitable quote is only proven after delivery. Use the numbers here to spot underpriced offers, bloated costs, or clients that generate activity without enough net profit to justify the work.',
+          },
         ],
         programmaticVariants: [
           { slug: 'for-10000-revenue', label: 'for $10,000 Revenue' },
@@ -365,8 +425,8 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
         category: 'Marketplace Tools',
         keywords: ['fiverr fee calculator', 'fiverr calculator', 'fiverr seller fee calculator', 'fiverr buyer fee calculator', 'how much does fiverr take', 'fiverr seller fees', 'fiverr buyer service fee', 'fiverr small order fee', 'fiverr profit calculator', 'fiverr 20 percent calculator', 'fiverr commission calculator', 'fiverr gig price calculator', 'fiverr take home calculator'],
         answerBox: {
-          short: 'For planning, many freelancers model Fiverr seller fees at 20% of the order value, so a $100 order leaves about $80 before taxes and withdrawal costs. This calculator goes further by showing buyer fees, small-order fees, tips, and the gross price needed to hit a target net.',
-          bullets: ['Best fit: sellers pricing gigs and buyers checking checkout totals', 'Outperformance angle: seller net, buyer total, and reverse pricing on one page'],
+          short: 'For planning, many freelancers model Fiverr seller fees at 20% of the order value, so a $100 order leaves about $80 before taxes and withdrawal costs. This calculator adds buyer fees, small-order fees, tips, and reverse pricing so the seller can set a gig price from the amount they actually want to keep.',
+          bullets: ['Best fit: sellers pricing gigs, milestones, custom offers, and buyer checkout totals', 'Outperformance angle: seller net, buyer total, and target-net reverse pricing on one page'],
         },
         faqs: [
           { q: 'How much does Fiverr take from a $100 gig?', a: 'Using the common 20% seller-fee planning model, Fiverr takes about $20 from a $100 order and the seller keeps about $80 before taxes, withdrawal costs, or currency conversion.' },
@@ -663,10 +723,24 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
         icon: '📞',
         category: 'Client Acquisition',
         keywords: ['discovery call questions', 'client discovery template', 'freelance discovery call script'],
+        answerBox: {
+          short: 'A discovery call generator should give you an agenda, the right diagnostic questions, and a clean close so the call leads to a scoped proposal instead of vague next steps. This page is built for that exact sales workflow.',
+          bullets: ['Best fit: freelancer, agency, and consulting intro calls', 'Outperformance angle: practical call structure tied to proposal and scope follow-through'],
+        },
         faqs: [
           { q: 'What is a discovery call?', a: 'A discovery call is an initial conversation with a potential client to understand their needs, goals, and fit. It helps you decide if you want to work together and how to position your proposal.' },
           { q: 'How long should a discovery call be?', a: 'Aim for 20–45 minutes. Enough to cover the key questions without taking too much of either party\'s time before a project is confirmed.' },
           { q: 'What are the most important discovery call questions?', a: 'Focus on: What is the goal? What does success look like? What has been tried before? What is the timeline? What is the budget? Who is the decision-maker?' },
+        ],
+        bodySections: [
+          {
+            heading: 'Discovery call script for cleaner scoping',
+            body: 'Use this when you want a better first sales call without winging the conversation. The generator helps you move from rapport to diagnosis to next step while collecting the inputs you need for a proposal or scope document.',
+          },
+          {
+            heading: 'Built for proposal and scope follow-through',
+            body: 'The best discovery call is not only a list of questions. It should surface goals, blockers, decision-makers, timeline, and budget so the next deliverable is easier to price, pitch, and close.',
+          },
         ],
         programmaticVariants: [
           { slug: 'for-web-agencies', label: 'for Web Agencies' },
