@@ -26,7 +26,7 @@ export default function TermsPage() {
       </nav>
 
       <h1 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">Terms of Use</h1>
-      <p className="mt-3 text-sm text-gray-500">Last updated: July 16, 2026</p>
+      <p className="mt-3 text-sm text-gray-500">Last updated: July 18, 2026</p>
 
       <div className="mt-8 space-y-7 text-sm leading-7 text-gray-600">
         <section>
@@ -66,9 +66,9 @@ export default function TermsPage() {
         <section>
           <h2 className="text-lg font-bold text-gray-900">Advertising and third-party links</h2>
           <p className="mt-2">
-            FreelancerToolkit may display advertising or link to third-party websites. Ads and external links may be provided by
-            third parties and do not mean we endorse every claim, offer, product, or service shown. Advertising must remain
-            separate from tool controls, download buttons, navigation, and other site content.
+            Advertising is currently paused. If FreelancerToolkit displays advertising in the future, ads and external links may
+            be provided by third parties and do not mean we endorse every claim, offer, product, or service shown. Advertising
+            must remain separate from tool controls, download buttons, navigation, and other site content.
           </p>
         </section>
 

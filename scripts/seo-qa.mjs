@@ -98,20 +98,18 @@ function collectBlogFiles() {
     .map((file) => path.join(BLOG_DIR, file))
 }
 
-function checkAdSenseVerificationSignals() {
+function checkDisabledAdSenseSignals() {
   const layout = path.join(APP_DIR, 'layout.tsx')
   const adsTxt = path.join(ROOT, 'public/ads.txt')
   const publisherId = 'ca-pub-7517734428269304'
   const adsTxtLine = 'google.com, pub-7517734428269304, DIRECT, f08c47fec0942fa0'
 
-  if (!exists(layout) || !read(layout).includes(`client=${publisherId}`)) {
-    errors.push('AdSense verification failed: global AdSense script is missing from src/app/layout.tsx')
+  if (exists(layout) && read(layout).includes(`client=${publisherId}`)) {
+    errors.push('AdSense pause failed: disabled publisher script is still present in src/app/layout.tsx')
   }
 
-  if (!exists(adsTxt)) {
-    errors.push('AdSense verification failed: public/ads.txt is missing')
-  } else if (!read(adsTxt).includes(adsTxtLine)) {
-    errors.push('AdSense verification failed: public/ads.txt is missing the Google authorized seller line')
+  if (exists(adsTxt) && read(adsTxt).includes(adsTxtLine)) {
+    errors.push('AdSense pause failed: disabled publisher seller line is still present in public/ads.txt')
   }
 }
 
@@ -291,7 +289,7 @@ const seenDescriptions = new Set()
 
 checkPublicToolCountSource()
 checkAdSenseReadinessSignals()
-checkAdSenseVerificationSignals()
+checkDisabledAdSenseSignals()
 
 for (const file of blogFiles) {
   const { data, content } = parseFrontmatter(read(file))

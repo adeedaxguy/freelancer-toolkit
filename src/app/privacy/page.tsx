@@ -26,7 +26,7 @@ export default function PrivacyPage() {
       </nav>
 
       <h1 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">Privacy Policy</h1>
-      <p className="mt-3 text-sm text-gray-500">Last updated: July 16, 2026</p>
+      <p className="mt-3 text-sm text-gray-500">Last updated: July 18, 2026</p>
 
       <div className="mt-8 space-y-7 text-sm leading-7 text-gray-600">
         <section>
@@ -59,10 +59,10 @@ export default function PrivacyPage() {
           <h2 className="text-lg font-bold text-gray-900">Cookies, analytics, and advertising</h2>
           <p className="mt-2">
             We use cookies and similar technologies for analytics, basic site functionality, and admin access. We use Google
-            Analytics to understand aggregate site usage. If advertising is enabled, Google and other advertising partners may
-            use cookies or similar identifiers to serve, measure, and improve ads, including personalized or non-personalized
-            ads where available. You can manage Google ad personalization from your Google account settings and can control
-            cookies through your browser settings.
+            Analytics to understand aggregate site usage. Advertising is currently paused. If advertising is enabled in the
+            future, Google and other advertising partners may use cookies or similar identifiers to serve, measure, and improve
+            ads, including personalized or non-personalized ads where available. You can manage Google ad personalization from
+            your Google account settings and can control cookies through your browser settings.
           </p>
         </section>
 
