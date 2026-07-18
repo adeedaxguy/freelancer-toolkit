@@ -133,21 +133,24 @@ const photoPresets: Array<{
 
 function makePhotoTool(preset: (typeof photoPresets)[number]): AdvancedTool {
   const source = preset.source ? photoSources[preset.source] : undefined
+  const overrides = imageToolOverrides[preset.slug]
+
   return {
     slug: preset.slug,
     title: preset.title,
     headline: `Free ${preset.title}`,
-    description: `Create a ${preset.widthMm}x${preset.heightMm} mm ${preset.documentName} in your browser. Upload a photo, crop it to the right ratio, export a high-resolution file, and make a 4x6 print sheet for free.`,
-    seoTitle: `Free ${preset.title} | ${preset.widthMm}x${preset.heightMm} mm Online`,
+    description: overrides?.description ?? `Create a ${preset.widthMm}x${preset.heightMm} mm ${preset.documentName} in your browser. Upload a photo, crop it to the right ratio, export a high-resolution file, and make a 4x6 print sheet for free.`,
+    seoTitle: overrides?.seoTitle ?? `Free ${preset.title} | ${preset.widthMm}x${preset.heightMm} mm Online`,
     icon: '🪪',
     category: 'Passport & Visa Photo Tools',
-    keywords: [preset.keyword, `${preset.documentName} size`, `${preset.widthMm}x${preset.heightMm} photo maker`, 'passport photo online free'],
-    faqs: [
+    keywords: overrides?.keywords ?? [preset.keyword, `${preset.documentName} size`, `${preset.widthMm}x${preset.heightMm} photo maker`, 'passport photo online free'],
+    answerBox: overrides?.answerBox,
+    faqs: overrides?.faqs ?? [
       { q: `What size does this ${preset.title.toLowerCase()} export?`, a: `It exports a ${preset.widthMm}x${preset.heightMm} mm image at 300 DPI, which is the standard print resolution used by most photo labs.` },
       { q: 'Are my photos uploaded to a server?', a: 'No. The crop and export happen locally in your browser using canvas. Your photo does not leave your device.' },
       { q: 'Does this guarantee official acceptance?', a: 'No online cropper can guarantee acceptance. Use this to size and print the photo, then verify current government rules for lighting, expression, background, recency, and head position before submitting.' },
     ],
-    bodySections: [
+    bodySections: overrides?.bodySections ?? [
       {
         heading: `${preset.keyword} without paid credits`,
         body: `Many passport-photo apps charge for the final download. This free tool gives you the crop, high-resolution export, and printable sheet without an account or watermark.`,

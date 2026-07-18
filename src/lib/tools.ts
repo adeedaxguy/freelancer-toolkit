@@ -114,13 +114,26 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
         seoTitle: 'Project Price Calculator for Freelancers | Free Quote Tool',
         icon: '🏷️',
         category: 'Pricing & Profitability',
-        keywords: ['project price calculator', 'freelance project price calculator', 'project quote calculator', 'fixed price project calculator', 'client project pricing tool', 'project pricing calculator for freelancers', 'freelance quote calculator'],
+        keywords: [
+          'project price calculator',
+          'freelance project price calculator',
+          'online project cost calculator',
+          'project estimation calculator',
+          'free project estimator',
+          'online estimate calculator',
+          'project quote calculator',
+          'fixed price project calculator',
+          'client project pricing tool',
+          'project pricing calculator for freelancers',
+          'freelance quote calculator',
+        ],
         answerBox: {
-          short: 'Use a project price calculator when you need the client-facing quote, not just the internal delivery cost. The safe workflow is hours + rate + revisions + scope buffer, then convert that into a fixed price you can defend in a proposal or call.',
-          bullets: ['Best fit: freelancer, agency, and consulting project quotes', 'Outperformance angle: freelancer-specific pricing instead of generic construction, staffing, or software estimators'],
+          short: 'Use a project price calculator when you need the client-facing quote, not just the internal delivery cost. The safe workflow is hours + rate + revisions + scope buffer, then convert that into a fixed price or project estimate you can defend in a proposal or call.',
+          bullets: ['Best fit: freelancer, agency, consulting, and online project-cost estimates', 'Outperformance angle: freelancer-specific pricing instead of generic construction, staffing, or software estimators'],
         },
         faqs: [
           { q: 'What is a project price calculator?', a: 'A project price calculator turns estimated work, hourly rate, revisions, and scope buffer into a client-facing fixed price. It helps you quote based on real effort instead of guessing.' },
+          { q: 'Can I use this as an online project cost calculator?', a: 'Yes. Use it to estimate delivery hours, revision time, and scope buffer first, then turn that cost estimate into a client-facing project price.' },
           { q: 'Is project price different from project cost?', a: 'Yes. Project cost is what it takes you to deliver the work. Project price is what the client pays after adding margin, risk buffer, revisions, and value.' },
           { q: 'How much buffer should I add to a fixed-price project?', a: 'Most freelancers add a 15-25% scope buffer. Use a higher buffer if requirements are unclear, stakeholders are slow, or the project has technical risk.' },
           { q: 'Can I use this for agency pricing?', a: 'Yes. It works for freelancers and agencies when you know the estimated hours, blended rate, revision time, and scope buffer.' },
@@ -147,6 +160,10 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
           {
             heading: 'Better fit for freelance quoting than generic project estimators',
             body: 'Most competing project price calculators are built for construction, staffing, or broad business estimating. This page is tuned for service providers who need to price scope, revisions, delivery effort, and client risk inside a freelance or agency quote.',
+          },
+          {
+            heading: 'Online project cost calculator for fast estimates',
+            body: 'If you searched for an online project cost calculator, project estimation calculator, or free project estimator, use this page to turn rough delivery hours into a clearer quote. It keeps the estimate, buffer, and final client price in one workflow instead of splitting them across spreadsheets.',
           },
         ],
         programmaticVariants: [
