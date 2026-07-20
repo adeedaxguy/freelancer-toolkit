@@ -256,10 +256,76 @@ const imagePresets: Array<{
   { slug: 'email-header-image-resizer', title: 'Email Header Image Resizer', keyword: 'email header image resizer', width: 600, height: 200, format: 'jpeg', fit: 'cover', useCase: 'email newsletter headers' },
 ]
 
+const socialCommerceImageOverrideSeeds = [
+  { slug: 'youtube-thumbnail-resizer', title: 'YouTube Thumbnail Resizer', keyword: 'youtube thumbnail resizer', platform: 'YouTube', output: '1280x720 thumbnail', useCase: 'video thumbnails and channel uploads' },
+  { slug: 'linkedin-banner-resizer', title: 'LinkedIn Banner Resizer', keyword: 'linkedin banner resizer', platform: 'LinkedIn', output: '1584x396 banner', useCase: 'profile and company-page banners' },
+  { slug: 'instagram-profile-picture-resizer', title: 'Instagram Profile Picture Resizer', keyword: 'instagram profile picture resizer', platform: 'Instagram', output: '320x320 profile image', useCase: 'profile-picture uploads' },
+  { slug: 'instagram-post-resizer', title: 'Instagram Post Resizer', keyword: 'instagram post resizer', platform: 'Instagram', output: '1080x1080 square post', useCase: 'feed posts and square creatives' },
+  { slug: 'instagram-story-resizer', title: 'Instagram Story Resizer', keyword: 'instagram story resizer', platform: 'Instagram', output: '1080x1920 story image', useCase: 'Stories and Reels covers' },
+  { slug: 'facebook-cover-photo-resizer', title: 'Facebook Cover Photo Resizer', keyword: 'facebook cover photo resizer', platform: 'Facebook', output: '1640x924 cover image', useCase: 'profile and page cover photos' },
+  { slug: 'facebook-profile-picture-resizer', title: 'Facebook Profile Picture Resizer', keyword: 'facebook profile picture resizer', platform: 'Facebook', output: '400x400 profile image', useCase: 'profile-picture uploads' },
+  { slug: 'linkedin-profile-picture-resizer', title: 'LinkedIn Profile Picture Resizer', keyword: 'linkedin profile picture resizer', platform: 'LinkedIn', output: '400x400 profile image', useCase: 'professional profile photos' },
+  { slug: 'twitter-header-resizer', title: 'Twitter Header Resizer', keyword: 'twitter header resizer', platform: 'X/Twitter', output: '1500x500 header image', useCase: 'profile header banners' },
+  { slug: 'twitter-post-image-resizer', title: 'Twitter Post Image Resizer', keyword: 'twitter post image resizer', platform: 'X/Twitter', output: '1600x900 post image', useCase: 'wide social post images' },
+  { slug: 'youtube-channel-art-resizer', title: 'YouTube Channel Art Resizer', keyword: 'youtube channel art resizer', platform: 'YouTube', output: '2560x1440 channel art', useCase: 'channel banner artwork' },
+  { slug: 'tiktok-profile-picture-resizer', title: 'TikTok Profile Picture Resizer', keyword: 'tiktok profile picture resizer', platform: 'TikTok', output: '200x200 profile image', useCase: 'creator profile photos' },
+  { slug: 'tiktok-video-cover-resizer', title: 'TikTok Video Cover Resizer', keyword: 'tiktok video cover resizer', platform: 'TikTok', output: '1080x1920 cover image', useCase: 'vertical video covers' },
+  { slug: 'pinterest-pin-resizer', title: 'Pinterest Pin Resizer', keyword: 'pinterest pin resizer', platform: 'Pinterest', output: '1000x1500 pin image', useCase: 'Pinterest pins and idea graphics' },
+  { slug: 'google-business-profile-photo-resizer', title: 'Google Business Profile Photo Resizer', keyword: 'google business profile photo resizer', platform: 'Google Business Profile', output: '720x720 business photo', useCase: 'local business profile uploads' },
+  { slug: 'shopify-product-image-resizer', title: 'Shopify Product Image Resizer', keyword: 'shopify product image resizer', platform: 'Shopify', output: '2048x2048 product image', useCase: 'store product photos' },
+  { slug: 'amazon-product-image-resizer', title: 'Amazon Product Image Resizer', keyword: 'amazon product image resizer', platform: 'Amazon', output: '2000x2000 product image', useCase: 'marketplace product photos' },
+  { slug: 'etsy-listing-photo-resizer', title: 'Etsy Listing Photo Resizer', keyword: 'etsy listing photo resizer', platform: 'Etsy', output: '2000x2000 listing photo', useCase: 'shop listing images' },
+  { slug: 'website-hero-image-resizer', title: 'Website Hero Image Resizer', keyword: 'website hero image resizer', platform: 'websites', output: '1920x1080 hero image', useCase: 'landing-page hero sections' },
+  { slug: 'open-graph-image-resizer', title: 'Open Graph Image Resizer', keyword: 'open graph image resizer', platform: 'Open Graph', output: '1200x630 social preview', useCase: 'link preview cards' },
+] as const
+
+const socialCommerceImageOverrides: Record<
+  string,
+  Partial<Pick<AdvancedTool, 'description' | 'seoTitle' | 'keywords' | 'faqs' | 'bodySections' | 'answerBox'>>
+> = Object.fromEntries(
+  socialCommerceImageOverrideSeeds.map((seed) => [
+    seed.slug,
+    {
+      description: `Free ${seed.keyword} tool. Resize, crop, and export a ${seed.output} in your browser for ${seed.useCase} without signup or watermark.`,
+      seoTitle: `${seed.title} Online Free | ${seed.output}`,
+      keywords: [
+        seed.keyword,
+        `${seed.platform} image resizer`,
+        `${seed.output} size`,
+        `${seed.platform} image size tool`,
+        'resize image online free',
+      ],
+      answerBox: {
+        short: `A ${seed.keyword} should give you the exact ${seed.output} quickly, because the searcher usually has an upload or publish task waiting. This FreelTools page keeps the image workflow private in the browser and focuses on ${seed.useCase} instead of a generic editor.`,
+        bullets: [
+          `Best fit: ${seed.useCase}`,
+          `Outperformance angle: exact ${seed.output} export with no account or watermark`,
+        ],
+      },
+      faqs: [
+        { q: `What size does this ${seed.title.toLowerCase()} export?`, a: `It exports a ${seed.output}, matching the preset built for ${seed.useCase}.` },
+        { q: `Can I use it for ${seed.platform} uploads?`, a: `Yes. The preset is designed around ${seed.platform} image intent and gives you a ready-to-download file for ${seed.useCase}.` },
+        { q: 'Are my images uploaded to a server?', a: 'No. Resizing, fitting, and export happen locally in your browser, so the image stays on your device.' },
+      ],
+      bodySections: [
+        {
+          heading: `${seed.title} for ${seed.useCase}`,
+          body: `Use this when you already know the destination and need the image to fit ${seed.platform} without trial-and-error exports. The page gives users the tool immediately, then explains the ${seed.output} target in plain language.`,
+        },
+        {
+          heading: 'Private browser workflow with a direct download',
+          body: `The strongest search intent here is practical: upload the image, fit it to ${seed.output}, preview the crop, and download the result. FreelTools keeps that workflow lightweight so users do not need design software for one platform-specific image.`,
+        },
+      ],
+    },
+  ])
+)
+
 const imageToolOverrides: Record<
   string,
   Partial<Pick<AdvancedTool, 'description' | 'seoTitle' | 'keywords' | 'faqs' | 'bodySections' | 'answerBox'>>
 > = {
+  ...socialCommerceImageOverrides,
   'resize-image-to-10kb': {
     description: 'Free resize image to 10KB tool. Compress a JPG, PNG, or WebP into a tiny upload-ready image in your browser without signup.',
     seoTitle: 'Resize Image to 10KB Online Free',
