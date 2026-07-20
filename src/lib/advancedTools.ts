@@ -621,6 +621,7 @@ const imageToolOverrides: Record<
       { q: 'Why print passport photos on a 4x6 sheet?', a: 'A 4x6 print is a common low-cost photo size at home printers and retail photo counters. A print sheet lets you place multiple passport photos on that format instead of printing one small image at a time.' },
       { q: 'Does this replace country-specific passport rules?', a: 'No. Use it after you have the right crop and photo dimensions for your country or visa process. The print maker helps with layout, not the underlying legal photo requirements.' },
       { q: 'Can I use this for U.S. 2x2 passport photos?', a: 'Yes. A 4x6 sheet is a common way to print multiple 2x2 inch passport photos as long as the source image already matches the correct U.S. passport requirements.' },
+      { q: 'Does FreelTools guarantee passport or visa acceptance?', a: 'No. The print maker helps with sheet layout and export. Only the official application authority can decide whether a submitted passport or visa photo is accepted.' },
     ],
     bodySections: [
       {
@@ -630,6 +631,14 @@ const imageToolOverrides: Record<
       {
         heading: 'Useful after resizing a passport or visa photo',
         body: 'The usual workflow is resize first, then build the print sheet. This tool fits that search intent by giving users the layout step they need after preparing a compliant digital passport image.',
+      },
+      {
+        heading: 'Official-rule check before submission',
+        body: 'A 4x6 sheet is only the print layout. Before printing or submitting, confirm the underlying country rules for photo size, background, head position, shadows, glasses, recency, and file format on the official application site.',
+      },
+      {
+        heading: 'Private browser-based photo workflow',
+        body: 'FreelTools builds the passport photo sheet on your device. That keeps sensitive identity photos out of a remote editor while still giving you a clean print-ready download.',
       },
     ],
   },
