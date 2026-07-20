@@ -321,10 +321,81 @@ const socialCommerceImageOverrides: Record<
   ])
 )
 
+
+const documentPhotoOverrideSeeds = [
+  { slug: 'germany-visa-photo-generator', title: 'Germany Visa Photo Generator', keyword: 'germany visa photo generator', document: 'Germany visa photo', size: '35x45 mm', context: 'Schengen and Germany visa application prep', official: 'German biometric photo guidance' },
+  { slug: 'germany-passport-photo-maker', title: 'Germany Passport Photo Maker', keyword: 'germany passport photo maker', document: 'Germany passport photo', size: '35x45 mm', context: 'German passport renewal or application prep', official: 'German biometric photo guidance' },
+  { slug: 'us-passport-photo-maker', title: 'US Passport Photo Maker', keyword: 'us passport photo maker', document: 'U.S. passport photo', size: '2x2 inch', context: 'U.S. passport application photo prep', official: 'U.S. Department of State photo rules' },
+  { slug: 'us-visa-photo-maker', title: 'US Visa Photo Maker', keyword: 'us visa photo maker', document: 'U.S. visa photo', size: '2x2 inch', context: 'U.S. visa upload or print prep', official: 'U.S. Department of State photo rules' },
+  { slug: 'uk-passport-photo-maker', title: 'UK Passport Photo Maker', keyword: 'uk passport photo maker', document: 'UK passport digital photo', size: '35x45 mm', context: 'UK passport digital photo checks', official: 'GOV.UK passport photo rules' },
+  { slug: 'canada-passport-photo-maker', title: 'Canada Passport Photo Maker', keyword: 'canada passport photo maker', document: 'Canada passport photo', size: '50x70 mm', context: 'Canadian passport application prep', official: 'Canada passport photo requirements' },
+  { slug: 'canada-visa-photo-maker', title: 'Canada Visa Photo Maker', keyword: 'canada visa photo maker', document: 'Canada visa photo', size: '35x45 mm', context: 'Canada visa or permit photo prep', official: 'Canada passport and immigration photo guidance' },
+  { slug: 'india-visa-photo-maker', title: 'India Visa Photo Maker', keyword: 'india visa photo maker', document: 'India e-Visa photo', size: '2x2 inch', context: 'India e-Visa upload prep', official: 'India e-Visa upload requirements' },
+  { slug: 'india-passport-photo-maker', title: 'India Passport Photo Maker', keyword: 'india passport photo maker', document: 'India passport photo', size: '2x2 inch', context: 'India passport-style photo prep', official: 'official passport or application portal guidance' },
+  { slug: 'schengen-visa-photo-maker', title: 'Schengen Visa Photo Maker', keyword: 'schengen visa photo maker', document: 'Schengen visa photo', size: '35x45 mm', context: 'Schengen visa appointment or upload prep', official: 'country-specific Schengen mission guidance' },
+  { slug: 'china-visa-photo-maker', title: 'China Visa Photo Maker', keyword: 'china visa photo maker', document: 'China visa photo', size: '33x48 mm', context: 'China visa photo upload prep', official: 'Chinese visa application center guidance' },
+  { slug: 'uae-visa-photo-maker', title: 'UAE Visa Photo Maker', keyword: 'uae visa photo maker', document: 'UAE visa photo', size: '35x45 mm', context: 'UAE visa or Emirates application photo prep', official: 'the relevant UAE application portal' },
+  { slug: 'saudi-visa-photo-maker', title: 'Saudi Visa Photo Maker', keyword: 'saudi visa photo maker', document: 'Saudi visa photo', size: '2x2 inch', context: 'Saudi visa application photo prep', official: 'the official visa application portal' },
+  { slug: 'turkey-visa-photo-maker', title: 'Turkey Visa Photo Maker', keyword: 'turkey visa photo maker', document: 'Turkey visa photo', size: '50x60 mm', context: 'Turkey visa application photo prep', official: 'the official visa application portal' },
+  { slug: 'japan-visa-photo-maker', title: 'Japan Visa Photo Maker', keyword: 'japan visa photo maker', document: 'Japan visa photo', size: '45x45 mm', context: 'Japan visa application photo prep', official: 'the relevant Japanese embassy or consulate guidance' },
+  { slug: 'australia-passport-photo-maker', title: 'Australia Passport Photo Maker', keyword: 'australia passport photo maker', document: 'Australia passport photo', size: '35x45 mm', context: 'Australian passport photo prep', official: 'Australian passport photo guidance' },
+  { slug: 'new-zealand-passport-photo-maker', title: 'New Zealand Passport Photo Maker', keyword: 'new zealand passport photo maker', document: 'New Zealand passport photo', size: '35x45 mm', context: 'New Zealand passport photo prep', official: 'New Zealand passport photo guidance' },
+  { slug: 'baby-passport-photo-maker', title: 'Baby Passport Photo Maker', keyword: 'baby passport photo maker', document: 'baby passport photo', size: '2x2 inch or country-specific', context: 'infant passport photo prep', official: 'the child passport application rules for the destination country' },
+  { slug: 'passport-photo-4x6-print-maker', title: 'Passport Photo 4x6 Print Maker', keyword: 'passport photo 4x6 print maker', document: 'passport photo print sheet', size: '4x6 inch sheet', context: 'home or retail passport photo printing', official: 'the underlying country photo rules before printing' },
+  { slug: 'passport-size-photo-maker', title: 'Passport Size Photo Maker', keyword: 'passport size photo maker', document: 'passport size photo', size: '35x45 mm default', context: 'general passport-style photo prep', official: 'the final application portal or government page' },
+] as const
+
+const documentPhotoOverrides: Record<
+  string,
+  Partial<Pick<AdvancedTool, 'description' | 'seoTitle' | 'keywords' | 'faqs' | 'bodySections' | 'answerBox'>>
+> = Object.fromEntries(
+  documentPhotoOverrideSeeds.map((seed) => [
+    seed.slug,
+    {
+      description: `Free ${seed.keyword} tool. Crop, size, and export a ${seed.document} for ${seed.context} in your browser, then compare the result with ${seed.official}.`,
+      seoTitle: `${seed.title} Online Free | ${seed.size} Photo`,
+      keywords: [
+        seed.keyword,
+        `${seed.document} size`,
+        `${seed.size} photo maker`,
+        `${seed.document} online free`,
+        'passport photo maker online',
+      ],
+      answerBox: {
+        short: `A ${seed.keyword} should help you create the right ${seed.size} working file for ${seed.context}, then remind you to confirm current submission rules. FreelTools handles the crop and export in your browser, so the private photo workflow stays on your device.`,
+        bullets: [
+          `Best fit: ${seed.context}`,
+          `Safety check: compare the final file with ${seed.official}`,
+        ],
+      },
+      faqs: [
+        { q: `What size does this ${seed.title.toLowerCase()} create?`, a: `It is set up for a ${seed.size} ${seed.document}. Some portals also enforce file size, background, head position, recency, or upload-format rules, so check ${seed.official} before submitting.` },
+        { q: 'Does FreelTools guarantee passport or visa acceptance?', a: 'No. The tool helps with sizing, cropping, export, and print prep. Only the official application authority can decide whether a submitted photo is accepted.' },
+        { q: 'Are my passport or visa photos uploaded?', a: 'No. The photo crop and export workflow runs locally in your browser, which is important for sensitive identity photos.' },
+      ],
+      bodySections: [
+        {
+          heading: `${seed.title} for ${seed.context}`,
+          body: `Use this page when the immediate task is to create a ${seed.size} ${seed.document} without opening desktop photo software. It keeps the tool first, then explains the size target and the submission checks that still need official confirmation.`,
+        },
+        {
+          heading: 'Official-rule check before submission',
+          body: `Photo dimensions are only one part of acceptance. Before you upload or print the image, compare lighting, background, expression, head position, glasses, shadows, and file-format rules against ${seed.official}.`,
+        },
+        {
+          heading: 'Private browser-based photo workflow',
+          body: `FreelTools processes the image on your device. That makes the page useful for identity-document searches where users want a quick export but should not have to upload a passport or visa photo to a remote editor.`,
+        },
+      ],
+    },
+  ])
+)
+
 const imageToolOverrides: Record<
   string,
   Partial<Pick<AdvancedTool, 'description' | 'seoTitle' | 'keywords' | 'faqs' | 'bodySections' | 'answerBox'>>
 > = {
+  ...documentPhotoOverrides,
   ...socialCommerceImageOverrides,
   'resize-image-to-10kb': {
     description: 'Free resize image to 10KB tool. Compress a JPG, PNG, or WebP into a tiny upload-ready image in your browser without signup.',
