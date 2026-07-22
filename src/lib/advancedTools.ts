@@ -206,6 +206,7 @@ const imagePresets: Array<{
   { slug: 'resize-image-to-150kb', title: 'Resize Image to 150KB', keyword: 'resize image to 150kb', width: 1000, height: 1000, format: 'jpeg', maxKb: 150 },
   { slug: 'resize-image-to-200kb', title: 'Resize Image to 200KB', keyword: 'resize image to 200kb', width: 1200, height: 1200, format: 'jpeg', maxKb: 200 },
   { slug: 'resize-image-to-250kb', title: 'Resize Image to 250KB', keyword: 'resize image to 250kb', width: 1200, height: 1200, format: 'jpeg', maxKb: 250 },
+  { slug: 'resize-image-to-300kb', title: 'Resize Image to 300KB', keyword: 'resize image to 300kb', width: 1400, height: 1400, format: 'jpeg', maxKb: 300, fit: 'contain' },
   { slug: 'resize-image-to-500kb', title: 'Resize Image to 500KB', keyword: 'resize image to 500kb', width: 1600, height: 1600, format: 'jpeg', maxKb: 500 },
   { slug: 'compress-image-to-50kb', title: 'Compress Image to 50KB', keyword: 'compress image to 50kb', width: 800, height: 800, format: 'jpeg', maxKb: 50, fit: 'contain' },
   { slug: 'compress-image-to-100kb', title: 'Compress Image to 100KB', keyword: 'compress image to 100kb', width: 1000, height: 1000, format: 'jpeg', maxKb: 100, fit: 'contain' },
@@ -240,6 +241,7 @@ const imagePresets: Array<{
   { slug: 'facebook-cover-photo-resizer', title: 'Facebook Cover Photo Resizer', keyword: 'facebook cover photo resizer', width: 1640, height: 924, format: 'jpeg', fit: 'cover', useCase: 'Facebook cover photos' },
   { slug: 'facebook-profile-picture-resizer', title: 'Facebook Profile Picture Resizer', keyword: 'facebook profile picture resizer', width: 400, height: 400, format: 'jpeg', fit: 'cover', useCase: 'Facebook profile uploads' },
   { slug: 'linkedin-profile-picture-resizer', title: 'LinkedIn Profile Picture Resizer', keyword: 'linkedin profile picture resizer', width: 400, height: 400, format: 'jpeg', fit: 'cover', useCase: 'LinkedIn profile uploads' },
+  { slug: 'linkedin-post-image-resizer', title: 'LinkedIn Post Image Resizer', keyword: 'linkedin post image resizer', width: 1200, height: 627, format: 'jpeg', fit: 'cover', useCase: 'LinkedIn feed posts and article images' },
   { slug: 'twitter-header-resizer', title: 'Twitter Header Resizer', keyword: 'twitter header resizer', width: 1500, height: 500, format: 'jpeg', fit: 'cover', useCase: 'X/Twitter profile headers' },
   { slug: 'twitter-post-image-resizer', title: 'Twitter Post Image Resizer', keyword: 'twitter post image resizer', width: 1600, height: 900, format: 'jpeg', fit: 'cover', useCase: 'X/Twitter post images' },
   { slug: 'youtube-channel-art-resizer', title: 'YouTube Channel Art Resizer', keyword: 'youtube channel art resizer', width: 2560, height: 1440, format: 'jpeg', fit: 'cover', useCase: 'YouTube channel art' },
@@ -259,6 +261,7 @@ const imagePresets: Array<{
 const socialCommerceImageOverrideSeeds = [
   { slug: 'youtube-thumbnail-resizer', title: 'YouTube Thumbnail Resizer', keyword: 'youtube thumbnail resizer', platform: 'YouTube', output: '1280x720 thumbnail', useCase: 'video thumbnails and channel uploads' },
   { slug: 'linkedin-banner-resizer', title: 'LinkedIn Banner Resizer', keyword: 'linkedin banner resizer', platform: 'LinkedIn', output: '1584x396 banner', useCase: 'profile and company-page banners' },
+  { slug: 'linkedin-post-image-resizer', title: 'LinkedIn Post Image Resizer', keyword: 'linkedin post image resizer', platform: 'LinkedIn', output: '1200x627 post image', useCase: 'LinkedIn feed posts and article images' },
   { slug: 'instagram-profile-picture-resizer', title: 'Instagram Profile Picture Resizer', keyword: 'instagram profile picture resizer', platform: 'Instagram', output: '320x320 profile image', useCase: 'profile-picture uploads' },
   { slug: 'instagram-post-resizer', title: 'Instagram Post Resizer', keyword: 'instagram post resizer', platform: 'Instagram', output: '1080x1080 square post', useCase: 'feed posts and square creatives' },
   { slug: 'instagram-story-resizer', title: 'Instagram Story Resizer', keyword: 'instagram story resizer', platform: 'Instagram', output: '1080x1920 story image', useCase: 'Stories and Reels covers' },
@@ -321,6 +324,70 @@ const socialCommerceImageOverrides: Record<
   ])
 )
 
+
+
+const fileSizeImageOverrideSeeds = [
+  { slug: 'resize-image-to-25kb', title: 'Resize Image to 25KB', keyword: 'resize image to 25kb', target: '25KB', context: 'strict form uploads and lightweight profile photos' },
+  { slug: 'resize-image-to-40kb', title: 'Resize Image to 40KB', keyword: 'resize image to 40kb', target: '40KB', context: 'forms that reject larger headshots or document images' },
+  { slug: 'resize-image-to-50kb', title: 'Resize Image to 50KB', keyword: 'resize image to 50kb', target: '50KB', context: 'job portals, IDs, and application uploads' },
+  { slug: 'resize-image-to-75kb', title: 'Resize Image to 75KB', keyword: 'resize image to 75kb', target: '75KB', context: 'profile photos that need more detail than tiny KB limits allow' },
+  { slug: 'resize-image-to-100kb', title: 'Resize Image to 100KB', keyword: 'resize image to 100kb', target: '100KB', context: 'clean profile, form, and CMS image uploads' },
+  { slug: 'resize-image-to-150kb', title: 'Resize Image to 150KB', keyword: 'resize image to 150kb', target: '150KB', context: 'web forms and listing images that need readable detail' },
+  { slug: 'resize-image-to-250kb', title: 'Resize Image to 250KB', keyword: 'resize image to 250kb', target: '250KB', context: 'higher-quality upload forms and email attachments' },
+  { slug: 'resize-image-to-300kb', title: 'Resize Image to 300KB', keyword: 'resize image to 300kb', target: '300KB', context: 'application, listing, and CMS uploads where clarity still matters' },
+  { slug: 'compress-image-to-200kb', title: 'Compress Image to 200KB', keyword: 'compress image to 200kb', target: '200KB', context: 'web images that need a safer clarity-to-size balance' },
+  { slug: 'jpg-resize-to-50kb', title: 'JPG Resize to 50KB', keyword: 'jpg resize to 50kb', target: '50KB', context: 'JPG-only forms and application photos' },
+  { slug: 'jpg-resize-to-100kb', title: 'JPG Resize to 100KB', keyword: 'jpg resize to 100kb', target: '100KB', context: 'JPG forms, headshots, and profile uploads' },
+  { slug: 'make-photo-100kb', title: 'Make Photo 100KB', keyword: 'make photo 100kb', target: '100KB', context: 'portal photo uploads where the image should stay readable' },
+  { slug: 'resize-signature-to-20kb', title: 'Resize Signature to 20KB', keyword: 'resize signature to 20kb', target: '20KB', context: 'signature uploads for forms that enforce very small files' },
+  { slug: 'resize-signature-to-50kb', title: 'Resize Signature to 50KB', keyword: 'resize signature to 50kb', target: '50KB', context: 'signature images that need cleaner edges than 20KB allows' },
+  { slug: 'resize-photo-under-50kb', title: 'Resize Photo Under 50KB', keyword: 'resize photo under 50kb', target: '50KB', context: 'small but readable profile and document photos' },
+  { slug: 'resize-photo-under-100kb', title: 'Resize Photo Under 100KB', keyword: 'resize photo under 100kb', target: '100KB', context: 'forms where the photo can keep more facial detail' },
+  { slug: 'resume-photo-resizer', title: 'Resume Photo Resizer', keyword: 'resume photo resizer', target: '100KB', context: 'resume, CV, and candidate profile photos' },
+  { slug: 'make-photo-300-dpi', title: 'Make Photo 300 DPI', keyword: 'make photo 300 dpi', target: '300 DPI', context: 'print-aware photo exports and document uploads' },
+] as const
+
+const fileSizeImageOverrides: Record<
+  string,
+  Partial<Pick<AdvancedTool, 'description' | 'seoTitle' | 'keywords' | 'faqs' | 'bodySections' | 'answerBox'>>
+> = Object.fromEntries(
+  fileSizeImageOverrideSeeds.map((seed) => [
+    seed.slug,
+    {
+      description: `Free ${seed.keyword} tool. Resize, compress, and download an upload-ready image in your browser for ${seed.context} without signup or watermark.`,
+      seoTitle: `${seed.title} Online Free | Private Upload Tool`,
+      keywords: [
+        seed.keyword,
+        `photo under ${seed.target.toLowerCase()}`,
+        `image size ${seed.target.toLowerCase()}`,
+        `compress photo to ${seed.target.toLowerCase()}`,
+        'resize image online free',
+      ],
+      answerBox: {
+        short: `A ${seed.keyword} workflow should give the user an upload-ready file for ${seed.context}, not a generic editor page. FreelTools keeps the image in the browser, targets ${seed.target}, and makes the download step immediate.`,
+        bullets: [
+          `Best fit: ${seed.context}`,
+          `Outperformance angle: exact ${seed.target} target plus private browser processing`,
+        ],
+      },
+      faqs: [
+        { q: `Can this make an image ${seed.target} or smaller?`, a: `Yes. The preset targets ${seed.target} by resizing and compressing the image when possible. Very detailed source images may need a tighter crop or a larger allowed size.` },
+        { q: 'Does FreelTools upload my image?', a: 'No. The resize and compression workflow runs in your browser, so the image stays on your device.' },
+        { q: 'What should I check before submitting the file?', a: 'Open the exported file and confirm the face, signature, text, or product detail is still readable before uploading it to the final form.' },
+      ],
+      bodySections: [
+        {
+          heading: `${seed.title} for ${seed.context}`,
+          body: `Use this page when the upload requirement is specific and you do not want to guess through a broad image editor. The tool starts with the practical resize/compress workflow, then explains the ${seed.target} target in plain language.`,
+        },
+        {
+          heading: 'Private browser workflow for repeat uploads',
+          body: 'FreelTools processes the file locally, which is useful for identity photos, job applications, signatures, profile pictures, and form attachments where privacy matters.',
+        },
+      ],
+    },
+  ])
+)
 
 const documentPhotoOverrideSeeds = [
   { slug: 'germany-visa-photo-generator', title: 'Germany Visa Photo Generator', keyword: 'germany visa photo generator', document: 'Germany visa photo', size: '35x45 mm', context: 'Schengen and Germany visa application prep', official: 'German biometric photo guidance' },
@@ -397,6 +464,7 @@ const imageToolOverrides: Record<
 > = {
   ...documentPhotoOverrides,
   ...socialCommerceImageOverrides,
+  ...fileSizeImageOverrides,
   'resize-image-to-10kb': {
     description: 'Free resize image to 10KB tool. Compress a JPG, PNG, or WebP into a tiny upload-ready image in your browser without signup.',
     seoTitle: 'Resize Image to 10KB Online Free',
