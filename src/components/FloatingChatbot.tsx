@@ -149,6 +149,7 @@ function renderText(text: string) {
 
 export default function FloatingChatbot() {
   const pathname = usePathname()
+  const [mounted, setMounted] = useState(false)
   const [open, setOpen] = useState(false)
   const [messages, setMessages] = useState<Message[]>([
     { role: 'bot', text: "Hi! 👋 I'm here to help you find the right tool or answer freelancing questions. What can I help with?" },
@@ -158,6 +159,10 @@ export default function FloatingChatbot() {
   const [pendingTool, setPendingTool] = useState<string | null>(null)
   const bottomRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   useEffect(() => {
     if (open) {
@@ -184,7 +189,7 @@ export default function FloatingChatbot() {
 
   const send = () => sendMessage()
 
-  if (pathname?.startsWith('/blog')) return null
+  if (!mounted || pathname?.startsWith('/blog')) return null
 
   return (
     <>
