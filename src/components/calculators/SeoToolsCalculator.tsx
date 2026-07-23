@@ -1039,6 +1039,140 @@ function BrokenLinkChecker() {
   )
 }
 
+
+function RobotsMetaTagChecker() {
+  const [html, setHtml] = useState('<!doctype html>\n<html>\n<head>\n<meta name="robots" content="index, follow">\n<link rel="canonical" href="https://example.com/page">\n</head>\n<body><h1>Example page</h1></body>\n</html>')
+  const [headerNotes, setHeaderNotes] = useState('x-robots-tag: index, follow')
+
+  const result = useMemo(() => {
+    const readAttr = (tag: string, name: string) => tag.match(new RegExp(`${name}=["']([^"']*)["']`, 'i'))?.[1] ?? ''
+    const metaTags = html.match(/<meta\b[^>]*>/gi) ?? []
+    const robots = metaTags
+      .map((tag) => ({ name: readAttr(tag, 'name'), content: readAttr(tag, 'content') }))
+      .filter((row) => ['robots', 'googlebot', 'bingbot'].includes(row.name.toLowerCase()))
+    const canonicalTag = (html.match(/<link\b[^>]*rel=["']canonical["'][^>]*>/i)?.[0] ?? html.match(/<link\b[^>]*href=["'][^"']+["'][^>]*rel=["']canonical["'][^>]*>/i)?.[0]) ?? ''
+    const canonical = canonicalTag ? readAttr(canonicalTag, 'href') : ''
+    const combined = [...robots.map((row) => row.content), headerNotes].join(' ').toLowerCase()
+    const hasNoindex = combined.includes('noindex')
+    const hasIndex = /\bindex\b/.test(combined) && !hasNoindex
+    const hasNofollow = combined.includes('nofollow')
+    const conflicts = combined.includes('index') && combined.includes('noindex')
+    const headerHasRobots = /x-robots-tag/i.test(headerNotes)
+    const items: ScoreItem[] = [
+      { label: 'No accidental noindex', ok: !hasNoindex, detail: hasNoindex ? 'Noindex found. Confirm this is intentional before requesting indexing.' : 'No noindex directive found.' },
+      { label: 'No robots conflict', ok: !conflicts, detail: conflicts ? 'Both index and noindex signals appear in the pasted data.' : 'No obvious index/noindex conflict.' },
+      { label: 'Follow links allowed', ok: !hasNofollow, detail: hasNofollow ? 'Nofollow found. Check whether internal links should pass discovery signals.' : 'No nofollow directive found.' },
+      { label: 'Canonical present', ok: canonical.startsWith('http'), detail: canonical || 'No canonical tag found in pasted HTML.' },
+      { label: 'Header notes reviewed', ok: headerNotes.trim().length > 0, detail: headerHasRobots ? 'X-Robots-Tag header note included.' : 'No X-Robots-Tag note detected.' },
+    ]
+    return { robots, canonical, hasIndex, items }
+  }, [headerNotes, html])
+
+  return (
+    <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_380px]">
+      <Panel title="Robots inputs">
+        <TextArea label="Paste page HTML" value={html} onChange={setHtml} rows={10} hint="Paste rendered HTML, page source, or the head section from a page you want indexed." />
+        <TextArea label="Header notes" value={headerNotes} onChange={setHeaderNotes} rows={4} hint="Paste X-Robots-Tag or crawler header notes when available." />
+        <CopyBox label="Clean indexable default" value={'<meta name="robots" content="index, follow" />'} />
+      </Panel>
+      <div className="space-y-4">
+        <ScoreList items={result.items} />
+        <Panel title="Detected robots tags">
+          {result.robots.length === 0 ? (
+            <p className="text-sm text-gray-600">No robots meta tags found in the pasted HTML.</p>
+          ) : (
+            <div className="space-y-2">
+              {result.robots.map((row, index) => (
+                <p key={`${row.name}-${index}`} className="rounded-lg bg-gray-50 p-3 text-xs leading-5 text-gray-600">
+                  <strong className="text-gray-900">{row.name}</strong>: {row.content || 'empty content'}
+                </p>
+              ))}
+            </div>
+          )}
+          <p className="mt-3 break-all text-xs leading-5 text-gray-500">Canonical: {result.canonical || 'not found'}</p>
+        </Panel>
+      </div>
+    </div>
+  )
+}
+
+function InternalLinkAnchorTextChecker() {
+  const [domain, setDomain] = useState('freeltools.com')
+  const [html, setHtml] = useState('<main>\n<a href="/tools/on-page-seo-checker">on-page SEO checker</a>\n<a href="/tools/schema-markup-generator">schema markup generator</a>\n<a href="/blog/seo-audit-checklist">read more</a>\n<a href="#">click here</a>\n</main>')
+  const report = useMemo(() => {
+    const generic = /^(click here|read more|learn more|more|here|this|link|visit|details)$/i
+    const readAttr = (tag: string, name: string) => tag.match(new RegExp(`${name}=["']([^"']*)["']`, 'i'))?.[1] ?? ''
+    const rows = Array.from(html.matchAll(/<a\b([^>]*)>([\s\S]*?)<\/a>/gi)).map((match) => {
+      const attrs = match[1] ?? ''
+      const href = readAttr(attrs, 'href')
+      const text = (match[2] ?? '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim()
+      const rel = readAttr(attrs, 'rel')
+      let internal = href.startsWith('/') && !href.startsWith('//')
+      try {
+        const parsed = new URL(href)
+        internal = parsed.hostname.replace(/^www\./, '') === domain.replace(/^www\./, '')
+      } catch {
+        internal = internal || href.startsWith('#')
+      }
+      return { href, text, rel, internal, generic: generic.test(text), empty: text.length === 0 || href === '#' }
+    })
+    const anchorTargets = new Map<string, Set<string>>()
+    for (const row of rows.filter((item) => item.internal && item.text)) {
+      const key = row.text.toLowerCase()
+      const targets = anchorTargets.get(key) ?? new Set<string>()
+      targets.add(row.href)
+      anchorTargets.set(key, targets)
+    }
+    const conflicts = Array.from(anchorTargets.entries()).filter(([, urls]) => urls.size > 1)
+    const internalRows = rows.filter((row) => row.internal)
+    const weak = internalRows.filter((row) => row.generic || row.empty || /nofollow/i.test(row.rel))
+    const items: ScoreItem[] = [
+      { label: 'Internal links found', ok: internalRows.length >= 3, detail: `${internalRows.length} internal links found in pasted HTML.` },
+      { label: 'Few generic anchors', ok: internalRows.filter((row) => row.generic).length === 0, detail: `${internalRows.filter((row) => row.generic).length} generic anchors found.` },
+      { label: 'No empty or placeholder anchors', ok: internalRows.filter((row) => row.empty).length === 0, detail: `${internalRows.filter((row) => row.empty).length} empty or # anchors found.` },
+      { label: 'No nofollow internal links', ok: internalRows.filter((row) => /nofollow/i.test(row.rel)).length === 0, detail: `${internalRows.filter((row) => /nofollow/i.test(row.rel)).length} nofollow internal links found.` },
+      { label: 'No anchor conflicts', ok: conflicts.length === 0, detail: `${conflicts.length} repeated anchor texts point to multiple URLs.` },
+    ]
+    return { rows, internalRows, weak, conflicts, items }
+  }, [domain, html])
+
+  const csv = ['type,anchor,href,rel'].concat(report.rows.map((row) => `${row.internal ? 'internal' : 'external'},"${row.text.replace(/"/g, '""')}","${row.href.replace(/"/g, '""')}","${row.rel.replace(/"/g, '""')}"`)).join('\n')
+
+  return (
+    <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_400px]">
+      <Panel title="Link inputs">
+        <Field label="Your domain" value={domain} onChange={setDomain} />
+        <TextArea label="Paste page HTML" value={html} onChange={setHtml} rows={13} hint="Paste rendered HTML for one page. Relative links and links to your domain count as internal." />
+      </Panel>
+      <div className="space-y-4">
+        <ScoreList items={report.items} />
+        <CopyBox label="Link CSV" value={csv} />
+      </div>
+      <div className="lg:col-span-2">
+        <Panel title="Anchor text report">
+          <div className="overflow-x-auto">
+            <table className="min-w-full text-left text-xs">
+              <thead className="text-gray-400">
+                <tr><th className="py-2 pr-3">Type</th><th className="py-2 pr-3">Anchor</th><th className="py-2 pr-3">Target</th><th className="py-2 pr-3">Signal</th></tr>
+              </thead>
+              <tbody className="divide-y divide-gray-100 text-gray-600">
+                {report.rows.map((row, index) => (
+                  <tr key={`${row.href}-${index}`}>
+                    <td className="py-2 pr-3">{row.internal ? 'Internal' : 'External'}</td>
+                    <td className="py-2 pr-3">{row.text || '(empty)'}</td>
+                    <td className="max-w-sm break-all py-2 pr-3">{row.href}</td>
+                    <td className="py-2 pr-3">{row.empty ? 'Fix empty' : row.generic ? 'Generic' : /nofollow/i.test(row.rel) ? 'Nofollow' : 'OK'}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </Panel>
+      </div>
+    </div>
+  )
+}
+
 function OpenGraphPreviewTool() {
   const [title, setTitle] = useState('Free SEO Tools for Small Websites')
   const [description, setDescription] = useState('Audit pages, generate schema, preview snippets, build sitemaps, and check content quality with free SEO tools.')
@@ -1245,7 +1379,9 @@ export default function SeoToolsCalculator() {
   if (slug === 'utm-builder') return <UtmBuilder />
   if (slug === 'url-slug-generator') return <SlugGenerator />
   if (slug === 'faq-schema-generator') return <FaqSchemaGenerator />
+  if (slug === 'robots-meta-tag-checker') return <RobotsMetaTagChecker />
   if (slug === 'canonical-tag-checker') return <CanonicalTagChecker />
+  if (slug === 'internal-link-anchor-text-checker') return <InternalLinkAnchorTextChecker />
   if (slug === 'redirect-chain-checker') return <RedirectChainChecker />
   if (slug === 'broken-link-checker') return <BrokenLinkChecker />
   if (slug === 'open-graph-preview-tool') return <OpenGraphPreviewTool />

@@ -1437,7 +1437,7 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
           },
           {
             heading: 'Use with title, snippet, and schema tools',
-            body: 'After the on-page check, use the SEO Title Checker, Meta Description Checker, SERP Snippet Preview Tool, and Schema Markup Generator to tighten the result before it goes live.',
+            body: 'After the on-page check, use the SEO Title Checker, Meta Description Checker, Robots Meta Tag Checker, Internal Link Anchor Text Checker, and Schema Markup Generator to tighten the result before it goes live.',
           },
         ],
         programmaticVariants: [
@@ -1477,7 +1477,7 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
           },
           {
             heading: 'Use with metadata and schema tools',
-            body: 'After the audit, use the SERP preview, meta tag generator, and schema markup generator to tighten the page before it goes live. That creates a complete SEO QA path from one category.',
+            body: 'After the audit, use the SERP preview, robots meta checker, internal link anchor checker, meta tag generator, and schema markup generator to tighten the page before it goes live. That creates a complete SEO QA path from one category.',
           },
         ],
         programmaticVariants: [
@@ -1486,6 +1486,89 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
           { slug: 'for-homepages', label: 'for Homepages' },
         ],
       },
+      {
+        slug: 'robots-meta-tag-checker',
+        title: 'Robots Meta Tag Checker',
+        headline: 'Check Robots Meta Tags Before Indexing',
+        description: 'Free robots meta tag checker. Paste page HTML or header notes to catch accidental noindex, nofollow, googlebot conflicts, and X-Robots-Tag risks before publishing.',
+        seoTitle: 'Free Robots Meta Tag Checker | Noindex SEO QA Tool',
+        icon: '🤖',
+        category: 'SEO Tools',
+        keywords: ['robots meta tag checker', 'meta robots checker', 'noindex checker', 'x robots tag checker', 'robots tag checker', 'indexability checker'],
+        answerBox: {
+          short: 'A robots meta tag checker helps catch accidental noindex, nofollow, unavailable_after, or conflicting googlebot directives before a page is submitted for indexing.',
+          bullets: ['Best fit: GSC indexing fixes, launch QA, and template checks', 'Outperformance angle: meta robots, googlebot, canonical, and X-Robots-Tag notes in one browser-side check'],
+        },
+        faqs: [
+          { q: 'What does a robots meta tag checker do?', a: 'It reviews robots directives in pasted HTML and header notes so you can spot noindex, nofollow, googlebot conflicts, and other indexing blockers before publishing.' },
+          { q: 'What is the difference between robots.txt and meta robots?', a: 'Robots.txt controls crawling paths. Meta robots and X-Robots-Tag headers control indexing and link-following signals for a specific page or file.' },
+          { q: 'Can noindex stop a page from ranking?', a: 'Yes. If Google sees a valid noindex directive, the page should not be indexed even if it appears in your sitemap.' },
+          { q: 'Should every page have index, follow?', a: 'Not necessarily. Important public pages are usually indexable, while private, duplicate, search, cart, or admin pages may intentionally use noindex.' },
+          { q: 'Should I use this before GSC URL inspection?', a: 'Yes. Check the HTML and known headers first so you do not request indexing for a page that blocks itself.' },
+        ],
+        bodySections: [
+          {
+            heading: 'Robots meta checker for GSC indexing issues',
+            body: 'Use this when Search Console shows discovered, crawled, duplicate, or excluded pages and you need to rule out accidental noindex or conflicting robots directives before deeper diagnosis.',
+          },
+          {
+            heading: 'Checks the page-level signals crawlers read',
+            body: 'Paste rendered HTML or header notes from your crawl. The checker keeps robots meta, googlebot, X-Robots-Tag, canonical, and indexability notes visible in one place.',
+          },
+          {
+            heading: 'Part of the FreelTools SEO QA workflow',
+            body: 'Run the On-Page SEO Checker, Canonical Tag Checker, Robots Meta Tag Checker, and XML Sitemap Generator together before requesting indexing for a new page.',
+          },
+        ],
+        programmaticVariants: [
+          { slug: 'noindex-checker', label: 'Noindex Checker' },
+          { slug: 'x-robots-tag-checker', label: 'X-Robots-Tag Checker' },
+          { slug: 'for-gsc-indexing-issues', label: 'for GSC Indexing Issues' },
+          { slug: 'for-nextjs-pages', label: 'for Next.js Pages' },
+        ],
+      },
+      {
+        slug: 'internal-link-anchor-text-checker',
+        title: 'Internal Link Anchor Text Checker',
+        headline: 'Audit Internal Link Anchors from Page HTML',
+        description: 'Free internal link anchor text checker. Paste page HTML to extract internal links, weak anchors, empty anchors, nofollow signals, and duplicate anchor conflicts.',
+        seoTitle: 'Free Internal Link Anchor Text Checker | SEO Link QA',
+        icon: '🔗',
+        category: 'SEO Tools',
+        keywords: ['internal link anchor text checker', 'anchor text checker', 'internal link checker', 'internal linking audit tool', 'anchor text audit', 'seo internal link checker'],
+        answerBox: {
+          short: 'An internal link anchor text checker extracts links from pasted HTML and shows whether internal anchors are descriptive, generic, empty, duplicated, or blocked by nofollow.',
+          bullets: ['Best fit: blog refreshes, tool pages, service pages, and topical clusters', 'Outperformance angle: anchor text quality and target mapping without a crawler signup'],
+        },
+        faqs: [
+          { q: 'What is internal link anchor text?', a: 'Anchor text is the clickable wording of a link. Internal anchor text helps users and search engines understand what the destination page is about.' },
+          { q: 'Why are generic anchors a problem?', a: 'Anchors like click here or read more waste context. Descriptive anchors make the next page clearer and strengthen topical relationships.' },
+          { q: 'Can this crawl my full website?', a: 'No. It analyzes pasted page HTML. Use it for page-level QA or paste rows from a crawler when you need a bigger audit.' },
+          { q: 'Should every internal link use exact-match keywords?', a: 'No. Use natural, descriptive anchors. Repeating exact-match anchors everywhere can look forced and less helpful.' },
+          { q: 'What should I fix first?', a: 'Fix empty anchors, placeholder links, nofollow on important internal links, and generic anchors pointing to important pages.' },
+        ],
+        bodySections: [
+          {
+            heading: 'Anchor text checker for topical authority',
+            body: 'Internal links tell search engines which pages support each other. Use this checker after adding a blog post, tool page, or service page so important URLs receive descriptive links instead of vague read more anchors.',
+          },
+          {
+            heading: 'Useful after content updates',
+            body: 'Before publishing a refreshed article, paste the rendered HTML and check whether the page links to the right tool, category, or conversion page with clear anchor text.',
+          },
+          {
+            heading: 'Works with the broader SEO tool cluster',
+            body: 'Pair it with the Broken Link Checker, Keyword Cannibalization Checker, and Content Brief Generator to map the page, fix bad links, and plan the next supporting asset.',
+          },
+        ],
+        programmaticVariants: [
+          { slug: 'for-blog-posts', label: 'for Blog Posts' },
+          { slug: 'for-tool-pages', label: 'for Tool Pages' },
+          { slug: 'for-topic-clusters', label: 'for Topic Clusters' },
+          { slug: 'generic-anchor-checker', label: 'Generic Anchor Checker' },
+        ],
+      },
+
       {
         slug: 'seo-title-checker',
         title: 'SEO Title Checker',
@@ -1869,7 +1952,7 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
         bodySections: [
           {
             heading: 'Broken link checker for pre-publish QA',
-            body: 'Paste a draft page, crawler export, or URL status list to catch obvious link issues before a page goes live. This is especially useful for blog updates, resource lists, and tool pages with many internal links.',
+            body: 'Paste a draft page, crawler export, or URL status list to catch obvious link issues before a page goes live. This is especially useful for blog updates, resource lists, and tool pages with many internal links; run the Internal Link Anchor Text Checker afterward to improve link wording.',
           },
           {
             heading: 'Works best with a crawl export',
@@ -2053,7 +2136,7 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
           },
           {
             heading: 'Canonicals work best with consistent signals',
-            body: 'Keep internal links, sitemap URLs, redirects, and canonical tags aligned. Mixed signals make it harder for search engines to understand the page you want indexed.',
+            body: 'Keep internal links, sitemap URLs, redirects, robots meta directives, and canonical tags aligned. Mixed signals make it harder for search engines to understand the page you want indexed.',
           },
         ],
         programmaticVariants: [
