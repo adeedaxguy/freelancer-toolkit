@@ -87,10 +87,25 @@ const TOOL_RESEARCH_INTENT: Record<string, ToolResearchIntent> = {
     competitorGap: 'Rate articles often copy market averages; this page should win by working backward from the user’s real numbers.',
     useNow: 'Calculate the rate before pricing a project, retainer, or marketplace gig.',
   },
+  'on-page-seo-checker': {
+    searcherJob: 'Check whether a page has the title, meta description, H1, keyword placement, canonical, content depth, and links needed before publishing.',
+    competitorGap: 'On-page SEO checker results often hide the checklist behind signups or broad crawlers; this page should give the page-level checker immediately.',
+    useNow: 'Paste the page details, fix the highest-risk warnings, then preview the snippet before requesting indexing.',
+  },
   'on-page-seo-audit-tool': {
     searcherJob: 'Check whether a page covers title, description, headings, links, content, and crawl basics before publishing.',
     competitorGap: 'On-page SEO checker SERPs are crowded; this page should answer the audit task quickly and keep the checklist visible.',
     useNow: 'Paste the page details, fix the highest-risk gaps, then rerun before requesting indexing.',
+  },
+  'seo-title-checker': {
+    searcherJob: 'Check whether a title tag is clear, query-matched, and likely to fit a Google result before a page goes live.',
+    competitorGap: 'Title checkers are often only character counters; this page should tie title length to search intent and click clarity.',
+    useNow: 'Paste the title, compare the preview, and rewrite until the core page promise is visible.',
+  },
+  'meta-description-checker': {
+    searcherJob: 'Check whether a meta description gives searchers a reason to click and stays within a useful working length.',
+    competitorGap: 'Many meta tools focus on length only; this page should connect description length, search intent, and CTA clarity.',
+    useNow: 'Paste the description, check the preview, and rewrite it around the searcher job.',
   },
   'keyword-density-checker': {
     searcherJob: 'Check whether a page repeats target terms naturally or drifts into keyword stuffing.',

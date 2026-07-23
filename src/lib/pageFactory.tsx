@@ -236,11 +236,29 @@ const HOW_TO_STEPS: Record<string, { name: string; text: string }[]> = {
     { name: 'Read country times', text: 'Review converted kickoff times for US, UK, Europe, UAE, Pakistan, India, Bangladesh, and Australia.' },
     { name: 'Add to calendar', text: 'Use the Google Calendar link to save the match time in your own calendar.' },
   ],
+  'on-page-seo-checker': [
+    { name: 'Enter the page URL and target keyword', text: 'Add the page URL and the main query the page should satisfy.' },
+    { name: 'Paste page fields or rendered HTML', text: 'Add title, meta description, H1, canonical, body copy, image count, and link counts.' },
+    { name: 'Review the checker warnings', text: 'Use the score to find missing or weak on-page SEO basics before publishing.' },
+    { name: 'Fix and rerun', text: 'Improve the title, description, headings, content depth, links, and image alt coverage, then run the check again.' },
+  ],
   'on-page-seo-audit-tool': [
     { name: 'Enter the page URL and target keyword', text: 'Add the page URL and the main keyword you want the page to target.' },
     { name: 'Paste HTML or enter fields manually', text: 'Paste rendered HTML to extract page elements, or fill in title, description, H1, canonical, content, images, and links manually.' },
     { name: 'Review the score', text: 'Check which on-page SEO basics passed and which need work before publishing.' },
     { name: 'Fix weak sections', text: 'Improve metadata, keyword placement, content depth, internal links, external citations, and image alt text.' },
+  ],
+  'seo-title-checker': [
+    { name: 'Paste the title tag', text: 'Enter the title you plan to publish for the page.' },
+    { name: 'Check length and clarity', text: 'Review whether the title fits a useful working range and states the page purpose clearly.' },
+    { name: 'Preview the search result', text: 'Use the snippet preview to see how the title may read beside the URL and description.' },
+    { name: 'Rewrite around intent', text: 'Adjust the wording until the primary keyword and reason to click are both visible.' },
+  ],
+  'meta-description-checker': [
+    { name: 'Paste the meta description', text: 'Enter the description you plan to publish for the page.' },
+    { name: 'Check length and click support', text: 'Review whether it is concise, readable, and clear enough for a search result.' },
+    { name: 'Preview the snippet', text: 'Compare how the description reads below the title in the preview.' },
+    { name: 'Rewrite for the searcher job', text: 'Add the page promise, audience, or next action without stuffing keywords.' },
   ],
   'serp-snippet-preview-tool': [
     { name: 'Enter the page title', text: 'Paste the title tag you plan to use for the page.' },

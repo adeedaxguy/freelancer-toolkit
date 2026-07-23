@@ -110,8 +110,8 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
         slug: 'project-price-calculator',
         title: 'Project Price Calculator',
         headline: 'Calculate the Right Price for a Freelance Project',
-        description: 'Free project price calculator for freelancers and agencies. Estimate hours, rate, revision time, scope buffer, and fixed-price risk before sending a client quote.',
-        seoTitle: 'Project Price Calculator for Freelancers | Free Quote Tool',
+        description: 'Free project price calculator for freelancers and agencies. Estimate hours, rate, revisions, scope buffer, and client-facing quote options before sending a fixed project price.',
+        seoTitle: 'Free Project Price Calculator | Client Quote Estimator',
         icon: '🏷️',
         category: 'Pricing & Profitability',
         keywords: [
@@ -128,7 +128,7 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
           'freelance quote calculator',
         ],
         answerBox: {
-          short: 'Use a project price calculator when you need the client-facing quote, not just the internal delivery cost. The safe workflow is hours + rate + revisions + scope buffer, then convert that into a fixed price or project estimate you can defend in a proposal or call.',
+          short: 'Use a project price calculator when you need the client-facing quote, not just the internal delivery cost. The safe workflow is hours + rate + revisions + scope buffer, then convert that into a fixed price, online estimate, or client quote you can defend in a proposal or call.',
           bullets: ['Best fit: freelancer, agency, consulting, and online project-cost estimates', 'Outperformance angle: freelancer-specific pricing instead of generic construction, staffing, or software estimators'],
         },
         faqs: [
@@ -164,6 +164,14 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
           {
             heading: 'Online project cost calculator for fast estimates',
             body: 'If you searched for an online project cost calculator, project estimation calculator, or free project estimator, use this page to turn rough delivery hours into a clearer quote. It keeps the estimate, buffer, and final client price in one workflow instead of splitting them across spreadsheets.',
+          },
+          {
+            heading: 'Free project estimator for proposal-ready numbers',
+            body: 'A free project estimator should not stop at hours times rate. This page keeps the quote, revision allowance, scope risk, and next proposal step together so the number is ready to explain to a client.',
+          },
+          {
+            heading: 'Use the estimate before the proposal',
+            body: 'The strongest workflow is calculate first, then write. Use the result here before opening the Proposal Generator or Scope of Work Generator so the price, deliverables, timeline, and revision policy stay aligned.',
           },
         ],
         programmaticVariants: [
@@ -1399,6 +1407,46 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
     description: 'Free SEO audit, metadata, schema, tracking, link, keyword, sitemap, hreflang, and content optimization tools.',
     tools: [
       {
+        slug: 'on-page-seo-checker',
+        title: 'On-Page SEO Checker',
+        headline: 'Check On-Page SEO Before You Publish',
+        description: 'Free on-page SEO checker. Review title tag, meta description, H1, canonical URL, target keyword placement, content depth, image alt text, and internal links in one browser-based workflow.',
+        seoTitle: 'Free On-Page SEO Checker | Title, Meta, H1 and Links',
+        icon: '✅',
+        category: 'SEO Tools',
+        keywords: ['on page seo checker', 'on-page seo checker', 'seo checker online', 'free on page seo checker', 'page seo checker', 'seo page checker'],
+        answerBox: {
+          short: 'An on-page SEO checker helps catch the page-level basics before a URL goes live: title tag, meta description, H1, canonical, target keyword usage, readable content depth, image alt text, and internal links.',
+          bullets: ['Best fit: quick checks before publishing or requesting indexing', 'Outperformance angle: exact page-level checker without a signup, crawl credit, or generic score wall'],
+        },
+        faqs: [
+          { q: 'What does this on-page SEO checker review?', a: 'It reviews the fields you can fix before publishing: title, meta description, H1, canonical URL, target keyword usage, content depth, images without alt text, internal links, and external links.' },
+          { q: 'Is this different from an SEO audit tool?', a: 'Yes. This page is for a fast page-level check. A full audit can include crawl depth, redirects, duplicate titles, Core Web Vitals, indexation, and sitewide technical issues.' },
+          { q: 'Can it check a live URL automatically?', a: 'This version is built around pasted HTML or manual page fields. That keeps it private, fast, and reliable without fragile scraping or paid crawler access.' },
+          { q: 'Should I use it before requesting indexing?', a: 'Yes. Run the checker after editing the page so missing metadata, thin copy, or weak internal links are fixed before Search Console inspection.' },
+          { q: 'Does a high score guarantee rankings?', a: 'No. It confirms page-level hygiene. Rankings still depend on search intent, usefulness, competition, authority, crawlability, and user behavior.' },
+        ],
+        bodySections: [
+          {
+            heading: 'On-page SEO checker for exact page QA',
+            body: 'Use this when a blog post, tool page, service page, or landing page is almost ready and you need a practical check before publishing. It keeps the working checker and the fix list on the same page.',
+          },
+          {
+            heading: 'Built for searchers who need a checker now',
+            body: 'Many ranking pages explain SEO basics but delay the actual check. This page answers the exact on-page SEO checker intent by putting the page fields, score, and warnings first.',
+          },
+          {
+            heading: 'Use with title, snippet, and schema tools',
+            body: 'After the on-page check, use the SEO Title Checker, Meta Description Checker, SERP Snippet Preview Tool, and Schema Markup Generator to tighten the result before it goes live.',
+          },
+        ],
+        programmaticVariants: [
+          { slug: 'for-blog-posts', label: 'for Blog Posts' },
+          { slug: 'for-service-pages', label: 'for Service Pages' },
+          { slug: 'before-indexing', label: 'Before Indexing' },
+        ],
+      },
+      {
         slug: 'on-page-seo-audit-tool',
         title: 'On-Page SEO Audit Tool',
         headline: 'Run a Fast On-Page SEO Audit',
@@ -1436,6 +1484,78 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
           { slug: 'for-blog-posts', label: 'for Blog Posts' },
           { slug: 'for-service-pages', label: 'for Service Pages' },
           { slug: 'for-homepages', label: 'for Homepages' },
+        ],
+      },
+      {
+        slug: 'seo-title-checker',
+        title: 'SEO Title Checker',
+        headline: 'Check Your SEO Title Before Publishing',
+        description: 'Free SEO title checker. Preview a title tag, check useful length, and rewrite the title around the main search intent before publishing a page.',
+        seoTitle: 'Free SEO Title Checker | Preview Title Tags',
+        icon: '🏷️',
+        category: 'SEO Tools',
+        keywords: ['seo title checker', 'title tag checker', 'meta title checker', 'google title checker', 'title length checker', 'seo title preview'],
+        answerBox: {
+          short: 'An SEO title checker helps confirm that a title tag is readable, close to a useful length, and clear about the page promise before the result appears in search.',
+          bullets: ['Best fit: blog posts, tool pages, service pages, and landing pages', 'Outperformance angle: title length, search intent, and SERP preview in one workflow'],
+        },
+        faqs: [
+          { q: 'What does an SEO title checker do?', a: 'It checks whether a title tag is clear, reasonably sized, and aligned with the page intent. This page also shows a search-style preview so you can spot weak wording.' },
+          { q: 'How long should an SEO title be?', a: 'A practical working range is roughly 35-62 characters, but clarity matters more than hitting one exact number.' },
+          { q: 'Can Google rewrite my title?', a: 'Yes. Google can rewrite title links. A strong title improves your candidate, but it cannot force what Google displays.' },
+          { q: 'Should the keyword be first?', a: 'Put the core topic early when it reads naturally. Avoid awkward keyword stuffing that makes the result less clickable.' },
+          { q: 'Is this useful after an on-page SEO check?', a: 'Yes. Run the on-page checker first, then use this title checker to tighten the title before publishing or requesting indexing.' },
+        ],
+        bodySections: [
+          {
+            heading: 'SEO title checker for click support',
+            body: 'The title tag is often the first thing a searcher reads. Use this page to test whether the page topic, audience, and reason to click are clear before publishing.',
+          },
+          {
+            heading: 'More than a character counter',
+            body: 'Length matters, but a title can fit and still be weak. This tool keeps the preview next to the fields so you can rewrite for intent, clarity, and usefulness.',
+          },
+        ],
+        programmaticVariants: [
+          { slug: 'for-blog-posts', label: 'for Blog Posts' },
+          { slug: 'for-tool-pages', label: 'for Tool Pages' },
+          { slug: 'google-title-preview', label: 'Google Title Preview' },
+        ],
+      },
+      {
+        slug: 'meta-description-checker',
+        title: 'Meta Description Checker',
+        headline: 'Check Your Meta Description Before Publishing',
+        description: 'Free meta description checker. Preview your search snippet, check useful description length, and rewrite the copy around search intent and click clarity.',
+        seoTitle: 'Free Meta Description Checker | SERP Description Preview',
+        icon: '📝',
+        category: 'SEO Tools',
+        keywords: ['meta description checker', 'meta description preview', 'meta description length checker', 'seo description checker', 'google description preview', 'snippet description checker'],
+        answerBox: {
+          short: 'A meta description checker helps you write a search snippet candidate that explains the page, supports the query, and gives the searcher a reason to click.',
+          bullets: ['Best fit: pages with impressions but weak CTR', 'Outperformance angle: useful-length check plus SERP preview and searcher-job rewrite'],
+        },
+        faqs: [
+          { q: 'What does a meta description checker do?', a: 'It checks the description length and shows how the copy may read in a search-style preview so you can improve clarity before publishing.' },
+          { q: 'How long should a meta description be?', a: 'A useful working range is often about 110-160 characters, but the best description is the one that accurately explains the page and earns the right click.' },
+          { q: 'Does Google always show my meta description?', a: 'No. Google may rewrite snippets based on the query and page content. A strong description still gives Google a better candidate.' },
+          { q: 'Should I include a call to action?', a: 'Use a natural next step when it matches the page, such as run the checker, calculate the quote, download the file, or compare the tools.' },
+          { q: 'Can this help CTR?', a: 'It can help when impressions exist but searchers are not clicking because the snippet does not explain the page clearly enough.' },
+        ],
+        bodySections: [
+          {
+            heading: 'Meta description checker for low-CTR pages',
+            body: 'Use this when a page is getting impressions but the result does not feel clear or useful. A better description can support clicks when the page is eligible to appear.',
+          },
+          {
+            heading: 'Write for the searcher job',
+            body: 'The strongest descriptions say what the user can do on the page. For tool pages, name the tool action; for guides, name the answer or workflow.',
+          },
+        ],
+        programmaticVariants: [
+          { slug: 'for-blog-posts', label: 'for Blog Posts' },
+          { slug: 'for-tool-pages', label: 'for Tool Pages' },
+          { slug: 'google-snippet-preview', label: 'Google Snippet Preview' },
         ],
       },
       {

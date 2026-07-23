@@ -264,14 +264,38 @@ function ScoreList({ items }: { items: ScoreItem[] }) {
 }
 
 function OnPageSeoAuditTool() {
-  const [pageUrl, setPageUrl] = useState('https://example.com/services/seo-audit')
-  const [targetKeyword, setTargetKeyword] = useState('seo audit')
+  const slug = getSlug(usePathname())
+  const defaults =
+    slug === 'on-page-seo-checker'
+      ? {
+          pageUrl: 'https://example.com/blog/on-page-seo-checklist',
+          targetKeyword: 'on page seo checker',
+          title: 'On Page SEO Checker for Blog Posts',
+          description: 'Check whether a page has the right title, meta description, H1, canonical, content depth, links, and image alt text before publishing.',
+          h1: 'On Page SEO Checker',
+          canonical: 'https://example.com/blog/on-page-seo-checklist',
+          content:
+            'Use this on-page SEO checker before publishing a blog post, landing page, service page, or tool page. Paste the page copy or HTML to review title length, meta description clarity, H1 alignment, canonical tags, content depth, internal links, external citations, and image alt text.',
+        }
+      : {
+          pageUrl: 'https://example.com/services/seo-audit',
+          targetKeyword: 'seo audit',
+          title: 'SEO Audit Services for Small Businesses',
+          description: 'Get a practical SEO audit that finds technical issues, content gaps, and quick wins for your small business website.',
+          h1: 'SEO Audit Services',
+          canonical: 'https://example.com/services/seo-audit',
+          content:
+            'Paste page copy or HTML to estimate word count, keyword usage, internal links, external links, image alt text, and the basic on-page SEO checks that often decide whether a page is ready to publish.',
+        }
+
+  const [pageUrl, setPageUrl] = useState(defaults.pageUrl)
+  const [targetKeyword, setTargetKeyword] = useState(defaults.targetKeyword)
   const [html, setHtml] = useState('')
-  const [title, setTitle] = useState('SEO Audit Services for Small Businesses')
-  const [description, setDescription] = useState('Get a practical SEO audit that finds technical issues, content gaps, and quick wins for your small business website.')
-  const [h1, setH1] = useState('SEO Audit Services')
-  const [canonical, setCanonical] = useState('https://example.com/services/seo-audit')
-  const [content, setContent] = useState('Paste page copy or HTML to estimate word count, keyword usage, internal links, external links, image alt text, and the basic on-page SEO checks that often decide whether a page is ready to publish.')
+  const [title, setTitle] = useState(defaults.title)
+  const [description, setDescription] = useState(defaults.description)
+  const [h1, setH1] = useState(defaults.h1)
+  const [canonical, setCanonical] = useState(defaults.canonical)
+  const [content, setContent] = useState(defaults.content)
   const [imageCount, setImageCount] = useState('4')
   const [imagesMissingAlt, setImagesMissingAlt] = useState('1')
   const [internalLinks, setInternalLinks] = useState('3')
@@ -373,9 +397,29 @@ function OnPageSeoAuditTool() {
 }
 
 function SerpSnippetPreviewTool() {
-  const [title, setTitle] = useState('Free SEO Audit Tool | Check Title, Meta, H1 and Links')
-  const [description, setDescription] = useState('Run a fast on-page SEO audit for titles, meta descriptions, H1 tags, canonicals, content depth, links, and image alt text.')
-  const [url, setUrl] = useState('https://freeltools.com/tools/on-page-seo-audit-tool')
+  const slug = getSlug(usePathname())
+  const defaults =
+    slug === 'seo-title-checker'
+      ? {
+          title: 'Free SEO Title Checker | Google Title Preview',
+          description: 'Preview title tags before publishing and check whether the keyword, length, and search intent are strong enough for Google results.',
+          url: 'https://freeltools.com/tools/seo-title-checker',
+        }
+      : slug === 'meta-description-checker'
+        ? {
+            title: 'Free Meta Description Checker | SERP Preview',
+            description: 'Write and preview meta descriptions for Google search results, with length guidance and a clear snippet before your page goes live.',
+            url: 'https://freeltools.com/tools/meta-description-checker',
+          }
+        : {
+            title: 'Free On-Page SEO Checker | Title, Meta, H1 and Links',
+            description: 'Check title tags, meta descriptions, H1s, canonicals, content depth, internal links, external citations, and image alt text before publishing.',
+            url: 'https://freeltools.com/tools/on-page-seo-checker',
+          }
+
+  const [title, setTitle] = useState(defaults.title)
+  const [description, setDescription] = useState(defaults.description)
+  const [url, setUrl] = useState(defaults.url)
   const [mode, setMode] = useState('desktop')
 
   const titleOk = title.length >= 35 && title.length <= 62
@@ -1189,7 +1233,8 @@ export default function SeoToolsCalculator() {
   const pathname = usePathname()
   const slug = getSlug(pathname)
 
-  if (slug === 'on-page-seo-audit-tool') return <OnPageSeoAuditTool />
+  if (slug === 'on-page-seo-checker' || slug === 'on-page-seo-audit-tool') return <OnPageSeoAuditTool />
+  if (slug === 'seo-title-checker' || slug === 'meta-description-checker') return <SerpSnippetPreviewTool />
   if (slug === 'serp-snippet-preview-tool') return <SerpSnippetPreviewTool />
   if (slug === 'meta-tag-generator') return <MetaTagGenerator />
   if (slug === 'schema-markup-generator') return <SchemaMarkupGenerator />
