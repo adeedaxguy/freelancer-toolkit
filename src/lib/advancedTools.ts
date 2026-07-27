@@ -43,6 +43,8 @@ export type AdvancedToolConfig =
         | 'case-study'
         | 'payment-terms'
         | 'rate-card'
+        | 'guest-post-pitch'
+        | 'content-gap-brief'
       resultLabel: string
       note?: string
     }
@@ -924,6 +926,8 @@ const textToolData: Array<{
   { slug: 'case-study-outline-generator', title: 'Case Study Outline Generator', keyword: 'case study outline generator', template: 'case-study', resultLabel: 'case study outline' },
   { slug: 'payment-terms-generator', title: 'Payment Terms Generator', keyword: 'payment terms generator', template: 'payment-terms', resultLabel: 'payment terms' },
   { slug: 'freelance-rate-card-generator', title: 'Freelance Rate Card Generator', keyword: 'freelance rate card generator', template: 'rate-card', resultLabel: 'rate card' },
+  { slug: 'guest-post-pitch-generator', title: 'Guest Post Pitch Generator', keyword: 'guest post pitch generator', template: 'guest-post-pitch', resultLabel: 'guest post pitch' },
+  { slug: 'competitor-content-gap-brief-generator', title: 'Competitor Content Gap Brief Generator', keyword: 'competitor content gap brief generator', template: 'content-gap-brief', resultLabel: 'content gap brief' },
 ]
 
 function makeTextTool(data: (typeof textToolData)[number]): AdvancedTool {
