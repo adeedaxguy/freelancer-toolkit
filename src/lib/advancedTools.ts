@@ -45,6 +45,8 @@ export type AdvancedToolConfig =
         | 'rate-card'
         | 'guest-post-pitch'
         | 'content-gap-brief'
+        | 'backlink-qualification'
+        | 'related-search-plan'
       resultLabel: string
       note?: string
     }
@@ -928,6 +930,8 @@ const textToolData: Array<{
   { slug: 'freelance-rate-card-generator', title: 'Freelance Rate Card Generator', keyword: 'freelance rate card generator', template: 'rate-card', resultLabel: 'rate card' },
   { slug: 'guest-post-pitch-generator', title: 'Guest Post Pitch Generator', keyword: 'guest post pitch generator', template: 'guest-post-pitch', resultLabel: 'guest post pitch' },
   { slug: 'competitor-content-gap-brief-generator', title: 'Competitor Content Gap Brief Generator', keyword: 'competitor content gap brief generator', template: 'content-gap-brief', resultLabel: 'content gap brief' },
+  { slug: 'backlink-prospect-qualifier', title: 'Backlink Prospect Qualifier', keyword: 'backlink prospect qualifier', template: 'backlink-qualification', resultLabel: 'backlink qualification checklist' },
+  { slug: 'people-also-search-keyword-expander', title: 'People Also Search Keyword Expander', keyword: 'people also search keyword expander', template: 'related-search-plan', resultLabel: 'related search keyword plan' },
 ]
 
 function makeTextTool(data: (typeof textToolData)[number]): AdvancedTool {
