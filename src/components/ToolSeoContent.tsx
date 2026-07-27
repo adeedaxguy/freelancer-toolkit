@@ -159,6 +159,42 @@ const TOOL_RESEARCH_INTENT: Record<string, ToolResearchIntent> = {
   },
 }
 
+type ToolGscInsight = {
+  evidenceLabel: string
+  priority: string
+  links: Array<{ href: string; label: string }>
+}
+
+const TOOL_GSC_INSIGHT: Record<string, ToolGscInsight> = {
+  'resize-photo-to-413x531': {
+    evidenceLabel: 'GSC Insights winner',
+    priority: 'Keep the exact 413x531 upload job visible, then route people into the 35x45mm and print-sheet workflows instead of sending them back to Google.',
+    links: [
+      { href: '/tools/35x45mm-photo-maker', label: 'Make a 35x45mm photo' },
+      { href: '/tools/passport-photo-4x6-print-maker', label: 'Create a 4x6 print sheet' },
+      { href: '/blog/passport-photo-35x45mm-guide', label: 'Read the 35x45mm guide' },
+    ],
+  },
+  'passport-photo-4x6-print-maker': {
+    evidenceLabel: 'GSC Insights rising page',
+    priority: 'Make the print-sheet workflow obvious and keep exact photo-size routes one click away for users who started with a resized passport image.',
+    links: [
+      { href: '/tools/resize-photo-to-413x531', label: 'Resize to 413x531 first' },
+      { href: '/tools/us-passport-photo-maker', label: 'Use the U.S. passport preset' },
+      { href: '/blog/passport-photo-4x6-print-maker-guide', label: 'Read the print-sheet guide' },
+    ],
+  },
+  'fiverr-fee-calculator': {
+    evidenceLabel: 'GSC Insights query signal',
+    priority: 'Answer the fee query quickly, then move users into seller net, buyer total, reverse pricing, and proposal support without adding friction.',
+    links: [
+      { href: '/blog/fiverr-fee-calculator-guide', label: 'Fiverr fee guide' },
+      { href: '/tools/fiverr-buyer-fee-calculator', label: 'Buyer fee calculator' },
+      { href: '/tools/upwork-fee-calculator', label: 'Compare Upwork fees' },
+    ],
+  },
+}
+
 function getToolResearchIntent(tool: ToolMeta): ToolResearchIntent {
   return TOOL_RESEARCH_INTENT[tool.slug] ?? {
     searcherJob: `Complete the ${tool.keywords[0] ?? tool.title.toLowerCase()} task without leaving the page.`,
@@ -178,6 +214,7 @@ export default function ToolSeoContent({ tool, variantLabel }: ToolSeoContentPro
   const categoryUrl = getCategoryUrlForTool(tool)
   const categoryLabel = tool.category.toLowerCase().endsWith('tools') ? tool.category.toLowerCase() : `${tool.category.toLowerCase()} tools`
   const researchIntent = getToolResearchIntent(tool)
+  const gscInsight = TOOL_GSC_INSIGHT[tool.slug]
 
   return (
     <section className="mt-12 rounded-2xl border border-gray-100 bg-white p-5 shadow-sm sm:p-6">
@@ -251,6 +288,21 @@ export default function ToolSeoContent({ tool, variantLabel }: ToolSeoContentPro
           ))}
         </div>
       </div>
+
+      {gscInsight && (
+        <div data-gsc-insight-panel className="mt-7 rounded-2xl border border-amber-100 bg-amber-50 p-5 sm:p-6">
+          <p className="text-xs font-semibold uppercase tracking-wider text-amber-700">{gscInsight.evidenceLabel}</p>
+          <h3 className="mt-2 text-lg font-bold text-gray-900">What this page should do next</h3>
+          <p className="mt-3 text-sm leading-6 text-gray-700">{gscInsight.priority}</p>
+          <div className="mt-4 flex flex-wrap gap-2">
+            {gscInsight.links.map((link) => (
+              <Link key={link.href} href={link.href} className="rounded-full border border-amber-200 bg-white px-3 py-1.5 text-xs font-semibold text-gray-700 shadow-sm hover:border-brand-200 hover:text-brand-700">
+                {link.label}
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
 
       <div className="mt-7 grid gap-4 sm:grid-cols-3">
         {[
