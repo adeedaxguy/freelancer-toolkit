@@ -47,6 +47,8 @@ export type AdvancedToolConfig =
         | 'content-gap-brief'
         | 'backlink-qualification'
         | 'related-search-plan'
+        | 'gsc-insights-refresh-plan'
+        | 'backlink-risk-review'
       resultLabel: string
       note?: string
     }
@@ -932,6 +934,8 @@ const textToolData: Array<{
   { slug: 'competitor-content-gap-brief-generator', title: 'Competitor Content Gap Brief Generator', keyword: 'competitor content gap brief generator', template: 'content-gap-brief', resultLabel: 'content gap brief' },
   { slug: 'backlink-prospect-qualifier', title: 'Backlink Prospect Qualifier', keyword: 'backlink prospect qualifier', template: 'backlink-qualification', resultLabel: 'backlink qualification checklist' },
   { slug: 'people-also-search-keyword-expander', title: 'People Also Search Keyword Expander', keyword: 'people also search keyword expander', template: 'related-search-plan', resultLabel: 'related search keyword plan' },
+  { slug: 'gsc-insights-refresh-planner', title: 'GSC Insights Refresh Planner', keyword: 'gsc insights content refresh planner', template: 'gsc-insights-refresh-plan', resultLabel: 'GSC refresh plan' },
+  { slug: 'backlink-risk-review-checklist', title: 'Backlink Risk Review Checklist', keyword: 'backlink risk review checklist', template: 'backlink-risk-review', resultLabel: 'backlink risk checklist' },
 ]
 
 function makeTextTool(data: (typeof textToolData)[number]): AdvancedTool {
