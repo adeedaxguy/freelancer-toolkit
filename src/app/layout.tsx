@@ -12,6 +12,63 @@ const TOTAL_TOOLS = ALL_TOOLS.length
 const TOOL_COUNT_LABEL = String(TOTAL_TOOLS)
 const OG_IMAGE = `${SITE_URL}/opengraph-image`
 
+const clickioConsentModeScript = `
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('consent', 'default', {
+    ad_storage: 'denied',
+    analytics_storage: 'denied',
+    functionality_storage: 'denied',
+    personalization_storage: 'denied',
+    security_storage: 'denied',
+    ad_user_data: 'denied',
+    ad_personalization: 'denied',
+    wait_for_update: 1500
+  });
+  gtag('set', 'ads_data_redaction', true);
+  gtag('set', 'url_passthrough', false);
+
+  try {
+    const consentStorageMap = {
+      adStorage: { storageName: 'ad_storage', serialNumber: 0 },
+      analyticsStorage: { storageName: 'analytics_storage', serialNumber: 1 },
+      functionalityStorage: { storageName: 'functionality_storage', serialNumber: 2 },
+      personalizationStorage: { storageName: 'personalization_storage', serialNumber: 3 },
+      securityStorage: { storageName: 'security_storage', serialNumber: 4 },
+      adUserData: { storageName: 'ad_user_data', serialNumber: 5 },
+      adPersonalization: { storageName: 'ad_personalization', serialNumber: 6 }
+    };
+    let clickioConsent = localStorage.getItem('__lxG__consent__v2');
+    if (clickioConsent) {
+      clickioConsent = JSON.parse(clickioConsent);
+      if (clickioConsent && clickioConsent.cls_val) clickioConsent = clickioConsent.cls_val;
+      if (clickioConsent) clickioConsent = clickioConsent.split('|');
+      if (clickioConsent && clickioConsent.length && typeof clickioConsent[14] !== 'undefined') {
+        const consentBits = clickioConsent[14].split('').map((entry) => entry - 0);
+        if (consentBits.length) {
+          const consentUpdate = {};
+          Object.values(consentStorageMap)
+            .sort((a, b) => a.serialNumber - b.serialNumber)
+            .forEach((entry) => {
+              consentUpdate[entry.storageName] = consentBits[entry.serialNumber] ? 'granted' : 'denied';
+            });
+          gtag('consent', 'update', consentUpdate);
+        }
+      }
+    }
+  } catch (error) {
+    gtag('consent', 'update', {
+      ad_storage: 'denied',
+      analytics_storage: 'denied',
+      functionality_storage: 'denied',
+      personalization_storage: 'denied',
+      security_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied'
+    });
+  }
+`
+
 const organizationSchema = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
@@ -140,7 +197,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {/* Preconnect to GA domains to reduce connection latency */}
         <link rel="preconnect" href="https://www.googletagmanager.com" />
         <link rel="preconnect" href="https://www.google-analytics.com" />
+        <link rel="preconnect" href="https://clickiocmp.com" />
+        <link rel="preconnect" href="https://s.clickiocdn.com" />
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+        <link rel="dns-prefetch" href="https://clickiocmp.com" />
+        <link rel="dns-prefetch" href="https://s.clickiocdn.com" />
+        <Script id="clickio-consent-mode-defaults" strategy="beforeInteractive">
+          {clickioConsentModeScript}
+        </Script>
+        <Script id="clickio-cmp" src="https://clickiocmp.com/t/consent_249850.js" strategy="beforeInteractive" async />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
@@ -161,6 +226,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </main>
         <Footer />
         <FloatingChatbot />
+        <Script id="clickio-data-insights" src="https://s.clickiocdn.com/t/249850/di.js" strategy="afterInteractive" />
+        <Script id="clickio-web-vitals" src="https://s.clickiocdn.com/t/249850_wv.js" data-cfasync="false" strategy="afterInteractive" />
         {/* Google Analytics */}
         <Script src="https://www.googletagmanager.com/gtag/js?id=G-ZC1CQELSW4" strategy="afterInteractive" />
         <Script id="ga-init" strategy="afterInteractive">{`

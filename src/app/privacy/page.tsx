@@ -26,7 +26,7 @@ export default function PrivacyPage() {
       </nav>
 
       <h1 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">Privacy Policy</h1>
-      <p className="mt-3 text-sm text-gray-500">Last updated: July 18, 2026</p>
+      <p className="mt-3 text-sm text-gray-500">Last updated: July 29, 2026</p>
 
       <div className="mt-8 space-y-7 text-sm leading-7 text-gray-600">
         <section>
@@ -58,11 +58,19 @@ export default function PrivacyPage() {
         <section>
           <h2 className="text-lg font-bold text-gray-900">Cookies, analytics, and advertising</h2>
           <p className="mt-2">
-            We use cookies and similar technologies for analytics, basic site functionality, and admin access. We use Google
-            Analytics to understand aggregate site usage. Advertising is currently paused. If advertising is enabled in the
-            future, Google and other advertising partners may use cookies or similar identifiers to serve, measure, and improve
-            ads, including personalized or non-personalized ads where available. You can manage Google ad personalization from
-            your Google account settings and can control cookies through your browser settings.
+            We use cookies, local storage, and similar technologies for analytics, consent management, basic site functionality,
+            and admin access. We use Google Analytics to understand aggregate site usage. We also use Clickio for consent
+            management, data insights, and Core Web Vitals monitoring. These services may process technical information such as
+            page URL, referrer, device and browser type, approximate geography, consent choices, performance metrics, and similar
+            identifiers.
+          </p>
+          <p className="mt-2">
+            Advertising placements are currently paused until the site is approved for monetization. If advertising is enabled in
+            the future, Clickio, Google, and other advertising partners may use cookies or similar identifiers to serve, measure,
+            and improve ads, including personalized or non-personalized ads where available. Visitors in regions where consent is
+            required can use the consent dialog or the “Your Privacy Choices” footer link to review or change choices. You can
+            also manage Google ad personalization from your Google account settings and control cookies through your browser
+            settings.
           </p>
         </section>
 
@@ -78,7 +86,9 @@ export default function PrivacyPage() {
           <h2 className="text-lg font-bold text-gray-900">Third-party services</h2>
           <p className="mt-2">
             We may use third-party services for analytics, hosting, email delivery, generation features, and advertising. These
-            providers process information according to their own privacy policies and our configuration of the service.
+            providers process information according to their own privacy policies and our configuration of the service. Current
+            providers may include Vercel for hosting, Google Analytics for analytics, Clickio for consent and site measurement,
+            Resend or email-list providers for email delivery, and AI service providers for generation features.
           </p>
         </section>
 

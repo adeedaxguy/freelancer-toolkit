@@ -103,6 +103,14 @@ export default function Footer() {
                   </Link>
                 </li>
               ))}
+              <li>
+                <a
+                  href="#"
+                  className="clickio-cmp-settings-text clickio-cmp-settings-display block rounded-lg px-2 py-1.5 text-sm text-gray-300 transition hover:bg-white/5 hover:text-white"
+                >
+                  Your Privacy Choices
+                </a>
+              </li>
             </ul>
             <Link
               href="/#tools"
@@ -130,6 +138,9 @@ export default function Footer() {
             <Link href="/terms" className="hover:text-white">
               Terms
             </Link>
+            <a href="#" className="clickio-cmp-settings-text clickio-cmp-settings-display hover:text-white">
+              Privacy Choices
+            </a>
             {TOOL_CATEGORIES.slice(0, 4).map((category) => (
               <Link key={category.slug} href={getCategoryUrl(category)} className="hover:text-white">
                 {category.name}
