@@ -49,6 +49,8 @@ export type AdvancedToolConfig =
         | 'related-search-plan'
         | 'gsc-insights-refresh-plan'
         | 'backlink-risk-review'
+        | 'answer-box-brief'
+        | 'indexing-issue-triage'
       resultLabel: string
       note?: string
     }
@@ -939,6 +941,8 @@ const textToolData: Array<{
   { slug: 'backlink-risk-review-checklist', title: 'Backlink Risk Review Checklist', keyword: 'backlink risk review checklist', template: 'backlink-risk-review', resultLabel: 'backlink risk checklist' },
   { slug: 'low-ctr-page-refresh-planner', title: 'Low CTR Page Refresh Planner', keyword: 'low CTR page refresh planner', template: 'gsc-insights-refresh-plan', resultLabel: 'low CTR refresh plan', category: 'SEO Tools' },
   { slug: 'ahrefs-content-gap-brief-generator', title: 'Ahrefs Content Gap Brief Generator', keyword: 'Ahrefs content gap brief generator', template: 'content-gap-brief', resultLabel: 'Ahrefs content gap brief', category: 'SEO Tools' },
+  { slug: 'ai-overview-answer-box-brief-generator', title: 'AI Overview Answer Box Brief Generator', keyword: 'AI overview answer box brief generator', template: 'answer-box-brief', resultLabel: 'AI answer box brief', category: 'SEO Tools' },
+  { slug: 'gsc-indexing-issue-triage-planner', title: 'GSC Indexing Issue Triage Planner', keyword: 'GSC indexing issue triage planner', template: 'indexing-issue-triage', resultLabel: 'indexing issue triage plan', category: 'SEO Tools' },
 ]
 
 function makeTextTool(data: (typeof textToolData)[number]): AdvancedTool {

@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="360" viewBox="0 0 720 360" role="img" aria-labelledby="title desc">
+  <title id="title">Pattern level fix</title>
+  <desc id="desc">Fix template, sitemap, canonical, and internal link patterns rather than one URL only.</desc>
+  <rect width="720" height="360" rx="18" fill="#fffaf4"/>
+  <text x="48" y="68" fill="#3a2612" font-family="Arial, sans-serif" font-size="24" font-weight="700">Find the pattern</text>
+  <g fill="#ffffff" stroke="#e2c8a6" stroke-width="2">
+    <rect x="48" y="108" width="132" height="82" rx="12"/>
+    <rect x="212" y="108" width="132" height="82" rx="12"/>
+    <rect x="376" y="108" width="132" height="82" rx="12"/>
+    <rect x="540" y="108" width="132" height="82" rx="12"/>
+  </g>
+  <g fill="#3a2612" font-family="Arial, sans-serif" font-size="15" font-weight="700">
+    <text x="114" y="143" text-anchor="middle">Template</text>
+    <text x="278" y="143" text-anchor="middle">Sitemap</text>
+    <text x="442" y="143" text-anchor="middle">Canonical</text>
+    <text x="606" y="143" text-anchor="middle">Links</text>
+  </g>
+  <g fill="#7b6043" font-family="Arial, sans-serif" font-size="13">
+    <text x="114" y="166" text-anchor="middle">Page type</text>
+    <text x="278" y="166" text-anchor="middle">Included URL</text>
+    <text x="442" y="166" text-anchor="middle">Preferred URL</text>
+    <text x="606" y="166" text-anchor="middle">Source path</text>
+  </g>
+  <path d="M114 209v42h492v-42" fill="none" stroke="#c47d2c" stroke-width="4" stroke-linecap="round"/>
+  <rect x="232" y="252" width="256" height="56" rx="12" fill="#3a2612"/>
+  <text x="360" y="286" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-size="16" font-weight="700">One fix stops repeat alerts</text>
+</svg>

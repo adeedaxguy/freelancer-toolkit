@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="360" viewBox="0 0 720 360" role="img" aria-labelledby="title desc">
+  <title id="title">Live URL checks</title>
+  <desc id="desc">Live checks include status code, canonical, robots, sitemap, and internal links.</desc>
+  <rect width="720" height="360" rx="18" fill="#f6fbff"/>
+  <rect x="48" y="56" width="624" height="248" rx="16" fill="#ffffff" stroke="#c2d9ea"/>
+  <text x="74" y="96" fill="#14334a" font-family="Arial, sans-serif" font-size="22" font-weight="700">Live URL check</text>
+  <g font-family="Arial, sans-serif" font-size="16">
+    <text x="82" y="145" fill="#14334a">Status code</text>
+    <text x="82" y="184" fill="#14334a">Canonical tag</text>
+    <text x="82" y="223" fill="#14334a">Robots / noindex</text>
+    <text x="386" y="145" fill="#14334a">Sitemap inclusion</text>
+    <text x="386" y="184" fill="#14334a">Internal links</text>
+    <text x="386" y="223" fill="#14334a">Mobile rendering</text>
+  </g>
+  <g fill="#2d8cc4">
+    <circle cx="62" cy="139" r="6"/>
+    <circle cx="62" cy="178" r="6"/>
+    <circle cx="62" cy="217" r="6"/>
+    <circle cx="366" cy="139" r="6"/>
+    <circle cx="366" cy="178" r="6"/>
+    <circle cx="366" cy="217" r="6"/>
+  </g>
+  <text x="74" y="268" fill="#5c7280" font-family="Arial, sans-serif" font-size="14">Fix the live page first. Request indexing only after the final URL is correct.</text>
+</svg>
