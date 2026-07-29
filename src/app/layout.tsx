@@ -207,6 +207,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           dangerouslySetInnerHTML={{ __html: clickioConsentModeScript }}
         />
         <script async id="clickio-cmp" type="text/javascript" src="https://clickiocmp.com/t/consent_249850.js" />
+        <script defer id="clickio-data-insights" src="https://s.clickiocdn.com/t/249850/di.js" />
+        <script defer data-cfasync="false" id="clickio-web-vitals" src="https://s.clickiocdn.com/t/249850_wv.js" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
@@ -227,8 +229,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </main>
         <Footer />
         <FloatingChatbot />
-        <script defer id="clickio-data-insights" src="https://s.clickiocdn.com/t/249850/di.js" />
-        <script defer data-cfasync="false" id="clickio-web-vitals" src="https://s.clickiocdn.com/t/249850_wv.js" />
         {/* Google Analytics */}
         <Script src="https://www.googletagmanager.com/gtag/js?id=G-ZC1CQELSW4" strategy="afterInteractive" />
         <Script id="ga-init" strategy="afterInteractive">{`
