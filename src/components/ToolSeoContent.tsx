@@ -93,9 +93,9 @@ const TOOL_RESEARCH_INTENT: Record<string, ToolResearchIntent> = {
     useNow: 'Paste the page details, fix the highest-risk warnings, then preview the snippet before requesting indexing.',
   },
   'on-page-seo-audit-tool': {
-    searcherJob: 'Check whether a page covers title, description, headings, links, content, and crawl basics before publishing.',
-    competitorGap: 'On-page SEO checker SERPs are crowded; this page should answer the audit task quickly and keep the checklist visible.',
-    useNow: 'Paste the page details, fix the highest-risk gaps, then rerun before requesting indexing.',
+    searcherJob: 'Check whether a page covers title, description, headings, links, content depth, canonical clarity, image alt text, and crawl basics before publishing or refreshing.',
+    competitorGap: 'On-page SEO audit SERPs are crowded with generic scanners and signup walls; this page should keep the audit action, GSC refresh workflow, and next tools visible without hiding the checklist.',
+    useNow: 'Paste the page details, fix title/meta/H1/canonical/internal-link gaps, then rerun before requesting indexing or refreshing a low-CTR page.',
   },
   'seo-title-checker': {
     searcherJob: 'Check whether a title tag is clear, query-matched, and likely to fit a Google result before a page goes live.',
@@ -191,6 +191,16 @@ const TOOL_GSC_INSIGHT: Record<string, ToolGscInsight> = {
       { href: '/blog/fiverr-fee-calculator-guide', label: 'Fiverr fee guide' },
       { href: '/tools/fiverr-buyer-fee-calculator', label: 'Buyer fee calculator' },
       { href: '/tools/upwork-fee-calculator', label: 'Compare Upwork fees' },
+    ],
+  },
+  'on-page-seo-audit-tool': {
+    evidenceLabel: 'GSC Insights recovery page',
+    priority: 'This URL is the current GSC drop-recovery target. Keep the audit tool above the fold, add Search Console refresh language, and route users into metadata, internal-link, schema, and content-gap tools.',
+    links: [
+      { href: '/tools/seo-title-checker', label: 'Rewrite title tag' },
+      { href: '/tools/meta-description-checker', label: 'Improve meta description' },
+      { href: '/tools/internal-link-anchor-text-checker', label: 'Check internal anchors' },
+      { href: '/tools/gsc-insights-refresh-planner', label: 'Plan a GSC refresh' },
     ],
   },
 }

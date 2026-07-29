@@ -1449,15 +1449,15 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
       {
         slug: 'on-page-seo-audit-tool',
         title: 'On-Page SEO Audit Tool',
-        headline: 'Run a Fast On-Page SEO Audit',
-        description: 'Free on-page SEO audit tool. Check title length, meta description, H1, canonical URL, keyword placement, content depth, image alt text, and internal links.',
-        seoTitle: 'Free On-Page SEO Audit Tool | Check Page SEO',
+        headline: 'Run a Fast On-Page SEO Audit Before Publishing or Refreshing',
+        description: 'Free on-page SEO audit tool. Check title length, meta description, H1, canonical URL, keyword placement, content depth, image alt text, internal links, and GSC refresh priorities.',
+        seoTitle: 'Free On-Page SEO Audit Tool | Check and Refresh Page SEO',
         icon: '🔎',
         category: 'SEO Tools',
-        keywords: ['on page seo audit tool', 'free seo audit tool', 'seo checker online', 'on page seo checker', 'website seo audit checklist', 'seo audit tool free'],
+        keywords: ['on page seo audit tool', 'free seo audit tool', 'seo checker online', 'on page seo checker', 'website seo audit checklist', 'gsc page refresh checklist', 'seo audit tool free'],
         answerBox: {
-          short: 'A useful on-page SEO audit checks the page elements that can be fixed before publishing: title tag, meta description, H1, canonical URL, keyword placement, readable content depth, internal links, external citations, and image alt text.',
-          bullets: ['Best fit: quick pre-publish checks for pages and posts', 'Outperformance angle: audit from pasted HTML or manual inputs without a paid crawl account'],
+          short: 'A useful on-page SEO audit checks the page elements that can be fixed before publishing or refreshing: title tag, meta description, H1, canonical URL, keyword placement, readable content depth, internal links, external citations, image alt text, and whether the page deserves Search Console reinspection.',
+          bullets: ['Best fit: quick pre-publish checks and low-CTR page refreshes', 'Outperformance angle: audit from pasted HTML or manual inputs with a GSC-style fix order, no paid crawl account required'],
         },
         faqs: [
           { q: 'What does this SEO audit tool check?', a: 'It checks title length, meta description length, keyword placement, H1 count, canonical URL, content depth, image alt text, internal links, and external citations.' },
@@ -1465,19 +1465,24 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
           { q: 'What score should I aim for?', a: 'Use the score as a checklist, not a guarantee. A high score means the basics are covered, but ranking still depends on intent, usefulness, authority, competition, and technical health.' },
           { q: 'Is this better than a full crawler?', a: 'It is better for fast page-level QA. A full crawler is still useful for large-site issues such as broken links, crawl depth, redirects, duplicate titles, and indexation patterns.' },
           { q: 'Should I use this before publishing a blog post?', a: 'Yes. Paste the draft HTML or page copy before publishing to catch missing metadata, weak content depth, and internal-link gaps.' },
+          { q: 'Can this help with a Search Console performance drop?', a: 'Yes. Use it to check whether the page still answers the query clearly, has a strong title and meta description, links to related pages, and has enough useful content before requesting reinspection.' },
         ],
         bodySections: [
           {
-            heading: 'Free SEO audit tool for page-level QA',
-            body: 'Paid SEO platforms are useful, but many publishing mistakes happen on one page at a time. This audit tool focuses on the checks you can fix before publishing a service page, blog post, tool page, or landing page.',
+            heading: 'Free SEO audit tool for page-level QA and refreshes',
+            body: 'Paid SEO platforms are useful, but many ranking and indexing problems happen on one page at a time. This audit tool focuses on the checks you can fix before publishing or refreshing a service page, blog post, tool page, or landing page.',
           },
           {
             heading: 'Built for practical SEO, not vague scores',
-            body: 'The output explains why each check passed or needs work. That makes it useful for freelancers, site owners, and agencies that need a fast pre-publish workflow without opening a full crawler.',
+            body: 'The output explains why each check passed or needs work. That makes it useful for freelancers, site owners, and agencies that need a fast page-level workflow before publishing, refreshing, or requesting indexing in Search Console.',
           },
           {
             heading: 'Use with metadata and schema tools',
             body: 'After the audit, use the SERP preview, robots meta checker, internal link anchor checker, meta tag generator, and schema markup generator to tighten the page before it goes live. That creates a complete SEO QA path from one category.',
+          },
+          {
+            heading: 'Good next step after GSC shows impressions but weak clicks',
+            body: 'If a page has impressions but declining clicks, audit the title, snippet promise, first answer, internal links, and whether the page covers related searches. Then refresh the copy, add missing sections, and only request indexing after the visible page is stronger.',
           },
         ],
         programmaticVariants: [

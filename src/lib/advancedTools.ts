@@ -919,6 +919,7 @@ const textToolData: Array<{
   keyword: string
   template: AdvancedToolConfig extends infer T ? T extends { kind: 'text-generator'; template: infer U } ? U : never : never
   resultLabel: string
+  category?: string
 }> = [
   { slug: 'nda-generator', title: 'NDA Generator', keyword: 'free nda generator', template: 'nda', resultLabel: 'NDA outline' },
   { slug: 'freelance-contract-clause-generator', title: 'Freelance Contract Clause Generator', keyword: 'freelance contract clause generator', template: 'contract-clause', resultLabel: 'contract clauses' },
@@ -936,6 +937,8 @@ const textToolData: Array<{
   { slug: 'people-also-search-keyword-expander', title: 'People Also Search Keyword Expander', keyword: 'people also search keyword expander', template: 'related-search-plan', resultLabel: 'related search keyword plan' },
   { slug: 'gsc-insights-refresh-planner', title: 'GSC Insights Refresh Planner', keyword: 'gsc insights content refresh planner', template: 'gsc-insights-refresh-plan', resultLabel: 'GSC refresh plan' },
   { slug: 'backlink-risk-review-checklist', title: 'Backlink Risk Review Checklist', keyword: 'backlink risk review checklist', template: 'backlink-risk-review', resultLabel: 'backlink risk checklist' },
+  { slug: 'low-ctr-page-refresh-planner', title: 'Low CTR Page Refresh Planner', keyword: 'low CTR page refresh planner', template: 'gsc-insights-refresh-plan', resultLabel: 'low CTR refresh plan', category: 'SEO Tools' },
+  { slug: 'ahrefs-content-gap-brief-generator', title: 'Ahrefs Content Gap Brief Generator', keyword: 'Ahrefs content gap brief generator', template: 'content-gap-brief', resultLabel: 'Ahrefs content gap brief', category: 'SEO Tools' },
 ]
 
 function makeTextTool(data: (typeof textToolData)[number]): AdvancedTool {
@@ -946,7 +949,7 @@ function makeTextTool(data: (typeof textToolData)[number]): AdvancedTool {
     description: `Free ${data.keyword}. Fill in a few details and generate a polished ${data.resultLabel} you can copy, edit, and send.`,
     seoTitle: `${data.title} | Free Template Tool`,
     icon: '✍️',
-    category: 'PDF & Document Tools',
+    category: data.category ?? 'PDF & Document Tools',
     keywords: [data.keyword, 'free business document generator', 'freelance template generator'],
     faqs: [
       { q: 'Is this a legal substitute for a lawyer?', a: 'No. It creates a practical draft or checklist. Have important legal documents reviewed by a qualified professional in your jurisdiction.' },
