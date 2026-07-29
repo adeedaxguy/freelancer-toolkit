@@ -206,9 +206,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           id="clickio-consent-mode-defaults"
           dangerouslySetInnerHTML={{ __html: clickioConsentModeScript }}
         />
-        <script async id="clickio-cmp" type="text/javascript" src="https://clickiocmp.com/t/consent_249850.js" />
-        <script defer id="clickio-data-insights" src="https://s.clickiocdn.com/t/249850/di.js" />
-        <script defer data-cfasync="false" id="clickio-web-vitals" src="https://s.clickiocdn.com/t/249850_wv.js" />
+        <script async type="text/javascript" src="https://clickiocmp.com/t/consent_249850.js" />
+        <script defer src="https://s.clickiocdn.com/t/249850/di.js" />
+        <script defer data-cfasync="false" src="https://s.clickiocdn.com/t/249850_wv.js" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
