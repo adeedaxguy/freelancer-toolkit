@@ -202,10 +202,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
         <link rel="dns-prefetch" href="https://clickiocmp.com" />
         <link rel="dns-prefetch" href="https://s.clickiocdn.com" />
-        <Script id="clickio-consent-mode-defaults" strategy="beforeInteractive">
-          {clickioConsentModeScript}
-        </Script>
-        <Script id="clickio-cmp" src="https://clickiocmp.com/t/consent_249850.js" strategy="beforeInteractive" async />
+        <script
+          id="clickio-consent-mode-defaults"
+          dangerouslySetInnerHTML={{ __html: clickioConsentModeScript }}
+        />
+        <script async id="clickio-cmp" type="text/javascript" src="https://clickiocmp.com/t/consent_249850.js" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
@@ -226,8 +227,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </main>
         <Footer />
         <FloatingChatbot />
-        <Script id="clickio-data-insights" src="https://s.clickiocdn.com/t/249850/di.js" strategy="afterInteractive" />
-        <Script id="clickio-web-vitals" src="https://s.clickiocdn.com/t/249850_wv.js" data-cfasync="false" strategy="afterInteractive" />
+        <script defer id="clickio-data-insights" src="https://s.clickiocdn.com/t/249850/di.js" />
+        <script defer data-cfasync="false" id="clickio-web-vitals" src="https://s.clickiocdn.com/t/249850_wv.js" />
         {/* Google Analytics */}
         <Script src="https://www.googletagmanager.com/gtag/js?id=G-ZC1CQELSW4" strategy="afterInteractive" />
         <Script id="ga-init" strategy="afterInteractive">{`
