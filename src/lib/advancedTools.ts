@@ -943,6 +943,26 @@ const textToolData: Array<{
   { slug: 'ahrefs-content-gap-brief-generator', title: 'Ahrefs Content Gap Brief Generator', keyword: 'Ahrefs content gap brief generator', template: 'content-gap-brief', resultLabel: 'Ahrefs content gap brief', category: 'SEO Tools' },
   { slug: 'ai-overview-answer-box-brief-generator', title: 'AI Overview Answer Box Brief Generator', keyword: 'AI overview answer box brief generator', template: 'answer-box-brief', resultLabel: 'AI answer box brief', category: 'SEO Tools' },
   { slug: 'gsc-indexing-issue-triage-planner', title: 'GSC Indexing Issue Triage Planner', keyword: 'GSC indexing issue triage planner', template: 'indexing-issue-triage', resultLabel: 'indexing issue triage plan', category: 'SEO Tools' },
+  { slug: 'serp-appearance-checklist-generator', title: 'SERP Appearance Checklist Generator', keyword: 'serp appearance checklist generator', template: 'content-gap-brief', resultLabel: 'SERP appearance checklist', category: 'SEO Tools' },
+  { slug: 'google-related-search-brief-generator', title: 'Google Related Search Brief Generator', keyword: 'google related search brief generator', template: 'related-search-plan', resultLabel: 'related search brief', category: 'SEO Tools' },
+  { slug: 'gsc-redirect-canonical-fix-planner', title: 'GSC Redirect Canonical Fix Planner', keyword: 'GSC redirect canonical fix planner', template: 'indexing-issue-triage', resultLabel: 'redirect and canonical fix plan', category: 'SEO Tools' },
+  { slug: 'duplicate-canonical-fix-planner', title: 'Duplicate Canonical Fix Planner', keyword: 'duplicate canonical fix planner', template: 'indexing-issue-triage', resultLabel: 'canonical cleanup plan', category: 'SEO Tools' },
+  { slug: 'semrush-keyword-gap-brief-generator', title: 'SEMrush Keyword Gap Brief Generator', keyword: 'SEMrush keyword gap brief generator', template: 'content-gap-brief', resultLabel: 'keyword gap brief', category: 'SEO Tools' },
+  { slug: 'competitor-page-outline-builder', title: 'Competitor Page Outline Builder', keyword: 'competitor page outline builder', template: 'content-gap-brief', resultLabel: 'competitor page outline', category: 'SEO Tools' },
+  { slug: 'backlink-outreach-value-prop-generator', title: 'Backlink Outreach Value Prop Generator', keyword: 'backlink outreach value proposition generator', template: 'guest-post-pitch', resultLabel: 'outreach value proposition', category: 'SEO Tools' },
+  { slug: 'guest-post-topic-angle-generator', title: 'Guest Post Topic Angle Generator', keyword: 'guest post topic angle generator', template: 'guest-post-pitch', resultLabel: 'guest post topic angles', category: 'SEO Tools' },
+  { slug: 'data-drop-hook-generator', title: 'Data Drop Hook Generator', keyword: 'data drop hook generator', template: 'guest-post-pitch', resultLabel: 'data-backed outreach hook', category: 'SEO Tools' },
+  { slug: 'backlink-disavow-risk-planner', title: 'Backlink Disavow Risk Planner', keyword: 'backlink disavow risk planner', template: 'backlink-risk-review', resultLabel: 'disavow risk plan', category: 'SEO Tools' },
+  { slug: 'toxic-anchor-review-tool', title: 'Toxic Anchor Review Tool', keyword: 'toxic anchor review tool', template: 'backlink-risk-review', resultLabel: 'anchor risk review', category: 'SEO Tools' },
+  { slug: 'internal-link-map-generator', title: 'Internal Link Map Generator', keyword: 'internal link map generator', template: 'answer-box-brief', resultLabel: 'internal link map', category: 'SEO Tools' },
+  { slug: 'faq-schema-question-generator', title: 'FAQ Schema Question Generator', keyword: 'FAQ schema question generator', template: 'answer-box-brief', resultLabel: 'FAQ schema question plan', category: 'SEO Tools' },
+  { slug: 'topical-authority-map-generator', title: 'Topical Authority Map Generator', keyword: 'topical authority map generator', template: 'answer-box-brief', resultLabel: 'topical authority map', category: 'SEO Tools' },
+  { slug: 'low-impression-keyword-refresh-planner', title: 'Low Impression Keyword Refresh Planner', keyword: 'low impression keyword refresh planner', template: 'gsc-insights-refresh-plan', resultLabel: 'keyword refresh plan', category: 'SEO Tools' },
+  { slug: 'zero-click-serp-cta-planner', title: 'Zero Click SERP CTA Planner', keyword: 'zero click SERP CTA planner', template: 'answer-box-brief', resultLabel: 'SERP CTA plan', category: 'SEO Tools' },
+  { slug: 'local-service-page-seo-brief-generator', title: 'Local Service Page SEO Brief Generator', keyword: 'local service page SEO brief generator', template: 'content-gap-brief', resultLabel: 'local service page SEO brief', category: 'SEO Tools' },
+  { slug: 'blog-post-visual-plan-generator', title: 'Blog Post Visual Plan Generator', keyword: 'blog post visual plan generator', template: 'answer-box-brief', resultLabel: 'article visual plan', category: 'SEO Tools' },
+  { slug: 'upwork-connects-price-brief-generator', title: 'Upwork Connects Price Brief Generator', keyword: 'Upwork Connects price brief generator', template: 'content-gap-brief', resultLabel: 'Upwork cost content brief', category: 'SEO Tools' },
+  { slug: 'upwork-proposal-cost-planner', title: 'Upwork Proposal Cost Planner', keyword: 'Upwork proposal cost planner', template: 'content-gap-brief', resultLabel: 'Upwork proposal cost plan', category: 'SEO Tools' },
 ]
 
 function makeTextTool(data: (typeof textToolData)[number]): AdvancedTool {
@@ -954,7 +974,21 @@ function makeTextTool(data: (typeof textToolData)[number]): AdvancedTool {
     seoTitle: `${data.title} | Free Template Tool`,
     icon: '✍️',
     category: data.category ?? 'PDF & Document Tools',
-    keywords: [data.keyword, 'free business document generator', 'freelance template generator'],
+    keywords: [data.keyword, 'free business document generator', 'freelance template generator', 'SEO workflow tool'],
+    answerBox: {
+      short: `Use this ${data.title.toLowerCase()} when you need a practical SEO, outreach, or document workflow that turns research into an action plan.`,
+      bullets: ['Best fit: quick planning before publishing or outreach', 'Outperformance angle: gives a usable output instead of generic advice'],
+    },
+    bodySections: [
+      {
+        heading: `${data.title} workflow`,
+        body: `Start with the search intent, add the evidence you saw in Google, Ahrefs, SEMrush, or Search Console, then generate a ${data.resultLabel} that can be copied into your content, QA, or outreach workflow.`,
+      },
+      {
+        heading: 'Safe SEO usage',
+        body: 'Use the output as a planning draft. Verify live URLs, canonical tags, claims, and backlink prospects before publishing or sending outreach.',
+      },
+    ],
     faqs: [
       { q: 'Is this a legal substitute for a lawyer?', a: 'No. It creates a practical draft or checklist. Have important legal documents reviewed by a qualified professional in your jurisdiction.' },
       { q: 'Can I edit the output?', a: 'Yes. The generated text is plain text so you can copy it into email, Google Docs, Notion, or your proposal software.' },
