@@ -10,6 +10,7 @@ type AdvancedToolRendererProps = {
 
 type ImageState = {
   fileName: string
+  fileSize: number
   dataUrl: string
   width: number
   height: number
@@ -18,6 +19,26 @@ type ImageState = {
 const mmToPx = (mm: number, dpi: number) => Math.round((mm / 25.4) * dpi)
 const inToPx = (inches: number, dpi: number) => Math.round(inches * dpi)
 const formatMime = (format: 'jpeg' | 'png' | 'webp') => `image/${format}`
+const extensionForFormat = (format: 'jpeg' | 'png' | 'webp') => (format === 'jpeg' ? 'jpg' : format)
+const labelForFormat = (format: 'jpeg' | 'png' | 'webp') => format === 'jpeg' ? 'JPG' : format === 'webp' ? 'WebP' : 'PNG'
+
+function labelForFileFormat(value: string) {
+  const normalized = value.toLowerCase()
+  if (normalized === 'jpg' || normalized === 'jpeg') return 'JPG'
+  if (normalized === 'webp') return 'WebP'
+  if (normalized === 'png') return 'PNG'
+  return value.toUpperCase()
+}
+
+function formatBytes(bytes: number) {
+  if (bytes < 1024) return `${bytes} B`
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`
+  return `${(bytes / (1024 * 1024)).toFixed(2)} MB`
+}
+
+function cleanFileBase(filename: string) {
+  return filename.replace(/\.[^.]+$/, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'freeltools-image'
+}
 
 function blobFromCanvas(canvas: HTMLCanvasElement, mime: string, quality = 0.9): Promise<Blob> {
   return new Promise((resolve, reject) => {
@@ -46,7 +67,7 @@ function loadImageFile(file: File): Promise<ImageState> {
     reader.onload = () => {
       const dataUrl = String(reader.result)
       const img = new Image()
-      img.onload = () => resolve({ fileName: file.name, dataUrl, width: img.naturalWidth, height: img.naturalHeight })
+      img.onload = () => resolve({ fileName: file.name, fileSize: file.size, dataUrl, width: img.naturalWidth, height: img.naturalHeight })
       img.onerror = () => reject(new Error('Could not load this image.'))
       img.src = dataUrl
     }
@@ -96,8 +117,10 @@ function drawImageToCanvas(
   const ctx = canvas.getContext('2d')
   if (!ctx) throw new Error('Canvas is not available.')
 
-  ctx.fillStyle = background
-  ctx.fillRect(0, 0, width, height)
+  if (background !== 'transparent') {
+    ctx.fillStyle = background
+    ctx.fillRect(0, 0, width, height)
+  }
 
   const baseScale = fit === 'cover'
     ? Math.max(width / image.naturalWidth, height / image.naturalHeight)
@@ -265,17 +288,51 @@ function DocumentPhotoTool({ config }: { config: Extract<AdvancedToolConfig, { k
 
 function ImageResizerTool({ config }: { config: Extract<AdvancedToolConfig, { kind: 'image-resizer' }> }) {
   const { image, error, onFile } = useImageLoader()
+  const isConverter = config.presetName.toLowerCase().includes('converter')
+  const [outputFormat, setOutputFormat] = useState<'jpeg' | 'png' | 'webp'>(config.format)
+  const [resizeMode, setResizeMode] = useState<'original' | 'preset' | 'custom'>(isConverter ? 'original' : 'preset')
+  const [customWidth, setCustomWidth] = useState(config.targetWidth)
+  const [customHeight, setCustomHeight] = useState(config.targetHeight)
   const [quality, setQuality] = useState(0.85)
+  const [targetSizeInput, setTargetSizeInput] = useState(config.maxSizeKb ? String(config.maxSizeKb) : '')
   const [fit, setFit] = useState<'cover' | 'contain'>(config.fit)
-  const [result, setResult] = useState<{ sizeKb: number; url: string; blob: Blob } | null>(null)
+  const [background, setBackground] = useState<'white' | 'transparent'>('white')
+  const [result, setResult] = useState<{
+    sizeKb: number
+    url: string
+    blob: Blob
+    width: number
+    height: number
+    format: 'jpeg' | 'png' | 'webp'
+    qualityUsed: number
+    fileName: string
+  } | null>(null)
   const [resultError, setResultError] = useState('')
   const [generating, setGenerating] = useState(false)
   const previewRef = useRef<HTMLImageElement | null>(null)
 
+  const outputWidth = resizeMode === 'original' && image ? image.width : resizeMode === 'custom' ? Math.max(1, Math.round(customWidth)) : config.targetWidth
+  const outputHeight = resizeMode === 'original' && image ? image.height : resizeMode === 'custom' ? Math.max(1, Math.round(customHeight)) : config.targetHeight
+  const targetSizeKb = Number(targetSizeInput) > 0 ? Number(targetSizeInput) : null
+  const sourceFormat = image?.fileName.split('.').pop()
+  const sourceLabel = sourceFormat ? labelForFileFormat(sourceFormat) : 'Image'
+  const outputLabel = labelForFormat(outputFormat)
+  const conversionLabel = image ? `${sourceLabel} to ${outputLabel}` : `Image to ${outputLabel}`
+  const imageDataUrl = image?.dataUrl
+  const imageWidth = image?.width
+  const imageHeight = image?.height
+
+  useEffect(() => {
+    if (imageWidth && imageHeight && isConverter) {
+      setCustomWidth(imageWidth)
+      setCustomHeight(imageHeight)
+    }
+  }, [imageDataUrl, imageHeight, imageWidth, isConverter])
+
   useEffect(() => {
     setResult(null)
     setResultError('')
-  }, [image?.dataUrl, quality, fit, config.targetWidth, config.targetHeight, config.format])
+  }, [background, customHeight, customWidth, fit, imageDataUrl, outputFormat, quality, resizeMode, targetSizeInput])
 
   useEffect(() => {
     return () => {
@@ -283,25 +340,56 @@ function ImageResizerTool({ config }: { config: Extract<AdvancedToolConfig, { ki
     }
   }, [result?.url])
 
+  function updateFile(file: File | undefined) {
+    void onFile(file)
+  }
+
+  function updateWidth(value: string) {
+    const nextWidth = Math.max(1, Math.round(Number(value) || 1))
+    setResizeMode('custom')
+    setCustomWidth(nextWidth)
+    if (image?.width) setCustomHeight(Math.max(1, Math.round((nextWidth * image.height) / image.width)))
+  }
+
+  function updateHeight(value: string) {
+    const nextHeight = Math.max(1, Math.round(Number(value) || 1))
+    setResizeMode('custom')
+    setCustomHeight(nextHeight)
+    if (image?.height) setCustomWidth(Math.max(1, Math.round((nextHeight * image.width) / image.height)))
+  }
+
   async function exportImage() {
-    if (!previewRef.current) return
+    if (!image || !previewRef.current) return
     setGenerating(true)
     setResultError('')
     try {
       await ensureImageReady(previewRef.current)
-      const canvas = drawImageToCanvas(previewRef.current, config.targetWidth, config.targetHeight, fit, 1, 0, 0)
-      let nextQuality = quality
-      let blob = await blobFromCanvas(canvas, formatMime(config.format), nextQuality)
-      if (config.maxSizeKb && config.format === 'jpeg') {
-        while (blob.size / 1024 > config.maxSizeKb && nextQuality > 0.35) {
-          nextQuality -= 0.08
-          blob = await blobFromCanvas(canvas, formatMime(config.format), nextQuality)
+      const canvasBackground = outputFormat === 'jpeg' || background === 'white' ? '#ffffff' : 'transparent'
+      const canvas = drawImageToCanvas(previewRef.current, outputWidth, outputHeight, fit, 1, 0, 0, canvasBackground)
+      let nextQuality = outputFormat === 'png' ? 1 : quality
+      let blob = await blobFromCanvas(canvas, formatMime(outputFormat), nextQuality)
+
+      if (targetSizeKb && outputFormat !== 'png') {
+        while (blob.size / 1024 > targetSizeKb && nextQuality > 0.35) {
+          nextQuality = Math.max(0.35, nextQuality - 0.06)
+          blob = await blobFromCanvas(canvas, formatMime(outputFormat), nextQuality)
         }
       }
-      setResult({ sizeKb: Math.round(blob.size / 1024), url: URL.createObjectURL(blob), blob })
+
+      const fileName = `${cleanFileBase(image.fileName)}-${outputWidth}x${outputHeight}.${extensionForFormat(outputFormat)}`
+      setResult({
+        sizeKb: Math.round(blob.size / 1024),
+        url: URL.createObjectURL(blob),
+        blob,
+        width: outputWidth,
+        height: outputHeight,
+        format: outputFormat,
+        qualityUsed: nextQuality,
+        fileName,
+      })
     } catch (err) {
       setResult(null)
-      setResultError(err instanceof Error ? err.message : 'Could not generate this image.')
+      setResultError(err instanceof Error ? err.message : 'Could not convert this image.')
     } finally {
       setGenerating(false)
     }
@@ -309,77 +397,180 @@ function ImageResizerTool({ config }: { config: Extract<AdvancedToolConfig, { ki
 
   function downloadResult() {
     if (!result) return
-    const ext = config.format === 'jpeg' ? 'jpg' : config.format
-    downloadBlob(result.blob, `${config.presetName.toLowerCase().replace(/[^a-z0-9]+/g, '-')}.${ext}`)
+    downloadBlob(result.blob, result.fileName)
   }
 
   return (
-    <div className="rounded-2xl border border-gray-100 bg-white p-5 shadow-sm sm:p-6">
-      <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_300px]">
+    <div className="rounded-2xl border border-gray-100 bg-white p-4 shadow-sm sm:p-6">
+      <div className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_320px]">
         <div className="space-y-5">
-          <input
-            type="file"
-            accept="image/*"
-            className="block w-full cursor-pointer rounded-xl border border-gray-200 bg-white text-sm text-gray-600 file:mr-3 file:border-0 file:bg-brand-600 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white"
-            onChange={(event) => onFile(event.target.files?.[0])}
-          />
-          {error && <p className="rounded-lg bg-red-50 p-3 text-sm text-red-700">{error}</p>}
-          <div className="grid gap-4 sm:grid-cols-2">
-            <label className="text-sm font-medium text-gray-700">
-              Quality: {Math.round(quality * 100)}%
-              <input className="mt-2 w-full accent-brand-600" type="range" min="0.35" max="0.98" step="0.01" value={quality} onChange={(event) => setQuality(Number(event.target.value))} />
-            </label>
-            <label className="text-sm font-medium text-gray-700">
-              Fit mode
-              <select className="input mt-2" value={fit} onChange={(event) => setFit(event.target.value as 'cover' | 'contain')}>
-                <option value="cover">Crop to fill</option>
-                <option value="contain">Fit inside</option>
+          <div className="flex flex-col gap-4 rounded-xl border border-gray-100 bg-gray-50 p-4 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wide text-brand-700">Image conversion workbench</p>
+              <h2 className="mt-1 text-2xl font-bold text-gray-900">{conversionLabel}</h2>
+              <p className="mt-1 text-sm text-gray-500">{image ? `${image.fileName} · ${formatBytes(image.fileSize)}` : 'Convert, resize, compress, and download in your browser.'}</p>
+            </div>
+            <label className="block text-sm font-semibold text-gray-700 sm:w-44">
+              Convert to
+              <select className="input mt-2" value={outputFormat} onChange={(event) => setOutputFormat(event.target.value as 'jpeg' | 'png' | 'webp')}>
+                <option value="jpeg">JPG</option>
+                <option value="png">PNG</option>
+                <option value="webp">WebP</option>
               </select>
             </label>
           </div>
-          <div className="flex flex-wrap gap-3">
+
+          <label
+            className="block cursor-pointer rounded-xl border border-dashed border-brand-200 bg-brand-50 p-6 text-center transition hover:border-brand-400 hover:bg-brand-100"
+            onDragOver={(event) => event.preventDefault()}
+            onDrop={(event) => {
+              event.preventDefault()
+              updateFile(event.dataTransfer.files?.[0])
+            }}
+          >
+            <span className="block text-base font-semibold text-gray-900">{image ? 'Replace image' : 'Choose image file'}</span>
+            <span className="mt-1 block text-sm text-gray-500">JPG, PNG, WebP, GIF, or HEIC where your browser supports it. Files stay on this device.</span>
+            <input
+              type="file"
+              accept="image/*"
+              className="sr-only"
+              onChange={(event) => updateFile(event.target.files?.[0])}
+            />
+          </label>
+
+          {error && <p className="rounded-lg bg-red-50 p-3 text-sm text-red-700">{error}</p>}
+
+          <div className="grid gap-4 lg:grid-cols-3">
+            <section className="rounded-xl border border-gray-100 bg-white p-4">
+              <h3 className="text-sm font-semibold text-gray-900">Resize</h3>
+              <div className="mt-3 space-y-2 text-sm text-gray-700">
+                <label className="flex items-center gap-2">
+                  <input type="radio" checked={resizeMode === 'original'} onChange={() => setResizeMode('original')} className="accent-brand-600" />
+                  Original size
+                </label>
+                <label className="flex items-center gap-2">
+                  <input type="radio" checked={resizeMode === 'preset'} onChange={() => setResizeMode('preset')} className="accent-brand-600" />
+                  Preset {config.targetWidth} x {config.targetHeight}px
+                </label>
+                <label className="flex items-center gap-2">
+                  <input type="radio" checked={resizeMode === 'custom'} onChange={() => setResizeMode('custom')} className="accent-brand-600" />
+                  Custom dimensions
+                </label>
+              </div>
+              <div className="mt-3 grid grid-cols-2 gap-2">
+                <label className="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                  Width
+                  <input className="input mt-1" type="number" min="1" value={outputWidth} disabled={resizeMode !== 'custom'} onChange={(event) => updateWidth(event.target.value)} />
+                </label>
+                <label className="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                  Height
+                  <input className="input mt-1" type="number" min="1" value={outputHeight} disabled={resizeMode !== 'custom'} onChange={(event) => updateHeight(event.target.value)} />
+                </label>
+              </div>
+            </section>
+
+            <section className="rounded-xl border border-gray-100 bg-white p-4">
+              <h3 className="text-sm font-semibold text-gray-900">Options</h3>
+              <label className="mt-3 block text-sm font-medium text-gray-700">
+                Fit mode
+                <select className="input mt-2" value={fit} onChange={(event) => setFit(event.target.value as 'cover' | 'contain')}>
+                  <option value="cover">Crop to fill</option>
+                  <option value="contain">Fit inside</option>
+                </select>
+              </label>
+              <label className="mt-3 block text-sm font-medium text-gray-700">
+                Background
+                <select className="input mt-2" value={background} onChange={(event) => setBackground(event.target.value as 'white' | 'transparent')}>
+                  <option value="white">White</option>
+                  <option value="transparent">Transparent</option>
+                </select>
+              </label>
+            </section>
+
+            <section className="rounded-xl border border-gray-100 bg-white p-4">
+              <h3 className="text-sm font-semibold text-gray-900">Compress</h3>
+              <label className="mt-3 block text-sm font-medium text-gray-700">
+                Quality: {outputFormat === 'png' ? 'Lossless' : `${Math.round(quality * 100)}%`}
+                <input className="mt-2 w-full accent-brand-600 disabled:opacity-40" type="range" min="0.35" max="0.98" step="0.01" value={quality} disabled={outputFormat === 'png'} onChange={(event) => setQuality(Number(event.target.value))} />
+              </label>
+              <label className="mt-3 block text-sm font-medium text-gray-700">
+                Target file size KB
+                <input className="input mt-2" type="number" min="1" placeholder={config.maxSizeKb ? String(config.maxSizeKb) : 'Optional'} value={targetSizeInput} onChange={(event) => setTargetSizeInput(event.target.value)} />
+              </label>
+              {outputFormat === 'png' && targetSizeKb && <p className="mt-2 text-xs leading-5 text-amber-700">PNG is exported losslessly, so exact KB targets work best with JPG or WebP.</p>}
+            </section>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-3">
             <button type="button" className="btn-primary" disabled={!image || generating} onClick={exportImage}>
-              {generating ? 'Generating...' : 'Generate Image'}
+              {generating ? 'Converting...' : `Convert to ${outputLabel}`}
             </button>
             <button type="button" className="btn-secondary" disabled={!result} onClick={downloadResult}>Download</button>
+            {result && <span className="text-sm font-medium text-gray-600">{result.fileName}</span>}
           </div>
+
           {resultError && <p className="rounded-lg bg-red-50 p-3 text-sm text-red-700">{resultError}</p>}
+
           {image && (
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div className="rounded-xl border border-gray-100 bg-gray-50 p-3">
-                <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500">Original</p>
-                <img ref={previewRef} src={image.dataUrl} alt="Uploaded preview" className="max-h-72 w-full rounded-lg object-contain" />
-                <p className="mt-2 text-xs text-gray-500">{image.width} x {image.height}px</p>
-              </div>
-              <div className="rounded-xl border border-gray-100 bg-gray-50 p-3">
-                <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500">Generated</p>
+            <div className="grid gap-4 lg:grid-cols-2">
+              <section className="rounded-xl border border-gray-100 bg-gray-50 p-4">
+                <div className="mb-3 flex items-center justify-between gap-3">
+                  <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">Original</p>
+                  <p className="text-xs text-gray-500">{image.width} x {image.height}px · {formatBytes(image.fileSize)}</p>
+                </div>
+                <img ref={previewRef} src={image.dataUrl} alt="Uploaded preview" className="max-h-80 w-full rounded-lg bg-white object-contain" />
+              </section>
+
+              <section className="rounded-xl border border-gray-100 bg-gray-50 p-4">
+                <div className="mb-3 flex items-center justify-between gap-3">
+                  <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">Converted</p>
+                  <p className="text-xs text-gray-500">{outputWidth} x {outputHeight}px · {outputLabel}</p>
+                </div>
                 {result ? (
                   <>
                     <img
                       src={result.url}
-                      alt="Generated preview"
-                      className="max-h-72 w-full rounded-lg object-contain"
-                      onError={() => setResultError('The generated preview could not be displayed. Try generating again, or download the file.')}
+                      alt="Converted preview"
+                      className="max-h-80 w-full rounded-lg bg-white object-contain"
+                      onError={() => setResultError('The converted preview could not be displayed. Try converting again, or download the file.')}
                     />
-                    <p className="mt-2 text-xs text-gray-500">{config.targetWidth} x {config.targetHeight}px · {result.sizeKb}KB</p>
+                    <p className="mt-2 text-xs text-gray-500">{formatBytes(result.blob.size)} · quality {Math.round(result.qualityUsed * 100)}%</p>
                   </>
                 ) : (
-                  <div className="flex h-48 items-center justify-center rounded-lg bg-white text-sm text-gray-400">Generate to preview</div>
+                  <div className="flex h-64 items-center justify-center rounded-lg bg-white text-sm text-gray-400">Converted preview appears here</div>
                 )}
-              </div>
+              </section>
             </div>
           )}
         </div>
 
-        <aside className="rounded-xl border border-gray-100 bg-gray-50 p-4">
-          <h2 className="text-sm font-semibold text-gray-900">Preset</h2>
-          <dl className="mt-3 space-y-3 text-sm">
-            <div><dt className="text-gray-500">Output</dt><dd className="font-medium text-gray-900">{config.targetWidth} x {config.targetHeight}px</dd></div>
-            <div><dt className="text-gray-500">Format</dt><dd className="font-medium text-gray-900">{config.format.toUpperCase()}</dd></div>
-            {config.maxSizeKb && <div><dt className="text-gray-500">Target size</dt><dd className="font-medium text-gray-900">Under {config.maxSizeKb}KB when possible</dd></div>}
-            {config.dpi && <div><dt className="text-gray-500">DPI note</dt><dd className="font-medium text-gray-900">{config.dpi} DPI equivalent</dd></div>}
-            {config.note && <div><dt className="text-gray-500">Use case</dt><dd className="font-medium text-gray-900">{config.note}</dd></div>}
-          </dl>
+        <aside className="space-y-4">
+          <section className="rounded-xl border border-gray-100 bg-gray-50 p-4">
+            <h2 className="text-sm font-semibold text-gray-900">Output summary</h2>
+            <dl className="mt-3 space-y-3 text-sm">
+              <div><dt className="text-gray-500">Conversion</dt><dd className="font-medium text-gray-900">{conversionLabel}</dd></div>
+              <div><dt className="text-gray-500">Output</dt><dd className="font-medium text-gray-900">{outputWidth} x {outputHeight}px</dd></div>
+              <div><dt className="text-gray-500">Format</dt><dd className="font-medium text-gray-900">{outputLabel}</dd></div>
+              <div><dt className="text-gray-500">Fit</dt><dd className="font-medium text-gray-900">{fit === 'cover' ? 'Crop to fill' : 'Fit inside'}</dd></div>
+              {targetSizeKb && <div><dt className="text-gray-500">Target size</dt><dd className="font-medium text-gray-900">Under {targetSizeKb}KB when possible</dd></div>}
+              {config.dpi && <div><dt className="text-gray-500">DPI note</dt><dd className="font-medium text-gray-900">{config.dpi} DPI equivalent</dd></div>}
+              {config.note && <div><dt className="text-gray-500">Use case</dt><dd className="font-medium text-gray-900">{config.note}</dd></div>}
+            </dl>
+          </section>
+
+          <section className="rounded-xl border border-brand-100 bg-brand-50 p-4">
+            <h2 className="text-sm font-semibold text-gray-900">Ready file</h2>
+            {result ? (
+              <div className="mt-3 space-y-3 text-sm">
+                <p className="font-medium text-gray-900">{result.fileName}</p>
+                <p className="text-gray-600">{result.width} x {result.height}px · {formatBytes(result.blob.size)}</p>
+                <button type="button" className="btn-primary w-full justify-center" onClick={downloadResult}>Download converted image</button>
+              </div>
+            ) : (
+              <p className="mt-3 text-sm leading-6 text-gray-600">Upload an image, set the output, then convert to create a downloadable file.</p>
+            )}
+            <p className="mt-4 border-t border-brand-100 pt-3 text-xs leading-5 text-brand-800">Private browser-based processing. No account required.</p>
+          </section>
         </aside>
       </div>
     </div>

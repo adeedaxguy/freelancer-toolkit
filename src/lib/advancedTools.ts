@@ -236,6 +236,9 @@ const imagePresets: Array<{
   { slug: 'resize-photo-under-50kb', title: 'Resize Photo Under 50KB', keyword: 'resize photo under 50kb', width: 600, height: 600, format: 'jpeg', maxKb: 50 },
   { slug: 'resize-photo-under-100kb', title: 'Resize Photo Under 100KB', keyword: 'resize photo under 100kb', width: 800, height: 800, format: 'jpeg', maxKb: 100 },
   { slug: 'make-photo-300-dpi', title: 'Make Photo 300 DPI', keyword: 'make photo 300 dpi', width: 1200, height: 1800, format: 'jpeg', dpi: 300, fit: 'contain' },
+  { slug: 'image-converter', title: 'Image Converter', keyword: 'image converter', width: 1600, height: 1200, format: 'jpeg', fit: 'contain', useCase: 'format conversion, resizing, and compression' },
+  { slug: 'jpg-converter', title: 'JPG Converter', keyword: 'jpg converter', width: 1600, height: 1200, format: 'jpeg', fit: 'contain', useCase: 'JPG format conversion and recompression' },
+  { slug: 'jpg-to-png-converter', title: 'JPG to PNG Converter', keyword: 'jpg to png converter', width: 1600, height: 1200, format: 'png', fit: 'contain', useCase: 'transparent-friendly PNG exports from JPG images' },
   { slug: 'jpg-to-webp-converter', title: 'JPG to WebP Converter', keyword: 'jpg to webp converter', width: 1600, height: 1200, format: 'webp', fit: 'contain' },
   { slug: 'png-to-jpg-converter', title: 'PNG to JPG Converter', keyword: 'png to jpg converter', width: 1600, height: 1200, format: 'jpeg', fit: 'contain' },
   { slug: 'webp-to-jpg-converter', title: 'WebP to JPG Converter', keyword: 'webp to jpg converter', width: 1600, height: 1200, format: 'jpeg', fit: 'contain' },
@@ -822,23 +825,36 @@ const imageToolOverrides: Record<
 
 function makeImageTool(preset: (typeof imagePresets)[number]): AdvancedTool {
   const overrides = imageToolOverrides[preset.slug]
-
-  return {
-    slug: preset.slug,
-    title: preset.title,
-    headline: `${preset.title} Online`,
-    description: overrides?.description ?? `Free ${preset.keyword} tool. Upload an image, crop or fit it to ${preset.width}x${preset.height}px, compress it, and download a file ready for ${preset.useCase ?? 'forms and uploads'} in your browser.`,
-    seoTitle: overrides?.seoTitle ?? `Free ${preset.title} Online | No Signup`,
-    icon: '🖼️',
-    category: 'Image & Application File Tools',
-    keywords: overrides?.keywords ?? [preset.keyword, 'resize image online free', 'compress photo online', `${preset.width}x${preset.height} image resizer`],
-    answerBox: overrides?.answerBox,
-    faqs: overrides?.faqs ?? [
+  const isConverterPreset = preset.title.toLowerCase().includes('converter')
+  const defaultDescription = isConverterPreset
+    ? `Free ${preset.keyword} tool. Upload an image, choose JPG, PNG, or WebP, keep the original size or resize it, adjust quality, and download the converted file in your browser.`
+    : `Free ${preset.keyword} tool. Upload an image, crop or fit it to ${preset.width}x${preset.height}px, compress it, and download a file ready for ${preset.useCase ?? 'forms and uploads'} in your browser.`
+  const defaultKeywords = isConverterPreset
+    ? [preset.keyword, 'image converter online free', 'convert image to jpg png webp', 'image converter no upload', 'free photo converter']
+    : [preset.keyword, 'resize image online free', 'compress photo online', `${preset.width}x${preset.height} image resizer`]
+  const defaultFaqs = isConverterPreset
+    ? [
+      { q: `What formats can this ${preset.title.toLowerCase()} export?`, a: 'You can export JPG, PNG, or WebP. The default output matches the tool page, but the selector lets you switch formats before converting.' },
+      { q: 'Can I keep the original image dimensions?', a: 'Yes. Converter pages keep the original dimensions by default, and you can also choose a preset or custom width and height.' },
+      { q: 'Are my images uploaded to a server?', a: 'No. The conversion, resize, compression, preview, and download happen locally in your browser.' },
+    ]
+    : [
       { q: 'Does this tool upload my image?', a: 'No. Image processing runs in your browser. The file stays on your device.' },
       { q: 'Can I control the final file size?', a: preset.maxKb ? `Yes. This preset targets ${preset.maxKb}KB or less by lowering JPEG quality when possible.` : 'Yes. Use the quality slider to reduce file size before downloading.' },
       { q: 'Will resizing reduce quality?', a: 'Resizing and JPEG compression can reduce quality. The preview and file-size estimate help you choose the best balance before downloading.' },
-    ],
-    bodySections: overrides?.bodySections ?? [
+    ]
+  const defaultBodySections = isConverterPreset
+    ? [
+      {
+        heading: `${preset.keyword} with preview and download`,
+        body: 'Use this when you need a practical browser-based converter instead of a heavy design app. Upload the source image, choose the output format, decide whether to keep the original dimensions or resize, then download the finished file.',
+      },
+      {
+        heading: 'Private browser conversion',
+        body: 'The image is drawn on a browser canvas and exported directly from your device. There is no queue, account gate, watermark, or remote storage step.',
+      },
+    ]
+    : [
       {
         heading: `${preset.keyword} for ${preset.useCase ?? 'forms and uploads'}`,
         body: preset.useCase
@@ -849,7 +865,20 @@ function makeImageTool(preset: (typeof imagePresets)[number]): AdvancedTool {
         heading: 'Fast private browser processing',
         body: 'The file is drawn on a browser canvas and downloaded directly. There is no queue, watermark, or account gate.',
       },
-    ],
+    ]
+
+  return {
+    slug: preset.slug,
+    title: preset.title,
+    headline: `${preset.title} Online`,
+    description: overrides?.description ?? defaultDescription,
+    seoTitle: overrides?.seoTitle ?? `Free ${preset.title} Online | No Signup`,
+    icon: '🖼️',
+    category: 'Image & Application File Tools',
+    keywords: overrides?.keywords ?? defaultKeywords,
+    answerBox: overrides?.answerBox,
+    faqs: overrides?.faqs ?? defaultFaqs,
+    bodySections: overrides?.bodySections ?? defaultBodySections,
     advancedTool: {
       kind: 'image-resizer',
       presetName: preset.title,
