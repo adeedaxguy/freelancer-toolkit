@@ -24,6 +24,47 @@ const resourceLinks = [
   { label: 'Sitemap', href: '/sitemap.xml' },
 ]
 
+const socialLinks = [
+  {
+    label: 'Instagram',
+    href: 'https://www.instagram.com/freeltoolslab/',
+    icon: (
+      <svg viewBox="0 0 24 24" className="h-4 w-4" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <rect width="18" height="18" x="3" y="3" rx="5" />
+        <circle cx="12" cy="12" r="3.5" />
+        <path d="M17.5 6.5h.01" />
+      </svg>
+    ),
+  },
+  {
+    label: 'Facebook',
+    href: 'https://www.facebook.com/profile.php?id=61592438546532',
+    icon: (
+      <svg viewBox="0 0 24 24" className="h-4 w-4" aria-hidden="true" fill="currentColor">
+        <path d="M14.2 8.4V6.7c0-.8.5-1.2 1.3-1.2h1.6V2.6c-.8-.1-1.6-.2-2.4-.2-2.5 0-4.2 1.5-4.2 4.1v1.9H7.8v3.2h2.7V21h3.4v-9.4h2.7l.5-3.2h-3Z" />
+      </svg>
+    ),
+  },
+  {
+    label: 'YouTube',
+    href: 'https://www.youtube.com/@freeltools-b7i',
+    icon: (
+      <svg viewBox="0 0 24 24" className="h-4 w-4" aria-hidden="true" fill="currentColor">
+        <path d="M21.6 7.2a3 3 0 0 0-2.1-2.1C17.7 4.6 12 4.6 12 4.6s-5.7 0-7.5.5a3 3 0 0 0-2.1 2.1C2 9 2 12 2 12s0 3 .4 4.8a3 3 0 0 0 2.1 2.1c1.8.5 7.5.5 7.5.5s5.7 0 7.5-.5a3 3 0 0 0 2.1-2.1C22 15 22 12 22 12s0-3-.4-4.8ZM10 15.4V8.6l5.6 3.4-5.6 3.4Z" />
+      </svg>
+    ),
+  },
+  {
+    label: 'Pinterest',
+    href: 'https://pin.it/3iQWJMHSd',
+    icon: (
+      <svg viewBox="0 0 24 24" className="h-4 w-4" aria-hidden="true" fill="currentColor">
+        <path d="M12.2 2C6.7 2 3 5.7 3 10.6c0 3.6 2 5.7 3.2 5.7.5 0 .8-1.4.8-1.8 0-.5-1.2-1.5-1.2-3.4 0-3.9 3-6.7 6.8-6.7 3.3 0 5.7 1.9 5.7 5.3 0 2.5-1 7.2-4.3 7.2-1.2 0-2.2-.9-1.9-2.1.4-1.5 1.1-3.1 1.1-4.2 0-2.7-3.8-2.2-3.8 1.3 0 1 .3 1.7.3 1.7s-1.2 5.2-1.4 6.1c-.3 1.3 0 3 .1 3.2.1.1.2.1.3 0 .1-.2 1.7-2.1 2.2-3.4.2-.5.9-3.4.9-3.4.5.9 1.8 1.6 3.2 1.6 4.2 0 7-3.8 7-8.9C22 5 18.7 2 12.2 2Z" />
+      </svg>
+    ),
+  },
+]
+
 export default function Footer() {
   const totalTools = ALL_TOOLS.length
   const popularTools = popularToolSlugs
@@ -56,6 +97,23 @@ export default function Footer() {
                   {item}
                 </span>
               ))}
+            </div>
+            <div className="mt-6">
+              <p className="text-xs font-semibold uppercase tracking-wider text-gray-400">Follow FreelTools</p>
+              <div className="mt-3 flex items-center gap-2">
+                {socialLinks.map((link) => (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`Follow FreelTools on ${link.label}`}
+                    className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5 text-gray-300 transition hover:border-brand-400/60 hover:bg-brand-500 hover:text-white"
+                  >
+                    {link.icon}
+                  </a>
+                ))}
+              </div>
             </div>
           </div>
 
@@ -125,7 +183,7 @@ export default function Footer() {
           <p className="text-xs text-gray-400">
             © {new Date().getFullYear()} FreelancerToolkit. All rights reserved.
           </p>
-          <div className="flex flex-wrap gap-4 text-xs text-gray-400">
+          <div className="flex flex-wrap items-center gap-4 text-xs text-gray-400">
             <Link href="/about" className="hover:text-white">
               About
             </Link>
@@ -146,6 +204,21 @@ export default function Footer() {
                 {category.name}
               </Link>
             ))}
+            <span className="hidden h-4 w-px bg-white/10 sm:block" aria-hidden="true" />
+            <span className="flex items-center gap-2">
+              {socialLinks.map((link) => (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={link.label}
+                  className="inline-flex h-7 w-7 items-center justify-center rounded-full text-gray-400 transition hover:bg-white/5 hover:text-white"
+                >
+                  {link.icon}
+                </a>
+              ))}
+            </span>
           </div>
         </div>
       </div>
