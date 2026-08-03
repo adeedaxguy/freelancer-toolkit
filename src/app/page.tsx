@@ -20,6 +20,7 @@ export const metadata: Metadata = {
       'Free calculators, generators, passport photo makers, PDF converters, and image tools for freelancers and agencies. No login required.',
     url: SITE_URL,
     type: 'website',
+    siteName: 'FreelTools',
     images: [{ url: OG_IMAGE, width: 1200, height: 630, alt: `${TOOL_COUNT_LABEL} free freelancer tools` }],
   },
   twitter: {
