@@ -593,7 +593,7 @@ const imageToolOverrides: Record<
     ],
   },
   'resize-image-to-20kb': {
-    description: 'Free resize image to 20KB tool. Upload a JPG, PNG, or photo, reduce the file to 20KB or less, and download the result in your browser without signup.',
+    description: 'Free resize image to 20KB tool. Compress JPG, PNG, or photo files to 20KB or less for forms, signatures, profiles, and document uploads without signup.',
     seoTitle: 'Resize Image to 20KB Online Free | Photo Under 20KB',
     keywords: ['resize image to 20kb', 'photo under 20kb', 'image size 20kb', 'compress image to 20kb', 'resize photo under 20kb'],
     answerBox: {
@@ -613,6 +613,10 @@ const imageToolOverrides: Record<
       {
         heading: 'Better than guessing in a photo editor',
         body: 'Instead of exporting the same file again and again, use a preset built for the 20KB target. It saves time when you need a small file for an application, profile photo, or form attachment.',
+      },
+      {
+        heading: 'Connected to stricter photo and signature uploads',
+        body: 'If the image becomes too compressed, try the photo-under-20KB or signature-under-20KB workflows with a tighter crop. If the portal allows more room, move up to a 50KB or 100KB preset so the file stays clearer.',
       },
     ],
   },
@@ -661,8 +665,8 @@ const imageToolOverrides: Record<
     ],
   },
   'resize-photo-to-413x531': {
-    description: 'Free resize photo to 413x531 tool. Export a 35x45mm-style photo at 300 DPI for passport, visa, and form uploads without using desktop software.',
-    seoTitle: 'Resize Photo to 413x531 Online Free',
+    description: 'Free resize photo to 413x531 tool. Export a 35x45mm-style passport, visa, or form photo at 300 DPI in your browser without desktop software.',
+    seoTitle: 'Resize Photo to 413x531 Online Free | 35x45mm',
     keywords: ['resize photo to 413x531', '413x531 photo resize', '413x531 passport photo', '35x45mm photo in pixels', '413x531 image resizer'],
     answerBox: {
       short: 'A 35x45mm passport-style photo exported at 300 DPI is about 413x531 pixels. This page is for people who already know the exact pixel target and need the file quickly for a visa, passport, or application upload without guessing the conversion.',
@@ -686,10 +690,14 @@ const imageToolOverrides: Record<
         heading: 'Matches the exact 413x531 search job',
         body: 'Searchers using this query usually do not need photo theory. They need the exact pixel output tied to the 35x45mm standard, plus a quick explanation of why the conversion lands at 413x531.',
       },
+      {
+        heading: 'Next step after the exact resize',
+        body: 'After exporting the 413x531 file, check whether the portal also has a file-size limit. If it does, use the 20KB, 50KB, or print-sheet tools rather than resizing the same image by hand.',
+      },
     ],
   },
   'passport-photo-4x6-print-maker': {
-    description: 'Free passport photo 4x6 print maker. Place passport-size photos on a 4x6 sheet, export a clean print-ready image, and avoid manual photo-sheet layouts.',
+    description: 'Free passport photo 4x6 print maker. Place passport-size photos on a 4x6 sheet, export a clean print-ready image, and avoid manual layouts.',
     seoTitle: 'Passport Photo 4x6 Print Maker Online Free',
     keywords: ['passport photo 4x6 print maker', 'passport photo print sheet', '4x6 passport photo template', 'print passport photo at home', 'passport photo 4x6 layout'],
     answerBox: {
@@ -718,6 +726,10 @@ const imageToolOverrides: Record<
       {
         heading: 'Private browser-based photo workflow',
         body: 'FreelTools builds the passport photo sheet on your device. That keeps sensitive identity photos out of a remote editor while still giving you a clean print-ready download.',
+      },
+      {
+        heading: 'Best used after the crop is correct',
+        body: 'A 4x6 sheet can only be as good as the source photo. If the passport or visa photo still needs exact dimensions, resize it first, then return here to build the printable sheet.',
       },
     ],
   },
@@ -794,7 +806,7 @@ const imageToolOverrides: Record<
     ],
   },
   'app-icon-generator': {
-    description: 'Free app icon generator. Upload artwork, fit it to a clean 1024x1024 canvas, and export an app-store-ready icon in your browser.',
+    description: 'Free app icon generator. Upload artwork, fit it to a clean 1024x1024 canvas, and export an app-store-ready PNG in your browser.',
     seoTitle: 'App Icon Generator Online Free | 1024x1024 Icon Tool',
     keywords: ['app icon generator', 'app icon maker', '1024x1024 app icon', 'ios app icon generator', 'android app icon generator'],
     answerBox: {
@@ -818,6 +830,10 @@ const imageToolOverrides: Record<
       {
         heading: 'Useful when the search intent is 1024x1024 app icon prep',
         body: 'Many searchers are not looking for a full design suite. They just need a clean 1024x1024 output to test an app listing, send to a developer, or validate how the icon reads at small sizes.',
+      },
+      {
+        heading: 'Keep adjacent launch assets nearby',
+        body: 'After the master app icon is ready, create a matching favicon and compress any oversized launch assets. That keeps the app listing, site preview, and browser icon workflow in one place.',
       },
     ],
   },

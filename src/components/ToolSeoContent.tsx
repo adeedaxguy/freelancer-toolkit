@@ -167,16 +167,27 @@ type ToolGscInsight = {
 
 const TOOL_GSC_INSIGHT: Record<string, ToolGscInsight> = {
   'resize-photo-to-413x531': {
-    evidenceLabel: 'GSC Insights winner',
-    priority: 'Keep the exact 413x531 upload job visible, then route people into the 35x45mm and print-sheet workflows instead of sending them back to Google.',
+    evidenceLabel: 'Popular exact-size workflow',
+    priority: 'Keep the exact 413x531 upload job visible, then route people into the 35x45mm, 20KB, and print-sheet workflows instead of sending them back to Google.',
     links: [
       { href: '/tools/35x45mm-photo-maker', label: 'Make a 35x45mm photo' },
+      { href: '/tools/resize-image-to-20kb', label: 'Compress to 20KB' },
       { href: '/tools/passport-photo-4x6-print-maker', label: 'Create a 4x6 print sheet' },
       { href: '/blog/passport-photo-35x45mm-guide', label: 'Read the 35x45mm guide' },
     ],
   },
+  'resize-image-to-20kb': {
+    evidenceLabel: 'Strict upload workflow',
+    priority: 'Searchers with strict upload limits need the file under 20KB quickly. Keep the exact-KB action visible, then connect them to signature, photo, and larger-size presets when the first export is too compressed.',
+    links: [
+      { href: '/tools/resize-photo-under-20kb', label: 'Photo under 20KB' },
+      { href: '/tools/resize-signature-to-20kb', label: 'Signature under 20KB' },
+      { href: '/tools/resize-image-to-50kb', label: 'Try 50KB instead' },
+      { href: '/blog/resize-photo-under-20kb-50kb-100kb-guide', label: 'Read the KB guide' },
+    ],
+  },
   'passport-photo-4x6-print-maker': {
-    evidenceLabel: 'GSC Insights rising page',
+    evidenceLabel: 'Print-sheet workflow',
     priority: 'Make the print-sheet workflow obvious and keep exact photo-size routes one click away for users who started with a resized passport image.',
     links: [
       { href: '/tools/resize-photo-to-413x531', label: 'Resize to 413x531 first' },
@@ -185,16 +196,46 @@ const TOOL_GSC_INSIGHT: Record<string, ToolGscInsight> = {
     ],
   },
   'fiverr-fee-calculator': {
-    evidenceLabel: 'GSC Insights query signal',
-    priority: 'Answer the fee query quickly, then move users into seller net, buyer total, reverse pricing, and proposal support without adding friction.',
+    evidenceLabel: 'Popular fee workflow',
+    priority: 'Answer the fee query quickly, then move users into seller net, buyer total, reverse pricing, and pricing follow-through without adding friction.',
     links: [
       { href: '/blog/fiverr-fee-calculator-guide', label: 'Fiverr fee guide' },
       { href: '/tools/fiverr-buyer-fee-calculator', label: 'Buyer fee calculator' },
+      { href: '/tools/fiverr-seller-fee-calculator', label: 'Seller net calculator' },
       { href: '/tools/upwork-fee-calculator', label: 'Compare Upwork fees' },
     ],
   },
+  'project-price-calculator': {
+    evidenceLabel: 'Client quote workflow',
+    priority: 'Project price queries were one of the earliest impression clusters. Keep the quote calculator exact, then send users into proposal, scope, and service-pricing tools so the visit turns into a finished client workflow.',
+    links: [
+      { href: '/tools/project-cost-calculator', label: 'Estimate project cost' },
+      { href: '/tools/freelance-services-pricing-calculator', label: 'Price a service package' },
+      { href: '/tools/proposal-generator', label: 'Write the proposal' },
+      { href: '/blog/project-price-calculator-freelancers', label: 'Read the pricing guide' },
+    ],
+  },
+  'freelance-services-pricing-calculator': {
+    evidenceLabel: 'Service pricing workflow',
+    priority: 'Service-pricing impressions should land on a package-pricing workflow, not a generic rate page. Keep package scope, revisions, and margin close to the tool, then route users into quote and profit checks.',
+    links: [
+      { href: '/tools/project-price-calculator', label: 'Quote the project' },
+      { href: '/tools/profit-calculator', label: 'Check profit margin' },
+      { href: '/tools/proposal-generator', label: 'Turn price into proposal' },
+      { href: '/blog/freelance-services-pricing-calculator', label: 'Read service pricing guide' },
+    ],
+  },
+  'app-icon-generator': {
+    evidenceLabel: 'Launch asset workflow',
+    priority: 'App icon users usually want a clean 1024x1024 export first. Keep the upload and export workflow immediate, then route them to favicon and image-size tools for adjacent launch assets.',
+    links: [
+      { href: '/tools/favicon-generator', label: 'Create favicon' },
+      { href: '/tools/image-compressor', label: 'Compress the icon' },
+      { href: '/tools/make-photo-300-dpi', label: 'Set 300 DPI' },
+    ],
+  },
   'on-page-seo-audit-tool': {
-    evidenceLabel: 'GSC Insights recovery page',
+    evidenceLabel: 'Page refresh workflow',
     priority: 'This URL is the current GSC drop-recovery target. Keep the audit tool above the fold, add Search Console refresh language, and route users into metadata, internal-link, schema, and content-gap tools.',
     links: [
       { href: '/tools/seo-title-checker', label: 'Rewrite title tag' },

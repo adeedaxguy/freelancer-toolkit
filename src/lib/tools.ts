@@ -110,8 +110,8 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
         slug: 'project-price-calculator',
         title: 'Project Price Calculator',
         headline: 'Calculate the Right Price for a Freelance Project',
-        description: 'Free project price calculator for freelancers and agencies. Estimate hours, rate, revisions, scope buffer, and client-facing quote options before sending a fixed project price.',
-        seoTitle: 'Free Project Price Calculator | Client Quote Estimator',
+        description: 'Free project price calculator for freelancers and agencies. Estimate hours, rate, revisions, scope buffer, and a client quote before sending a fixed-price proposal.',
+        seoTitle: 'Project Price Calculator Free | Quote Freelance Work',
         icon: '🏷️',
         category: 'Pricing & Profitability',
         keywords: [
@@ -128,7 +128,7 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
           'freelance quote calculator',
         ],
         answerBox: {
-          short: 'Use a project price calculator when you need the client-facing quote, not just the internal delivery cost. The safe workflow is hours + rate + revisions + scope buffer, then convert that into a fixed price, online estimate, or client quote you can defend in a proposal or call.',
+          short: 'Use the FreelTools project price calculator when you need the client-facing quote, not just the internal delivery cost. The safe workflow is hours + rate + revisions + scope buffer, then convert that into a fixed price, online estimate, or client quote you can defend in a proposal or call.',
           bullets: ['Best fit: freelancer, agency, consulting, and online project-cost estimates', 'Outperformance angle: freelancer-specific pricing instead of generic construction, staffing, or software estimators'],
         },
         faqs: [
@@ -173,6 +173,10 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
             heading: 'Use the estimate before the proposal',
             body: 'The strongest workflow is calculate first, then write. Use the result here before opening the Proposal Generator or Scope of Work Generator so the price, deliverables, timeline, and revision policy stay aligned.',
           },
+          {
+            heading: 'Quote-focused recovery path',
+            body: 'If you found this page from a project price, project cost, freelance quote, or project estimation search, start with the calculator above and then turn the number into a proposal. That keeps the visit focused on one complete client workflow instead of a loose pricing article.',
+          },
         ],
         programmaticVariants: [
           { slug: 'for-web-design-projects', label: 'for Web Design Projects' },
@@ -186,8 +190,8 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
         slug: 'freelance-services-pricing-calculator',
         title: 'Freelance Services Pricing Calculator',
         headline: 'Price Freelance Services Without Guesswork',
-        description: 'Free freelance services pricing calculator. Price web design, SEO, writing, consulting, and agency services with hours, rate, revisions, and profit protection built in.',
-        seoTitle: 'Freelance Services Pricing Calculator | Free Tool',
+        description: 'Free freelance services pricing calculator. Price web design, SEO, writing, consulting, and agency packages with hours, rate, revisions, margin, and scope buffer.',
+        seoTitle: 'Freelance Services Pricing Calculator Free',
         icon: '🧾',
         category: 'Pricing & Profitability',
         keywords: ['freelance services pricing calculator', 'freelance service pricing tool', 'price freelance services', 'service business pricing calculator', 'freelance pricing calculator'],
@@ -214,6 +218,10 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
           {
             heading: 'Built for service pages and proposal follow-through',
             body: 'This workflow is strongest when you use the resulting number inside a proposal, scope document, or service page. It helps bridge the gap between a package headline price and the real work needed to deliver it.',
+          },
+          {
+            heading: 'Best when the query is service pricing, not just hourly rate',
+            body: 'Use this page when the search intent is pricing a repeatable service package. If the client has already described a specific project, move into the Project Price Calculator; if you need to protect margin, check the Profit Calculator after this result.',
           },
         ],
       },
@@ -444,8 +452,8 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
         slug: 'fiverr-fee-calculator',
         title: 'Fiverr Fee Calculator',
         headline: 'Fiverr Fee Calculator for Seller Net, Buyer Total, and Gig Pricing',
-        description: 'Calculate Fiverr seller fees, buyer service fees, take-home pay, checkout total, tips, and gig prices for target net income.',
-        seoTitle: 'Fiverr Fee Calculator',
+        description: 'Free Fiverr fee calculator for seller net, buyer checkout total, tips, and target-net gig pricing. Estimate fees before publishing a gig or custom offer.',
+        seoTitle: 'Fiverr Fee Calculator Free | Seller and Buyer Fees',
         icon: '🟢',
         category: 'Marketplace Tools',
         keywords: ['fiverr fee calculator', 'fiverr calculator', 'fiverr seller fee calculator', 'fiverr buyer fee calculator', 'how much does fiverr take', 'fiverr seller fees', 'fiverr buyer service fee', 'fiverr small order fee', 'fiverr profit calculator', 'fiverr 20 percent calculator', 'fiverr commission calculator', 'fiverr gig price calculator', 'fiverr take home calculator'],
@@ -490,6 +498,10 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
           {
             heading: 'Built for the exact Fiverr fee questions searchers ask',
             body: 'This page covers the practical scenarios behind Fiverr fee searches: what happens on a $50 or $100 gig, how tips affect take-home pay, how buyer fees change the checkout total, and how to set a price from the amount you want to keep.',
+          },
+          {
+            heading: 'Fast answer for low-CTR fee searches',
+            body: 'If you searched for a Fiverr fee calculator, use the calculator first and compare seller net against buyer total before reading more. The page is built to answer the number quickly, then explain the fee assumptions below.',
           },
         ],
         programmaticVariants: [

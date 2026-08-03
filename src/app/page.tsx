@@ -124,20 +124,48 @@ function getTool(slug: string) {
 
 const primaryTools = [
   getTool('freelancer-rate-calculator'),
-  getTool('project-cost-calculator'),
+  getTool('project-price-calculator'),
   getTool('fiverr-fee-calculator'),
   getTool('invoice-generator'),
   getTool('proposal-generator'),
-  getTool('germany-visa-photo-generator'),
+  getTool('resize-photo-to-413x531'),
 ]
 
 const quickTasks = [
-  { label: 'Price a project', href: '/tools/project-cost-calculator', eyebrow: 'Pricing' },
+  { label: 'Price a project', href: '/tools/project-price-calculator', eyebrow: 'Pricing' },
   { label: 'Calculate platform fees', href: '/tools/fiverr-fee-calculator', eyebrow: 'Marketplace' },
   { label: 'Create an invoice', href: '/tools/invoice-generator', eyebrow: 'Operations' },
   { label: 'Generate a proposal', href: '/tools/proposal-generator', eyebrow: 'Client work' },
-  { label: 'Make a visa photo', href: '/tools/germany-visa-photo-generator', eyebrow: 'Applications' },
+  { label: 'Resize to 413x531', href: '/tools/resize-photo-to-413x531', eyebrow: 'Applications' },
   { label: 'Resize to 20KB', href: '/tools/resize-image-to-20kb', eyebrow: 'File upload' },
+]
+
+const recoveryTools = [
+  {
+    title: 'Fiverr fee searches',
+    body: 'Answer seller fees, buyer checkout totals, tips, and target-net gig pricing without opening a spreadsheet.',
+    links: [
+      { href: '/tools/fiverr-fee-calculator', label: 'Fiverr Fee Calculator' },
+      { href: '/blog/fiverr-fee-calculator-guide', label: 'Fee guide' },
+    ],
+  },
+  {
+    title: 'Project pricing searches',
+    body: 'Turn delivery hours, revisions, risk, and margin into a client-facing quote before writing the proposal.',
+    links: [
+      { href: '/tools/project-price-calculator', label: 'Project Price Calculator' },
+      { href: '/tools/freelance-services-pricing-calculator', label: 'Service Pricing Calculator' },
+    ],
+  },
+  {
+    title: 'Exact image upload searches',
+    body: 'Prepare exact-size and exact-KB images for forms, passports, profiles, and uploads in a direct browser workflow.',
+    links: [
+      { href: '/tools/resize-photo-to-413x531', label: 'Resize to 413x531' },
+      { href: '/tools/resize-image-to-20kb', label: 'Resize Image to 20KB' },
+      { href: '/tools/passport-photo-4x6-print-maker', label: '4x6 Print Maker' },
+    ],
+  },
 ]
 
 const proofPoints = [
@@ -229,6 +257,34 @@ export default function HomePage() {
                 <h2 className="text-base font-bold text-gray-950">{step.title}</h2>
                 <p className="mt-2 text-sm leading-6 text-gray-600">{step.body}</p>
               </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="border-b border-gray-100 bg-white">
+        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+          <div className="flex flex-col gap-3 md:max-w-3xl">
+            <p className="text-sm font-semibold uppercase text-brand-700">Popular no-login workflows</p>
+            <h2 className="text-3xl font-extrabold text-gray-950">Start with the tools built for urgent tasks</h2>
+            <p className="text-sm leading-7 text-gray-600">
+              These paths match high-intent jobs: marketplace fees, freelance project pricing, and exact image upload requirements.
+              Opening the tool first gives visitors the fastest path to a useful result.
+            </p>
+          </div>
+          <div className="mt-8 grid gap-4 md:grid-cols-3">
+            {recoveryTools.map((group) => (
+              <section key={group.title} className="rounded-lg border border-gray-200 bg-gray-50 p-5">
+                <h3 className="text-base font-bold text-gray-950">{group.title}</h3>
+                <p className="mt-2 text-sm leading-6 text-gray-600">{group.body}</p>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {group.links.map((link) => (
+                    <Link key={link.href} href={link.href} className="rounded-full border border-gray-200 bg-white px-3 py-1.5 text-xs font-semibold text-gray-700 transition hover:border-brand-200 hover:text-brand-700">
+                      {link.label}
+                    </Link>
+                  ))}
+                </div>
+              </section>
             ))}
           </div>
         </div>
