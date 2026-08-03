@@ -951,6 +951,7 @@ const textToolData: Array<{
   template: AdvancedToolConfig extends infer T ? T extends { kind: 'text-generator'; template: infer U } ? U : never : never
   resultLabel: string
   category?: string
+  seoTitle?: string
 }> = [
   { slug: 'nda-generator', title: 'NDA Generator', keyword: 'free nda generator', template: 'nda', resultLabel: 'NDA outline' },
   { slug: 'freelance-contract-clause-generator', title: 'Freelance Contract Clause Generator', keyword: 'freelance contract clause generator', template: 'contract-clause', resultLabel: 'contract clauses' },
@@ -972,7 +973,7 @@ const textToolData: Array<{
   { slug: 'ahrefs-content-gap-brief-generator', title: 'Ahrefs Content Gap Brief Generator', keyword: 'Ahrefs content gap brief generator', template: 'content-gap-brief', resultLabel: 'Ahrefs content gap brief', category: 'SEO Tools' },
   { slug: 'ai-overview-answer-box-brief-generator', title: 'AI Overview Answer Box Brief Generator', keyword: 'AI overview answer box brief generator', template: 'answer-box-brief', resultLabel: 'AI answer box brief', category: 'SEO Tools' },
   { slug: 'gsc-indexing-issue-triage-planner', title: 'GSC Indexing Issue Triage Planner', keyword: 'GSC indexing issue triage planner', template: 'indexing-issue-triage', resultLabel: 'indexing issue triage plan', category: 'SEO Tools' },
-  { slug: 'serp-appearance-checklist-generator', title: 'SERP Appearance Checklist', keyword: 'serp appearance checklist generator', template: 'content-gap-brief', resultLabel: 'SERP appearance checklist', category: 'SEO Tools' },
+  { slug: 'serp-appearance-checklist-generator', title: 'SERP Appearance Checklist', keyword: 'serp appearance checklist generator', template: 'content-gap-brief', resultLabel: 'SERP appearance checklist', category: 'SEO Tools', seoTitle: 'SERP Appearance Checklist Tool' },
   { slug: 'google-related-search-brief-generator', title: 'Google Related Search Brief Generator', keyword: 'google related search brief generator', template: 'related-search-plan', resultLabel: 'related search brief', category: 'SEO Tools' },
   { slug: 'gsc-redirect-canonical-fix-planner', title: 'GSC Redirect Canonical Fix Planner', keyword: 'GSC redirect canonical fix planner', template: 'indexing-issue-triage', resultLabel: 'redirect and canonical fix plan', category: 'SEO Tools' },
   { slug: 'duplicate-canonical-fix-planner', title: 'Duplicate Canonical Fix Planner', keyword: 'duplicate canonical fix planner', template: 'indexing-issue-triage', resultLabel: 'canonical cleanup plan', category: 'SEO Tools' },
@@ -1000,7 +1001,7 @@ function makeTextTool(data: (typeof textToolData)[number]): AdvancedTool {
     title: data.title,
     headline: `${data.title} for Freelancers`,
     description: `Free ${data.keyword}. Fill in a few details and generate a polished ${data.resultLabel} you can copy, edit, and send.`,
-    seoTitle: `${data.title} | Free Template Tool`,
+    seoTitle: data.seoTitle ?? `${data.title} | Free Template Tool`,
     icon: '✍️',
     category: data.category ?? 'PDF & Document Tools',
     keywords: [data.keyword, 'free business document generator', 'freelance template generator', 'SEO workflow tool'],
