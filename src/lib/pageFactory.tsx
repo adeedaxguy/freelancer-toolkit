@@ -299,6 +299,18 @@ const HOW_TO_STEPS: Record<string, { name: string; text: string }[]> = {
     { name: 'Review density and top terms', text: 'Check word count, reading time, keyword uses, density, and repeated terms.' },
     { name: 'Improve naturally', text: 'Use the result to catch missing usage or stuffing, then revise for readability and intent.' },
   ],
+  'heading-hierarchy-checker': [
+    { name: 'Enter the target keyword', text: 'Add the main query or topic the page should target.' },
+    { name: 'Paste the page HTML', text: 'Paste the rendered HTML or main content block so the tool can extract H1-H6 headings.' },
+    { name: 'Review the outline', text: 'Check H1 count, heading order, skipped levels, empty headings, and keyword alignment.' },
+    { name: 'Fix and rerun', text: 'Update the page headings until the structure is easy to scan for users and search engines.' },
+  ],
+  'image-alt-text-checker': [
+    { name: 'Paste the page HTML', text: 'Paste the rendered HTML or content block that includes your images.' },
+    { name: 'Review image rows', text: 'Check each image for missing alt attributes, generic descriptions, duplicate alt text, or intentional decorative usage.' },
+    { name: 'Rewrite weak alt text', text: 'Improve important image descriptions and leave decorative images empty only when that is intentional.' },
+    { name: 'Export the review notes', text: 'Copy the CSV output and recheck the page before publishing or requesting indexing.' },
+  ],
   'utm-builder': [
     { name: 'Enter the destination URL', text: 'Paste the landing page URL you want campaign visitors to reach.' },
     { name: 'Add required UTM fields', text: 'Enter source, medium, and campaign values using a consistent naming convention.' },

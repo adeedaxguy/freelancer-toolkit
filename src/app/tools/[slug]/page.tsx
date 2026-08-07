@@ -31,6 +31,8 @@ const sharedCalculatorRenderers = {
   'world-cup-match-time-converter': InsuranceAndEventCalculator,
   'on-page-seo-checker': SeoToolsCalculator,
   'on-page-seo-audit-tool': SeoToolsCalculator,
+  'heading-hierarchy-checker': SeoToolsCalculator,
+  'image-alt-text-checker': SeoToolsCalculator,
   'seo-title-checker': SeoToolsCalculator,
   'meta-description-checker': SeoToolsCalculator,
   'serp-snippet-preview-tool': SeoToolsCalculator,

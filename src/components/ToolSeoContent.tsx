@@ -97,6 +97,16 @@ const TOOL_RESEARCH_INTENT: Record<string, ToolResearchIntent> = {
     competitorGap: 'On-page SEO audit SERPs are crowded with generic scanners and signup walls; this page should keep the audit action, GSC refresh workflow, and next tools visible without hiding the checklist.',
     useNow: 'Paste the page details, fix title/meta/H1/canonical/internal-link gaps, then rerun before requesting indexing or refreshing a low-CTR page.',
   },
+  'heading-hierarchy-checker': {
+    searcherJob: 'Check whether a page uses one clear H1, logical H2-H3 order, and a scannable heading outline before publishing.',
+    competitorGap: 'Most ranking pages bundle heading feedback inside a full audit. This page wins when it stays focused on heading structure and shows the outline immediately.',
+    useNow: 'Paste the HTML, fix skipped levels or repeated H1s, then move to title, internal-link, or alt-text checks only if the page still needs them.',
+  },
+  'image-alt-text-checker': {
+    searcherJob: 'Check whether page images have useful alt text, intentional decorative handling, and no obvious duplicate descriptions before publishing.',
+    competitorGap: 'Image checks usually hide inside broader SEO crawlers. This page is stronger when it gives the image list and alt-text issues without a crawl or signup.',
+    useNow: 'Paste the HTML, fix missing or weak alt text, then rerun the on-page audit before pushing the page live.',
+  },
   'seo-title-checker': {
     searcherJob: 'Check whether a title tag is clear, query-matched, and likely to fit a Google result before a page goes live.',
     competitorGap: 'Title checkers are often only character counters; this page should tie title length to search intent and click clarity.',
@@ -240,8 +250,28 @@ const TOOL_GSC_INSIGHT: Record<string, ToolGscInsight> = {
     links: [
       { href: '/tools/seo-title-checker', label: 'Rewrite title tag' },
       { href: '/tools/meta-description-checker', label: 'Improve meta description' },
+      { href: '/tools/heading-hierarchy-checker', label: 'Check heading structure' },
+      { href: '/tools/image-alt-text-checker', label: 'Check image alt text' },
       { href: '/tools/internal-link-anchor-text-checker', label: 'Check internal anchors' },
       { href: '/tools/gsc-insights-refresh-planner', label: 'Plan a GSC refresh' },
+    ],
+  },
+  'heading-hierarchy-checker': {
+    evidenceLabel: 'On-page structure workflow',
+    priority: 'GSC demand in the on-page cluster shows users are already looking for practical pre-publish QA. This page should handle heading structure fast, then route users into the broader on-page audit stack.',
+    links: [
+      { href: '/tools/on-page-seo-checker', label: 'Run the full on-page check' },
+      { href: '/tools/internal-link-anchor-text-checker', label: 'Review internal anchors' },
+      { href: '/tools/seo-title-checker', label: 'Tighten the title tag' },
+    ],
+  },
+  'image-alt-text-checker': {
+    evidenceLabel: 'Image QA workflow',
+    priority: 'On-page ranking pages repeatedly call out image checks, but most tools hide the image list inside a broader crawler. Keep this page focused, then connect it to the rest of the SEO QA path.',
+    links: [
+      { href: '/tools/on-page-seo-checker', label: 'Run the full on-page check' },
+      { href: '/tools/heading-hierarchy-checker', label: 'Review headings too' },
+      { href: '/tools/meta-description-checker', label: 'Finish snippet QA' },
     ],
   },
 }

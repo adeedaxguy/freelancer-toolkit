@@ -10,6 +10,73 @@ type ScoreItem = {
   detail: string
 }
 
+type SeoHeading = {
+  index: number
+  tag: string
+  level: number
+  text: string
+}
+
+type SeoImage = {
+  index: number
+  src: string
+  alt: string
+  hasAltAttribute: boolean
+  genericAlt: boolean
+}
+
+type SeoLink = {
+  href: string
+  absolute: string
+  text: string
+  rel: string
+  internal: boolean
+}
+
+type SeoPageAnalysis = {
+  requestedUrl: string
+  finalUrl: string
+  status: number
+  title: string
+  description: string
+  canonical: string
+  robots: string
+  ogTitle: string
+  ogDescription: string
+  ogImage: string
+  twitterTitle: string
+  twitterDescription: string
+  twitterImage: string
+  h1: string
+  h1s: string[]
+  headings: SeoHeading[]
+  bodyText: string
+  wordCount: number
+  imageCount: number
+  imagesMissingAlt: number
+  genericAltCount: number
+  internalLinks: number
+  externalLinks: number
+  links: SeoLink[]
+  images: SeoImage[]
+}
+
+type LinkStatusResult = {
+  url: string
+  finalUrl: string
+  status: number | null
+  ok: boolean
+  redirectCount: number
+  error?: string
+}
+
+type RedirectHop = {
+  url: string
+  status: number | null
+  location: string
+  error?: string
+}
+
 const stopWords = new Set([
   'a',
   'an',
@@ -94,9 +161,31 @@ function splitLines(value: string) {
     .filter(Boolean)
 }
 
+function csvEscape(value: string | number | boolean | null | undefined) {
+  const text = String(value ?? '')
+  return `"${text.replace(/"/g, '""')}"`
+}
+
+function csvRows(headers: string[], rows: Array<Array<string | number | boolean | null | undefined>>) {
+  return [headers.map(csvEscape).join(','), ...rows.map((row) => row.map(csvEscape).join(','))].join('\n')
+}
+
 function keywordCore(value: string) {
   const words = value.toLowerCase().match(/[a-z0-9]+/g) ?? []
   return words.filter((word) => word.length > 2 && !stopWords.has(word))
+}
+
+async function postSeoAnalysis<T>(payload: Record<string, unknown>) {
+  const response = await fetch('/api/seo/analyze', {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify(payload),
+  })
+  const data = await response.json()
+  if (!response.ok || data.ok === false) {
+    throw new Error(typeof data.error === 'string' ? data.error : 'SEO analysis failed')
+  }
+  return data as T
 }
 
 function Field({
@@ -207,7 +296,7 @@ function Stat({ label, value, detail, highlight }: { label: string; value: strin
   )
 }
 
-function CopyBox({ label, value }: { label: string; value: string }) {
+function CopyBox({ label, value, downloadName }: { label: string; value: string; downloadName?: string }) {
   const [copied, setCopied] = useState(false)
 
   const copy = async () => {
@@ -217,17 +306,38 @@ function CopyBox({ label, value }: { label: string; value: string }) {
     window.setTimeout(() => setCopied(false), 1400)
   }
 
+  const download = () => {
+    const blob = new Blob([value], { type: 'text/plain;charset=utf-8' })
+    const url = URL.createObjectURL(blob)
+    const anchor = document.createElement('a')
+    anchor.href = url
+    anchor.download = downloadName ?? `${makeSlug(label, '-', true, 80) || 'seo-output'}.txt`
+    document.body.appendChild(anchor)
+    anchor.click()
+    anchor.remove()
+    URL.revokeObjectURL(url)
+  }
+
   return (
     <div className="rounded-2xl border border-gray-100 bg-gray-950 p-4 text-white">
       <div className="mb-3 flex items-center justify-between gap-3">
         <p className="text-sm font-semibold">{label}</p>
-        <button
-          type="button"
-          onClick={copy}
-          className="rounded-full bg-white px-3 py-1 text-xs font-semibold text-gray-900 transition hover:bg-brand-100"
-        >
-          {copied ? 'Copied' : 'Copy'}
-        </button>
+        <div className="flex shrink-0 items-center gap-2">
+          <button
+            type="button"
+            onClick={download}
+            className="rounded-full border border-white/15 px-3 py-1 text-xs font-semibold text-white transition hover:bg-white/10"
+          >
+            Download
+          </button>
+          <button
+            type="button"
+            onClick={copy}
+            className="rounded-full bg-white px-3 py-1 text-xs font-semibold text-gray-900 transition hover:bg-brand-100 active:scale-[0.96]"
+          >
+            {copied ? 'Copied' : 'Copy'}
+          </button>
+        </div>
       </div>
       <textarea
         readOnly
@@ -300,6 +410,9 @@ function OnPageSeoAuditTool() {
   const [imagesMissingAlt, setImagesMissingAlt] = useState('1')
   const [internalLinks, setInternalLinks] = useState('3')
   const [externalLinks, setExternalLinks] = useState('1')
+  const [fetchingPage, setFetchingPage] = useState(false)
+  const [fetchError, setFetchError] = useState('')
+  const [livePage, setLivePage] = useState<SeoPageAnalysis | null>(null)
 
   const parseHtml = () => {
     if (!html.trim()) return
@@ -341,6 +454,29 @@ function OnPageSeoAuditTool() {
     )
   }
 
+  const fetchLivePage = async () => {
+    setFetchingPage(true)
+    setFetchError('')
+    try {
+      const data = await postSeoAnalysis<{ ok: true; result: SeoPageAnalysis }>({ mode: 'page', url: pageUrl })
+      const result = data.result
+      setLivePage(result)
+      setTitle(result.title || title)
+      setDescription(result.description || description)
+      setCanonical(result.canonical || result.finalUrl || canonical)
+      setH1(result.h1 || h1)
+      setContent(result.bodyText || content)
+      setImageCount(String(result.imageCount))
+      setImagesMissingAlt(String(result.imagesMissingAlt))
+      setInternalLinks(String(result.internalLinks))
+      setExternalLinks(String(result.externalLinks))
+    } catch (error) {
+      setFetchError(error instanceof Error ? error.message : 'Could not fetch the page')
+    } finally {
+      setFetchingPage(false)
+    }
+  }
+
   const audit = useMemo(() => {
     const words = countWords(content)
     const keyword = targetKeyword.trim().toLowerCase()
@@ -354,6 +490,7 @@ function OnPageSeoAuditTool() {
     const h1Count = h1.split('|').map((item) => item.trim()).filter(Boolean).length
 
     const items: ScoreItem[] = [
+      ...(livePage ? [{ label: 'Live URL responded', ok: livePage.status >= 200 && livePage.status < 400, detail: `${livePage.status} response from ${livePage.finalUrl}` }] : []),
       { label: 'Title length', ok: title.length >= 35 && title.length <= 62, detail: `${title.length} characters. Aim for roughly 35-62 characters.` },
       { label: 'Meta description length', ok: description.length >= 110 && description.length <= 160, detail: `${description.length} characters. Aim for a useful 110-160 character summary.` },
       { label: 'Primary keyword placement', ok: keywordInTitle && keywordInH1 && keywordInDescription, detail: keyword ? `Keyword appears in title: ${keywordInTitle ? 'yes' : 'no'}, H1: ${keywordInH1 ? 'yes' : 'no'}, description: ${keywordInDescription ? 'yes' : 'no'}.` : 'Add a target keyword to check placement.' },
@@ -365,8 +502,13 @@ function OnPageSeoAuditTool() {
       { label: 'External citations', ok: external >= 1, detail: `${external} external links found. Use credible citations for facts that may change.` },
     ]
 
-    return { words, items }
-  }, [canonical, content, description, h1, imageCount, imagesMissingAlt, internalLinks, externalLinks, targetKeyword, title])
+    const failed = items.filter((item) => !item.ok)
+    const actionPlan = failed.length
+      ? failed.map((item, index) => `${index + 1}. ${item.label}: ${item.detail}`)
+      : ['1. Page-level SEO basics look ready. Do a final visual/mobile QA, then request indexing or publish the refresh.']
+
+    return { words, items, actionPlan }
+  }, [canonical, content, description, h1, imageCount, imagesMissingAlt, internalLinks, externalLinks, livePage, targetKeyword, title])
 
   return (
     <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_380px]">
@@ -374,9 +516,26 @@ function OnPageSeoAuditTool() {
         <Field label="Page URL" value={pageUrl} onChange={setPageUrl} placeholder="https://example.com/page" />
         <Field label="Target keyword" value={targetKeyword} onChange={setTargetKeyword} placeholder="seo audit" />
         <TextArea label="Paste page HTML source (optional)" value={html} onChange={setHtml} rows={5} placeholder="Paste the rendered HTML or page source here." hint="Use this when you want the tool to extract title, meta description, H1s, images, and links." />
-        <button type="button" onClick={parseHtml} className="rounded-full bg-brand-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-700">
-          Analyze pasted HTML
-        </button>
+        <div className="flex flex-wrap gap-3">
+          <button type="button" onClick={fetchLivePage} disabled={fetchingPage} className="rounded-full bg-gray-950 px-4 py-2 text-sm font-semibold text-white transition hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-60 active:scale-[0.96]">
+            {fetchingPage ? 'Fetching live page...' : 'Fetch live URL'}
+          </button>
+          <button type="button" onClick={parseHtml} className="rounded-full bg-brand-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-700 active:scale-[0.96]">
+            Analyze pasted HTML
+          </button>
+        </div>
+        {fetchError && (
+          <p className="rounded-xl border border-amber-200 bg-amber-50 p-3 text-sm leading-6 text-amber-800">
+            {fetchError}
+          </p>
+        )}
+        {livePage && (
+          <div className="grid gap-3 sm:grid-cols-3">
+            <Stat label="HTTP status" value={`${livePage.status}`} detail={livePage.finalUrl} highlight={livePage.status < 400} />
+            <Stat label="Live words" value={`${livePage.wordCount}`} detail="Extracted from visible body text." highlight={livePage.wordCount >= 600} />
+            <Stat label="Links found" value={`${livePage.internalLinks + livePage.externalLinks}`} detail={`${livePage.internalLinks} internal, ${livePage.externalLinks} external`} highlight />
+          </div>
+        )}
         <div className="grid gap-4 sm:grid-cols-2">
           <Field label="Title tag" value={title} onChange={setTitle} />
           <Field label="Canonical URL" value={canonical} onChange={setCanonical} />
@@ -391,7 +550,10 @@ function OnPageSeoAuditTool() {
           <Field label="External links" value={externalLinks} onChange={setExternalLinks} type="number" />
         </div>
       </Panel>
-      <ScoreList items={audit.items} />
+      <div className="space-y-4">
+        <ScoreList items={audit.items} />
+        <CopyBox label="Priority SEO fixes" value={audit.actionPlan.join('\n')} downloadName="priority-seo-fixes.txt" />
+      </div>
     </div>
   )
 }
@@ -797,6 +959,185 @@ function KeywordDensityChecker() {
         <p className="rounded-xl border border-amber-100 bg-amber-50 p-3 text-xs leading-5 text-amber-800">
           Density is a quality check, not a ranking formula. Use the result to catch missing terms or obvious stuffing, then focus on usefulness and search intent.
         </p>
+      </div>
+    </div>
+  )
+}
+
+function HeadingHierarchyChecker() {
+  const [targetKeyword, setTargetKeyword] = useState('on page seo checker')
+  const [html, setHtml] = useState('<main>\n  <h1>On Page SEO Checker</h1>\n  <h2>Quick answer</h2>\n  <h2>What the checker reviews</h2>\n  <h3>Title tag</h3>\n  <h3>Meta description</h3>\n  <h2>FAQ</h2>\n</main>')
+
+  const report = useMemo(() => {
+    const headings = Array.from(html.matchAll(/<(h[1-6])\b[^>]*>([\s\S]*?)<\/\1>/gi)).map((match, index) => {
+      const tag = match[1].toLowerCase()
+      const level = Number(tag.replace('h', ''))
+      const text = (match[2] ?? '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim()
+      return {
+        index: index + 1,
+        level,
+        tag,
+        text,
+        empty: text.length === 0,
+      }
+    })
+    const keyword = targetKeyword.trim().toLowerCase()
+    const h1s = headings.filter((heading) => heading.level === 1)
+    const keywordInH1 = keyword ? h1s.some((heading) => heading.text.toLowerCase().includes(keyword)) : false
+    const skippedLevels = headings.filter((heading, index) => {
+      const previous = headings[index - 1]
+      return Boolean(previous && heading.level - previous.level > 1)
+    })
+    const repeatedH1 = h1s.length > 1
+    const items: ScoreItem[] = [
+      { label: 'One clear H1', ok: h1s.length === 1, detail: `${h1s.length} H1 heading${h1s.length === 1 ? '' : 's'} found.` },
+      { label: 'Primary keyword in H1', ok: !keyword || keywordInH1, detail: keyword ? (keywordInH1 ? 'Target keyword appears in the H1.' : 'Target keyword is missing from the H1.') : 'Add a target keyword if you want to check alignment.' },
+      { label: 'No skipped heading levels', ok: skippedLevels.length === 0, detail: skippedLevels.length === 0 ? 'The heading order does not jump from one level to a much deeper level.' : `${skippedLevels.length} heading jump${skippedLevels.length === 1 ? '' : 's'} found.` },
+      { label: 'No empty headings', ok: headings.every((heading) => !heading.empty), detail: `${headings.filter((heading) => heading.empty).length} empty heading${headings.filter((heading) => heading.empty).length === 1 ? '' : 's'} found.` },
+      { label: 'Enough structure to scan', ok: headings.length >= 3, detail: `${headings.length} total heading${headings.length === 1 ? '' : 's'} found.` },
+    ]
+
+    const csv = ['order,tag,level,text,signal']
+      .concat(
+        headings.map((heading) => {
+          const previous = headings[heading.index - 2]
+          const jumped = previous && heading.level - previous.level > 1
+          const signal = heading.empty ? 'empty' : jumped ? 'skipped-level' : repeatedH1 && heading.level === 1 ? 'multiple-h1' : 'ok'
+          return `${heading.index},${heading.tag},${heading.level},"${heading.text.replace(/"/g, '""')}",${signal}`
+        })
+      )
+      .join('\n')
+
+    return { headings, h1s, skippedLevels, items, csv }
+  }, [html, targetKeyword])
+
+  return (
+    <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_400px]">
+      <Panel title="Heading inputs">
+        <Field label="Target keyword" value={targetKeyword} onChange={setTargetKeyword} />
+        <TextArea
+          label="Paste page HTML"
+          value={html}
+          onChange={setHtml}
+          rows={13}
+          hint="Paste rendered HTML or the main content block to extract H1-H6 headings and check hierarchy."
+        />
+      </Panel>
+      <div className="space-y-4">
+        <ScoreList items={report.items} />
+        <CopyBox label="Heading CSV" value={report.csv} />
+      </div>
+      <div className="lg:col-span-2">
+        <Panel title="Heading outline">
+          {report.headings.length === 0 ? (
+            <p className="text-sm text-gray-600">No headings found in the pasted HTML.</p>
+          ) : (
+            <div className="space-y-2">
+              {report.headings.map((heading) => {
+                const previous = report.headings[heading.index - 2]
+                const jumped = Boolean(previous && heading.level - previous.level > 1)
+                const signal = heading.empty ? 'Empty' : jumped ? 'Skipped level' : report.h1s.length > 1 && heading.level === 1 ? 'Multiple H1' : 'OK'
+                return (
+                  <div key={`${heading.index}-${heading.tag}`} className="rounded-xl border border-gray-100 bg-white p-3 shadow-sm">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="rounded-full bg-gray-100 px-2 py-1 text-xs font-semibold text-gray-700">{heading.tag.toUpperCase()}</span>
+                      <span className="text-xs text-gray-500">Level {heading.level}</span>
+                      <span className={`rounded-full px-2 py-1 text-xs font-semibold ${signal === 'OK' ? 'bg-brand-100 text-brand-700' : 'bg-amber-100 text-amber-700'}`}>{signal}</span>
+                    </div>
+                    <p className="mt-2 text-sm text-gray-700">{heading.text || '(empty heading)'}</p>
+                  </div>
+                )
+              })}
+            </div>
+          )}
+        </Panel>
+      </div>
+    </div>
+  )
+}
+
+function ImageAltTextChecker() {
+  const [html, setHtml] = useState('<main>\n  <img src=\"/images/on-page-checker.png\" alt=\"On-page SEO checker score panel\" />\n  <img src=\"/images/serp-preview.png\" alt=\"\" />\n  <img src=\"/images/dashboard.png\" alt=\"image\" />\n</main>')
+
+  const report = useMemo(() => {
+    const readAttr = (tag: string, name: string) => tag.match(new RegExp(`${name}=["']([^"']*)["']`, 'i'))?.[1]?.trim() ?? ''
+    const images = Array.from(html.matchAll(/<img\b[^>]*>/gi)).map((match, index) => {
+      const tag = match[0] ?? ''
+      const src = readAttr(tag, 'src')
+      const alt = readAttr(tag, 'alt')
+      return {
+        index: index + 1,
+        src,
+        alt,
+        missing: !/\balt\s*=/.test(tag),
+        decorative: /\balt\s*=/.test(tag) && alt === '',
+        generic: /^(image|photo|picture|graphic|img|screenshot)$/i.test(alt),
+      }
+    })
+
+    const duplicateMap = new Map<string, number>()
+    for (const image of images) {
+      if (!image.alt) continue
+      duplicateMap.set(image.alt.toLowerCase(), (duplicateMap.get(image.alt.toLowerCase()) ?? 0) + 1)
+    }
+    const duplicates = images.filter((image) => image.alt && (duplicateMap.get(image.alt.toLowerCase()) ?? 0) > 1)
+    const items: ScoreItem[] = [
+      { label: 'Alt attribute present', ok: images.every((image) => !image.missing), detail: `${images.filter((image) => image.missing).length} image${images.filter((image) => image.missing).length === 1 ? '' : 's'} missing an alt attribute.` },
+      { label: 'No generic alt text', ok: images.filter((image) => image.generic).length === 0, detail: `${images.filter((image) => image.generic).length} generic alt text value${images.filter((image) => image.generic).length === 1 ? '' : 's'} found.` },
+      { label: 'Duplicate alt text limited', ok: duplicates.length === 0, detail: `${duplicates.length} image${duplicates.length === 1 ? '' : 's'} share duplicate alt text.` },
+      { label: 'Decorative images intentional', ok: images.filter((image) => image.decorative).length <= 2, detail: `${images.filter((image) => image.decorative).length} empty alt value${images.filter((image) => image.decorative).length === 1 ? '' : 's'} found.` },
+      { label: 'Images detected', ok: images.length > 0, detail: `${images.length} image${images.length === 1 ? '' : 's'} found in the pasted HTML.` },
+    ]
+
+    const csv = ['order,src,alt,signal']
+      .concat(
+        images.map((image) => {
+          const signal = image.missing ? 'missing-alt' : image.generic ? 'generic-alt' : image.decorative ? 'decorative-empty-alt' : duplicates.some((row) => row.index === image.index) ? 'duplicate-alt' : 'ok'
+          return `${image.index},"${image.src.replace(/"/g, '""')}","${image.alt.replace(/"/g, '""')}",${signal}`
+        })
+      )
+      .join('\n')
+
+    return { images, duplicates, items, csv }
+  }, [html])
+
+  return (
+    <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_400px]">
+      <Panel title="Image inputs">
+        <TextArea
+          label="Paste page HTML"
+          value={html}
+          onChange={setHtml}
+          rows={13}
+          hint="Paste rendered HTML or a content block to extract image sources and alt text before publishing."
+        />
+      </Panel>
+      <div className="space-y-4">
+        <ScoreList items={report.items} />
+        <CopyBox label="Image alt CSV" value={report.csv} />
+      </div>
+      <div className="lg:col-span-2">
+        <Panel title="Alt text report">
+          {report.images.length === 0 ? (
+            <p className="text-sm text-gray-600">No images found in the pasted HTML.</p>
+          ) : (
+            <div className="space-y-2">
+              {report.images.map((image) => {
+                const signal = image.missing ? 'Missing alt' : image.generic ? 'Generic alt' : image.decorative ? 'Decorative empty alt' : report.duplicates.some((row) => row.index === image.index) ? 'Duplicate alt' : 'OK'
+                return (
+                  <div key={`${image.src}-${image.index}`} className="rounded-xl border border-gray-100 bg-white p-3 shadow-sm">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="rounded-full bg-gray-100 px-2 py-1 text-xs font-semibold text-gray-700">Image {image.index}</span>
+                      <span className={`rounded-full px-2 py-1 text-xs font-semibold ${signal === 'OK' ? 'bg-brand-100 text-brand-700' : 'bg-amber-100 text-amber-700'}`}>{signal}</span>
+                    </div>
+                    <p className="mt-2 break-all text-xs text-gray-500">{image.src || '(missing src)'}</p>
+                    <p className="mt-2 text-sm text-gray-700">{image.alt || '(empty alt text)'}</p>
+                  </div>
+                )
+              })}
+            </div>
+          )}
+        </Panel>
       </div>
     </div>
   )
@@ -1368,6 +1709,8 @@ export default function SeoToolsCalculator() {
   const slug = getSlug(pathname)
 
   if (slug === 'on-page-seo-checker' || slug === 'on-page-seo-audit-tool') return <OnPageSeoAuditTool />
+  if (slug === 'heading-hierarchy-checker') return <HeadingHierarchyChecker />
+  if (slug === 'image-alt-text-checker') return <ImageAltTextChecker />
   if (slug === 'seo-title-checker' || slug === 'meta-description-checker') return <SerpSnippetPreviewTool />
   if (slug === 'serp-snippet-preview-tool') return <SerpSnippetPreviewTool />
   if (slug === 'meta-tag-generator') return <MetaTagGenerator />

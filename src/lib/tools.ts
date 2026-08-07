@@ -1585,6 +1585,86 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
           { slug: 'generic-anchor-checker', label: 'Generic Anchor Checker' },
         ],
       },
+      {
+        slug: 'heading-hierarchy-checker',
+        title: 'Heading Hierarchy Checker',
+        headline: 'Check H1-H6 Structure Before You Publish',
+        description: 'Free heading hierarchy checker. Paste page HTML to audit H1 count, heading order, skipped levels, empty headings, and keyword alignment before publishing.',
+        seoTitle: 'Free Heading Hierarchy Checker | H1-H6 SEO QA Tool',
+        icon: '🪜',
+        category: 'SEO Tools',
+        keywords: ['heading hierarchy checker', 'h1 checker', 'heading checker', 'heading order checker', 'seo heading checker', 'html heading structure checker'],
+        answerBox: {
+          short: 'A heading hierarchy checker reviews H1-H6 structure so you can catch multiple H1s, skipped heading levels, empty headings, and weak keyword alignment before a page goes live.',
+          bullets: ['Best fit: blog posts, tool pages, service pages, and refreshes', 'Outperformance angle: single-job heading QA without a site crawl, signup, or generic score wall'],
+        },
+        faqs: [
+          { q: 'What does a heading hierarchy checker do?', a: 'It checks the order and clarity of H1-H6 headings in pasted HTML so you can spot multiple H1s, skipped levels, empty headings, and weak page structure before publishing.' },
+          { q: 'Should every page have one H1?', a: 'Most pages should have one clear H1 that names the main topic. Supporting sections can then use H2, H3, and deeper levels only when the structure needs them.' },
+          { q: 'Are skipped heading levels always bad?', a: 'Not always, but jumps like H1 straight to H3 can make the page structure harder to scan for users and search engines. Clean hierarchy is usually the safer default.' },
+          { q: 'Does a good heading outline guarantee rankings?', a: 'No. It improves structure and usability, but rankings still depend on search intent, page usefulness, technical health, and competition.' },
+          { q: 'When should I use this tool?', a: 'Use it before publishing a new page, after a major refresh, or when GSC shows impressions but the page still feels hard to scan and understand.' },
+        ],
+        bodySections: [
+          {
+            heading: 'Heading checker for page structure QA',
+            body: 'Use this when a page draft is almost ready and you want to confirm the H1-H6 outline is clear before requesting indexing or pushing a refresh live.',
+          },
+          {
+            heading: 'Built for exact on-page fixes',
+            body: 'Ranking pages often bury heading feedback inside a full audit. This page gives the heading outline, skipped-level warnings, and H1 check immediately so you can fix structure faster.',
+          },
+          {
+            heading: 'Works with the on-page SEO workflow',
+            body: 'Pair it with the On-Page SEO Checker, SEO Title Checker, and Internal Link Anchor Text Checker when a page needs better structure, better metadata, and better next-step links.',
+          },
+        ],
+        programmaticVariants: [
+          { slug: 'h1-checker', label: 'H1 Checker' },
+          { slug: 'heading-order-checker', label: 'Heading Order Checker' },
+          { slug: 'for-blog-posts', label: 'for Blog Posts' },
+        ],
+      },
+      {
+        slug: 'image-alt-text-checker',
+        title: 'Image Alt Text Checker',
+        headline: 'Check Image Alt Text Before You Publish',
+        description: 'Free image alt text checker. Paste page HTML to find missing alt attributes, generic alt text, duplicate image descriptions, and decorative-image risks before publishing.',
+        seoTitle: 'Free Image Alt Text Checker | Alt Attribute SEO QA',
+        icon: '🖼️',
+        category: 'SEO Tools',
+        keywords: ['image alt text checker', 'alt text checker', 'image alt checker', 'img alt tag checker', 'missing alt text checker', 'seo image alt text'],
+        answerBox: {
+          short: 'An image alt text checker helps you catch missing alt attributes, weak generic descriptions, duplicate alt text, and decorative-image mistakes before a page goes live.',
+          bullets: ['Best fit: blog posts, tool pages, landing pages, and image-heavy refreshes', 'Outperformance angle: image-level accessibility and SEO QA without a crawler account'],
+        },
+        faqs: [
+          { q: 'What does an image alt text checker do?', a: 'It extracts images from pasted HTML and shows whether alt attributes are missing, empty, generic, duplicated, or likely to need a better description before publishing.' },
+          { q: 'Should every image have alt text?', a: 'Important content images usually should. Decorative images can intentionally use an empty alt value, but missing alt attributes are still worth reviewing.' },
+          { q: 'What counts as weak alt text?', a: 'Generic values like image, photo, screenshot, or picture rarely help users or search engines understand the image. Alt text should describe the image purpose when it matters.' },
+          { q: 'Can duplicate alt text be a problem?', a: 'Yes. Repeating the same alt text across different images can hide what each image actually shows and reduce clarity for screen-reader users.' },
+          { q: 'When should I use this tool?', a: 'Use it before publishing a new page, after inserting screenshots or charts, or when you are tightening an existing page for on-page SEO and accessibility.' },
+        ],
+        bodySections: [
+          {
+            heading: 'Alt text checker for image-heavy pages',
+            body: 'Use this when a page includes screenshots, charts, workflow visuals, or product images and you want to catch missing or weak alt text before the page goes live.',
+          },
+          {
+            heading: 'Smaller and faster than a full audit',
+            body: 'Broad SEO tools often mix image checks into a long report. This page keeps the image list, alt text signals, and exportable review notes together in one browser-side workflow.',
+          },
+          {
+            heading: 'Fits the existing FreelTools SEO stack',
+            body: 'Run it after the On-Page SEO Checker or Heading Hierarchy Checker so your metadata, headings, links, and image descriptions are all reviewed before publishing.',
+          },
+        ],
+        programmaticVariants: [
+          { slug: 'alt-tag-checker', label: 'Alt Tag Checker' },
+          { slug: 'for-blog-images', label: 'for Blog Images' },
+          { slug: 'for-seo-audits', label: 'for SEO Audits' },
+        ],
+      },
 
       {
         slug: 'seo-title-checker',
