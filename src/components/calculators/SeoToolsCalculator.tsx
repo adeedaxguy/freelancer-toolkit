@@ -62,6 +62,7 @@ type SeoPageAnalysis = {
 }
 
 type LinkStatusResult = {
+  inputUrl: string
   url: string
   finalUrl: string
   status: number | null
@@ -159,6 +160,18 @@ function splitLines(value: string) {
     .split('\n')
     .map((line) => line.trim())
     .filter(Boolean)
+}
+
+function escapeRegExp(value: string) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+}
+
+function robotsPathMatches(pattern: string, testPath: string) {
+  const cleanPattern = pattern.trim()
+  if (!cleanPattern) return false
+  if (cleanPattern === '/') return true
+  const regex = new RegExp(`^${escapeRegExp(cleanPattern).replace(/\\\*/g, '.*').replace(/\\\$/g, '$')}`)
+  return regex.test(testPath)
 }
 
 function csvEscape(value: string | number | boolean | null | undefined) {
@@ -583,13 +596,50 @@ function SerpSnippetPreviewTool() {
   const [description, setDescription] = useState(defaults.description)
   const [url, setUrl] = useState(defaults.url)
   const [mode, setMode] = useState('desktop')
+  const [targetKeyword, setTargetKeyword] = useState(slug === 'meta-description-checker' ? 'meta description checker' : 'seo title checker')
+  const [searchIntent, setSearchIntent] = useState('use a free tool before publishing')
 
   const titleOk = title.length >= 35 && title.length <= 62
   const descOk = description.length >= 110 && description.length <= 160
+  const keyword = targetKeyword.trim().toLowerCase()
+  const titleHasKeyword = keyword ? title.toLowerCase().includes(keyword) : true
+  const descriptionHasAction = /\b(use|check|preview|generate|copy|download|fix|audit|create)\b/i.test(description)
+  const snippetChecks: ScoreItem[] = [
+    { label: 'Title working length', ok: titleOk, detail: `${title.length} characters. Titles outside the working range may still show, but rewrite/truncation risk increases.` },
+    { label: 'Meta description working length', ok: descOk, detail: `${description.length} characters. Keep it long enough to be useful and short enough to scan.` },
+    { label: 'Keyword alignment', ok: titleHasKeyword, detail: keyword ? (titleHasKeyword ? 'Target keyword appears in the title.' : 'Target keyword is missing from the title.') : 'Add a keyword to check alignment.' },
+    { label: 'Action promise', ok: descriptionHasAction, detail: descriptionHasAction ? 'Description names what the searcher can do next.' : 'Add a verb that makes the next action obvious.' },
+    { label: 'URL clarity', ok: /^https?:\/\//i.test(url), detail: /^https?:\/\//i.test(url) ? slugHost(url) : 'Use a valid full URL for launch QA.' },
+  ]
+  const titleVariants = [
+    `${titleCase(targetKeyword)} | Free ${slug === 'seo-title-checker' ? 'Title Preview' : 'SERP Preview'} Tool`,
+    `Free ${titleCase(targetKeyword)} | No Signup`,
+    `${titleCase(targetKeyword)} for ${titleCase(searchIntent.replace(/\b(use|a|the|before)\b/gi, '').trim() || 'SEO Pages')}`,
+  ]
+  const descriptionVariants = [
+    `Use this free ${targetKeyword} to ${searchIntent}, check length, preview the SERP snippet, and copy a cleaner version before publishing.`,
+    `Preview ${targetKeyword} output for Google search results. Check length, keyword alignment, action clarity, and URL display without creating an account.`,
+  ]
+  const optimizationBrief = `Snippet optimization brief
+
+Target keyword: ${targetKeyword}
+Search intent: ${searchIntent}
+URL: ${url}
+
+Checks:
+${snippetChecks.map((item) => `- ${item.ok ? 'PASS' : 'FIX'}: ${item.label} — ${item.detail}`).join('\n')}
+
+Title variants:
+${titleVariants.map((item) => `- ${item}`).join('\n')}
+
+Meta description variants:
+${descriptionVariants.map((item) => `- ${item}`).join('\n')}`
 
   return (
     <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_420px]">
       <Panel title="Snippet inputs">
+        <Field label="Target keyword" value={targetKeyword} onChange={setTargetKeyword} />
+        <Field label="Searcher action" value={searchIntent} onChange={setSearchIntent} />
         <Field label="Title tag" value={title} onChange={setTitle} />
         <TextArea label="Meta description" value={description} onChange={setDescription} rows={4} />
         <Field label="Page URL" value={url} onChange={setUrl} />
@@ -607,14 +657,18 @@ function SerpSnippetPreviewTool() {
           <Stat label="Description length" value={`${description.length}`} detail={descOk ? 'Good working range.' : 'Aim for 110-160 characters.'} highlight={descOk} />
         </div>
       </Panel>
-      <Panel title="Google-style preview">
-        <div className={`rounded-2xl border border-gray-100 bg-white p-5 shadow-sm ${mode === 'mobile' ? 'max-w-sm' : ''}`}>
-          <p className="truncate text-sm text-gray-700">{url}</p>
-          <p className="mt-1 text-xl leading-6 text-[#1a0dab]">{title}</p>
-          <p className="mt-1 text-sm leading-5 text-gray-600">{description}</p>
-        </div>
-        <p className="text-xs leading-5 text-gray-500">Google can rewrite titles and snippets. Use this preview to check clarity, length, and search intent before publishing.</p>
-      </Panel>
+      <div className="space-y-4">
+        <Panel title="Google-style preview">
+          <div className={`rounded-2xl border border-gray-100 bg-white p-5 shadow-sm ${mode === 'mobile' ? 'max-w-sm' : ''}`}>
+            <p className="truncate text-sm text-gray-700">{url}</p>
+            <p className="mt-1 text-xl leading-6 text-[#1a0dab]">{title}</p>
+            <p className="mt-1 text-sm leading-5 text-gray-600">{description}</p>
+          </div>
+          <p className="text-xs leading-5 text-gray-500">Google can rewrite titles and snippets. Use this preview to check clarity, length, and search intent before publishing.</p>
+        </Panel>
+        <ScoreList items={snippetChecks} />
+        <CopyBox label="Snippet variants and QA brief" value={optimizationBrief} downloadName="serp-snippet-brief.txt" />
+      </div>
     </div>
   )
 }
@@ -626,19 +680,27 @@ function MetaTagGenerator() {
   const [image, setImage] = useState('https://example.com/og-image.jpg')
   const [robots, setRobots] = useState('index, follow')
 
-  const tags = `<title>${title}</title>
-<meta name="description" content="${description}" />
-<link rel="canonical" href="${canonical}" />
-<meta name="robots" content="${robots}" />
-<meta property="og:title" content="${title}" />
-<meta property="og:description" content="${description}" />
-<meta property="og:url" content="${canonical}" />
+  const tags = `<title>${escapeXml(title)}</title>
+<meta name="description" content="${escapeXml(description)}" />
+<link rel="canonical" href="${escapeXml(canonical)}" />
+<meta name="robots" content="${escapeXml(robots)}" />
+<meta property="og:title" content="${escapeXml(title)}" />
+<meta property="og:description" content="${escapeXml(description)}" />
+<meta property="og:url" content="${escapeXml(canonical)}" />
 <meta property="og:type" content="website" />
-<meta property="og:image" content="${image}" />
+<meta property="og:image" content="${escapeXml(image)}" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="${title}" />
-<meta name="twitter:description" content="${description}" />
-<meta name="twitter:image" content="${image}" />`
+<meta name="twitter:title" content="${escapeXml(title)}" />
+<meta name="twitter:description" content="${escapeXml(description)}" />
+<meta name="twitter:image" content="${escapeXml(image)}" />`
+
+  const checks: ScoreItem[] = [
+    { label: 'Title usable', ok: title.length >= 35 && title.length <= 70, detail: `${title.length} characters. Keep the page title clear and not overly long.` },
+    { label: 'Description usable', ok: description.length >= 110 && description.length <= 170, detail: `${description.length} characters. Use one specific promise and next action.` },
+    { label: 'Canonical URL valid', ok: /^https?:\/\//i.test(canonical), detail: canonical || 'Add a full canonical URL.' },
+    { label: 'OG image valid', ok: /^https?:\/\//i.test(image), detail: image || 'Use an absolute image URL for social previews.' },
+    { label: 'Robots directive selected', ok: robots.includes('index') || robots.includes('noindex'), detail: robots },
+  ]
 
   return (
     <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_420px]">
@@ -659,7 +721,10 @@ function MetaTagGenerator() {
           ]}
         />
       </Panel>
-      <CopyBox label="Head tags" value={tags} />
+      <div className="space-y-4">
+        <ScoreList items={checks} />
+        <CopyBox label="Head tags" value={tags} downloadName="seo-head-tags.html" />
+      </div>
     </div>
   )
 }
@@ -744,6 +809,13 @@ function SchemaMarkupGenerator() {
   const script = `<script type="application/ld+json">
 ${json}
 </script>`
+  const schemaChecks: ScoreItem[] = [
+    { label: 'Name present', ok: name.trim().length > 0, detail: name.trim() ? 'Main entity has a name/headline.' : 'Add the visible page name or headline.' },
+    { label: 'Description useful', ok: description.trim().length >= 50, detail: `${description.length} characters. Schema descriptions should summarize the visible page.` },
+    { label: 'URL valid', ok: /^https?:\/\//i.test(url), detail: url || 'Add the canonical page URL.' },
+    { label: 'Image URL valid', ok: schemaType === 'FAQPage' || /^https?:\/\//i.test(image), detail: schemaType === 'FAQPage' ? 'FAQPage does not require an image.' : image || 'Add a representative image URL.' },
+    { label: 'Visible-content match', ok: schemaType !== 'FAQPage' || (questionOne.trim().length > 0 && answerOne.trim().length > 0 && questionTwo.trim().length > 0 && answerTwo.trim().length > 0), detail: 'Only generate schema for content users can see on the page.' },
+  ]
 
   return (
     <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_420px]">
@@ -773,7 +845,10 @@ ${json}
           </>
         )}
       </Panel>
-      <CopyBox label="JSON-LD schema" value={script} />
+      <div className="space-y-4">
+        <ScoreList items={schemaChecks} />
+        <CopyBox label="JSON-LD schema" value={script} downloadName={`${schemaType.toLowerCase()}-schema.jsonld`} />
+      </div>
     </div>
   )
 }
@@ -802,7 +877,14 @@ Disallow: /
 ` : ''}Sitemap: ${sitemapUrl}
 `
 
-  const blocked = paths.some((path) => testPath.startsWith(path.replace('*', '')))
+  const blocked = paths.some((path) => robotsPathMatches(path, testPath))
+  const robotsChecks: ScoreItem[] = [
+    { label: 'Sitemap URL valid', ok: /^https?:\/\/.+\/.+/i.test(sitemapUrl), detail: sitemapUrl },
+    { label: 'Public pages not fully blocked', ok: !paths.includes('/'), detail: paths.includes('/') ? 'Disallow: / blocks the entire site for the selected user agent.' : 'No full-site block found.' },
+    { label: 'Test path result', ok: !blocked, detail: `${testPath || '/'} is ${blocked ? 'blocked' : 'allowed'} by the current Disallow rules.` },
+    { label: 'Private paths listed', ok: paths.length > 0, detail: `${paths.length} disallow rule${paths.length === 1 ? '' : 's'} configured.` },
+    { label: 'AI crawler choice explicit', ok: aiBots === 'yes' || aiBots === 'no', detail: aiBots === 'yes' ? 'AI crawler rules are included.' : 'Only standard crawler rules are included.' },
+  ]
 
   return (
     <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_420px]">
@@ -820,9 +902,12 @@ Disallow: /
           ]}
         />
         <Field label="Test a path" value={testPath} onChange={setTestPath} />
-        <Stat label="Path test" value={blocked ? 'Blocked' : 'Allowed'} detail="Simple prefix check against your Disallow lines." highlight={!blocked} />
+        <Stat label="Path test" value={blocked ? 'Blocked' : 'Allowed'} detail="Wildcard-aware check against your Disallow lines." highlight={!blocked} />
       </Panel>
-      <CopyBox label="robots.txt" value={robots} />
+      <div className="space-y-4">
+        <ScoreList items={robotsChecks} />
+        <CopyBox label="robots.txt" value={robots} downloadName="robots.txt" />
+      </div>
     </div>
   )
 }
@@ -833,13 +918,19 @@ function XmlSitemapGenerator() {
   const [priority, setPriority] = useState('0.8')
   const [includeLastmod, setIncludeLastmod] = useState('yes')
 
-  const parsedUrls = Array.from(
-    new Set(
-      urls
-        .split(/\s+/)
-        .map((url) => url.trim())
-        .filter((url) => /^https?:\/\//i.test(url))
-    )
+  const rawUrls = urls.split(/\s+/).map((url) => url.trim()).filter(Boolean)
+  const parsedUrls = Array.from(new Set(rawUrls.filter((url) => /^https?:\/\//i.test(url))))
+  const invalidUrls = rawUrls.filter((url) => !/^https?:\/\//i.test(url))
+  const hosts = new Set(
+    parsedUrls
+      .map((url) => {
+        try {
+          return new URL(url).hostname.replace(/^www\./, '')
+        } catch {
+          return ''
+        }
+      })
+      .filter(Boolean)
   )
   const today = new Date().toISOString().slice(0, 10)
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
@@ -854,6 +945,25 @@ ${parsedUrls
   )
   .join('\n')}
 </urlset>`
+  const sitemapChecks: ScoreItem[] = [
+    { label: 'Valid absolute URLs', ok: parsedUrls.length > 0 && invalidUrls.length === 0, detail: `${parsedUrls.length} valid, ${invalidUrls.length} invalid or relative.` },
+    { label: 'No duplicate URL bloat', ok: parsedUrls.length === rawUrls.filter((url) => /^https?:\/\//i.test(url)).length, detail: `${rawUrls.length - parsedUrls.length} duplicate or invalid row${rawUrls.length - parsedUrls.length === 1 ? '' : 's'} removed from output.` },
+    { label: 'Single host set', ok: hosts.size <= 1, detail: hosts.size <= 1 ? 'All sitemap URLs share one host.' : `${hosts.size} hosts found. Split by property when needed.` },
+    { label: 'Sitemap size within limit', ok: parsedUrls.length <= 50000, detail: `${parsedUrls.length} URLs. Standard sitemap files should stay under 50,000 URLs.` },
+    { label: 'Priority valid', ok: Number(priority) >= 0 && Number(priority) <= 1, detail: `Priority ${priority}. Use 0.0 to 1.0.` },
+  ]
+  const auditCsv = csvRows(
+    ['url', 'host', 'included'],
+    rawUrls.map((url) => {
+      let host = ''
+      try {
+        host = new URL(url).hostname
+      } catch {
+        host = ''
+      }
+      return [url, host, parsedUrls.includes(url) ? 'yes' : 'no']
+    })
+  )
 
   return (
     <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_420px]">
@@ -879,7 +989,11 @@ ${parsedUrls
           <Stat label="Limit note" value={parsedUrls.length > 50000 ? 'Too many' : 'OK'} detail="A sitemap file should stay under 50,000 URLs." highlight={parsedUrls.length <= 50000} />
         </div>
       </Panel>
-      <CopyBox label="sitemap.xml" value={xml} />
+      <div className="space-y-4">
+        <ScoreList items={sitemapChecks} />
+        <CopyBox label="sitemap.xml" value={xml} downloadName="sitemap.xml" />
+        <CopyBox label="Sitemap URL audit CSV" value={auditCsv} downloadName="sitemap-url-audit.csv" />
+      </div>
     </div>
   )
 }
@@ -893,8 +1007,17 @@ function HreflangTagGenerator() {
     .map((line) => line.trim().split(/\s+/))
     .filter(([lang, url]) => lang && /^https?:\/\//i.test(url))
     .map(([lang, url]) => ({ lang, url }))
+  const duplicateLangs = entries.filter((entry, index) => entries.findIndex((row) => row.lang.toLowerCase() === entry.lang.toLowerCase()) !== index)
+  const invalidLangs = entries.filter((entry) => !/^(x-default|[a-z]{2,3}(-[a-z0-9]{2,8})?)$/i.test(entry.lang))
 
   const tags = `${entries.map((entry) => `<link rel="alternate" hreflang="${entry.lang}" href="${entry.url}" />`).join('\n')}${xDefault ? `\n<link rel="alternate" hreflang="x-default" href="${xDefault}" />` : ''}`
+  const hreflangChecks: ScoreItem[] = [
+    { label: 'At least two alternates', ok: entries.length >= 2, detail: `${entries.length} alternate URL${entries.length === 1 ? '' : 's'} found.` },
+    { label: 'Locale code format', ok: invalidLangs.length === 0, detail: invalidLangs.length ? `${invalidLangs.length} locale code${invalidLangs.length === 1 ? '' : 's'} need review.` : 'Locale codes look valid.' },
+    { label: 'No duplicate languages', ok: duplicateLangs.length === 0, detail: `${duplicateLangs.length} duplicate language row${duplicateLangs.length === 1 ? '' : 's'} found.` },
+    { label: 'x-default included', ok: /^https?:\/\//i.test(xDefault), detail: xDefault || 'Add a global fallback URL when the site has a language selector.' },
+    { label: 'Full URL format', ok: entries.every((entry) => /^https?:\/\//i.test(entry.url)), detail: 'Every hreflang href should be an absolute URL.' },
+  ]
 
   return (
     <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_420px]">
@@ -906,7 +1029,10 @@ function HreflangTagGenerator() {
           <Stat label="x-default" value={xDefault ? 'Included' : 'Missing'} detail="Helpful for language selectors or global fallback pages." highlight={Boolean(xDefault)} />
         </div>
       </Panel>
-      <CopyBox label="Hreflang tags" value={tags} />
+      <div className="space-y-4">
+        <ScoreList items={hreflangChecks} />
+        <CopyBox label="Hreflang tags" value={tags} downloadName="hreflang-tags.html" />
+      </div>
     </div>
   )
 }
@@ -926,7 +1052,24 @@ function KeywordDensityChecker() {
       if (word.length < 3 || stopWords.has(word)) continue
       terms.set(word, (terms.get(word) ?? 0) + 1)
     }
+    const phrases = new Map<string, number>()
+    for (let index = 0; index < words.length - 1; index += 1) {
+      const phraseWords = [words[index], words[index + 1]]
+      if (phraseWords.some((word) => word.length < 3 || stopWords.has(word))) continue
+      const phrase = phraseWords.join(' ')
+      phrases.set(phrase, (phrases.get(phrase) ?? 0) + 1)
+    }
     const topTerms = Array.from(terms.entries()).sort((a, b) => b[1] - a[1]).slice(0, 12)
+    const topPhrases = Array.from(phrases.entries()).sort((a, b) => b[1] - a[1]).slice(0, 10)
+    const targetTerms = keywordCore(targetKeyword)
+    const missingTargetTerms = targetTerms.filter((term) => !terms.has(term))
+    const checks: ScoreItem[] = [
+      { label: 'Content has enough text', ok: words.length >= 300, detail: `${words.length} words found. Thin pages usually need more context, examples, and next steps.` },
+      { label: 'Target keyword appears', ok: occurrences > 0, detail: `${occurrences} exact phrase use${occurrences === 1 ? '' : 's'} found.` },
+      { label: 'Density not stuffed', ok: occurrences === 0 || density <= 3, detail: `${density.toFixed(2)}% exact-match density. Use natural coverage over repetition.` },
+      { label: 'Core terms covered', ok: missingTargetTerms.length === 0, detail: missingTargetTerms.length ? `Missing: ${missingTargetTerms.join(', ')}` : 'All target terms appear at least once.' },
+      { label: 'Term variety present', ok: topTerms.length >= 6, detail: `${topTerms.length} meaningful repeated terms detected.` },
+    ]
     return {
       words: words.length,
       chars: content.length,
@@ -934,8 +1077,27 @@ function KeywordDensityChecker() {
       density,
       readingTime: Math.max(1, Math.ceil(words.length / 220)),
       topTerms,
+      topPhrases,
+      checks,
+      missingTargetTerms,
     }
   }, [content, targetKeyword])
+  const contentReport = `Keyword quality report
+
+Target keyword: ${targetKeyword}
+Words: ${analysis.words}
+Exact uses: ${analysis.occurrences}
+Density: ${analysis.density.toFixed(2)}%
+Estimated reading time: ${analysis.readingTime} min
+
+Checks:
+${analysis.checks.map((item) => `- ${item.ok ? 'PASS' : 'FIX'}: ${item.label} — ${item.detail}`).join('\n')}
+
+Top terms:
+${analysis.topTerms.map(([term, count]) => `- ${term}: ${count}`).join('\n')}
+
+Top phrases:
+${analysis.topPhrases.map(([phrase, count]) => `- ${phrase}: ${count}`).join('\n')}`
 
   return (
     <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_380px]">
@@ -946,6 +1108,7 @@ function KeywordDensityChecker() {
       <div className="space-y-4">
         <Stat label="Word count" value={`${analysis.words}`} detail={`${analysis.readingTime} min estimated read time`} highlight />
         <Stat label="Keyword uses" value={`${analysis.occurrences}`} detail={`${analysis.density.toFixed(2)}% density`} highlight={analysis.occurrences > 0 && analysis.density <= 3} />
+        <ScoreList items={analysis.checks} />
         <div className="rounded-2xl border border-gray-100 bg-white p-4 shadow-sm">
           <h3 className="text-sm font-semibold text-gray-900">Top repeated terms</h3>
           <div className="mt-3 flex flex-wrap gap-2">
@@ -956,6 +1119,17 @@ function KeywordDensityChecker() {
             ))}
           </div>
         </div>
+        <div className="rounded-2xl border border-gray-100 bg-white p-4 shadow-sm">
+          <h3 className="text-sm font-semibold text-gray-900">Top repeated phrases</h3>
+          <div className="mt-3 flex flex-wrap gap-2">
+            {analysis.topPhrases.map(([phrase, count]) => (
+              <span key={phrase} className="rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-700">
+                {phrase} · {count}
+              </span>
+            ))}
+          </div>
+        </div>
+        <CopyBox label="Keyword quality report" value={contentReport} downloadName="keyword-quality-report.txt" />
         <p className="rounded-xl border border-amber-100 bg-amber-50 p-3 text-xs leading-5 text-amber-800">
           Density is a quality check, not a ranking formula. Use the result to catch missing terms or obvious stuffing, then focus on usefulness and search intent.
         </p>
@@ -965,8 +1139,26 @@ function KeywordDensityChecker() {
 }
 
 function HeadingHierarchyChecker() {
+  const [pageUrl, setPageUrl] = useState('https://freeltools.com/tools/on-page-seo-checker')
   const [targetKeyword, setTargetKeyword] = useState('on page seo checker')
   const [html, setHtml] = useState('<main>\n  <h1>On Page SEO Checker</h1>\n  <h2>Quick answer</h2>\n  <h2>What the checker reviews</h2>\n  <h3>Title tag</h3>\n  <h3>Meta description</h3>\n  <h2>FAQ</h2>\n</main>')
+  const [fetchingPage, setFetchingPage] = useState(false)
+  const [fetchError, setFetchError] = useState('')
+
+  const fetchLiveHeadings = async () => {
+    setFetchingPage(true)
+    setFetchError('')
+    try {
+      const data = await postSeoAnalysis<{ ok: true; result: SeoPageAnalysis }>({ mode: 'page', url: pageUrl })
+      setHtml(
+        `<main>\n${data.result.headings.map((heading) => `  <${heading.tag}>${heading.text}</${heading.tag}>`).join('\n')}\n</main>`
+      )
+    } catch (error) {
+      setFetchError(error instanceof Error ? error.message : 'Could not fetch headings from the live URL')
+    } finally {
+      setFetchingPage(false)
+    }
+  }
 
   const report = useMemo(() => {
     const headings = Array.from(html.matchAll(/<(h[1-6])\b[^>]*>([\s\S]*?)<\/\1>/gi)).map((match, index) => {
@@ -1014,6 +1206,11 @@ function HeadingHierarchyChecker() {
   return (
     <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_400px]">
       <Panel title="Heading inputs">
+        <Field label="Live page URL" value={pageUrl} onChange={setPageUrl} />
+        <button type="button" onClick={fetchLiveHeadings} disabled={fetchingPage} className="rounded-full bg-gray-950 px-4 py-2 text-sm font-semibold text-white transition hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-60 active:scale-[0.96]">
+          {fetchingPage ? 'Fetching headings...' : 'Fetch live headings'}
+        </button>
+        {fetchError && <p className="rounded-xl border border-amber-200 bg-amber-50 p-3 text-sm leading-6 text-amber-800">{fetchError}</p>}
         <Field label="Target keyword" value={targetKeyword} onChange={setTargetKeyword} />
         <TextArea
           label="Paste page HTML"
@@ -1057,11 +1254,31 @@ function HeadingHierarchyChecker() {
 }
 
 function ImageAltTextChecker() {
+  const [pageUrl, setPageUrl] = useState('https://freeltools.com/tools/on-page-seo-checker')
   const [html, setHtml] = useState('<main>\n  <img src=\"/images/on-page-checker.png\" alt=\"On-page SEO checker score panel\" />\n  <img src=\"/images/serp-preview.png\" alt=\"\" />\n  <img src=\"/images/dashboard.png\" alt=\"image\" />\n</main>')
+  const [fetchingPage, setFetchingPage] = useState(false)
+  const [fetchError, setFetchError] = useState('')
+
+  const fetchLiveImages = async () => {
+    setFetchingPage(true)
+    setFetchError('')
+    try {
+      const data = await postSeoAnalysis<{ ok: true; result: SeoPageAnalysis }>({ mode: 'page', url: pageUrl })
+      const imageTag = 'img'
+      setHtml(
+        `<main>\n${data.result.images.map((image) => `  <${imageTag} src="${escapeXml(image.src)}"${image.hasAltAttribute ? ` alt="${escapeXml(image.alt)}"` : ''} />`).join('\n')}\n</main>`
+      )
+    } catch (error) {
+      setFetchError(error instanceof Error ? error.message : 'Could not fetch images from the live URL')
+    } finally {
+      setFetchingPage(false)
+    }
+  }
 
   const report = useMemo(() => {
     const readAttr = (tag: string, name: string) => tag.match(new RegExp(`${name}=["']([^"']*)["']`, 'i'))?.[1]?.trim() ?? ''
-    const images = Array.from(html.matchAll(/<img\b[^>]*>/gi)).map((match, index) => {
+    const imageTagPattern = new RegExp('<' + 'img\\b[^>]*>', 'gi')
+    const images = Array.from(html.matchAll(imageTagPattern)).map((match, index) => {
       const tag = match[0] ?? ''
       const src = readAttr(tag, 'src')
       const alt = readAttr(tag, 'alt')
@@ -1104,6 +1321,11 @@ function ImageAltTextChecker() {
   return (
     <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_400px]">
       <Panel title="Image inputs">
+        <Field label="Live page URL" value={pageUrl} onChange={setPageUrl} />
+        <button type="button" onClick={fetchLiveImages} disabled={fetchingPage} className="rounded-full bg-gray-950 px-4 py-2 text-sm font-semibold text-white transition hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-60 active:scale-[0.96]">
+          {fetchingPage ? 'Fetching images...' : 'Fetch live images'}
+        </button>
+        {fetchError && <p className="rounded-xl border border-amber-200 bg-amber-50 p-3 text-sm leading-6 text-amber-800">{fetchError}</p>}
         <TextArea
           label="Paste page HTML"
           value={html}
@@ -1168,6 +1390,17 @@ function UtmBuilder() {
       return { url: 'Enter a valid URL that starts with https://', valid: false }
     }
   }, [baseUrl, campaign, content, medium, source, term])
+  const utmChecks: ScoreItem[] = [
+    { label: 'Destination URL valid', ok: result.valid, detail: result.valid ? 'Campaign URL generated.' : result.url },
+    { label: 'Source named', ok: source.trim().length > 0, detail: source || 'Add a traffic source such as google, newsletter, linkedin, or partner.' },
+    { label: 'Medium named', ok: medium.trim().length > 0, detail: medium || 'Add a medium such as organic, cpc, email, social, or referral.' },
+    { label: 'Campaign naming clean', ok: /^[a-z0-9_ -]+$/i.test(campaign) && !/\s{2,}/.test(campaign), detail: 'Keep campaign names consistent so GA4 reports stay readable.' },
+    { label: 'Content variant tracked', ok: content.trim().length > 0, detail: content || 'Use utm_content when testing multiple links to the same page.' },
+  ]
+  const campaignCsv = csvRows(
+    ['destination', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'final_url'],
+    [[baseUrl, source, medium, campaign, term, content, result.url]]
+  )
 
   return (
     <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_420px]">
@@ -1184,7 +1417,11 @@ function UtmBuilder() {
         </div>
         <Stat label="URL status" value={result.valid ? 'Valid' : 'Check URL'} detail="Use consistent lowercase names so analytics stays clean." highlight={result.valid} />
       </Panel>
-      <CopyBox label="Campaign URL" value={result.url} />
+      <div className="space-y-4">
+        <ScoreList items={utmChecks} />
+        <CopyBox label="Campaign URL" value={result.url} downloadName="utm-campaign-url.txt" />
+        <CopyBox label="Campaign tracking CSV" value={campaignCsv} downloadName="utm-campaign.csv" />
+      </div>
     </div>
   )
 }
@@ -1197,6 +1434,25 @@ function SlugGenerator() {
 
   const slug = makeSlug(title, separator, lowercase === 'yes', Number(maxLength) || 70)
   const words = keywordCore(title)
+  const noStopwordSlug = makeSlug(words.join(' '), separator, lowercase === 'yes', Number(maxLength) || 70)
+  const shortSlug = makeSlug(words.slice(0, 5).join(' '), separator, lowercase === 'yes', 55)
+  const slugChecks: ScoreItem[] = [
+    { label: 'Slug generated', ok: slug.length > 0, detail: slug || 'Add a phrase to generate a slug.' },
+    { label: 'Readable length', ok: slug.length > 0 && slug.length <= 70, detail: `${slug.length} characters. Short readable slugs are easier to scan.` },
+    { label: 'No date/filler overload', ok: !/\b(2023|2024|2025|2026|best|ultimate|complete)\b/i.test(slug), detail: 'Avoid dated or hype terms unless they are part of the actual query intent.' },
+    { label: 'Uses clean separator', ok: !/--|__/.test(slug), detail: `Separator: ${separator === '-' ? 'hyphen' : 'underscore'}.` },
+  ]
+  const slugOutput = `Recommended slug:
+${slug}
+
+Short variant:
+${shortSlug}
+
+Stopword-light variant:
+${noStopwordSlug}
+
+Checks:
+${slugChecks.map((item) => `- ${item.ok ? 'PASS' : 'FIX'}: ${item.label} — ${item.detail}`).join('\n')}`
 
   return (
     <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_420px]">
@@ -1212,7 +1468,10 @@ function SlugGenerator() {
           <Stat label="Core terms" value={`${words.length}`} detail={words.slice(0, 5).join(', ') || 'Add descriptive words.'} highlight={words.length > 0} />
         </div>
       </Panel>
-      <CopyBox label="SEO slug" value={slug} />
+      <div className="space-y-4">
+        <ScoreList items={slugChecks} />
+        <CopyBox label="SEO slug options" value={slugOutput} downloadName="seo-slug-options.txt" />
+      </div>
     </div>
   )
 }
@@ -1239,6 +1498,14 @@ function FaqSchemaGenerator() {
   const output = `<script type="application/ld+json">
 ${JSON.stringify(schema, null, 2)}
 </script>`
+  const duplicateQuestions = faqs.filter((faq, index) => faqs.findIndex((row) => row.question.toLowerCase() === faq.question.toLowerCase()) !== index)
+  const faqChecks: ScoreItem[] = [
+    { label: 'Enough FAQs', ok: faqs.length >= 2, detail: `${faqs.length} valid question-answer block${faqs.length === 1 ? '' : 's'} found.` },
+    { label: 'No duplicate questions', ok: duplicateQuestions.length === 0, detail: `${duplicateQuestions.length} duplicate question${duplicateQuestions.length === 1 ? '' : 's'} found.` },
+    { label: 'Answers are substantial', ok: faqs.every((faq) => faq.answer.length >= 35), detail: 'Short one-word answers are rarely useful for users or structured data.' },
+    { label: 'Page URL valid', ok: /^https?:\/\//i.test(pageUrl), detail: pageUrl || 'Add the page where the visible FAQ appears.' },
+    { label: 'Visible content reminder', ok: true, detail: 'Only add FAQ schema when the same questions and answers are visible on the page.' },
+  ]
 
   return (
     <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_420px]">
@@ -1250,7 +1517,10 @@ ${JSON.stringify(schema, null, 2)}
           <Stat label="Page URL" value={pageUrl.startsWith('http') ? 'Valid' : 'Missing'} detail="Keep schema tied to a real page." highlight={pageUrl.startsWith('http')} />
         </div>
       </Panel>
-      <CopyBox label="FAQ JSON-LD" value={output} />
+      <div className="space-y-4">
+        <ScoreList items={faqChecks} />
+        <CopyBox label="FAQ JSON-LD" value={output} downloadName="faq-schema.jsonld" />
+      </div>
     </div>
   )
 }
@@ -1260,6 +1530,8 @@ function CanonicalTagChecker() {
   const [canonicalUrl, setCanonicalUrl] = useState('https://example.com/free-seo-tools')
   const [robots, setRobots] = useState('index')
   const [duplicates, setDuplicates] = useState('https://example.com/free-seo-tools/\nhttps://www.example.com/free-seo-tools\nhttps://example.com/free-seo-tools?utm_source=ad')
+  const [fetchingPage, setFetchingPage] = useState(false)
+  const [fetchError, setFetchError] = useState('')
 
   const normalize = (value: string) => {
     try {
@@ -1281,11 +1553,29 @@ function CanonicalTagChecker() {
     { label: 'Page is indexable', ok: robots === 'index', detail: robots === 'index' ? 'Indexable page can use a canonical hint.' : 'Do not canonicalize noindex pages unless you understand the tradeoff.' },
     { label: 'Duplicates point to canonical', ok: duplicateRows.length === 0 || matchingDuplicates > 0, detail: `${matchingDuplicates} duplicate examples normalize to the canonical target.` },
   ]
+  const fetchCanonical = async () => {
+    setFetchingPage(true)
+    setFetchError('')
+    try {
+      const data = await postSeoAnalysis<{ ok: true; result: SeoPageAnalysis }>({ mode: 'page', url: pageUrl })
+      setPageUrl(data.result.finalUrl || pageUrl)
+      setCanonicalUrl(data.result.canonical || data.result.finalUrl || canonicalUrl)
+      setRobots(data.result.robots.toLowerCase().includes('noindex') ? 'noindex' : 'index')
+    } catch (error) {
+      setFetchError(error instanceof Error ? error.message : 'Could not fetch canonical data')
+    } finally {
+      setFetchingPage(false)
+    }
+  }
 
   return (
     <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_380px]">
       <Panel title="Canonical inputs">
         <Field label="Current page URL" value={pageUrl} onChange={setPageUrl} />
+        <button type="button" onClick={fetchCanonical} disabled={fetchingPage} className="rounded-full bg-gray-950 px-4 py-2 text-sm font-semibold text-white transition hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-60 active:scale-[0.96]">
+          {fetchingPage ? 'Fetching canonical...' : 'Fetch live canonical'}
+        </button>
+        {fetchError && <p className="rounded-xl border border-amber-200 bg-amber-50 p-3 text-sm leading-6 text-amber-800">{fetchError}</p>}
         <Field label="Canonical URL" value={canonicalUrl} onChange={setCanonicalUrl} />
         <SelectField label="Robots state" value={robots} onChange={setRobots} options={[{ label: 'Indexable', value: 'index' }, { label: 'Noindex', value: 'noindex' }]} />
         <TextArea label="Duplicate or parameter URL examples" value={duplicates} onChange={setDuplicates} rows={5} />
@@ -1297,7 +1587,11 @@ function CanonicalTagChecker() {
 }
 
 function RedirectChainChecker() {
+  const [liveUrl, setLiveUrl] = useState('http://example.com/page')
   const [chainText, setChainText] = useState('http://example.com/page 301\nhttps://example.com/page 301\nhttps://www.example.com/page 200')
+  const [tracing, setTracing] = useState(false)
+  const [traceError, setTraceError] = useState('')
+  const [traceChain, setTraceChain] = useState<RedirectHop[]>([])
 
   const hops = splitLines(chainText).map((line) => {
     const statusMatch = line.match(/\b([12345]\d{2})\b/)
@@ -1309,10 +1603,32 @@ function RedirectChainChecker() {
   const loop = uniqueUrls.size < hops.length
   const tooMany = hops.length > 3
   const finalOk = finalHop?.status === '200'
+  const traceLiveRedirects = async () => {
+    setTracing(true)
+    setTraceError('')
+    try {
+      const data = await postSeoAnalysis<{ ok: true; chain: RedirectHop[]; limit: number }>({ mode: 'redirects', url: liveUrl })
+      setTraceChain(data.chain)
+      setChainText(data.chain.map((hop) => `${hop.url} ${hop.status ?? hop.error ?? ''}`).join('\n'))
+    } catch (error) {
+      setTraceError(error instanceof Error ? error.message : 'Could not trace redirects')
+    } finally {
+      setTracing(false)
+    }
+  }
+  const traceCsv = csvRows(
+    ['hop', 'url', 'status', 'location', 'error'],
+    traceChain.map((hop, index) => [index + 1, hop.url, hop.status ?? '', hop.location, hop.error ?? ''])
+  )
 
   return (
     <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_380px]">
       <Panel title="Redirect chain inputs">
+        <Field label="Live URL to trace" value={liveUrl} onChange={setLiveUrl} />
+        <button type="button" onClick={traceLiveRedirects} disabled={tracing} className="rounded-full bg-gray-950 px-4 py-2 text-sm font-semibold text-white transition hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-60 active:scale-[0.96]">
+          {tracing ? 'Tracing redirects...' : 'Trace live redirects'}
+        </button>
+        {traceError && <p className="rounded-xl border border-amber-200 bg-amber-50 p-3 text-sm leading-6 text-amber-800">{traceError}</p>}
         <TextArea label="Paste redirect chain" value={chainText} onChange={setChainText} rows={9} hint="Paste one hop per line with the URL and status code, for example: http://example.com 301." />
         <div className="grid gap-3 sm:grid-cols-3">
           <Stat label="Hops" value={`${hops.length}`} detail={tooMany ? 'Try to reduce to one redirect.' : 'Short chain.'} highlight={!tooMany} />
@@ -1328,13 +1644,18 @@ function RedirectChainChecker() {
             <p className="mt-1 text-xs text-gray-500">Status: {hop.status}</p>
           </div>
         ))}
+        {traceChain.length > 0 && <CopyBox label="Redirect trace CSV" value={traceCsv} downloadName="redirect-trace.csv" />}
       </div>
     </div>
   )
 }
 
 function BrokenLinkChecker() {
+  const [baseUrl, setBaseUrl] = useState('https://freeltools.com/tools/category/seo-tools')
   const [input, setInput] = useState('<a href="https://example.com/">Home</a>\n<a href="/old-page">Old page</a>\n<a href="#">Empty anchor</a>\nhttps://example.com/missing 404\nhttps://example.com/server-error 500')
+  const [checkingLinks, setCheckingLinks] = useState(false)
+  const [checkError, setCheckError] = useState('')
+  const [checkedLinks, setCheckedLinks] = useState<LinkStatusResult[]>([])
 
   const links = useMemo(() => {
     const htmlLinks = Array.from(input.matchAll(/href=["']([^"']+)["']/gi)).map((match) => match[1])
@@ -1349,41 +1670,83 @@ function BrokenLinkChecker() {
     return [...htmlLinks.map((url) => ({ url, status: undefined })), ...lineLinks]
   }, [input])
 
-  const broken = links.filter((link) => link.status?.startsWith('4') || link.status?.startsWith('5') || link.url === '#' || link.url.trim() === '')
+  const checkedByUrl = new Map<string, LinkStatusResult>()
+  for (const link of checkedLinks) {
+    checkedByUrl.set(link.inputUrl, link)
+    checkedByUrl.set(link.url, link)
+  }
+  const broken = links.filter((link) => {
+    const live = checkedByUrl.get(link.url)
+    return live ? !live.ok : link.status?.startsWith('4') || link.status?.startsWith('5') || link.url === '#' || link.url.trim() === ''
+  })
   const internal = links.filter((link) => link.url.startsWith('/')).length
   const external = links.filter((link) => /^https?:\/\//.test(link.url)).length
+  const runLiveCheck = async () => {
+    setCheckingLinks(true)
+    setCheckError('')
+    try {
+      const data = await postSeoAnalysis<{ ok: true; results: LinkStatusResult[]; limit: number }>({
+        mode: 'links',
+        baseUrl,
+        urls: links.map((link) => link.url).filter((url) => url && url !== '#'),
+      })
+      setCheckedLinks(data.results)
+    } catch (error) {
+      setCheckError(error instanceof Error ? error.message : 'Could not check link statuses')
+    } finally {
+      setCheckingLinks(false)
+    }
+  }
+  const liveCsv = csvRows(
+    ['url', 'status', 'ok', 'finalUrl', 'error'],
+    checkedLinks.map((link) => [link.inputUrl || link.url, link.status ?? '', link.ok ? 'yes' : 'no', link.finalUrl, link.error ?? ''])
+  )
 
   return (
     <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_380px]">
       <Panel title="Link inputs">
+        <Field label="Base URL for relative links" value={baseUrl} onChange={setBaseUrl} />
         <TextArea label="Paste HTML, URLs, or URL status rows" value={input} onChange={setInput} rows={12} hint="For status checks, paste rows like https://example.com/missing 404 from a crawler export." />
+        <button type="button" onClick={runLiveCheck} disabled={checkingLinks || links.length === 0} className="rounded-full bg-gray-950 px-4 py-2 text-sm font-semibold text-white transition hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-60 active:scale-[0.96]">
+          {checkingLinks ? 'Checking links...' : 'Check live statuses'}
+        </button>
+        {checkError && <p className="rounded-xl border border-amber-200 bg-amber-50 p-3 text-sm leading-6 text-amber-800">{checkError}</p>}
         <div className="grid gap-3 sm:grid-cols-3">
           <Stat label="Links found" value={`${links.length}`} detail={`${internal} internal, ${external} external`} highlight={links.length > 0} />
           <Stat label="Broken signals" value={`${broken.length}`} detail="Includes 4xx, 5xx, and empty # anchors." highlight={broken.length === 0} />
-          <Stat label="Need crawler?" value="Maybe" detail="Browser-only tools cannot fetch every URL status safely." />
+          <Stat label="Live checked" value={`${checkedLinks.length}`} detail="Up to 25 public URLs per run." highlight={checkedLinks.length > 0} />
         </div>
       </Panel>
-      <Panel title="Broken or risky links">
-        {broken.length === 0 ? (
-          <p className="text-sm text-gray-600">No obvious broken links found in the pasted input.</p>
-        ) : (
-          <div className="space-y-2">
-            {broken.map((link, index) => (
-              <p key={`${link.url}-${index}`} className="break-all rounded-lg bg-amber-50 p-3 text-sm text-amber-800">
-                {link.url} {link.status ? `· ${link.status}` : '· empty or placeholder link'}
-              </p>
-            ))}
-          </div>
-        )}
-      </Panel>
+      <div className="space-y-4">
+        <Panel title="Broken or risky links">
+          {broken.length === 0 ? (
+            <p className="text-sm text-gray-600">No obvious broken links found in the pasted input.</p>
+          ) : (
+            <div className="space-y-2">
+              {broken.map((link, index) => {
+                const live = checkedByUrl.get(link.url)
+                return (
+                  <p key={`${link.url}-${index}`} className="break-all rounded-lg bg-amber-50 p-3 text-sm text-amber-800">
+                    {link.url} {live ? `· ${live.status ?? live.error ?? 'failed'}` : link.status ? `· ${link.status}` : '· empty or placeholder link'}
+                  </p>
+                )
+              })}
+            </div>
+          )}
+        </Panel>
+        {checkedLinks.length > 0 && <CopyBox label="Live link status CSV" value={liveCsv} downloadName="live-link-status.csv" />}
+      </div>
     </div>
   )
 }
 
 
 function RobotsMetaTagChecker() {
+  const [pageUrl, setPageUrl] = useState('https://freeltools.com/tools/on-page-seo-checker')
   const [html, setHtml] = useState('<!doctype html>\n<html>\n<head>\n<meta name="robots" content="index, follow">\n<link rel="canonical" href="https://example.com/page">\n</head>\n<body><h1>Example page</h1></body>\n</html>')
   const [headerNotes, setHeaderNotes] = useState('x-robots-tag: index, follow')
+  const [fetchingPage, setFetchingPage] = useState(false)
+  const [fetchError, setFetchError] = useState('')
 
   const result = useMemo(() => {
     const readAttr = (tag: string, name: string) => tag.match(new RegExp(`${name}=["']([^"']*)["']`, 'i'))?.[1] ?? ''
@@ -1408,10 +1771,36 @@ function RobotsMetaTagChecker() {
     ]
     return { robots, canonical, hasIndex, items }
   }, [headerNotes, html])
+  const fetchRobotsMeta = async () => {
+    setFetchingPage(true)
+    setFetchError('')
+    try {
+      const data = await postSeoAnalysis<{ ok: true; result: SeoPageAnalysis }>({ mode: 'page', url: pageUrl })
+      const page = data.result
+      setHtml(`<!doctype html>
+<html>
+<head>
+${page.robots ? `<meta name="robots" content="${escapeXml(page.robots)}">` : ''}
+${page.canonical ? `<link rel="canonical" href="${escapeXml(page.canonical)}">` : ''}
+</head>
+<body><h1>${escapeXml(page.h1 || page.title)}</h1></body>
+</html>`)
+      setHeaderNotes(`status: ${page.status}\nfinal-url: ${page.finalUrl}`)
+    } catch (error) {
+      setFetchError(error instanceof Error ? error.message : 'Could not fetch robots meta data')
+    } finally {
+      setFetchingPage(false)
+    }
+  }
 
   return (
     <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_380px]">
       <Panel title="Robots inputs">
+        <Field label="Live page URL" value={pageUrl} onChange={setPageUrl} />
+        <button type="button" onClick={fetchRobotsMeta} disabled={fetchingPage} className="rounded-full bg-gray-950 px-4 py-2 text-sm font-semibold text-white transition hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-60 active:scale-[0.96]">
+          {fetchingPage ? 'Fetching robots tags...' : 'Fetch live robots tags'}
+        </button>
+        {fetchError && <p className="rounded-xl border border-amber-200 bg-amber-50 p-3 text-sm leading-6 text-amber-800">{fetchError}</p>}
         <TextArea label="Paste page HTML" value={html} onChange={setHtml} rows={10} hint="Paste rendered HTML, page source, or the head section from a page you want indexed." />
         <TextArea label="Header notes" value={headerNotes} onChange={setHeaderNotes} rows={4} hint="Paste X-Robots-Tag or crawler header notes when available." />
         <CopyBox label="Clean indexable default" value={'<meta name="robots" content="index, follow" />'} />
@@ -1519,13 +1908,39 @@ function OpenGraphPreviewTool() {
   const [description, setDescription] = useState('Audit pages, generate schema, preview snippets, build sitemaps, and check content quality with free SEO tools.')
   const [url, setUrl] = useState('https://freeltools.com/tools/category/seo-tools')
   const [imageUrl, setImageUrl] = useState('https://freeltools.com/opengraph-image')
+  const [fetchingPage, setFetchingPage] = useState(false)
+  const [fetchError, setFetchError] = useState('')
 
-  const tags = `<meta property="og:title" content="${title}" />
-<meta property="og:description" content="${description}" />
-<meta property="og:url" content="${url}" />
+  const fetchOpenGraph = async () => {
+    setFetchingPage(true)
+    setFetchError('')
+    try {
+      const data = await postSeoAnalysis<{ ok: true; result: SeoPageAnalysis }>({ mode: 'page', url })
+      const page = data.result
+      setTitle(page.ogTitle || page.twitterTitle || page.title || title)
+      setDescription(page.ogDescription || page.twitterDescription || page.description || description)
+      setImageUrl(page.ogImage || page.twitterImage || imageUrl)
+      setUrl(page.finalUrl || url)
+    } catch (error) {
+      setFetchError(error instanceof Error ? error.message : 'Could not fetch Open Graph tags')
+    } finally {
+      setFetchingPage(false)
+    }
+  }
+
+  const tags = `<meta property="og:title" content="${escapeXml(title)}" />
+<meta property="og:description" content="${escapeXml(description)}" />
+<meta property="og:url" content="${escapeXml(url)}" />
 <meta property="og:type" content="website" />
-<meta property="og:image" content="${imageUrl}" />
+<meta property="og:image" content="${escapeXml(imageUrl)}" />
 <meta name="twitter:card" content="summary_large_image" />`
+  const ogChecks: ScoreItem[] = [
+    { label: 'Share title readable', ok: title.length > 10 && title.length <= 80, detail: `${title.length} characters.` },
+    { label: 'Share description readable', ok: description.length > 40 && description.length <= 220, detail: `${description.length} characters.` },
+    { label: 'Page URL valid', ok: /^https?:\/\//i.test(url), detail: url },
+    { label: 'Image URL valid', ok: /^https?:\/\//i.test(imageUrl), detail: imageUrl || 'Add a 1200x630-ish absolute image URL.' },
+    { label: 'Large card configured', ok: tags.includes('summary_large_image'), detail: 'Twitter/X card uses summary_large_image.' },
+  ]
 
   return (
     <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_420px]">
@@ -1534,6 +1949,10 @@ function OpenGraphPreviewTool() {
         <TextArea label="OG description" value={description} onChange={setDescription} rows={3} />
         <Field label="Page URL" value={url} onChange={setUrl} />
         <Field label="Image URL" value={imageUrl} onChange={setImageUrl} />
+        <button type="button" onClick={fetchOpenGraph} disabled={fetchingPage} className="rounded-full bg-gray-950 px-4 py-2 text-sm font-semibold text-white transition hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-60 active:scale-[0.96]">
+          {fetchingPage ? 'Fetching OG tags...' : 'Fetch live OG tags'}
+        </button>
+        {fetchError && <p className="rounded-xl border border-amber-200 bg-amber-50 p-3 text-sm leading-6 text-amber-800">{fetchError}</p>}
         <div className="grid gap-3 sm:grid-cols-2">
           <Stat label="Title length" value={`${title.length}`} detail="Keep it readable in cards." highlight={title.length <= 70} />
           <Stat label="Description length" value={`${description.length}`} detail="Short descriptions are easier to share." highlight={description.length <= 200} />
@@ -1541,8 +1960,15 @@ function OpenGraphPreviewTool() {
       </Panel>
       <div className="space-y-4">
         <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
-          <div className="flex aspect-[1.91/1] items-center justify-center bg-gray-100 p-4 text-center text-xs text-gray-500">
-            <span className="break-all">{imageUrl}</span>
+          <div
+            className="flex aspect-[1.91/1] items-center justify-center bg-gray-100 bg-cover bg-center text-center text-xs text-gray-500"
+            style={/^https?:\/\//i.test(imageUrl) ? { backgroundImage: `url("${imageUrl.replace(/"/g, '%22')}")` } : undefined}
+          >
+            {/^https?:\/\//i.test(imageUrl) ? (
+              <span className="sr-only">Open Graph image preview</span>
+            ) : (
+              <span className="break-all p-4">{imageUrl || 'Add an image URL'}</span>
+            )}
           </div>
           <div className="p-4">
             <p className="text-xs uppercase tracking-wide text-gray-400">{slugHost(url) || 'example.com'}</p>
@@ -1550,7 +1976,8 @@ function OpenGraphPreviewTool() {
             <p className="mt-1 line-clamp-2 text-sm leading-5 text-gray-600">{description}</p>
           </div>
         </div>
-        <CopyBox label="Open Graph tags" value={tags} />
+        <ScoreList items={ogChecks} />
+        <CopyBox label="Open Graph tags" value={tags} downloadName="open-graph-tags.html" />
       </div>
     </div>
   )
@@ -1558,72 +1985,162 @@ function OpenGraphPreviewTool() {
 
 function KeywordClusteringTool() {
   const [keywords, setKeywords] = useState('seo audit tool\nfree seo audit tool\non page seo checker\nschema markup generator\nfaq schema generator\nrobots txt generator\nxml sitemap generator\nsitemap generator free\nkeyword density checker\nkeyword stuffing checker')
+  const [primaryTopic, setPrimaryTopic] = useState('free seo tools')
 
   const clusters = useMemo(() => {
     const rows = splitLines(keywords)
-    const grouped = new Map<string, string[]>()
+    const genericTerms = new Set(['free', 'tool', 'tools', 'generator', 'checker', 'online', 'seo'])
+    const intentFor = (keyword: string) => {
+      if (/\b(vs|alternative|best|compare|comparison)\b/i.test(keyword)) return 'comparison'
+      if (/\b(template|example|sample|checklist)\b/i.test(keyword)) return 'template'
+      if (/\b(how|what|why|guide|learn)\b/i.test(keyword)) return 'guide'
+      if (/\b(calculator|calculate|price|cost|fee)\b/i.test(keyword)) return 'calculator'
+      if (/\b(generator|generate|builder|maker)\b/i.test(keyword)) return 'generator'
+      if (/\b(checker|audit|test|validator|analyzer)\b/i.test(keyword)) return 'checker'
+      return 'tool'
+    }
+    const grouped = new Map<string, { intent: string; rows: string[]; terms: Set<string> }>()
     for (const row of rows) {
       const terms = keywordCore(row)
-      const label = terms.find((term) => !['free', 'tool', 'generator', 'checker'].includes(term)) ?? terms[0] ?? 'misc'
-      grouped.set(label, [...(grouped.get(label) ?? []), row])
+      const label = terms.find((term) => !genericTerms.has(term)) ?? terms[0] ?? 'misc'
+      const intent = intentFor(row)
+      const key = `${label}:${intent}`
+      const existing = grouped.get(key) ?? { intent, rows: [], terms: new Set<string>() }
+      existing.rows.push(row)
+      terms.forEach((term) => existing.terms.add(term))
+      grouped.set(key, existing)
     }
-    return Array.from(grouped.entries()).sort((a, b) => b[1].length - a[1].length)
-  }, [keywords])
+    return Array.from(grouped.entries())
+      .map(([key, group]) => {
+        const [label] = key.split(':')
+        const primary = group.rows.slice().sort((a, b) => a.length - b.length)[0] ?? label
+        const sharedWithTopic = keywordCore(primaryTopic).filter((term) => group.terms.has(term)).length
+        return {
+          label,
+          intent: group.intent,
+          rows: group.rows,
+          primary,
+          sharedWithTopic,
+          terms: Array.from(group.terms).filter((term) => !genericTerms.has(term)).slice(0, 8),
+        }
+      })
+      .sort((a, b) => b.rows.length - a.rows.length || b.sharedWithTopic - a.sharedWithTopic)
+  }, [keywords, primaryTopic])
 
-  const output = clusters.map(([label, rows]) => `# ${titleCase(label)}\n${rows.map((row) => `- ${row}`).join('\n')}`).join('\n\n')
+  const output = clusters.map((cluster) => `# ${titleCase(cluster.label)} (${cluster.intent})
+Primary page/query: ${cluster.primary}
+Supporting terms: ${cluster.terms.join(', ') || 'review manually'}
+Recommended action: ${cluster.rows.length >= 3 ? 'Build or strengthen one hub page, then add supporting sections.' : 'Fold into the closest existing page unless SERP intent is clearly different.'}
+
+${cluster.rows.map((row) => `- ${row}`).join('\n')}`).join('\n\n')
+  const clusterCsv = csvRows(
+    ['cluster', 'intent', 'primary', 'keyword', 'recommended_action'],
+    clusters.flatMap((cluster) =>
+      cluster.rows.map((row) => [
+        titleCase(cluster.label),
+        cluster.intent,
+        cluster.primary,
+        row,
+        cluster.rows.length >= 3 ? 'hub-or-strengthened-page' : 'fold-into-existing-page',
+      ])
+    )
+  )
 
   return (
     <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_420px]">
       <Panel title="Keyword inputs">
+        <Field label="Primary topic" value={primaryTopic} onChange={setPrimaryTopic} />
         <TextArea label="Keyword list" value={keywords} onChange={setKeywords} rows={12} />
         <div className="grid gap-3 sm:grid-cols-2">
           <Stat label="Keywords" value={`${splitLines(keywords).length}`} detail="One keyword per line." highlight />
           <Stat label="Clusters" value={`${clusters.length}`} detail="Grouped by dominant non-generic term." highlight={clusters.length > 0} />
         </div>
       </Panel>
-      <CopyBox label="Keyword clusters" value={output} />
+      <div className="space-y-4">
+        <CopyBox label="Keyword clusters" value={output} downloadName="keyword-clusters.md" />
+        <CopyBox label="Cluster CSV" value={clusterCsv} downloadName="keyword-clusters.csv" />
+      </div>
     </div>
   )
 }
 
 function KeywordCannibalizationChecker() {
-  const [rows, setRows] = useState('seo audit tool | /tools/on-page-seo-audit-tool | On-Page SEO Audit Tool\nseo audit tool | /blog/seo-audit-checklist | SEO Audit Checklist\nschema markup generator | /tools/schema-markup-generator | Schema Markup Generator\nfaq schema generator | /tools/faq-schema-generator | FAQ Schema Generator')
+  const [rows, setRows] = useState('seo audit tool | /tools/on-page-seo-audit-tool | On-Page SEO Audit Tool | 120 | 4\nseo audit tool | /blog/seo-audit-checklist | SEO Audit Checklist | 85 | 1\nschema markup generator | /tools/schema-markup-generator | Schema Markup Generator | 60 | 3\nfaq schema generator | /tools/faq-schema-generator | FAQ Schema Generator | 44 | 2')
 
   const grouped = useMemo(() => {
-    const map = new Map<string, { url: string; title: string }[]>()
+    const map = new Map<string, { url: string; title: string; impressions: number; clicks: number; intentKey: string }[]>()
     for (const line of splitLines(rows)) {
-      const [keyword = '', url = '', title = ''] = line.split('|').map((part) => part.trim())
+      const [keyword = '', url = '', title = '', impressions = '0', clicks = '0'] = line.split('|').map((part) => part.trim())
       if (!keyword || !url) continue
-      map.set(keyword.toLowerCase(), [...(map.get(keyword.toLowerCase()) ?? []), { url, title }])
+      const intentKey = keywordCore(keyword).filter((term) => !['free', 'tool', 'tools', 'online'].includes(term)).sort().join(' ')
+      map.set(keyword.toLowerCase(), [...(map.get(keyword.toLowerCase()) ?? []), { url, title, impressions: Number(impressions) || 0, clicks: Number(clicks) || 0, intentKey }])
     }
     return Array.from(map.entries()).sort((a, b) => b[1].length - a[1].length)
   }, [rows])
 
   const risks = grouped.filter(([, pages]) => new Set(pages.map((page) => page.url)).size > 1)
+  const nearIntent = new Map<string, { keyword: string; url: string; title: string; impressions: number; clicks: number }[]>()
+  grouped.forEach(([keyword, pages]) => {
+    pages.forEach((page) => {
+      if (!page.intentKey) return
+      nearIntent.set(page.intentKey, [...(nearIntent.get(page.intentKey) ?? []), { keyword, ...page }])
+    })
+  })
+  const nearRisks = Array.from(nearIntent.entries()).filter(([, pages]) => new Set(pages.map((page) => page.url)).size > 1)
+  const report = csvRows(
+    ['keyword_or_intent', 'url', 'title', 'impressions', 'clicks', 'signal', 'recommended_action'],
+    [
+      ...risks.flatMap(([keyword, pages]) =>
+        pages.map((page) => [
+          keyword,
+          page.url,
+          page.title,
+          page.impressions,
+          page.clicks,
+          'same-keyword-conflict',
+          page.clicks > 0 ? 'protect-or-merge-carefully' : 'differentiate-merge-or-redirect',
+        ])
+      ),
+      ...nearRisks.flatMap(([intent, pages]) =>
+        pages.map((page) => [
+          intent,
+          page.url,
+          page.title,
+          page.impressions,
+          page.clicks,
+          'near-intent-overlap',
+          'review-serp-intent-and-internal-links',
+        ])
+      ),
+    ]
+  )
 
   return (
     <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_420px]">
       <Panel title="Cannibalization inputs">
-        <TextArea label="Keyword | URL | Title rows" value={rows} onChange={setRows} rows={12} hint="Paste export rows or write one target keyword, URL, and title per line separated by pipes." />
+        <TextArea label="Keyword | URL | Title | Impressions | Clicks rows" value={rows} onChange={setRows} rows={12} hint="Paste GSC or keyword-map rows separated by pipes. Impressions/clicks are optional but help prioritize." />
         <div className="grid gap-3 sm:grid-cols-2">
           <Stat label="Keyword groups" value={`${grouped.length}`} detail="Unique target keywords found." highlight />
-          <Stat label="Possible conflicts" value={`${risks.length}`} detail="More than one URL targets the same keyword." highlight={risks.length === 0} />
+          <Stat label="Possible conflicts" value={`${risks.length + nearRisks.length}`} detail="Same-keyword and near-intent overlaps." highlight={risks.length + nearRisks.length === 0} />
         </div>
       </Panel>
-      <Panel title="Cannibalization report">
-        {grouped.map(([keyword, pages]) => (
-          <div key={keyword} className={`rounded-xl border p-3 ${pages.length > 1 ? 'border-amber-200 bg-amber-50' : 'border-gray-100 bg-gray-50'}`}>
-            <p className="text-sm font-semibold text-gray-900">{keyword}</p>
-            <div className="mt-2 space-y-1">
-              {pages.map((page) => (
-                <p key={`${keyword}-${page.url}`} className="break-all text-xs leading-5 text-gray-600">
-                  {page.url} {page.title ? `· ${page.title}` : ''}
-                </p>
-              ))}
+      <div className="space-y-4">
+        <Panel title="Cannibalization report">
+          {grouped.map(([keyword, pages]) => (
+            <div key={keyword} className={`rounded-xl border p-3 ${pages.length > 1 ? 'border-amber-200 bg-amber-50' : 'border-gray-100 bg-gray-50'}`}>
+              <p className="text-sm font-semibold text-gray-900">{keyword}</p>
+              <div className="mt-2 space-y-1">
+                {pages.map((page) => (
+                  <p key={`${keyword}-${page.url}`} className="break-all text-xs leading-5 text-gray-600">
+                    {page.url} {page.title ? `· ${page.title}` : ''} {page.impressions || page.clicks ? `· ${page.impressions} impressions · ${page.clicks} clicks` : ''}
+                  </p>
+                ))}
+              </div>
             </div>
-          </div>
-        ))}
-      </Panel>
+          ))}
+        </Panel>
+        <CopyBox label="Cannibalization action CSV" value={report} downloadName="keyword-cannibalization-report.csv" />
+      </div>
     </div>
   )
 }
@@ -1633,32 +2150,46 @@ function ContentBriefGenerator() {
   const [audience, setAudience] = useState('small business owners and freelancers')
   const [pageType, setPageType] = useState('tool page')
   const [competitors, setCompetitors] = useState('SEO checker tools that only show a score\nPaid audit platforms that require signup\nBlog posts with checklists but no working tool')
+  const [primaryToolUrl, setPrimaryToolUrl] = useState('/tools/on-page-seo-audit-tool')
+  const [conversionAction, setConversionAction] = useState('run the free SEO audit tool')
+  const [serpFormat, setSerpFormat] = useState('tool-first page with supporting guide')
 
   const brief = useMemo(() => {
     const related = keywordCore(keyword).filter((term) => term !== 'free')
     const competitorAngles = splitLines(competitors)
+    const titleOptions = [
+      `Free ${titleCase(keyword)} | No Signup`,
+      `${titleCase(keyword)}: Practical Workflow and Tool`,
+      `How to Use a ${titleCase(keyword)} Before Publishing`,
+    ]
     return `# SEO Content Brief: ${titleCase(keyword)}
 
 ## Search intent
-People searching "${keyword}" want a practical ${pageType} for ${audience}. The page should answer the query quickly and let the visitor act without a signup wall.
+People searching "${keyword}" want a practical ${pageType} for ${audience}. The expected SERP format is: ${serpFormat}. The page should answer the query quickly and let the visitor act without a signup wall.
 
-## Recommended title
-Free ${titleCase(keyword)} | No Signup
+## Title options
+${titleOptions.map((titleOption) => `- ${titleOption}`).join('\n')}
 
 ## H1
 ${titleCase(keyword)}
 
 ## First-screen answer
-Use this page to ${pageType.includes('tool') ? 'run the tool immediately' : 'get the answer quickly'}, then explain the workflow, limitations, and next step below the main action.
+Use this page to ${pageType.includes('tool') ? 'run the tool immediately' : 'get the answer quickly'}, then explain the workflow, limitations, and next step below the main action. The first visible CTA should invite visitors to ${conversionAction}.
 
-## Sections to include
-- What the tool does
-- When to use it
-- Inputs required
-- How to interpret the result
-- Common mistakes
-- Related tools and next steps
-- FAQ
+## Tool or CTA path
+Primary action: ${conversionAction}
+Primary URL: ${primaryToolUrl}
+
+## Recommended outline
+| Section | Job |
+|---|---|
+| Direct answer | Define the task and the result in 2-3 sentences. |
+| Working tool or template | Let the visitor complete the job before the long explanation. |
+| How to use the output | Explain each input, result, score, or export. |
+| Example workflow | Show a realistic before/after or checklist. |
+| Mistakes to avoid | Cover risky SEO shortcuts, thin content, fake guarantees, or invalid schema. |
+| Related tools | Link to the next useful FreelTools SEO tool. |
+| FAQ | Answer exact objections and People Also Ask style questions. |
 
 ## Terms and entities to cover
 ${related.map((term) => `- ${term}`).join('\n')}
@@ -1671,15 +2202,36 @@ ${competitorAngles.map((angle) => `- ${angle}`).join('\n')}
 - Is this tool free?
 - What should I do after using it?
 - Does this replace a full SEO audit?
+- How accurate is the result?
+- What should I check manually after using it?
 
 ## Internal links
 - Link to the SEO Tools category
-- Link to the On-Page SEO Audit Tool
+- Link to ${primaryToolUrl}
 - Link to related schema, meta, sitemap, or content tools when relevant
+
+## Schema and rich-result notes
+- Use SoftwareApplication schema for a working tool page.
+- Use FAQPage schema only when the FAQ is visible on the page.
+- Use Article schema for supporting guides.
+- Do not add fake ratings, fake review counts, or hidden FAQ content.
+
+## Acceptance checklist
+- The first screen states the offer and shows the action.
+- The tool or template works without login.
+- The page includes at least one example, one export/copy action, and related internal links.
+- Title, meta, canonical, schema, mobile layout, and sitemap inclusion are checked before publish.
 
 ## CTA
 Use the free tool, copy the output, then run the next SEO QA step before publishing.`
-  }, [audience, competitors, keyword, pageType])
+  }, [audience, competitors, conversionAction, keyword, pageType, primaryToolUrl, serpFormat])
+  const briefChecks: ScoreItem[] = [
+    { label: 'Keyword defined', ok: keyword.trim().length > 0, detail: keyword || 'Add a primary keyword.' },
+    { label: 'Audience defined', ok: audience.trim().length > 0, detail: audience || 'Add the target reader.' },
+    { label: 'Competitor gaps captured', ok: splitLines(competitors).length >= 2, detail: `${splitLines(competitors).length} gap note${splitLines(competitors).length === 1 ? '' : 's'} included.` },
+    { label: 'Tool/CTA path included', ok: primaryToolUrl.trim().length > 0 && conversionAction.trim().length > 0, detail: `${conversionAction} → ${primaryToolUrl}` },
+    { label: 'SERP format named', ok: serpFormat.trim().length > 0, detail: serpFormat },
+  ]
 
   return (
     <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_420px]">
@@ -1697,9 +2249,15 @@ Use the free tool, copy the output, then run the next SEO QA step before publish
             { label: 'Landing page', value: 'landing page' },
           ]}
         />
+        <Field label="SERP format to beat" value={serpFormat} onChange={setSerpFormat} />
+        <Field label="Primary tool or CTA URL" value={primaryToolUrl} onChange={setPrimaryToolUrl} />
+        <Field label="Conversion action" value={conversionAction} onChange={setConversionAction} />
         <TextArea label="Competitor gaps or SERP notes" value={competitors} onChange={setCompetitors} rows={5} />
       </Panel>
-      <CopyBox label="SEO content brief" value={brief} />
+      <div className="space-y-4">
+        <ScoreList items={briefChecks} />
+        <CopyBox label="SEO content brief" value={brief} downloadName="seo-content-brief.md" />
+      </div>
     </div>
   )
 }
