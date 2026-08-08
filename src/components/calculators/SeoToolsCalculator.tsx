@@ -2267,6 +2267,8 @@ export default function SeoToolsCalculator() {
   const slug = getSlug(pathname)
 
   if (slug === 'on-page-seo-checker' || slug === 'on-page-seo-audit-tool') return <OnPageSeoAuditTool />
+  if (slug === 'seo-title-ctr-optimizer') return <SerpSnippetPreviewTool />
+  if (slug === 'gsc-indexing-issue-triage-tool') return <RobotsMetaTagChecker />
   if (slug === 'heading-hierarchy-checker') return <HeadingHierarchyChecker />
   if (slug === 'image-alt-text-checker') return <ImageAltTextChecker />
   if (slug === 'seo-title-checker' || slug === 'meta-description-checker') return <SerpSnippetPreviewTool />

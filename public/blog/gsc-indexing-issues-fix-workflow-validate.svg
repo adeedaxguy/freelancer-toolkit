@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Validate only after live QA</title>
+  <desc id="desc">A validation gate showing checks that should pass before GSC Validate Fix is clicked.</desc>
+  <rect width="1200" height="630" fill="#f8fafc"/>
+  <rect x="90" y="85" width="1020" height="460" rx="28" fill="#ffffff" stroke="#dbeafe" stroke-width="4"/>
+  <text x="130" y="150" font-family="Arial, sans-serif" font-size="36" font-weight="700" fill="#0f172a">Validation gate</text>
+  <text x="130" y="192" font-family="Arial, sans-serif" font-size="20" fill="#475569">Click Validate Fix only after the live page passes these checks.</text>
+  <g font-family="Arial, sans-serif" font-size="22">
+    <text x="150" y="270" fill="#166534">✓ Preferred URL returns 200</text>
+    <text x="150" y="325" fill="#166534">✓ Canonical points to preferred URL</text>
+    <text x="150" y="380" fill="#166534">✓ Robots allows indexing</text>
+    <text x="620" y="270" fill="#166534">✓ Sitemap uses final URL</text>
+    <text x="620" y="325" fill="#166534">✓ Internal links are updated</text>
+    <text x="620" y="380" fill="#166534">✓ Page has useful content</text>
+  </g>
+  <rect x="430" y="455" width="340" height="58" rx="29" fill="#16a34a"/>
+  <text x="600" y="493" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" font-weight="700" fill="#ffffff">Ready for GSC validation</text>
+</svg>

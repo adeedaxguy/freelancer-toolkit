@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Title refresh test queue</title>
+  <desc id="desc">A matrix for comparing title options by intent, clarity, length, and truthfulness.</desc>
+  <rect width="1200" height="630" fill="#f8fafc"/>
+  <rect x="86" y="70" width="1028" height="490" rx="24" fill="#ffffff" stroke="#dbeafe" stroke-width="4"/>
+  <text x="126" y="130" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#0f172a">Title refresh test queue</text>
+  <g font-family="Arial, sans-serif" font-size="18">
+    <rect x="126" y="180" width="948" height="48" rx="10" fill="#eff6ff"/>
+    <text x="150" y="211" font-weight="700" fill="#1e40af">Title option</text>
+    <text x="645" y="211" font-weight="700" fill="#1e40af">Intent</text>
+    <text x="770" y="211" font-weight="700" fill="#1e40af">Length</text>
+    <text x="900" y="211" font-weight="700" fill="#1e40af">Truthful</text>
+    <text x="150" y="284" fill="#334155">Free On-Page SEO Checker | No Signup</text>
+    <text x="655" y="284" fill="#16a34a">High</text>
+    <text x="790" y="284" fill="#16a34a">Good</text>
+    <text x="920" y="284" fill="#16a34a">Yes</text>
+    <line x1="126" x2="1074" y1="322" y2="322" stroke="#e2e8f0"/>
+    <text x="150" y="377" fill="#334155">Best SEO Tool Ever for Every Website</text>
+    <text x="655" y="377" fill="#f59e0b">Vague</text>
+    <text x="790" y="377" fill="#16a34a">Good</text>
+    <text x="920" y="377" fill="#dc2626">No</text>
+    <line x1="126" x2="1074" y1="415" y2="415" stroke="#e2e8f0"/>
+    <text x="150" y="470" fill="#334155">SEO Checker, Audit Tool, Analyzer, Scanner</text>
+    <text x="655" y="470" fill="#dc2626">Stuffed</text>
+    <text x="790" y="470" fill="#f59e0b">Long</text>
+    <text x="920" y="470" fill="#16a34a">Yes</text>
+  </g>
+</svg>

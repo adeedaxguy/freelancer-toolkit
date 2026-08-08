@@ -1545,6 +1545,86 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
         ],
       },
       {
+        slug: 'seo-title-ctr-optimizer',
+        title: 'SEO Title CTR Optimizer',
+        headline: 'Optimize Page Titles and Meta Descriptions for More Clicks',
+        description: 'Free SEO title CTR optimizer. Compare current title and meta copy against query intent, SERP promise, length, action wording, and GSC low-CTR refresh signals.',
+        seoTitle: 'Free SEO Title CTR Optimizer | Improve Search Snippets',
+        icon: '🎯',
+        category: 'SEO Tools',
+        keywords: ['seo title ctr optimizer', 'title tag ctr optimizer', 'meta description optimizer', 'low ctr page refresh', 'seo title checker', 'serp snippet optimizer'],
+        answerBox: {
+          short: 'An SEO title CTR optimizer helps refresh pages that already get impressions but weak clicks. Start with the search query, rewrite the title around the clear outcome, support it with a specific meta description, and keep the snippet truthful to the page.',
+          bullets: ['Best fit: GSC pages with impressions, average positions, and low CTR', 'Outperformance angle: title, meta, query intent, and SERP promise in one no-signup workflow'],
+        },
+        faqs: [
+          { q: 'What is a title CTR optimizer?', a: 'It is a workflow for improving title tags and meta descriptions on pages that already appear in search but do not earn enough clicks.' },
+          { q: 'What pages should I optimize first?', a: 'Start with pages that have impressions in Google Search Console, a realistic average position, and a CTR below what the query intent deserves.' },
+          { q: 'Should I use clickbait in SEO titles?', a: 'No. The title should make the value clear without exaggerating. Misleading titles can hurt trust and engagement after the click.' },
+          { q: 'How long should an SEO title be?', a: 'Keep the most important phrase and value early. Many teams aim around 45-60 characters, but usefulness and clarity matter more than a hard cutoff.' },
+          { q: 'Does the meta description affect rankings?', a: 'It is not a direct ranking lever in the same way content relevance is, but it can improve the search snippet and support better click behavior when Google uses it.' },
+        ],
+        bodySections: [
+          {
+            heading: 'CTR optimizer for GSC refreshes',
+            body: 'Use this tool when Search Console shows impressions but clicks are flat. It helps rewrite the snippet around the query, the page promise, and the next action instead of guessing from generic title-tag rules.',
+          },
+          {
+            heading: 'Built for title and meta changes that stay truthful',
+            body: 'A title refresh should match the visible page. The safest workflow is query intent first, direct answer second, title and meta third, then live QA before requesting indexing.',
+          },
+          {
+            heading: 'Part of a complete on-page SEO checker path',
+            body: 'Run the title optimizer with the On-Page SEO Checker, SERP Snippet Preview Tool, Meta Description Checker, and Internal Link Anchor Text Checker before publishing the refresh.',
+          },
+        ],
+        programmaticVariants: [
+          { slug: 'for-gsc-low-ctr-pages', label: 'for GSC Low CTR Pages' },
+          { slug: 'for-blog-posts', label: 'for Blog Posts' },
+          { slug: 'for-tool-pages', label: 'for Tool Pages' },
+        ],
+      },
+      {
+        slug: 'gsc-indexing-issue-triage-tool',
+        title: 'GSC Indexing Issue Triage Tool',
+        headline: 'Triage Search Console Indexing Issues Before You Request Validation',
+        description: 'Free GSC indexing issue triage tool. Classify page with redirect, duplicate canonical, discovered not indexed, robots, sitemap, and live URL checks into fix, monitor, or expected.',
+        seoTitle: 'Free GSC Indexing Issue Triage Tool | Index Coverage QA',
+        icon: '🧭',
+        category: 'SEO Tools',
+        keywords: ['gsc indexing issue triage tool', 'search console indexing issues', 'page with redirect fix', 'duplicate without user selected canonical', 'discovered currently not indexed', 'index coverage checker'],
+        answerBox: {
+          short: 'A GSC indexing issue triage workflow separates real fixes from expected exclusions. Check whether the URL should be indexed, confirm redirects and canonicals, verify robots/meta tags, ensure sitemap and internal links point to the preferred URL, then request validation only after the live page is clean.',
+          bullets: ['Best fit: Search Console Pages reports and indexing alert emails', 'Outperformance angle: fix, monitor, or expected classification before wasting validation requests'],
+        },
+        faqs: [
+          { q: 'What should I do when GSC shows page with redirect?', a: 'Confirm whether the redirect is intentional. If it is, keep only the final canonical URL in sitemaps and internal links. If it is not, repair the source URL or redirect target.' },
+          { q: 'What does duplicate without user-selected canonical mean?', a: 'Google found similar pages but did not see a strong canonical preference from your site. Add or fix canonicals, internal links, sitemap URLs, and redirects so the preferred page is clear.' },
+          { q: 'How do I fix discovered currently not indexed?', a: 'Improve page quality, internal links, sitemap discovery, loadability, and uniqueness. Then inspect the live URL and request indexing when the page deserves to be crawled.' },
+          { q: 'Should I validate every GSC issue?', a: 'No. Validate only after fixing real problems. Expected redirects, intentional duplicates, private pages, and noindex pages should be documented instead of forced into validation.' },
+          { q: 'Can this replace Search Console?', a: 'No. Use it as a triage checklist before acting in Search Console. GSC remains the source of truth for Google-specific indexing state.' },
+        ],
+        bodySections: [
+          {
+            heading: 'GSC issue triage for redirects, canonicals, and discovery',
+            body: 'Search Console indexing emails can look alarming. This tool helps classify each issue before you touch production: real fix, expected exclusion, or monitor until Google recrawls.',
+          },
+          {
+            heading: 'Use before requesting validation',
+            body: 'Validation should happen after the live URL, canonical, sitemap, robots state, and internal links are consistent. Requesting validation too early wastes time and can hide the real page-quality issue.',
+          },
+          {
+            heading: 'Pairs with the robots and canonical checkers',
+            body: 'Use this triage tool with the Robots Meta Tag Checker, Canonical Tag Checker, XML Sitemap Generator, and Redirect Chain Checker to cover the common causes of index coverage problems.',
+          },
+        ],
+        programmaticVariants: [
+          { slug: 'page-with-redirect', label: 'for Page With Redirect' },
+          { slug: 'duplicate-canonical', label: 'for Duplicate Canonical Issues' },
+          { slug: 'discovered-not-indexed', label: 'for Discovered Not Indexed' },
+        ],
+      },
+      {
         slug: 'internal-link-anchor-text-checker',
         title: 'Internal Link Anchor Text Checker',
         headline: 'Audit Internal Link Anchors from Page HTML',
@@ -2265,7 +2345,7 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
         bodySections: [
           {
             heading: 'Keyword clustering tool for content planning',
-            body: 'Paste keywords from Ahrefs, Search Console, or brainstorming notes to create a rough cluster map. It helps turn a long keyword list into a cleaner publishing plan.',
+            body: 'Paste keywords from DataForSEO, Search Console, or brainstorming notes to create a rough cluster map. It helps turn a long keyword list into a cleaner publishing plan.',
           },
           {
             heading: 'Use clusters as planning input',

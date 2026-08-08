@@ -33,6 +33,9 @@ const TOOLS = [
   { name: 'US Passport Photo Maker', path: '/tools/us-passport-photo-maker', keys: ['us passport photo', '2x2 photo', 'passport size photo'] },
   { name: 'Image Resizer', path: '/tools/resize-photo-under-50kb', keys: ['resize image', 'compress photo', 'under 50kb', 'signature resize'] },
   { name: 'JPG to PDF Converter', path: '/tools/jpg-to-pdf-converter', keys: ['jpg to pdf', 'image to pdf', 'photo to pdf'] },
+  { name: 'On-Page SEO Checker', path: '/tools/on-page-seo-checker', keys: ['seo checker', 'on page seo', 'seo audit', 'page seo'] },
+  { name: 'SEO Title CTR Optimizer', path: '/tools/seo-title-ctr-optimizer', keys: ['ctr', 'title tag', 'seo title', 'meta description', 'search snippet'] },
+  { name: 'GSC Indexing Issue Triage Tool', path: '/tools/gsc-indexing-issue-triage-tool', keys: ['gsc', 'search console', 'indexing issue', 'page with redirect', 'duplicate canonical', 'not indexed'] },
 ]
 
 const FAQ: Array<{ match: string[]; answer: string; tool?: string }> = [
@@ -90,6 +93,11 @@ const FAQ: Array<{ match: string[]; answer: string; tool?: string }> = [
   {
     match: ['blog', 'article', 'guide', 'tips'],
     answer: "We publish practical freelancing guides on our blog — covering rates, proposals, contracts, client management, and more. Check out the [Blog](/blog) for free guides that go deeper on every topic.",
+  },
+  {
+    match: ['seo', 'search console', 'indexing', 'rank', 'google search'],
+    answer: "For SEO work, start with the **On-Page SEO Checker**. If Search Console shows impressions but weak clicks, use the **SEO Title CTR Optimizer**. If GSC reports redirects, duplicate canonicals, or discovered-not-indexed pages, use the **GSC Indexing Issue Triage Tool**.",
+    tool: '/tools/on-page-seo-checker',
   },
 ]
 

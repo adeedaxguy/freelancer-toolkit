@@ -266,6 +266,20 @@ const HOW_TO_STEPS: Record<string, { name: string; text: string }[]> = {
     { name: 'Check desktop and mobile previews', text: 'Switch preview width to spot awkward wrapping or unclear wording.' },
     { name: 'Revise for clarity', text: 'Adjust the title and description until the snippet explains the page and gives a reason to click.' },
   ],
+  'seo-title-ctr-optimizer': [
+    { name: 'Choose a GSC query', text: 'Start with a query or page that has impressions but weak clicks.' },
+    { name: 'Paste the current snippet', text: 'Add the existing title, meta description, and canonical URL.' },
+    { name: 'Rewrite the promise', text: 'Make the title describe the outcome and keep the meta description specific to the searcher job.' },
+    { name: 'Preview before publishing', text: 'Check desktop and mobile readability before updating the live page.' },
+    { name: 'Measure after recrawl', text: 'Compare GSC CTR and query movement after Google has refreshed the snippet.' },
+  ],
+  'gsc-indexing-issue-triage-tool': [
+    { name: 'Classify the GSC issue', text: 'Mark each affected URL as page with redirect, duplicate canonical, discovered not indexed, robots issue, or sitemap mismatch.' },
+    { name: 'Decide whether it should index', text: 'Separate expected exclusions from pages that need traffic.' },
+    { name: 'Check live signals', text: 'Review redirect status, canonical target, robots directives, internal links, and sitemap presence.' },
+    { name: 'Fix the source of the issue', text: 'Update templates, redirects, canonicals, links, or content quality before asking Google to validate.' },
+    { name: 'Request validation only after QA', text: 'Use GSC URL Inspection or Validate Fix when the preferred live URL is clean.' },
+  ],
   'meta-tag-generator': [
     { name: 'Enter page metadata', text: 'Add the SEO title, meta description, canonical URL, Open Graph image, and robots directive.' },
     { name: 'Generate head tags', text: 'The tool creates search, canonical, robots, Open Graph, and Twitter card tags.' },

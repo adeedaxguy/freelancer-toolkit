@@ -97,6 +97,16 @@ const TOOL_RESEARCH_INTENT: Record<string, ToolResearchIntent> = {
     competitorGap: 'On-page SEO audit SERPs are crowded with generic scanners and signup walls; this page should keep the audit action, GSC refresh workflow, and next tools visible without hiding the checklist.',
     useNow: 'Paste the page details, fix title/meta/H1/canonical/internal-link gaps, then rerun before requesting indexing or refreshing a low-CTR page.',
   },
+  'seo-title-ctr-optimizer': {
+    searcherJob: 'Rewrite low-CTR search snippets from GSC query evidence without drifting into clickbait.',
+    competitorGap: 'Most title tools are length counters; this page should connect title wording, meta description, query intent, and SERP promise.',
+    useNow: 'Paste the current title and meta description, compare the preview, then rewrite around the searcher job before requesting indexing.',
+  },
+  'gsc-indexing-issue-triage-tool': {
+    searcherJob: 'Classify Search Console indexing issues as fix, monitor, or expected before touching redirects, canonicals, robots, or sitemaps.',
+    competitorGap: 'Indexing guides are often long and generic; this page should put the issue decision path and live-page checks first.',
+    useNow: 'Paste the affected URL notes, check robots/canonical/redirect signals, then decide whether to fix, monitor, or validate in GSC.',
+  },
   'heading-hierarchy-checker': {
     searcherJob: 'Check whether a page uses one clear H1, logical H2-H3 order, and a scannable heading outline before publishing.',
     competitorGap: 'Most ranking pages bundle heading feedback inside a full audit. This page wins when it stays focused on heading structure and shows the outline immediately.',
@@ -154,7 +164,7 @@ const TOOL_RESEARCH_INTENT: Record<string, ToolResearchIntent> = {
   },
   'resize-image-to-20kb': {
     searcherJob: 'Resize or compress an image to a strict 20KB file-size limit.',
-    competitorGap: 'Ahrefs shows this file-size page earning organic visibility; the page should keep the exact limit and quality tradeoff front and center.',
+    competitorGap: 'Historical SEO evidence shows this file-size page can earn organic visibility; the page should keep the exact limit and quality tradeoff front and center.',
     useNow: 'Start with dimensions first, then reduce quality only as much as needed to meet 20KB.',
   },
   'resize-image-to-50kb': {
@@ -248,12 +258,34 @@ const TOOL_GSC_INSIGHT: Record<string, ToolGscInsight> = {
     evidenceLabel: 'Page refresh workflow',
     priority: 'This URL is the current GSC drop-recovery target. Keep the audit tool above the fold, add Search Console refresh language, and route users into metadata, internal-link, schema, and content-gap tools.',
     links: [
+      { href: '/tools/seo-title-ctr-optimizer', label: 'Optimize low-CTR title' },
+      { href: '/tools/gsc-indexing-issue-triage-tool', label: 'Triage GSC indexing issues' },
       { href: '/tools/seo-title-checker', label: 'Rewrite title tag' },
       { href: '/tools/meta-description-checker', label: 'Improve meta description' },
       { href: '/tools/heading-hierarchy-checker', label: 'Check heading structure' },
       { href: '/tools/image-alt-text-checker', label: 'Check image alt text' },
       { href: '/tools/internal-link-anchor-text-checker', label: 'Check internal anchors' },
       { href: '/tools/gsc-insights-refresh-planner', label: 'Plan a GSC refresh' },
+    ],
+  },
+  'seo-title-ctr-optimizer': {
+    evidenceLabel: 'Low-CTR refresh workflow',
+    priority: 'DataForSEO showed strong on-page checker demand, and GSC workflows often need title/meta refreshes before new content. Keep query, title, meta, and measured follow-up in one path.',
+    links: [
+      { href: '/tools/serp-snippet-preview-tool', label: 'Preview the snippet' },
+      { href: '/tools/meta-description-checker', label: 'Check meta description' },
+      { href: '/tools/on-page-seo-audit-tool', label: 'Run the page audit' },
+      { href: '/blog/seo-title-ctr-optimizer-gsc-refresh-guide', label: 'Read the CTR refresh guide' },
+    ],
+  },
+  'gsc-indexing-issue-triage-tool': {
+    evidenceLabel: 'Index coverage workflow',
+    priority: 'Search Console indexing alerts should become fix, monitor, or expected decisions before validation. Keep redirects, canonicals, robots, sitemap, and live URL QA connected.',
+    links: [
+      { href: '/tools/robots-meta-tag-checker', label: 'Check robots tags' },
+      { href: '/tools/canonical-tag-checker', label: 'Check canonical URL' },
+      { href: '/tools/redirect-chain-checker', label: 'Check redirect chain' },
+      { href: '/blog/gsc-indexing-issues-fix-workflow', label: 'Read the indexing workflow' },
     ],
   },
   'heading-hierarchy-checker': {
