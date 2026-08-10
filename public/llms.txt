@@ -175,3 +175,10 @@ A: Yes, completely. Open any tool, use it, done. No email address, no password, 
 - Email: adnan@technodigg.com
 - Sitemap: https://freeltools.com/sitemap.xml
 - Robots: https://freeltools.com/robots.txt
+
+## 2026-08-10 DataForSEO SEO tool cluster
+
+- DataForSEO Keyword Opportunity Scorer: https://freeltools.com/tools/dataforseo-keyword-opportunity-scorer
+- GSC Click Drop Diagnosis Tool: https://freeltools.com/tools/gsc-click-drop-diagnosis-tool
+- Search Console Query Page Mapper: https://freeltools.com/tools/search-console-query-page-mapper
+- DataForSEO SERP Competitor Brief: https://freeltools.com/tools/dataforseo-serp-competitor-brief

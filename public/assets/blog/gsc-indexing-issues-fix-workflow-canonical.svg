@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Canonical and redirect alignment</title>
+  <desc id="desc">A flow showing sitemap, internal link, redirect, and canonical all pointing to one preferred URL.</desc>
+  <rect width="1200" height="630" fill="#f8fafc"/>
+  <text x="120" y="110" font-family="Arial, sans-serif" font-size="36" font-weight="700" fill="#0f172a">One preferred URL must win</text>
+  <g font-family="Arial, sans-serif" font-size="20" text-anchor="middle">
+    <rect x="120" y="205" width="220" height="90" rx="18" fill="#dbeafe"/>
+    <text x="230" y="258" fill="#1e3a8a">Sitemap URL</text>
+    <rect x="120" y="355" width="220" height="90" rx="18" fill="#dcfce7"/>
+    <text x="230" y="408" fill="#166534">Internal links</text>
+    <rect x="860" y="205" width="220" height="90" rx="18" fill="#fef3c7"/>
+    <text x="970" y="258" fill="#92400e">Redirect target</text>
+    <rect x="860" y="355" width="220" height="90" rx="18" fill="#ede9fe"/>
+    <text x="970" y="408" fill="#5b21b6">Canonical tag</text>
+    <rect x="430" y="255" width="340" height="140" rx="24" fill="#ffffff" stroke="#0f766e" stroke-width="5"/>
+    <text x="600" y="318" font-size="24" font-weight="700" fill="#0f172a">Preferred indexable URL</text>
+    <text x="600" y="358" font-size="18" fill="#475569">200 status, useful content, clear title</text>
+  </g>
+  <path d="M340 250H430M340 400H430M860 250H770M860 400H770" stroke="#64748b" stroke-width="6" stroke-linecap="round"/>
+</svg>

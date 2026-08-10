@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Measure CTR after snippet refresh</title>
+  <desc id="desc">A four step measurement flow from publish date to GSC comparison.</desc>
+  <rect width="1200" height="630" fill="#f8fafc"/>
+  <text x="105" y="105" font-family="Arial, sans-serif" font-size="36" font-weight="700" fill="#0f172a">Measure after Google refreshes the snippet</text>
+  <g font-family="Arial, sans-serif" text-anchor="middle">
+    <rect x="95" y="190" width="220" height="180" rx="22" fill="#ecfeff" stroke="#67e8f9"/>
+    <text x="205" y="255" font-size="24" font-weight="700" fill="#155e75">1. Publish</text>
+    <text x="205" y="300" font-size="17" fill="#475569">Record title and date</text>
+    <rect x="355" y="190" width="220" height="180" rx="22" fill="#f0fdf4" stroke="#86efac"/>
+    <text x="465" y="255" font-size="24" font-weight="700" fill="#166534">2. Inspect</text>
+    <text x="465" y="300" font-size="17" fill="#475569">Request indexing if clean</text>
+    <rect x="615" y="190" width="220" height="180" rx="22" fill="#fffbeb" stroke="#fde68a"/>
+    <text x="725" y="255" font-size="24" font-weight="700" fill="#92400e">3. Wait</text>
+    <text x="725" y="300" font-size="17" fill="#475569">Let GSC settle</text>
+    <rect x="875" y="190" width="220" height="180" rx="22" fill="#eef2ff" stroke="#c7d2fe"/>
+    <text x="985" y="255" font-size="24" font-weight="700" fill="#3730a3">4. Compare</text>
+    <text x="985" y="300" font-size="17" fill="#475569">CTR and query mix</text>
+  </g>
+  <path d="M315 280H355M575 280H615M835 280H875" stroke="#94a3b8" stroke-width="6" stroke-linecap="round"/>
+</svg>

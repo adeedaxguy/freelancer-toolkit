@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="360" viewBox="0 0 720 360" role="img" aria-labelledby="title desc">
+  <title id="title">Answer to conversion path</title>
+  <desc id="desc">A reader moves from answer to proof to tool use and measurement.</desc>
+  <rect width="720" height="360" rx="18" fill="#f8f7ff"/>
+  <g fill="#ffffff" stroke="#cbc7eb" stroke-width="2">
+    <rect x="48" y="125" width="140" height="96" rx="14"/>
+    <rect x="218" y="125" width="140" height="96" rx="14"/>
+    <rect x="388" y="125" width="140" height="96" rx="14"/>
+    <rect x="558" y="125" width="114" height="96" rx="14"/>
+  </g>
+  <g fill="#1f2240" font-family="Arial, sans-serif" font-size="16" font-weight="700">
+    <text x="118" y="166" text-anchor="middle">Answer</text>
+    <text x="288" y="166" text-anchor="middle">Proof</text>
+    <text x="458" y="166" text-anchor="middle">Tool</text>
+    <text x="615" y="166" text-anchor="middle">Lead</text>
+  </g>
+  <g fill="#5c5f7a" font-family="Arial, sans-serif" font-size="13">
+    <text x="118" y="190" text-anchor="middle">Query fit</text>
+    <text x="288" y="190" text-anchor="middle">Table or list</text>
+    <text x="458" y="190" text-anchor="middle">Useful output</text>
+    <text x="615" y="190" text-anchor="middle">Next step</text>
+  </g>
+  <g stroke="#5f54d9" stroke-width="4" stroke-linecap="round">
+    <path d="M190 173h26"/>
+    <path d="M360 173h26"/>
+    <path d="M530 173h26"/>
+  </g>
+  <text x="48" y="72" fill="#24264a" font-family="Arial, sans-serif" font-size="24" font-weight="700">Do not stop at visibility</text>
+  <text x="48" y="98" fill="#686a88" font-family="Arial, sans-serif" font-size="15">Every answer-led page should still move the visitor toward a useful action.</text>
+</svg>

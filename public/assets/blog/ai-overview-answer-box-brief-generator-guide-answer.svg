@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="360" viewBox="0 0 720 360" role="img" aria-labelledby="title desc">
+  <title id="title">Answer box structure</title>
+  <desc id="desc">A direct answer sits above supporting proof and a conversion path.</desc>
+  <rect width="720" height="360" rx="18" fill="#f7faf8"/>
+  <rect x="40" y="38" width="640" height="82" rx="12" fill="#0b1f1a"/>
+  <text x="68" y="74" fill="#ffffff" font-family="Arial, sans-serif" font-size="22" font-weight="700">Direct answer</text>
+  <text x="68" y="102" fill="#d9efe6" font-family="Arial, sans-serif" font-size="15">2-3 sentence objective summary below the intro.</text>
+  <rect x="40" y="146" width="194" height="130" rx="12" fill="#ffffff" stroke="#b9d7ca"/>
+  <rect x="263" y="146" width="194" height="130" rx="12" fill="#ffffff" stroke="#b9d7ca"/>
+  <rect x="486" y="146" width="194" height="130" rx="12" fill="#ffffff" stroke="#b9d7ca"/>
+  <text x="64" y="184" fill="#12342c" font-family="Arial, sans-serif" font-size="17" font-weight="700">Entity tie</text>
+  <text x="64" y="214" fill="#47645c" font-family="Arial, sans-serif" font-size="14">Brand + task +</text>
+  <text x="64" y="235" fill="#47645c" font-family="Arial, sans-serif" font-size="14">audience together.</text>
+  <text x="287" y="184" fill="#12342c" font-family="Arial, sans-serif" font-size="17" font-weight="700">Proof block</text>
+  <text x="287" y="214" fill="#47645c" font-family="Arial, sans-serif" font-size="14">Checklist, table,</text>
+  <text x="287" y="235" fill="#47645c" font-family="Arial, sans-serif" font-size="14">example, or data.</text>
+  <text x="510" y="184" fill="#12342c" font-family="Arial, sans-serif" font-size="17" font-weight="700">Next step</text>
+  <text x="510" y="214" fill="#47645c" font-family="Arial, sans-serif" font-size="14">Tool, signup,</text>
+  <text x="510" y="235" fill="#47645c" font-family="Arial, sans-serif" font-size="14">lead, or contact.</text>
+  <path d="M244 211h18M457 211h27" stroke="#1f8f67" stroke-width="4" stroke-linecap="round"/>
+</svg>

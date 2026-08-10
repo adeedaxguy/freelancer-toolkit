@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="360" viewBox="0 0 720 360" role="img" aria-labelledby="title desc">
+  <title id="title">Validation loop</title>
+  <desc id="desc">Deploy, live check, inspect in GSC, and monitor over time.</desc>
+  <rect width="720" height="360" rx="18" fill="#f8f7ff"/>
+  <circle cx="360" cy="180" r="112" fill="#ffffff" stroke="#d3cfef" stroke-width="3"/>
+  <g fill="#24264a" font-family="Arial, sans-serif" font-size="16" font-weight="700">
+    <text x="360" y="86" text-anchor="middle">Deploy fix</text>
+    <text x="469" y="184" text-anchor="middle">Live check</text>
+    <text x="360" y="286" text-anchor="middle">GSC inspect</text>
+    <text x="251" y="184" text-anchor="middle">Monitor</text>
+  </g>
+  <g fill="none" stroke="#6257d9" stroke-width="5" stroke-linecap="round">
+    <path d="M392 92a95 95 0 0 1 63 61"/>
+    <path d="M455 207a95 95 0 0 1-63 61"/>
+    <path d="M328 268a95 95 0 0 1-63-61"/>
+    <path d="M265 153a95 95 0 0 1 63-61"/>
+  </g>
+  <circle cx="360" cy="180" r="44" fill="#24264a"/>
+  <text x="360" y="175" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-size="16" font-weight="700">Validate</text>
+  <text x="360" y="196" text-anchor="middle" fill="#dcd9ff" font-family="Arial, sans-serif" font-size="12">then measure</text>
+</svg>

@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="360" viewBox="0 0 720 360" role="img" aria-labelledby="title desc">
+  <title id="title">Indexing issue classification</title>
+  <desc id="desc">Classify each Search Console issue before fixing it.</desc>
+  <rect width="720" height="360" rx="18" fill="#f9fbf7"/>
+  <text x="44" y="58" fill="#183326" font-family="Arial, sans-serif" font-size="24" font-weight="700">Classify before you fix</text>
+  <g fill="#ffffff" stroke="#c8dbc8" stroke-width="2">
+    <rect x="48" y="92" width="180" height="90" rx="14"/>
+    <rect x="270" y="92" width="180" height="90" rx="14"/>
+    <rect x="492" y="92" width="180" height="90" rx="14"/>
+    <rect x="159" y="214" width="180" height="90" rx="14"/>
+    <rect x="381" y="214" width="180" height="90" rx="14"/>
+  </g>
+  <g fill="#183326" font-family="Arial, sans-serif" font-size="16" font-weight="700">
+    <text x="138" y="130" text-anchor="middle">Redirect</text>
+    <text x="360" y="130" text-anchor="middle">Duplicate</text>
+    <text x="582" y="130" text-anchor="middle">404</text>
+    <text x="249" y="252" text-anchor="middle">Canonical</text>
+    <text x="471" y="252" text-anchor="middle">Discovered</text>
+  </g>
+  <g fill="#5b6f63" font-family="Arial, sans-serif" font-size="13">
+    <text x="138" y="154" text-anchor="middle">Old URL?</text>
+    <text x="360" y="154" text-anchor="middle">Same content?</text>
+    <text x="582" y="154" text-anchor="middle">Replacement?</text>
+    <text x="249" y="276" text-anchor="middle">Preferred URL?</text>
+    <text x="471" y="276" text-anchor="middle">Worth indexing?</text>
+  </g>
+</svg>

@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="360" viewBox="0 0 720 360" role="img" aria-labelledby="title desc">
+  <title id="title">Entity co-occurrence path</title>
+  <desc id="desc">Brand, keyword, task, and page type connect in one crawlable section.</desc>
+  <rect width="720" height="360" rx="18" fill="#fbfbf6"/>
+  <circle cx="360" cy="176" r="72" fill="#0f2f28"/>
+  <text x="360" y="170" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-size="24" font-weight="700">FreelTools</text>
+  <text x="360" y="197" text-anchor="middle" fill="#d8eee3" font-family="Arial, sans-serif" font-size="15">named with the task</text>
+  <g fill="#ffffff" stroke="#bed9cd" stroke-width="2">
+    <rect x="66" y="66" width="190" height="66" rx="12"/>
+    <rect x="464" y="66" width="190" height="66" rx="12"/>
+    <rect x="66" y="242" width="190" height="66" rx="12"/>
+    <rect x="464" y="242" width="190" height="66" rx="12"/>
+  </g>
+  <g fill="#173b32" font-family="Arial, sans-serif" font-size="16" font-weight="700">
+    <text x="161" y="106" text-anchor="middle">Primary query</text>
+    <text x="559" y="106" text-anchor="middle">User job</text>
+    <text x="161" y="282" text-anchor="middle">Page type</text>
+    <text x="559" y="282" text-anchor="middle">Tool path</text>
+  </g>
+  <g stroke="#2c9c72" stroke-width="4" stroke-linecap="round">
+    <path d="M255 112l58 32"/>
+    <path d="M465 112l-58 32"/>
+    <path d="M255 254l58-32"/>
+    <path d="M465 254l-58-32"/>
+  </g>
+</svg>

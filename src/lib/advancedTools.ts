@@ -1009,6 +1009,10 @@ const textToolData: Array<{
   { slug: 'blog-post-visual-plan-generator', title: 'Blog Post Visual Plan Generator', keyword: 'blog post visual plan generator', template: 'answer-box-brief', resultLabel: 'article visual plan', category: 'SEO Tools' },
   { slug: 'upwork-connects-price-brief-generator', title: 'Upwork Connects Price Brief Generator', keyword: 'Upwork Connects price brief generator', template: 'content-gap-brief', resultLabel: 'Upwork cost content brief', category: 'SEO Tools' },
   { slug: 'upwork-proposal-cost-planner', title: 'Upwork Proposal Cost Planner', keyword: 'Upwork proposal cost planner', template: 'content-gap-brief', resultLabel: 'Upwork proposal cost plan', category: 'SEO Tools' },
+  { slug: 'dataforseo-keyword-opportunity-scorer', title: 'DataForSEO Keyword Opportunity Scorer', keyword: 'DataForSEO keyword opportunity scorer', template: 'content-gap-brief', resultLabel: 'keyword opportunity scorecard', category: 'SEO Tools' },
+  { slug: 'gsc-click-drop-diagnosis-tool', title: 'GSC Click Drop Diagnosis Tool', keyword: 'GSC click drop diagnosis tool', template: 'gsc-insights-refresh-plan', resultLabel: 'click drop diagnosis plan', category: 'SEO Tools' },
+  { slug: 'search-console-query-page-mapper', title: 'Search Console Query Page Mapper', keyword: 'Search Console query page mapper', template: 'content-gap-brief', resultLabel: 'query to page map', category: 'SEO Tools' },
+  { slug: 'dataforseo-serp-competitor-brief', title: 'DataForSEO SERP Competitor Brief', keyword: 'DataForSEO SERP competitor brief', template: 'content-gap-brief', resultLabel: 'SERP competitor brief', category: 'SEO Tools' },
 ]
 
 function makeTextTool(data: (typeof textToolData)[number]): AdvancedTool {

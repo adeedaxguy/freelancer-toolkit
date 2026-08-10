@@ -8,7 +8,7 @@ publishDate: "2026-08-08"
 status: "published"
 tags: ["seo", "gsc", "indexing", "technical seo"]
 author: "FreelancerToolkit"
-image: "/blog/gsc-indexing-issues-fix-workflow-classify.svg"
+image: "/assets/blog/gsc-indexing-issues-fix-workflow-classify.svg"
 ---
 
 Search Console indexing emails can look scary because they list reasons pages are not indexed. Not every row is a problem. A redirected old URL, a deliberate duplicate, or a noindex private page can be expected. The work is to classify the issue before changing the website.
@@ -21,7 +21,7 @@ Use the [GSC Indexing Issue Triage Tool](/tools/gsc-indexing-issue-triage-tool) 
 
 To fix GSC indexing issues, first decide whether the affected URL should be indexed. If yes, check the live status code, canonical URL, robots directives, sitemap URL, internal links, and content quality. Fix those signals before requesting validation. If the URL is intentionally redirected, duplicated, or noindexed, document it as expected instead of forcing validation.
 
-![Classify Search Console indexing issues](/blog/gsc-indexing-issues-fix-workflow-classify.svg)
+![Classify Search Console indexing issues](/assets/blog/gsc-indexing-issues-fix-workflow-classify.svg)
 
 ## The three-lane triage
 
@@ -39,13 +39,13 @@ This is often expected. If `/old-tool-name` redirects to `/tools/new-tool-name`,
 
 This means Google found similar URLs and your site did not make the preferred URL clear enough. The usual fix is not more content first. The usual fix is signal alignment: self-referencing canonical on the preferred page, internal links to the preferred URL, sitemap using the preferred URL, and redirects from obvious duplicates when appropriate.
 
-![Canonical and redirect alignment](/blog/gsc-indexing-issues-fix-workflow-canonical.svg)
+![Canonical and redirect alignment](/assets/blog/gsc-indexing-issues-fix-workflow-canonical.svg)
 
 ## Discovered currently not indexed
 
 This can happen when Google knows about a URL but has not crawled or indexed it yet. For new pages, monitor after improving discovery. For important pages, strengthen the content, add internal links, ensure sitemap inclusion, and confirm the page returns a clean 200.
 
-![Sitemap and internal links support discovery](/blog/gsc-indexing-issues-fix-workflow-sitemap.svg)
+![Sitemap and internal links support discovery](/assets/blog/gsc-indexing-issues-fix-workflow-sitemap.svg)
 
 ## Live checks before validation
 
@@ -56,7 +56,7 @@ This can happen when Google knows about a URL but has not crawled or indexed it 
 5. Internal links point to the preferred URL.
 6. The page is useful enough to deserve indexing.
 
-![Validate only after live QA](/blog/gsc-indexing-issues-fix-workflow-validate.svg)
+![Validate only after live QA](/assets/blog/gsc-indexing-issues-fix-workflow-validate.svg)
 
 ## Best next tools
 
