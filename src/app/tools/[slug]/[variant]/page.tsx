@@ -8,6 +8,8 @@ import SeoToolsCalculator from '@/components/calculators/SeoToolsCalculator'
 import { ALL_TOOLS, getToolBySlug } from '@/lib/tools'
 import { buildFaqJsonLd, buildToolJsonLd, buildToolMetadata } from '@/lib/pageFactory'
 
+const SITE_URL = 'https://freeltools.com'
+
 type PageProps = {
   params: { slug: string; variant: string }
 }
@@ -67,10 +69,18 @@ export function generateMetadata({ params }: PageProps): Metadata {
   const variant = tool.programmaticVariants?.find((item) => item.slug === params.variant)
   if (!variant) return {}
   const base = buildToolMetadata(tool)
+  const canonical = `${SITE_URL}/tools/${tool.slug}/${variant.slug}`
   return {
     ...base,
     title: `${tool.title} ${variant.label} | Free Online Tool`,
     description: `${tool.description} Optimized ${variant.label.toLowerCase()}.`,
+    alternates: { canonical },
+    openGraph: {
+      ...base.openGraph,
+      title: `${tool.title} ${variant.label} | Free Online Tool`,
+      description: `${tool.description} Optimized ${variant.label.toLowerCase()}.`,
+      url: canonical,
+    },
   }
 }
 
