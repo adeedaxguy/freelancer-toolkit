@@ -96,7 +96,7 @@ export default function InvoiceGenerator() {
           {/* Header */}
           <div className="flex flex-col gap-4 border-b border-gray-200 pb-6 sm:flex-row sm:items-start sm:justify-between">
             <div>
-              <h1 className="text-4xl font-bold tracking-tight text-gray-900">INVOICE</h1>
+              <h2 className="text-4xl font-bold tracking-tight text-gray-900">INVOICE</h2>
               <p className="mt-2 text-sm font-semibold text-gray-700">{invoiceNumber}</p>
             </div>
             <div className="text-right text-sm text-gray-600">
@@ -201,7 +201,7 @@ export default function InvoiceGenerator() {
           {/* Header */}
           <div className="flex flex-col gap-4 border-b border-gray-100 pb-6 sm:flex-row sm:items-start sm:justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">INVOICE</h1>
+              <h2 className="text-3xl font-bold text-gray-900">INVOICE</h2>
               <div className="mt-3 space-y-1">
                 <input
                   className="input-field text-sm w-48"
