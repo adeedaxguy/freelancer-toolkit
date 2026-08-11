@@ -6,7 +6,7 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/api/', '/_next/', '/admin/', '/invoice/'],
+        disallow: ['/api/', '/admin/', '/invoice/'],
       },
     ],
     sitemap: 'https://freeltools.com/sitemap.xml',
