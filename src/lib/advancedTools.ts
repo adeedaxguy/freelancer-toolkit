@@ -1013,6 +1013,8 @@ const textToolData: Array<{
   { slug: 'gsc-click-drop-diagnosis-tool', title: 'GSC Click Drop Diagnosis Tool', keyword: 'GSC click drop diagnosis tool', template: 'gsc-insights-refresh-plan', resultLabel: 'click drop diagnosis plan', category: 'SEO Tools' },
   { slug: 'search-console-query-page-mapper', title: 'Search Console Query Page Mapper', keyword: 'Search Console query page mapper', template: 'content-gap-brief', resultLabel: 'query to page map', category: 'SEO Tools' },
   { slug: 'dataforseo-serp-competitor-brief', title: 'DataForSEO SERP Competitor Brief', keyword: 'DataForSEO SERP competitor brief', template: 'content-gap-brief', resultLabel: 'SERP competitor brief', category: 'SEO Tools' },
+  { slug: 'serp-feature-to-page-plan-generator', title: 'SERP Feature to Page Plan Generator', keyword: 'SERP feature page plan generator', template: 'content-gap-brief', resultLabel: 'SERP feature page plan', category: 'SEO Tools' },
+  { slug: 'topical-map-row-generator', title: 'Topical Map Row Generator', keyword: 'topical map row generator', template: 'answer-box-brief', resultLabel: 'topical map row', category: 'SEO Tools' },
 ]
 
 function makeTextTool(data: (typeof textToolData)[number]): AdvancedTool {
