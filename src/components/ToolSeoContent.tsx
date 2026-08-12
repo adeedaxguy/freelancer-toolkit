@@ -107,6 +107,16 @@ const TOOL_RESEARCH_INTENT: Record<string, ToolResearchIntent> = {
     competitorGap: 'Indexing guides are often long and generic; this page should put the issue decision path and live-page checks first.',
     useNow: 'Paste the affected URL notes, check robots/canonical/redirect signals, then decide whether to fix, monitor, or validate in GSC.',
   },
+  'dataforseo-cost-guard-planner': {
+    searcherJob: 'Plan a DataForSEO keyword or SERP pull without accidentally spending beyond a tiny daily research budget.',
+    competitorGap: 'Most keyword research pages assume a full paid SEO suite; this page should help small teams use one seed, cached reports, and a written cost guard before making API calls.',
+    useNow: 'Start from cached DataForSEO reports, set one seed and a hard limit, then save the research note before creating new tools, posts, or indexing requests.',
+  },
+  'gsc-validation-priority-planner': {
+    searcherJob: 'Decide which Search Console indexing issue should be fixed and validated first after a live SEO deployment.',
+    competitorGap: 'Generic GSC guides list every exclusion reason; this page should prioritize redirects, canonicals, noindex, robots, sitemap presence, and internal links before validation.',
+    useNow: 'Paste the affected URL notes, confirm the live fix is real, then request validation only when the page is indexable and linked from a useful internal path.',
+  },
   'heading-hierarchy-checker': {
     searcherJob: 'Check whether a page uses one clear H1, logical H2-H3 order, and a scannable heading outline before publishing.',
     competitorGap: 'Most ranking pages bundle heading feedback inside a full audit. This page wins when it stays focused on heading structure and shows the outline immediately.',
