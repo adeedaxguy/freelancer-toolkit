@@ -1017,6 +1017,9 @@ const textToolData: Array<{
   { slug: 'dataforseo-serp-competitor-brief', title: 'DataForSEO SERP Competitor Brief', keyword: 'DataForSEO SERP competitor brief', template: 'content-gap-brief', resultLabel: 'SERP competitor brief', category: 'SEO Tools' },
   { slug: 'serp-feature-to-page-plan-generator', title: 'SERP Feature to Page Plan Generator', keyword: 'SERP feature page plan generator', template: 'content-gap-brief', resultLabel: 'SERP feature page plan', category: 'SEO Tools' },
   { slug: 'topical-map-row-generator', title: 'Topical Map Row Generator', keyword: 'topical map row generator', template: 'answer-box-brief', resultLabel: 'topical map row', category: 'SEO Tools' },
+  { slug: 'photo-digitization-checklist-generator', title: 'Photo Digitization Checklist Generator', keyword: 'how to digitize photos checklist', template: 'content-gap-brief', resultLabel: 'photo digitization checklist', category: 'Image & Application File Tools' },
+  { slug: 'black-and-white-photo-brief-generator', title: 'Black and White Photo Brief Generator', keyword: 'make your picture black and white', template: 'content-gap-brief', resultLabel: 'black and white photo brief', category: 'Image & Application File Tools' },
+  { slug: 'image-hd-upgrade-checklist', title: 'Image HD Upgrade Checklist', keyword: 'make photo HD checklist', template: 'answer-box-brief', resultLabel: 'image HD checklist', category: 'Image & Application File Tools' },
 ]
 
 function makeTextTool(data: (typeof textToolData)[number]): AdvancedTool {
