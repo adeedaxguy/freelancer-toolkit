@@ -15,6 +15,8 @@ export default function RateIncreaseCalculator() {
   const [increasePercent, setIncreasePercent] = useState(20)
   const [billableHoursPerWeek, setBillableHoursPerWeek] = useState(25)
   const [weeksPerYear, setWeeksPerYear] = useState(48)
+  const [clientRetentionPercent, setClientRetentionPercent] = useState(85)
+  const [noticeDays, setNoticeDays] = useState(45)
 
   const results = useMemo(() => {
     const newRate = currentRate * (1 + increasePercent / 100)
@@ -23,14 +25,38 @@ export default function RateIncreaseCalculator() {
     const newAnnual = newRate * billableHoursPerWeek * weeksPerYear
     const annualIncrease = newAnnual - currentAnnual
     const monthlyIncrease = annualIncrease / 12
-    return { newRate, rateIncrease, currentAnnual, newAnnual, annualIncrease, monthlyIncrease }
-  }, [currentRate, increasePercent, billableHoursPerWeek, weeksPerYear])
+    const retentionRate = Math.min(100, Math.max(0, clientRetentionPercent)) / 100
+    const retainedHoursPerWeek = billableHoursPerWeek * retentionRate
+    const retainedAnnual = newRate * retainedHoursPerWeek * weeksPerYear
+    const breakEvenHoursPerWeek = newRate > 0 && weeksPerYear > 0 ? currentAnnual / newRate / weeksPerYear : 0
+    const hoursYouCanLose = Math.max(0, billableHoursPerWeek - breakEvenHoursPerWeek)
+    const profitSafe = retainedAnnual >= currentAnnual
+    const today = new Date()
+    today.setDate(today.getDate() + noticeDays)
+    const effectiveDate = today.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
+    return {
+      newRate,
+      rateIncrease,
+      currentAnnual,
+      newAnnual,
+      annualIncrease,
+      monthlyIncrease,
+      retainedHoursPerWeek,
+      retainedAnnual,
+      breakEvenHoursPerWeek,
+      hoursYouCanLose,
+      profitSafe,
+      effectiveDate,
+    }
+  }, [clientRetentionPercent, currentRate, increasePercent, billableHoursPerWeek, noticeDays, weeksPerYear])
 
   const scenarios = useMemo(() => {
     return [10, 15, 20, 25, 30].map((pct) => {
       const newRate = currentRate * (1 + pct / 100)
       const newAnnual = newRate * billableHoursPerWeek * weeksPerYear
-      return { pct, newRate, newAnnual, increase: newAnnual - currentRate * billableHoursPerWeek * weeksPerYear }
+      const currentAnnual = currentRate * billableHoursPerWeek * weeksPerYear
+      const breakEvenHours = newRate > 0 ? currentAnnual / newRate / weeksPerYear : 0
+      return { pct, newRate, newAnnual, increase: newAnnual - currentAnnual, loseHours: Math.max(0, billableHoursPerWeek - breakEvenHours) }
     })
   }, [currentRate, billableHoursPerWeek, weeksPerYear])
 
@@ -73,6 +99,24 @@ export default function RateIncreaseCalculator() {
             max={52}
             hint="Most freelancers work 44–50 billable weeks after PTO and holidays."
           />
+          <InputField
+            label="Expected Client Retention"
+            value={clientRetentionPercent}
+            onChange={setClientRetentionPercent}
+            suffix="%"
+            min={0}
+            max={100}
+            hint="Use a conservative estimate if some clients may reject the new rate."
+          />
+          <InputField
+            label="Notice Period"
+            value={noticeDays}
+            onChange={setNoticeDays}
+            suffix="days"
+            min={0}
+            max={180}
+            hint="30–60 days gives current clients time to plan."
+          />
         </div>
 
         {/* Results */}
@@ -99,7 +143,26 @@ export default function RateIncreaseCalculator() {
             value={fmt(results.monthlyIncrease)}
             sublabel="Monthly revenue increase"
           />
+          <ResultCard
+            label="Break-even Workload"
+            value={`${results.breakEvenHoursPerWeek.toFixed(1)} hrs/wk`}
+            sublabel={`You can lose ${results.hoursYouCanLose.toFixed(1)} hrs/wk and still match current revenue`}
+          />
+          <ResultCard
+            label="Retention-adjusted Revenue"
+            value={fmt(results.retainedAnnual)}
+            sublabel={`${clientRetentionPercent}% retained workload at the new rate`}
+          />
         </div>
+      </div>
+
+      <div className={`rounded-2xl border p-6 shadow-sm ${results.profitSafe ? 'border-green-100 bg-green-50' : 'border-amber-100 bg-amber-50'}`}>
+        <h2 className={`text-base font-semibold ${results.profitSafe ? 'text-green-900' : 'text-amber-900'}`}>Decision check</h2>
+        <p className={`mt-2 text-sm leading-6 ${results.profitSafe ? 'text-green-800' : 'text-amber-800'}`}>
+          {results.profitSafe
+            ? `This increase still beats your current annual revenue if you keep about ${clientRetentionPercent}% of your billable workload. The effective date can be ${results.effectiveDate} with your current notice setting.`
+            : `At ${clientRetentionPercent}% retained workload, this increase may drop below your current annual revenue. Consider a smaller increase, a longer notice period, or raising only new-client pricing first.`}
+        </p>
       </div>
 
       {/* Scenario comparison */}
@@ -113,6 +176,7 @@ export default function RateIncreaseCalculator() {
                 <th className="pb-2 text-right font-semibold text-gray-700">New Rate</th>
                 <th className="pb-2 text-right font-semibold text-gray-700">New Annual</th>
                 <th className="pb-2 text-right font-semibold text-gray-700">Extra/Year</th>
+                <th className="pb-2 text-right font-semibold text-gray-700">Can Lose</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-50">
@@ -122,6 +186,7 @@ export default function RateIncreaseCalculator() {
                   <td className="py-2.5 text-right text-gray-700">{fmtRate(s.newRate)}/hr</td>
                   <td className="py-2.5 text-right text-gray-700">{fmt(s.newAnnual)}</td>
                   <td className="py-2.5 text-right font-semibold text-green-600">+{fmt(s.increase)}</td>
+                  <td className="py-2.5 text-right text-gray-700">{s.loseHours.toFixed(1)} hrs/wk</td>
                 </tr>
               ))}
             </tbody>
@@ -136,11 +201,11 @@ export default function RateIncreaseCalculator() {
         <div className="mt-3 rounded-lg bg-gray-50 p-4 font-mono text-xs leading-relaxed text-gray-700 whitespace-pre-wrap select-all">
 {`Hi [Client Name],
 
-I wanted to give you advance notice that my hourly rate will be increasing from ${fmtRate(currentRate)} to ${fmtRate(results.newRate)} effective [DATE — 30–60 days from now].
+I wanted to give you advance notice that my hourly rate will be increasing from ${fmtRate(currentRate)} to ${fmtRate(results.newRate)} effective ${results.effectiveDate}.
 
 This reflects [increased demand for my services / rising costs / the expanded scope and expertise I bring to your projects].
 
-All work completed before [DATE] will continue to be billed at ${fmtRate(currentRate)}/hr. Any projects or retainers starting after that date will be at the new rate.
+All work completed before ${results.effectiveDate} will continue to be billed at ${fmtRate(currentRate)}/hr. Any projects or retainers starting after that date will be at the new rate.
 
 I value our working relationship and look forward to continuing to deliver great results for you. Please don't hesitate to reach out if you have any questions.
 

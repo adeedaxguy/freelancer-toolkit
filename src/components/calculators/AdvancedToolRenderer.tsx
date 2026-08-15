@@ -36,6 +36,24 @@ function formatBytes(bytes: number) {
   return `${(bytes / (1024 * 1024)).toFixed(2)} MB`
 }
 
+function formatRatio(width: number, height: number) {
+  const gcd = (a: number, b: number): number => b === 0 ? a : gcd(b, a % b)
+  const divisor = gcd(width, height)
+  return `${Math.round(width / divisor)}:${Math.round(height / divisor)}`
+}
+
+function checkTone(passed: boolean | null) {
+  if (passed === true) return 'border-green-100 bg-green-50 text-green-800'
+  if (passed === false) return 'border-amber-100 bg-amber-50 text-amber-800'
+  return 'border-gray-100 bg-gray-50 text-gray-700'
+}
+
+function checkLabel(passed: boolean | null) {
+  if (passed === true) return 'Pass'
+  if (passed === false) return 'Review'
+  return 'Info'
+}
+
 function cleanFileBase(filename: string) {
   return filename.replace(/\.[^.]+$/, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'freeltools-image'
 }
@@ -163,6 +181,19 @@ function DocumentPhotoTool({ config }: { config: Extract<AdvancedToolConfig, { k
   const outputHeight = mmToPx(config.heightMm, config.dpi)
 
   const ratio = `${config.widthMm}:${config.heightMm}`
+  const sourceResolutionOk = image ? image.width >= outputWidth && image.height >= outputHeight : null
+  const sourceScale = image ? Math.min(image.width / outputWidth, image.height / outputHeight) : null
+  const readinessChecks = [
+    { label: 'Export size', value: `${outputWidth} x ${outputHeight}px`, passed: true },
+    { label: 'Print size', value: `${config.widthMm} x ${config.heightMm}mm at ${config.dpi} DPI`, passed: true },
+    {
+      label: 'Source resolution',
+      value: image ? `${image.width} x ${image.height}px (${sourceScale ? sourceScale.toFixed(1) : '0'}x export)` : 'Upload a photo to check',
+      passed: sourceResolutionOk,
+    },
+    { label: 'Background target', value: config.background, passed: null },
+    { label: 'Crop guide', value: config.headSize ?? 'Center face, eyes level, shoulders visible', passed: null },
+  ]
 
   async function renderPhotoCanvas() {
     if (!image || !previewRef.current) throw new Error('Upload a photo first.')
@@ -248,7 +279,7 @@ function DocumentPhotoTool({ config }: { config: Extract<AdvancedToolConfig, { k
             <div className="rounded-xl bg-gray-50 p-4">
               <div className="mx-auto overflow-hidden border border-gray-200 bg-white shadow-sm" style={{ aspectRatio: ratio, maxWidth: 260 }}>
                 <div
-                  className="h-full w-full bg-white"
+                  className="relative h-full w-full bg-white"
                   style={{
                     backgroundColor: background,
                     backgroundImage: `url(${image.dataUrl})`,
@@ -256,7 +287,14 @@ function DocumentPhotoTool({ config }: { config: Extract<AdvancedToolConfig, { k
                     backgroundPosition: `calc(50% + ${offsetX / 8}px) calc(50% + ${offsetY / 8}px)`,
                     backgroundRepeat: 'no-repeat',
                   }}
-                />
+                >
+                  <div className="pointer-events-none absolute left-1/2 top-[8%] h-[58%] w-[48%] -translate-x-1/2 rounded-full border-2 border-white/90 shadow-[0_0_0_1px_rgba(15,23,42,0.25)]" />
+                  <div className="pointer-events-none absolute inset-x-[18%] top-1/2 border-t border-dashed border-white/90 shadow-[0_1px_0_rgba(15,23,42,0.25)]" />
+                  <div className="pointer-events-none absolute inset-x-[16%] bottom-[15%] rounded border border-dashed border-white/80 shadow-[0_0_0_1px_rgba(15,23,42,0.18)]" />
+                  <span className="pointer-events-none absolute bottom-2 left-1/2 -translate-x-1/2 rounded-full bg-black/55 px-2 py-1 text-[10px] font-semibold text-white">
+                    Align face inside guide
+                  </span>
+                </div>
               </div>
               <img ref={previewRef} src={image.dataUrl} alt="" className="hidden" />
             </div>
@@ -277,6 +315,18 @@ function DocumentPhotoTool({ config }: { config: Extract<AdvancedToolConfig, { k
               Check official guidance
             </a>
           )}
+          <div className="mt-4 space-y-2">
+            <h3 className="text-xs font-semibold uppercase tracking-wide text-gray-500">Readiness checks</h3>
+            {readinessChecks.map((item) => (
+              <div key={item.label} className={`rounded-lg border p-3 text-xs ${checkTone(item.passed)}`}>
+                <div className="flex items-start justify-between gap-3">
+                  <span className="font-semibold">{item.label}</span>
+                  <span className="shrink-0 rounded-full bg-white/70 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide">{checkLabel(item.passed)}</span>
+                </div>
+                <p className="mt-1 leading-5">{item.value}</p>
+              </div>
+            ))}
+          </div>
           <p className="mt-4 rounded-lg bg-amber-50 p-3 text-xs leading-5 text-amber-800">
             {config.warning}
           </p>
@@ -314,6 +364,7 @@ function ImageResizerTool({ config }: { config: Extract<AdvancedToolConfig, { ki
   const outputWidth = resizeMode === 'original' && image ? image.width : resizeMode === 'custom' ? Math.max(1, Math.round(customWidth)) : config.targetWidth
   const outputHeight = resizeMode === 'original' && image ? image.height : resizeMode === 'custom' ? Math.max(1, Math.round(customHeight)) : config.targetHeight
   const targetSizeKb = Number(targetSizeInput) > 0 ? Number(targetSizeInput) : null
+  const qaDpi = config.dpi ?? 300
   const sourceFormat = image?.fileName.split('.').pop()
   const sourceLabel = sourceFormat ? labelForFileFormat(sourceFormat) : 'Image'
   const outputLabel = labelForFormat(outputFormat)
@@ -321,6 +372,39 @@ function ImageResizerTool({ config }: { config: Extract<AdvancedToolConfig, { ki
   const imageDataUrl = image?.dataUrl
   const imageWidth = image?.width
   const imageHeight = image?.height
+  const targetMet = result && targetSizeKb ? result.blob.size <= targetSizeKb * 1024 : null
+  const savedPercent = result && image ? ((image.fileSize - result.blob.size) / image.fileSize) * 100 : null
+  const outputChecks = [
+    {
+      label: 'File-size target',
+      value: targetSizeKb
+        ? result
+          ? `${formatBytes(result.blob.size)} of ${targetSizeKb}KB target`
+          : `Will try to stay under ${targetSizeKb}KB`
+        : 'No KB target set',
+      passed: targetSizeKb ? targetMet : null,
+    },
+    {
+      label: 'Dimensions',
+      value: `${outputWidth} x ${outputHeight}px (${formatRatio(outputWidth, outputHeight)})`,
+      passed: true,
+    },
+    {
+      label: 'Format',
+      value: `${outputLabel}${outputFormat === 'jpeg' ? ' with white background' : background === 'transparent' ? ' with transparent background' : ''}`,
+      passed: true,
+    },
+    {
+      label: 'Compression change',
+      value: savedPercent === null ? 'Convert to calculate savings' : savedPercent >= 0 ? `${savedPercent.toFixed(1)}% smaller than original` : `${Math.abs(savedPercent).toFixed(1)}% larger than original`,
+      passed: savedPercent === null ? null : savedPercent >= 0,
+    },
+    {
+      label: 'Print estimate',
+      value: `${(outputWidth / qaDpi).toFixed(2)} x ${(outputHeight / qaDpi).toFixed(2)} in at ${qaDpi} DPI`,
+      passed: null,
+    },
+  ]
 
   useEffect(() => {
     if (imageWidth && imageHeight && isConverter) {
@@ -398,6 +482,19 @@ function ImageResizerTool({ config }: { config: Extract<AdvancedToolConfig, { ki
   function downloadResult() {
     if (!result) return
     downloadBlob(result.blob, result.fileName)
+  }
+
+  async function copyResultSpecs() {
+    if (!result) return
+    const specs = [
+      `File: ${result.fileName}`,
+      `Dimensions: ${result.width} x ${result.height}px`,
+      `Format: ${labelForFormat(result.format)}`,
+      `Size: ${formatBytes(result.blob.size)}`,
+      `Quality: ${Math.round(result.qualityUsed * 100)}%`,
+      targetSizeKb ? `Target: under ${targetSizeKb}KB ${targetMet ? '(met)' : '(review)'}` : null,
+    ].filter(Boolean).join('\n')
+    await navigator.clipboard?.writeText(specs).catch(() => undefined)
   }
 
   return (
@@ -558,6 +655,21 @@ function ImageResizerTool({ config }: { config: Extract<AdvancedToolConfig, { ki
             </dl>
           </section>
 
+          <section className="rounded-xl border border-gray-100 bg-white p-4">
+            <h2 className="text-sm font-semibold text-gray-900">Output QA</h2>
+            <div className="mt-3 space-y-2">
+              {outputChecks.map((item) => (
+                <div key={item.label} className={`rounded-lg border p-3 text-xs ${checkTone(item.passed)}`}>
+                  <div className="flex items-start justify-between gap-3">
+                    <span className="font-semibold">{item.label}</span>
+                    <span className="shrink-0 rounded-full bg-white/70 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide">{checkLabel(item.passed)}</span>
+                  </div>
+                  <p className="mt-1 leading-5">{item.value}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+
           <section className="rounded-xl border border-brand-100 bg-brand-50 p-4">
             <h2 className="text-sm font-semibold text-gray-900">Ready file</h2>
             {result ? (
@@ -565,6 +677,7 @@ function ImageResizerTool({ config }: { config: Extract<AdvancedToolConfig, { ki
                 <p className="font-medium text-gray-900">{result.fileName}</p>
                 <p className="text-gray-600">{result.width} x {result.height}px · {formatBytes(result.blob.size)}</p>
                 <button type="button" className="btn-primary w-full justify-center" onClick={downloadResult}>Download converted image</button>
+                <button type="button" className="btn-secondary w-full justify-center" onClick={copyResultSpecs}>Copy file specs</button>
               </div>
             ) : (
               <p className="mt-3 text-sm leading-6 text-gray-600">Upload an image, set the output, then convert to create a downloadable file.</p>
