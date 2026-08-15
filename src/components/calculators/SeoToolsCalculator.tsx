@@ -496,6 +496,16 @@ function OnPageSeoAuditTool() {
     const keywordInTitle = keyword ? title.toLowerCase().includes(keyword) : false
     const keywordInH1 = keyword ? h1.toLowerCase().includes(keyword) : false
     const keywordInDescription = keyword ? description.toLowerCase().includes(keyword) : false
+    const firstScreen = content.slice(0, 900)
+    const firstScreenLower = firstScreen.toLowerCase()
+    const hasActionNearTop = /\b(use|try|enter|paste|upload|calculate|generate|check|download|copy|run|preview|audit)\b/i.test(firstScreen)
+    const hasExtractableAnswer = keyword
+      ? firstScreenLower.includes(keyword) && /\b(is|helps|checks|shows|calculates|generates|use this|this tool)\b/i.test(firstScreen)
+      : firstScreen.trim().length > 120
+    const hasSchemaSignal = /application\/ld\+json|schema\.org|FAQPage|SoftwareApplication|Article|BreadcrumbList/i.test(html)
+    const ogTitle = livePage?.ogTitle || (html.match(/property=["']og:title["'][^>]*content=["']([^"']+)["']/i)?.[1] ?? '')
+    const ogDescription = livePage?.ogDescription || (html.match(/property=["']og:description["'][^>]*content=["']([^"']+)["']/i)?.[1] ?? '')
+    const ogImage = livePage?.ogImage || (html.match(/property=["']og:image["'][^>]*content=["']([^"']+)["']/i)?.[1] ?? '')
     const missingAlt = Number(imagesMissingAlt) || 0
     const totalImages = Number(imageCount) || 0
     const internal = Number(internalLinks) || 0
@@ -513,15 +523,46 @@ function OnPageSeoAuditTool() {
       { label: 'Image alt text', ok: totalImages === 0 || missingAlt === 0, detail: `${missingAlt} of ${totalImages} images missing alt text.` },
       { label: 'Internal links', ok: internal >= 3, detail: `${internal} internal links found. Add relevant links to tools, categories, and guides.` },
       { label: 'External citations', ok: external >= 1, detail: `${external} external links found. Use credible citations for facts that may change.` },
+      { label: 'First screen answers and acts', ok: hasExtractableAnswer && hasActionNearTop, detail: hasExtractableAnswer && hasActionNearTop ? 'The early copy contains the topic and an action verb.' : 'Add a short answer and obvious action near the top of the page.' },
+      { label: 'Schema markup is present', ok: Boolean(livePage) || hasSchemaSignal, detail: livePage ? 'Live page fetched. Confirm visible schema in source when publishing.' : hasSchemaSignal ? 'Schema-like markup detected in pasted HTML.' : 'Add truthful SoftwareApplication, Article, FAQPage, or Breadcrumb schema where visible content supports it.' },
+      { label: 'Open Graph preview is complete', ok: Boolean(ogTitle && ogDescription && ogImage), detail: ogTitle && ogDescription && ogImage ? 'OG title, description, and image detected.' : 'Add OG title, description, and image so shared links look credible.' },
     ]
 
     const failed = items.filter((item) => !item.ok)
     const actionPlan = failed.length
       ? failed.map((item, index) => `${index + 1}. ${item.label}: ${item.detail}`)
       : ['1. Page-level SEO basics look ready. Do a final visual/mobile QA, then request indexing or publish the refresh.']
+    const criticalLabels = new Set(['Live URL responded', 'Primary keyword placement', 'One clear H1', 'Canonical URL', 'First screen answers and acts'])
+    const actionRows = failed.map((item) => ({
+      severity: criticalLabels.has(item.label) ? 'High' : item.label.includes('Open Graph') || item.label.includes('Schema') ? 'Medium' : 'Low',
+      label: item.label,
+      detail: item.detail,
+    }))
+    const refreshBrief = `Page refresh brief
 
-    return { words, items, actionPlan }
-  }, [canonical, content, description, h1, imageCount, imagesMissingAlt, internalLinks, externalLinks, livePage, targetKeyword, title])
+URL: ${pageUrl}
+Target keyword: ${targetKeyword}
+Current score: ${Math.round((items.filter((item) => item.ok).length / items.length) * 100)}%
+Word count: ${words}
+
+Highest priority fixes:
+${actionRows.length ? actionRows.map((row) => `- ${row.severity}: ${row.label} — ${row.detail}`).join('\n') : '- No priority fixes from the current inputs.'}
+
+Recommended first-screen block:
+Use this ${targetKeyword || 'SEO checker'} to check the page title, meta description, H1, canonical URL, content depth, links, image alt text, schema, and share preview before publishing. Paste HTML or fetch a live URL, then fix the highest-priority warnings first.
+
+Internal link targets to add:
+- Link to the closest tool category page.
+- Link to one supporting guide that explains the workflow.
+- Link to the next action tool, such as schema, meta description, keyword density, heading hierarchy, or image-alt checking.
+
+Manual QA after edits:
+- Mobile first screen shows the tool and action.
+- Canonical, title, meta, OG image, and schema match visible content.
+- Sitemap includes the URL and the page is indexable.`
+
+    return { words, items, actionPlan, actionRows, refreshBrief }
+  }, [canonical, content, description, h1, html, imageCount, imagesMissingAlt, internalLinks, externalLinks, livePage, pageUrl, targetKeyword, title])
 
   return (
     <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_380px]">
@@ -565,7 +606,25 @@ function OnPageSeoAuditTool() {
       </Panel>
       <div className="space-y-4">
         <ScoreList items={audit.items} />
+        <Panel title="Priority fix queue">
+          {audit.actionRows.length === 0 ? (
+            <p className="text-sm leading-6 text-gray-600">No priority fixes from the current inputs. Do a final visual check before publishing.</p>
+          ) : (
+            <div className="space-y-2">
+              {audit.actionRows.map((row) => (
+                <div key={`${row.severity}-${row.label}`} className="rounded-xl border border-gray-100 bg-white p-3">
+                  <div className="flex items-start justify-between gap-3">
+                    <p className="text-sm font-semibold text-gray-900">{row.label}</p>
+                    <span className={`rounded-full px-2 py-1 text-[10px] font-bold uppercase tracking-wide ${row.severity === 'High' ? 'bg-red-100 text-red-700' : row.severity === 'Medium' ? 'bg-amber-100 text-amber-700' : 'bg-gray-100 text-gray-600'}`}>{row.severity}</span>
+                  </div>
+                  <p className="mt-1 text-xs leading-5 text-gray-500">{row.detail}</p>
+                </div>
+              ))}
+            </div>
+          )}
+        </Panel>
         <CopyBox label="Priority SEO fixes" value={audit.actionPlan.join('\n')} downloadName="priority-seo-fixes.txt" />
+        <CopyBox label="Page refresh brief" value={audit.refreshBrief} downloadName="page-refresh-brief.txt" />
       </div>
     </div>
   )
@@ -1039,6 +1098,8 @@ function HreflangTagGenerator() {
 
 function KeywordDensityChecker() {
   const [targetKeyword, setTargetKeyword] = useState('free seo tools')
+  const [relatedTerms, setRelatedTerms] = useState('title tag\nmeta description\nschema markup\nrobots.txt\nxml sitemap\ninternal links\nsearch intent')
+  const [questions, setQuestions] = useState('What is a free SEO tool?\nHow do I check on-page SEO?\nWhat should I fix before publishing?')
   const [content, setContent] = useState('Free SEO tools help small website owners check title tags, meta descriptions, schema markup, robots.txt files, XML sitemaps, and content quality before publishing. A useful SEO tool should make the next action clear instead of only showing a vague score.')
 
   const analysis = useMemo(() => {
@@ -1063,12 +1124,35 @@ function KeywordDensityChecker() {
     const topPhrases = Array.from(phrases.entries()).sort((a, b) => b[1] - a[1]).slice(0, 10)
     const targetTerms = keywordCore(targetKeyword)
     const missingTargetTerms = targetTerms.filter((term) => !terms.has(term))
+    const related = splitLines(relatedTerms)
+    const questionRows = splitLines(questions)
+    const relatedHits = related.map((term) => ({
+      term,
+      covered: normalized.includes(term.toLowerCase()),
+    }))
+    const relatedCovered = relatedHits.filter((term) => term.covered).length
+    const relatedCoverage = related.length ? Math.round((relatedCovered / related.length) * 100) : 100
+    const questionHits = questionRows.map((question) => {
+      const core = keywordCore(question)
+      const coveredTerms = core.filter((term) => terms.has(term)).length
+      return {
+        question,
+        coveredTerms,
+        totalTerms: core.length,
+        covered: core.length > 0 && coveredTerms / core.length >= 0.5,
+      }
+    })
+    const questionCoverage = questionHits.length ? Math.round((questionHits.filter((question) => question.covered).length / questionHits.length) * 100) : 100
+    const overusedTerms = topTerms.filter(([, count]) => words.length > 0 && (count / words.length) * 100 > 4)
     const checks: ScoreItem[] = [
       { label: 'Content has enough text', ok: words.length >= 300, detail: `${words.length} words found. Thin pages usually need more context, examples, and next steps.` },
       { label: 'Target keyword appears', ok: occurrences > 0, detail: `${occurrences} exact phrase use${occurrences === 1 ? '' : 's'} found.` },
       { label: 'Density not stuffed', ok: occurrences === 0 || density <= 3, detail: `${density.toFixed(2)}% exact-match density. Use natural coverage over repetition.` },
       { label: 'Core terms covered', ok: missingTargetTerms.length === 0, detail: missingTargetTerms.length ? `Missing: ${missingTargetTerms.join(', ')}` : 'All target terms appear at least once.' },
       { label: 'Term variety present', ok: topTerms.length >= 6, detail: `${topTerms.length} meaningful repeated terms detected.` },
+      { label: 'Related term coverage', ok: relatedCoverage >= 60, detail: `${relatedCoverage}% of related terms are covered. Add missing terms naturally where they help the reader.` },
+      { label: 'Question coverage', ok: questionCoverage >= 50, detail: `${questionCoverage}% of target questions are partly covered by the copy.` },
+      { label: 'No dominant repeated term', ok: overusedTerms.length === 0, detail: overusedTerms.length ? `Review overused terms: ${overusedTerms.map(([term]) => term).join(', ')}` : 'No single non-stopword dominates the content.' },
     ]
     return {
       words: words.length,
@@ -1080,8 +1164,13 @@ function KeywordDensityChecker() {
       topPhrases,
       checks,
       missingTargetTerms,
+      relatedHits,
+      relatedCoverage,
+      questionHits,
+      questionCoverage,
+      overusedTerms,
     }
-  }, [content, targetKeyword])
+  }, [content, questions, relatedTerms, targetKeyword])
   const contentReport = `Keyword quality report
 
 Target keyword: ${targetKeyword}
@@ -1089,26 +1178,71 @@ Words: ${analysis.words}
 Exact uses: ${analysis.occurrences}
 Density: ${analysis.density.toFixed(2)}%
 Estimated reading time: ${analysis.readingTime} min
+Related term coverage: ${analysis.relatedCoverage}%
+Question coverage: ${analysis.questionCoverage}%
 
 Checks:
 ${analysis.checks.map((item) => `- ${item.ok ? 'PASS' : 'FIX'}: ${item.label} — ${item.detail}`).join('\n')}
+
+Related terms:
+${analysis.relatedHits.map((item) => `- ${item.covered ? 'Covered' : 'Missing'}: ${item.term}`).join('\n')}
+
+Question coverage:
+${analysis.questionHits.map((item) => `- ${item.covered ? 'Covered' : 'Review'}: ${item.question}`).join('\n')}
 
 Top terms:
 ${analysis.topTerms.map(([term, count]) => `- ${term}: ${count}`).join('\n')}
 
 Top phrases:
-${analysis.topPhrases.map(([phrase, count]) => `- ${phrase}: ${count}`).join('\n')}`
+${analysis.topPhrases.map(([phrase, count]) => `- ${phrase}: ${count}`).join('\n')}
+
+Rewrite brief:
+- Keep the exact keyword natural, not repetitive.
+- Add missing related terms only where they explain the topic.
+- Add one short answer section for the weakest uncovered question.
+- If a term is overused, replace repeats with specific examples, entity names, or clearer subtopics.`
 
   return (
     <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_380px]">
       <Panel title="Content inputs">
         <Field label="Target keyword or phrase" value={targetKeyword} onChange={setTargetKeyword} />
+        <TextArea label="Related terms to cover" value={relatedTerms} onChange={setRelatedTerms} rows={5} hint="One term per line. Use GSC related queries, competitor subtopics, or entities the page should naturally mention." />
+        <TextArea label="Questions the page should answer" value={questions} onChange={setQuestions} rows={5} hint="One question per line. The checker looks for partial topical coverage, not exact wording." />
         <TextArea label="Paste content" value={content} onChange={setContent} rows={13} />
       </Panel>
       <div className="space-y-4">
         <Stat label="Word count" value={`${analysis.words}`} detail={`${analysis.readingTime} min estimated read time`} highlight />
         <Stat label="Keyword uses" value={`${analysis.occurrences}`} detail={`${analysis.density.toFixed(2)}% density`} highlight={analysis.occurrences > 0 && analysis.density <= 3} />
+        <div className="grid gap-3 sm:grid-cols-2">
+          <Stat label="Related coverage" value={`${analysis.relatedCoverage}%`} detail={`${analysis.relatedHits.filter((item) => item.covered).length} of ${analysis.relatedHits.length} related terms covered`} highlight={analysis.relatedCoverage >= 60} />
+          <Stat label="Question coverage" value={`${analysis.questionCoverage}%`} detail={`${analysis.questionHits.filter((item) => item.covered).length} of ${analysis.questionHits.length} questions partly covered`} highlight={analysis.questionCoverage >= 50} />
+        </div>
         <ScoreList items={analysis.checks} />
+        <div className="rounded-2xl border border-gray-100 bg-white p-4 shadow-sm">
+          <h3 className="text-sm font-semibold text-gray-900">Missing related terms</h3>
+          <div className="mt-3 flex flex-wrap gap-2">
+            {analysis.relatedHits.filter((item) => !item.covered).length === 0 ? (
+              <span className="rounded-full bg-brand-100 px-3 py-1 text-xs font-medium text-brand-700">All related terms covered</span>
+            ) : (
+              analysis.relatedHits.filter((item) => !item.covered).map((item) => (
+                <span key={item.term} className="rounded-full bg-amber-100 px-3 py-1 text-xs font-medium text-amber-800">
+                  {item.term}
+                </span>
+              ))
+            )}
+          </div>
+        </div>
+        <div className="rounded-2xl border border-gray-100 bg-white p-4 shadow-sm">
+          <h3 className="text-sm font-semibold text-gray-900">Questions to strengthen</h3>
+          <div className="mt-3 space-y-2">
+            {analysis.questionHits.map((item) => (
+              <div key={item.question} className={`rounded-xl border p-3 text-xs ${item.covered ? 'border-brand-100 bg-brand-50 text-brand-800' : 'border-amber-100 bg-amber-50 text-amber-800'}`}>
+                <p className="font-semibold">{item.covered ? 'Covered' : 'Review'} · {item.question}</p>
+                <p className="mt-1">{item.coveredTerms} of {item.totalTerms} core terms found in content.</p>
+              </div>
+            ))}
+          </div>
+        </div>
         <div className="rounded-2xl border border-gray-100 bg-white p-4 shadow-sm">
           <h3 className="text-sm font-semibold text-gray-900">Top repeated terms</h3>
           <div className="mt-3 flex flex-wrap gap-2">

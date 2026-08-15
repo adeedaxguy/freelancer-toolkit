@@ -51,18 +51,18 @@ export default function ToolPageShell({ tool, children, variantLabel }: ToolPage
             {tool.category}
           </Link>
         </div>
-        <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl lg:text-4xl">
+        <h1 className="max-w-full break-words text-2xl font-bold leading-tight text-gray-900 sm:text-3xl lg:text-4xl">
           {variantLabel ? `${tool.title} ${variantLabel}` : tool.headline}
         </h1>
-        <p className="mt-3 max-w-2xl text-sm text-gray-500 sm:text-base">{tool.description}</p>
-        <div className="mt-5 flex flex-col gap-3 rounded-2xl border border-brand-100 bg-brand-50 p-4 sm:flex-row sm:items-center sm:justify-between">
-          <div>
+        <p className="mt-3 max-w-2xl break-words text-sm text-gray-500 sm:text-base">{tool.description}</p>
+        <div className="mt-5 flex min-w-0 flex-col gap-3 rounded-2xl border border-brand-100 bg-brand-50 p-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="min-w-0">
             <p className="text-sm font-semibold text-gray-900">Use this free tool now</p>
             <p className="mt-1 text-xs leading-5 text-gray-600">No signup, no credit card, and no data stored on our servers.</p>
           </div>
           <a
             href="#tool"
-            className="inline-flex justify-center rounded-full bg-brand-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-700"
+            className="inline-flex w-full justify-center rounded-full bg-brand-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-700 sm:w-auto"
           >
             Start below
           </a>
