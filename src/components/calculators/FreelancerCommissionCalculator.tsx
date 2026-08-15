@@ -42,8 +42,27 @@ const PLATFORMS = [
   },
 ]
 
+function grossForTarget(platform: (typeof PLATFORMS)[number], targetNet: number) {
+  const target = Math.max(0, targetNet)
+  let low = target
+  let high = Math.max(target * 2, target + 100)
+
+  while (high - platform.calculateFee(high) < target) {
+    high *= 1.5
+  }
+
+  for (let i = 0; i < 36; i += 1) {
+    const mid = (low + high) / 2
+    if (mid - platform.calculateFee(mid) >= target) high = mid
+    else low = mid
+  }
+
+  return high
+}
+
 export default function FreelancerCommissionCalculator() {
   const [amount, setAmount] = useState(1000)
+  const [targetNet, setTargetNet] = useState(900)
   const [selected, setSelected] = useState<string[]>(['upwork', 'fiverr', 'freelancer', 'pph'])
 
   const results = useMemo(() =>
@@ -51,9 +70,11 @@ export default function FreelancerCommissionCalculator() {
       const fee = p.calculateFee(amount)
       const net = amount - fee
       const pct = amount > 0 ? (fee / amount) * 100 : 0
-      return { ...p, fee, net, pct }
+      const requiredGross = grossForTarget(p, targetNet)
+      const targetFee = p.calculateFee(requiredGross)
+      return { ...p, fee, net, pct, requiredGross, targetFee }
     }),
-    [amount]
+    [amount, targetNet]
   )
 
   const toggle = (id: string) =>
@@ -65,6 +86,9 @@ export default function FreelancerCommissionCalculator() {
         <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
           <h2 className="mb-4 text-base font-semibold text-gray-900">Project Details</h2>
           <InputField label="Project / Order Value" value={amount} onChange={setAmount} prefix="$" min={1} />
+          <div className="mt-5">
+            <InputField label="Target take-home" value={targetNet} onChange={setTargetNet} prefix="$" min={1} />
+          </div>
           <div className="mt-5">
             <label className="mb-2 block text-sm font-medium text-gray-700">Compare Platforms</label>
             <div className="flex flex-wrap gap-2">
@@ -99,6 +123,11 @@ export default function FreelancerCommissionCalculator() {
                   <p className="text-2xl font-bold text-brand-900">{fmt(best.net)}</p>
                   <p className="text-xs text-brand-600">{best.pct.toFixed(1)}% fee → {fmt(best.fee)} deducted</p>
                 </div>
+                <div className="rounded-xl border border-gray-100 bg-gray-50 p-4">
+                  <p className="text-xs font-semibold uppercase tracking-wider text-gray-400">To keep {fmt(targetNet)}</p>
+                  <p className="mt-1 text-lg font-bold text-gray-900">Charge {fmt(best.requiredGross)}</p>
+                  <p className="text-xs text-gray-500">{fmt(best.targetFee)} estimated platform fee</p>
+                </div>
                 <p className="text-xs text-gray-400">{best.notes}</p>
               </div>
             )
@@ -108,13 +137,14 @@ export default function FreelancerCommissionCalculator() {
 
       {/* Comparison table */}
       <div className="overflow-x-auto rounded-2xl border border-gray-100 bg-white shadow-sm">
-        <table className="w-full min-w-[400px] text-sm">
+        <table className="w-full min-w-[640px] text-sm">
           <thead className="border-b border-gray-100 bg-gray-50">
             <tr>
               <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-400 sm:px-5">Platform</th>
               <th className="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wider text-gray-400 sm:px-5">Fee</th>
               <th className="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wider text-gray-400 sm:px-5">Fee %</th>
               <th className="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wider text-gray-400 sm:px-5">You Receive</th>
+              <th className="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wider text-gray-400 sm:px-5">Charge for Target</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-50">
@@ -127,6 +157,7 @@ export default function FreelancerCommissionCalculator() {
                   <td className="px-4 py-3.5 text-right text-red-600 sm:px-5">{fmt(r.fee)}</td>
                   <td className="px-4 py-3.5 text-right text-gray-500 sm:px-5">{r.pct.toFixed(1)}%</td>
                   <td className="px-4 py-3.5 text-right font-semibold text-gray-900 sm:px-5">{fmt(r.net)}</td>
+                  <td className="px-4 py-3.5 text-right font-semibold text-brand-700 sm:px-5">{fmt(r.requiredGross)}</td>
                 </tr>
               ))}
           </tbody>

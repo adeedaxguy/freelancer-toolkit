@@ -16,6 +16,7 @@ export default function ProposalGenerator() {
     timeline: '4',
     problem: '',
     solution: '',
+    proof: '',
   })
   const [result, setResult] = useState('')
   const [provider, setProvider] = useState('')
@@ -51,7 +52,7 @@ export default function ProposalGenerator() {
       <div className="space-y-4 rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
         <div className="flex items-center gap-2">
           <h2 className="text-base font-semibold text-gray-900">Project Details</h2>
-          <span className="rounded-full bg-brand-50 px-2 py-0.5 text-xs font-medium text-brand-700">Powered by Grok AI</span>
+          <span className="rounded-full bg-brand-50 px-2 py-0.5 text-xs font-medium text-brand-700">AI draft + safe fallback</span>
         </div>
 
         <div className="grid gap-3 sm:grid-cols-2">
@@ -95,6 +96,11 @@ export default function ProposalGenerator() {
         <div>
           <label className="mb-1 block text-sm font-medium text-gray-700">Your Proposed Solution</label>
           <textarea className="input-field min-h-[80px] resize-none" value={form.solution} onChange={(e) => set('solution', e.target.value)} placeholder="I'll design and build a conversion-optimised website with SEO foundations..." />
+        </div>
+        <div>
+          <label className="mb-1 block text-sm font-medium text-gray-700">Proof / relevant examples (optional)</label>
+          <textarea className="input-field min-h-[70px] resize-none" value={form.proof} onChange={(e) => set('proof', e.target.value)} placeholder="Portfolio links, similar project notes, metrics you can prove, or client-approved examples." />
+          <p className="mt-1 text-xs leading-5 text-gray-400">Leave this blank if you do not have proof to share. The generator will not invent examples.</p>
         </div>
 
         <button

@@ -17,8 +17,8 @@ export default function FiverrFeeCalculator() {
   const [targetNet, setTargetNet] = useState(80)
   const [sellerFeePercent, setSellerFeePercent] = useState(20)
   const [buyerServiceFeePercent, setBuyerServiceFeePercent] = useState(5.5)
-  const [smallOrderThreshold, setSmallOrderThreshold] = useState(50)
-  const [smallOrderFee, setSmallOrderFee] = useState(2)
+  const [smallOrderThreshold, setSmallOrderThreshold] = useState(200)
+  const [smallOrderFee, setSmallOrderFee] = useState(3.5)
 
   const results = useMemo(() => {
     const sellerRate = Math.max(0, sellerFeePercent) / 100
@@ -139,7 +139,7 @@ export default function FiverrFeeCalculator() {
               prefix="$"
               min={0}
               step={5}
-              hint="Default: add small-order fee below $50."
+              hint="Default: add small-order fee below $200."
             />
             <InputField
               label="Small-order fee"
@@ -148,7 +148,7 @@ export default function FiverrFeeCalculator() {
               prefix="$"
               min={0}
               step={0.5}
-              hint="Default: $2 extra buyer fee."
+              hint="Default: $3.50 extra buyer fee."
             />
           </div>
         </div>

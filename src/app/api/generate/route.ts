@@ -51,7 +51,7 @@ STRICT RULES:
 - Start immediately with YOUR solution/approach — never start with "I understand you need" or "You are looking for"
 - Max 250 words total
 - Write in first person, confident and direct
-- Include 2-3 REAL, specific example websites (with actual URLs) relevant to the client's industry and service
+- Do not invent portfolio examples, client names, case studies, numbers, or websites. If no proof is supplied, write a practical proof/process paragraph instead.
 - Sound human, not templated
 - End with one clear next step sentence`
 
@@ -103,7 +103,7 @@ export async function POST(req: NextRequest) {
   }
 
   if (!content) {
-    content = buildTemplateFallback(tool, data)
+    content = buildTemplateFallback(tool, sanitizedData)
     provider = 'template'
   }
 
@@ -128,6 +128,7 @@ CLIENT DETAILS:
 - Timeline: ${d.timeline} weeks
 
 MY SOLUTION: ${d.solution}
+PROOF / RELEVANT EXAMPLES I PROVIDED: ${d.proof || 'None provided. Do not invent websites or case studies.'}
 
 Structure (NO headers, plain paragraphs only):
 
@@ -135,7 +136,7 @@ Paragraph 1 (2-3 sentences): Open with exactly what outcome I'll deliver for the
 
 Paragraph 2 (2-3 sentences): Briefly explain my approach/process. Make it feel tailored to them.
 
-Paragraph 3: Write exactly this line first: "Here are a few examples of similar work in the ${d.clientIndustry} space:" then on separate lines list 3 LESSER-KNOWN, NICHE websites (NOT famous brands like Shopify/Amazon/Nike). Pick real but smaller, industry-specific sites that demonstrate good ${d.service}. Format each as: - SiteName.com — one sentence why it's relevant to their project.
+Paragraph 3 (2-3 sentences): If proof/examples were provided, reference only those. If none were provided, explain the quality checks, deliverables, and communication rhythm instead. Never create fake examples.
 
 Paragraph 4 (2-3 sentences): Investment is ${d.budget ? '$' + d.budget : 'competitive'}, ${d.timeline} weeks, 50/50 payment. One genuine, specific call to action.
 
@@ -180,23 +181,100 @@ Write 12-15 smart questions in sections: Business & Goals, Project Specifics, De
 function buildTemplateFallback(tool: string, d: Record<string, string>): string {
   if (tool === 'proposal') {
     const budget = d.budget ? `$${d.budget}` : 'competitive'
-    const niches: Record<string, string[]> = {
-      'E-commerce': ['- TrueClassicTees.com — strong product page UX with clear CTAs', '- GymShark.com/collections — clean category structure and filtering', '- MadePura.com — excellent mobile checkout flow'],
-      'SaaS / Tech': ['- Loom.com — clear value prop and onboarding flow', '- Linear.app — minimal, fast-loading SaaS design', '- Pitch.com — strong hero and feature storytelling'],
-      'Healthcare': ['- HimsHers.com — trust-focused design with clear steps', '- NutritionKitchen.co.uk — clean health product layout', '- RomanHealth.com — simple consultation flow'],
-      'Real Estate': ['- Compass.com — clean property search UX', '- Roofstock.com — data-rich but scannable layout', '- LoftSmart.com — student housing with clear CTAs'],
-    }
-    const refs = niches[d.clientIndustry] || ['- TrueClassicTees.com — strong ecommerce UX', '- Linear.app — minimal and fast SaaS design', '- Pitch.com — clear value storytelling']
+    const proof = d.proof
+      ? `Relevant proof I can point to: ${d.proof}.`
+      : `To keep this low-risk, I will share the first outline or draft quickly, confirm the direction before deep production, and keep decisions visible so there are no surprise revisions.`
     return `I can fix ${d.problem || 'your current issue'} and deliver a ${d.service.toLowerCase()} that works — in ${d.timeline} weeks. ${d.solution ? d.solution + '.' : ''}
 
 My process is straightforward: understand your goals first, move fast, and keep you in the loop at every step. No surprises.
 
-Here are a few examples of similar work in the ${d.clientIndustry} space:
-${refs.join('\n')}
+${proof}
 
 Investment is ${budget}, split 50/50 — half upfront, half on delivery. Ready to get started this week if you are.
 
 ${d.freelancerName || ''}`
   }
-  return `AI generation temporarily unavailable. Please try again in a moment.`
+  if (tool === 'scope') {
+    const deliverables = (d.deliverables || 'Core deliverables to be confirmed')
+      .split('\n')
+      .map((item) => item.trim())
+      .filter(Boolean)
+      .map((item, index) => `${index + 1}. ${item}`)
+      .join('\n')
+
+    return `Scope of Work Draft
+
+Project Overview
+${d.freelancerName || 'The provider'} will deliver ${d.service || 'the agreed service'} for ${d.clientName || 'the client'} over ${d.timeline || 'the agreed'} weeks. The scope below is the working agreement for deliverables, review limits, and acceptance.
+
+Deliverables
+${deliverables}
+
+Timeline
+Week 1: kickoff, access, requirements, and first working plan.
+Middle phase: production, check-ins, and agreed deliverable drafts.
+Final phase: revisions, QA, handoff, and final approval.
+
+Revision Policy
+The project includes ${d.revisionRounds || 'two'} reasonable revision rounds unless the signed agreement says otherwise. New features, new pages, rewritten requirements, rush changes, or work outside the deliverables should be quoted separately.
+
+Out of Scope
+${d.outOfScope || 'Hosting, paid tools, copywriting, legal review, third-party costs, emergency support, and new deliverables are not included unless added in writing.'}
+
+Acceptance Criteria
+Work is accepted when the listed deliverables are provided, the included revision rounds are completed, and the client confirms the deliverables match the approved scope.`
+  }
+
+  if (tool === 'discovery') {
+    return `Discovery Call Script
+
+Opening
+Thanks for taking the time today. I would like to understand what you are trying to achieve, what is blocking it now, and whether ${d.service || 'this project'} is something I can help with. If it is a fit, I will suggest the cleanest next step.
+
+Qualifying Questions
+1. What outcome would make this project a success?
+2. What have you already tried, and what did not work?
+3. Who needs to approve the direction, budget, and final delivery?
+4. What deadline matters, and what happens if it slips?
+5. What assets, access, or internal support are already available?
+
+Budget and Urgency
+1. Have you set aside a budget range for this?
+2. Is the budget tied to a launch, sales target, investor deadline, or internal commitment?
+3. If we find the right plan today, when would you want work to start?
+
+Close
+Based on what you shared, the next useful step is a short written plan with scope, timeline, and price. I can send that over after the call if you want me to map the project properly.`
+  }
+
+  if (tool === 'questionnaire') {
+    return `Client Questionnaire
+
+Business and Goals
+1. What is the main business outcome this project needs to support?
+2. Who is the target audience, and what do they need to do next?
+3. What would make this project feel successful 30 days after launch?
+
+Project Specifics
+4. What deliverables do you expect from this project?
+5. What existing assets, files, logins, or examples can you share?
+6. What must be included, and what should be avoided?
+
+Timeline and Approval
+7. What is the ideal deadline, and is it flexible?
+8. Who gives feedback, and who gives final approval?
+9. How quickly can your team review drafts?
+
+Budget and Scope
+10. What budget range should the solution fit inside?
+11. Are there third-party costs, subscriptions, or contractors involved?
+12. What would count as out of scope after kickoff?
+
+Handoff
+13. What format should final files or documentation be delivered in?
+14. Who will maintain the work after delivery?
+15. Are there legal, brand, accessibility, privacy, or compliance requirements I should know before starting?`
+  }
+
+  return `The generator could not identify this tool. Please check the input and try again.`
 }

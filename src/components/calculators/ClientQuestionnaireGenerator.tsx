@@ -43,7 +43,7 @@ export default function ClientQuestionnaireGenerator() {
       <div className="space-y-4 rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
         <div className="flex items-center gap-2">
           <h2 className="text-base font-semibold text-gray-900">Questionnaire Details</h2>
-          <span className="rounded-full bg-brand-50 px-2 py-0.5 text-xs font-medium text-brand-700">Powered by Grok AI</span>
+          <span className="rounded-full bg-brand-50 px-2 py-0.5 text-xs font-medium text-brand-700">AI draft + safe fallback</span>
         </div>
         <div className="grid gap-3 sm:grid-cols-2">
           <div>
