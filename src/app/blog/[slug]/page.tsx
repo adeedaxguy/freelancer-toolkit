@@ -191,13 +191,12 @@ export default function BlogPostPage({ params }: Props) {
         {/* Tags */}
         <div className="mb-4 flex flex-wrap gap-2">
           {post.tags.map((tag) => (
-            <Link
+            <span
               key={tag}
-              href={`/blog?tag=${encodeURIComponent(tag)}`}
-              className="rounded-full bg-brand-50 px-2.5 py-0.5 text-xs font-medium text-brand-700 hover:bg-brand-100 transition"
+              className="rounded-full bg-brand-50 px-2.5 py-0.5 text-xs font-medium text-brand-700"
             >
               {tag}
-            </Link>
+            </span>
           ))}
         </div>
 
