@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
+  <title id="title">Keyword density workflow</title>
+  <desc id="desc">A four step SEO workflow for checking keyword density before publishing.</desc>
+  <rect width="1280" height="720" fill="#101827"/>
+  <rect x="80" y="76" width="1120" height="568" rx="28" fill="#f8fafc"/>
+  <text x="140" y="154" fill="#0f172a" font-family="Inter, Arial, sans-serif" font-size="48" font-weight="800">Check keyword density online</text>
+  <text x="140" y="204" fill="#475569" font-family="Inter, Arial, sans-serif" font-size="24">Use the number as a QA signal, then fix the page for people.</text>
+  <g font-family="Inter, Arial, sans-serif">
+    <rect x="140" y="284" width="220" height="190" rx="18" fill="#dbeafe"/>
+    <text x="166" y="338" fill="#1e3a8a" font-size="24" font-weight="800">1. Paste copy</text>
+    <text x="166" y="382" fill="#334155" font-size="18">Start with the draft that will actually go live.</text>
+    <rect x="390" y="284" width="220" height="190" rx="18" fill="#dcfce7"/>
+    <text x="416" y="338" fill="#166534" font-size="24" font-weight="800">2. Read terms</text>
+    <text x="416" y="382" fill="#334155" font-size="18">Check exact phrases and useful variants.</text>
+    <rect x="640" y="284" width="220" height="190" rx="18" fill="#fef3c7"/>
+    <text x="666" y="338" fill="#92400e" font-size="24" font-weight="800">3. Fix intent</text>
+    <text x="666" y="382" fill="#334155" font-size="18">Answer the query before chasing a score.</text>
+    <rect x="890" y="284" width="220" height="190" rx="18" fill="#fce7f3"/>
+    <text x="916" y="338" fill="#9d174d" font-size="24" font-weight="800">4. Link next</text>
+    <text x="916" y="382" fill="#334155" font-size="18">Send readers to the checker, audit, or fix path.</text>
+  </g>
+</svg>
