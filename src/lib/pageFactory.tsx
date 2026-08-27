@@ -297,10 +297,22 @@ const HOW_TO_STEPS: Record<string, { name: string; text: string }[]> = {
     { name: 'Test a path', text: 'Use the simple path tester to see whether a URL path matches a disallow rule.' },
     { name: 'Copy robots.txt', text: 'Copy the output and publish it at the root of the site.' },
   ],
+  'robots-txt-checker': [
+    { name: 'Fetch or paste robots.txt', text: 'Enter a live robots.txt URL or paste the file contents into the checker.' },
+    { name: 'Choose the crawler and path', text: 'Set the user agent and important public path you want to test.' },
+    { name: 'Review crawl rules', text: 'Check user-agent groups, allow and disallow rules, sitemap directives, and syntax warnings.' },
+    { name: 'Fix risky blocks', text: 'Update robots.txt when important public pages are blocked or sitemap hints are missing.' },
+  ],
   'xml-sitemap-generator': [
     { name: 'Paste canonical URLs', text: 'Add one indexable URL per line and remove redirects, duplicates, and noindex pages.' },
     { name: 'Choose sitemap fields', text: 'Select change frequency, priority, and whether to include lastmod.' },
     { name: 'Copy sitemap XML', text: 'Copy the generated XML and save it as sitemap.xml or merge it into your sitemap workflow.' },
+  ],
+  'sitemap-url-checker': [
+    { name: 'Fetch or paste a sitemap', text: 'Enter a live sitemap URL or paste XML, sitemap index XML, or a URL list.' },
+    { name: 'Review URL quality', text: 'Check absolute URL format, duplicates, host consistency, HTTPS usage, parameters, fragments, and sitemap size.' },
+    { name: 'Check a live sample', text: 'Run the live status check for the first URL sample to catch 404, redirect, or server-error risks.' },
+    { name: 'Export the audit', text: 'Copy the CSV report and fix sitemap URLs before submitting or resubmitting the sitemap.' },
   ],
   'hreflang-tag-generator': [
     { name: 'Enter language URL pairs', text: 'Add one language code and URL per line, such as en-us followed by the page URL.' },

@@ -78,6 +78,14 @@ type RedirectHop = {
   error?: string
 }
 
+type TextResourceResult = {
+  requestedUrl: string
+  finalUrl: string
+  status: number
+  contentType: string
+  text: string
+}
+
 const stopWords = new Set([
   'a',
   'an',
@@ -126,6 +134,16 @@ function countWords(text: string) {
 
 function escapeXml(value: string) {
   return value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;')
+}
+
+function decodeXmlEntities(value: string) {
+  return value
+    .replace(/&amp;/gi, '&')
+    .replace(/&quot;/gi, '"')
+    .replace(/&#39;|&apos;/gi, "'")
+    .replace(/&lt;/gi, '<')
+    .replace(/&gt;/gi, '>')
+    .replace(/&#(\d+);/g, (_, code: string) => String.fromCharCode(Number(code)))
 }
 
 function slugHost(url: string) {
@@ -971,6 +989,164 @@ Disallow: /
   )
 }
 
+function RobotsTxtChecker() {
+  const [robotsUrl, setRobotsUrl] = useState('https://freeltools.com/robots.txt')
+  const [robotsText, setRobotsText] = useState('User-agent: *\nAllow: /\nDisallow: /admin/\nDisallow: /api/\nSitemap: https://freeltools.com/sitemap.xml')
+  const [userAgent, setUserAgent] = useState('Googlebot')
+  const [testPath, setTestPath] = useState('/tools/on-page-seo-checker')
+  const [fetchingRobots, setFetchingRobots] = useState(false)
+  const [fetchError, setFetchError] = useState('')
+  const [liveResource, setLiveResource] = useState<TextResourceResult | null>(null)
+
+  const analysis = useMemo(() => {
+    type RobotsGroup = {
+      agents: string[]
+      rules: { directive: 'allow' | 'disallow'; value: string }[]
+    }
+
+    const groups: RobotsGroup[] = []
+    const sitemaps: string[] = []
+    const invalidLines: string[] = []
+    const otherDirectives: string[] = []
+    let current: RobotsGroup | null = null
+
+    for (const rawLine of robotsText.split('\n')) {
+      const line = rawLine.replace(/#.*$/, '').trim()
+      if (!line) continue
+      const match = line.match(/^([a-z-]+)\s*:\s*(.*)$/i)
+      if (!match) {
+        invalidLines.push(rawLine.trim())
+        continue
+      }
+
+      const directive = match[1].toLowerCase()
+      const value = match[2].trim()
+
+      if (directive === 'user-agent') {
+        if (!current || current.rules.length > 0) {
+          current = { agents: [], rules: [] }
+          groups.push(current)
+        }
+        current.agents.push(value.toLowerCase())
+      } else if (directive === 'allow' || directive === 'disallow') {
+        if (!current) {
+          current = { agents: ['*'], rules: [] }
+          groups.push(current)
+        }
+        current.rules.push({ directive, value })
+      } else if (directive === 'sitemap') {
+        sitemaps.push(value)
+      } else {
+        otherDirectives.push(`${directive}: ${value}`)
+      }
+    }
+
+    const selectedAgent = userAgent.trim().toLowerCase() || '*'
+    const exactGroups = groups.filter((group) =>
+      group.agents.some((agent) => agent !== '*' && (selectedAgent.includes(agent) || agent.includes(selectedAgent)))
+    )
+    const wildcardGroups = groups.filter((group) => group.agents.includes('*'))
+    const activeGroups = exactGroups.length > 0 ? exactGroups : wildcardGroups
+    const activeRules = activeGroups.flatMap((group) => group.rules)
+    const path = testPath.startsWith('/') ? testPath : `/${testPath}`
+    const matchedRule = activeRules
+      .filter((rule) => rule.value && robotsPathMatches(rule.value, path))
+      .sort((a, b) => b.value.length - a.value.length || (a.directive === 'allow' ? -1 : 1))[0]
+    const pathBlocked = matchedRule?.directive === 'disallow'
+    const fullSiteBlock = activeRules.some((rule) => rule.directive === 'disallow' && rule.value === '/')
+    const sitemapIssues = sitemaps.filter((url) => !/^https?:\/\/.+/i.test(url))
+    const ruleCount = groups.reduce((count, group) => count + group.rules.length, 0)
+    const checks: ScoreItem[] = [
+      { label: 'Robots.txt content found', ok: robotsText.trim().length > 0, detail: robotsText.trim() ? `${robotsText.length} characters ready to check.` : 'Fetch or paste a robots.txt file.' },
+      { label: 'User-agent rules present', ok: groups.length > 0, detail: `${groups.length} user-agent group${groups.length === 1 ? '' : 's'} found.` },
+      { label: 'No full-site block for selected crawler', ok: !fullSiteBlock, detail: fullSiteBlock ? `${userAgent || '*'} is blocked by Disallow: /.` : `No Disallow: / rule applies to ${userAgent || '*'}.` },
+      { label: 'Important path crawlable', ok: !pathBlocked, detail: `${path} is ${pathBlocked ? 'blocked' : 'allowed'}${matchedRule ? ` by ${matchedRule.directive}: ${matchedRule.value}` : ' because no matching disallow rule was found'}.` },
+      { label: 'Sitemap directive present', ok: sitemaps.length > 0 && sitemapIssues.length === 0, detail: sitemaps.length ? `${sitemaps.length} sitemap directive${sitemaps.length === 1 ? '' : 's'} found.` : 'No Sitemap directive found.' },
+      { label: 'Syntax lines parsed', ok: invalidLines.length === 0, detail: invalidLines.length ? `${invalidLines.length} line${invalidLines.length === 1 ? '' : 's'} could not be parsed.` : 'No invalid robots.txt lines detected.' },
+    ]
+
+    const report = `Robots.txt check report
+
+Source URL: ${liveResource?.finalUrl ?? robotsUrl}
+HTTP status: ${liveResource ? liveResource.status : 'not fetched'}
+User agent tested: ${userAgent || '*'}
+Path tested: ${path}
+Path result: ${pathBlocked ? 'blocked' : 'allowed'}
+Matched rule: ${matchedRule ? `${matchedRule.directive}: ${matchedRule.value}` : 'none'}
+Groups: ${groups.length}
+Rules: ${ruleCount}
+Sitemaps:
+${sitemaps.length ? sitemaps.map((url) => `- ${url}`).join('\n') : '- none'}
+
+Checks:
+${checks.map((item) => `- ${item.ok ? 'PASS' : 'FIX'}: ${item.label} - ${item.detail}`).join('\n')}
+
+Other directives:
+${otherDirectives.length ? otherDirectives.map((item) => `- ${item}`).join('\n') : '- none'}
+
+Invalid lines:
+${invalidLines.length ? invalidLines.map((item) => `- ${item}`).join('\n') : '- none'}`
+
+    return { groups, sitemaps, invalidLines, otherDirectives, matchedRule, pathBlocked, path, ruleCount, checks, report }
+  }, [liveResource, robotsText, robotsUrl, testPath, userAgent])
+
+  const fetchRobotsTxt = async () => {
+    setFetchingRobots(true)
+    setFetchError('')
+    try {
+      const data = await postSeoAnalysis<{ ok: true; result: TextResourceResult }>({ mode: 'text', url: robotsUrl })
+      setLiveResource(data.result)
+      setRobotsText(data.result.text)
+    } catch (error) {
+      setFetchError(error instanceof Error ? error.message : 'Could not fetch robots.txt')
+    } finally {
+      setFetchingRobots(false)
+    }
+  }
+
+  return (
+    <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_400px]">
+      <Panel title="Robots.txt inputs">
+        <Field label="Live robots.txt URL" value={robotsUrl} onChange={setRobotsUrl} />
+        <button type="button" onClick={fetchRobotsTxt} disabled={fetchingRobots} className="rounded-full bg-gray-950 px-4 py-2 text-sm font-semibold text-white transition hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-60 active:scale-[0.96]">
+          {fetchingRobots ? 'Fetching robots.txt...' : 'Fetch robots.txt'}
+        </button>
+        {fetchError && <p className="rounded-xl border border-amber-200 bg-amber-50 p-3 text-sm leading-6 text-amber-800">{fetchError}</p>}
+        {liveResource && (
+          <p className="rounded-xl border border-gray-100 bg-gray-50 p-3 text-xs leading-5 text-gray-600">
+            Fetched {liveResource.status} from <span className="break-all">{liveResource.finalUrl}</span>
+          </p>
+        )}
+        <TextArea label="Paste robots.txt" value={robotsText} onChange={setRobotsText} rows={12} hint="Paste the public robots.txt file. Lines beginning with # are treated as comments." />
+        <div className="grid gap-4 sm:grid-cols-2">
+          <Field label="Crawler user agent" value={userAgent} onChange={setUserAgent} placeholder="Googlebot" />
+          <Field label="Important path to test" value={testPath} onChange={setTestPath} placeholder="/tools/on-page-seo-checker" />
+        </div>
+      </Panel>
+      <div className="space-y-4">
+        <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
+          <Stat label="Groups" value={`${analysis.groups.length}`} detail="User-agent groups found." highlight={analysis.groups.length > 0} />
+          <Stat label="Rules" value={`${analysis.ruleCount}`} detail="Allow and disallow rules parsed." highlight={analysis.ruleCount > 0} />
+          <Stat label="Path result" value={analysis.pathBlocked ? 'Blocked' : 'Allowed'} detail={analysis.matchedRule ? `${analysis.matchedRule.directive}: ${analysis.matchedRule.value}` : 'No matching block.'} highlight={!analysis.pathBlocked} />
+        </div>
+        <ScoreList items={analysis.checks} />
+        <Panel title="Sitemap directives">
+          {analysis.sitemaps.length === 0 ? (
+            <p className="text-sm text-gray-600">No Sitemap directive found in this robots.txt file.</p>
+          ) : (
+            <div className="space-y-2">
+              {analysis.sitemaps.map((url) => (
+                <p key={url} className="break-all rounded-lg bg-gray-50 p-3 text-xs leading-5 text-gray-600">{url}</p>
+              ))}
+            </div>
+          )}
+        </Panel>
+        <CopyBox label="Robots.txt check report" value={analysis.report} downloadName="robots-txt-check-report.txt" />
+      </div>
+    </div>
+  )
+}
+
 function XmlSitemapGenerator() {
   const [urls, setUrls] = useState('https://example.com/\nhttps://example.com/services\nhttps://example.com/blog/seo-audit-checklist')
   const [changeFrequency, setChangeFrequency] = useState('weekly')
@@ -1052,6 +1228,188 @@ ${parsedUrls
         <ScoreList items={sitemapChecks} />
         <CopyBox label="sitemap.xml" value={xml} downloadName="sitemap.xml" />
         <CopyBox label="Sitemap URL audit CSV" value={auditCsv} downloadName="sitemap-url-audit.csv" />
+      </div>
+    </div>
+  )
+}
+
+function SitemapUrlChecker() {
+  const [sitemapUrl, setSitemapUrl] = useState('https://freeltools.com/sitemap.xml')
+  const [sitemapText, setSitemapText] = useState('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <url><loc>https://freeltools.com/tools/on-page-seo-checker</loc></url>\n  <url><loc>https://freeltools.com/tools/keyword-density-checker</loc></url>\n  <url><loc>https://freeltools.com/tools/robots-txt-checker</loc></url>\n</urlset>')
+  const [fetchingSitemap, setFetchingSitemap] = useState(false)
+  const [checkingUrls, setCheckingUrls] = useState(false)
+  const [checkError, setCheckError] = useState('')
+  const [liveResource, setLiveResource] = useState<TextResourceResult | null>(null)
+  const [checkedLinks, setCheckedLinks] = useState<LinkStatusResult[]>([])
+
+  const audit = useMemo(() => {
+    const locUrls = Array.from(sitemapText.matchAll(/<loc>\s*([\s\S]*?)\s*<\/loc>/gi))
+      .map((match) => decodeXmlEntities(match[1].trim()))
+      .filter(Boolean)
+    const lineUrls = splitLines(sitemapText).flatMap((line) => line.match(/https?:\/\/[^\s<>"']+/gi) ?? [])
+    const urls = locUrls.length > 0 ? locUrls : lineUrls.map(decodeXmlEntities)
+    const validUrls = urls.filter((url) => /^https?:\/\//i.test(url))
+    const invalidUrls = urls.filter((url) => !/^https?:\/\//i.test(url))
+
+    const normalize = (value: string) => {
+      try {
+        const url = new URL(value)
+        url.hash = ''
+        return url.toString().replace(/\/$/, '')
+      } catch {
+        return value
+      }
+    }
+
+    const normalizedCounts = new Map<string, number>()
+    for (const url of validUrls) {
+      const normalized = normalize(url)
+      normalizedCounts.set(normalized, (normalizedCounts.get(normalized) ?? 0) + 1)
+    }
+
+    const duplicateUrls = validUrls.filter((url) => (normalizedCounts.get(normalize(url)) ?? 0) > 1)
+    const hosts = new Set(
+      validUrls
+        .map((url) => {
+          try {
+            return new URL(url).hostname.replace(/^www\./, '')
+          } catch {
+            return ''
+          }
+        })
+        .filter(Boolean)
+    )
+    const nonHttpsUrls = validUrls.filter((url) => !url.toLowerCase().startsWith('https://'))
+    const parameterUrls = validUrls.filter((url) => {
+      try {
+        return new URL(url).search.length > 0
+      } catch {
+        return false
+      }
+    })
+    const fragmentUrls = validUrls.filter((url) => {
+      try {
+        return new URL(url).hash.length > 0
+      } catch {
+        return false
+      }
+    })
+    const checkedByInput = new Map(checkedLinks.map((link) => [link.inputUrl, link]))
+    const liveFailures = checkedLinks.filter((link) => !link.ok)
+    const checks: ScoreItem[] = [
+      { label: 'Sitemap URLs found', ok: validUrls.length > 0, detail: `${validUrls.length} valid URL${validUrls.length === 1 ? '' : 's'} found.` },
+      { label: 'All rows are absolute URLs', ok: invalidUrls.length === 0 && validUrls.length > 0, detail: invalidUrls.length ? `${invalidUrls.length} invalid or relative row${invalidUrls.length === 1 ? '' : 's'} found.` : 'All detected URLs start with http or https.' },
+      { label: 'No duplicate sitemap URLs', ok: duplicateUrls.length === 0, detail: `${duplicateUrls.length} duplicate URL row${duplicateUrls.length === 1 ? '' : 's'} found after normalization.` },
+      { label: 'Single host set', ok: hosts.size <= 1, detail: hosts.size <= 1 ? 'All sitemap URLs share one host.' : `${hosts.size} hosts found. Split by verified property when needed.` },
+      { label: 'HTTPS URLs only', ok: nonHttpsUrls.length === 0, detail: nonHttpsUrls.length ? `${nonHttpsUrls.length} non-HTTPS URL${nonHttpsUrls.length === 1 ? '' : 's'} found.` : 'All detected URLs use HTTPS.' },
+      { label: 'No parameter or fragment URLs', ok: parameterUrls.length === 0 && fragmentUrls.length === 0, detail: `${parameterUrls.length} parameter URL${parameterUrls.length === 1 ? '' : 's'}, ${fragmentUrls.length} fragment URL${fragmentUrls.length === 1 ? '' : 's'}.` },
+      { label: 'Sitemap size within protocol limit', ok: validUrls.length <= 50000, detail: `${validUrls.length} URLs. Standard sitemap files should stay under 50,000 URLs.` },
+      { label: 'Live sample clean', ok: liveFailures.length === 0, detail: checkedLinks.length ? `${checkedLinks.length} sampled URL${checkedLinks.length === 1 ? '' : 's'} checked, ${liveFailures.length} issue${liveFailures.length === 1 ? '' : 's'} found.` : 'Run the live sample check to test up to 25 URLs.' },
+    ]
+
+    const csv = csvRows(
+      ['url', 'host', 'signal', 'live_status', 'final_url'],
+      urls.map((url) => {
+        let host = ''
+        let signal = 'ok'
+        try {
+          const parsed = new URL(url)
+          host = parsed.hostname
+          if (!/^https:/i.test(parsed.protocol)) signal = 'non-https'
+          else if (parsed.search) signal = 'parameter-url'
+          else if (parsed.hash) signal = 'fragment-url'
+          else if ((normalizedCounts.get(normalize(url)) ?? 0) > 1) signal = 'duplicate'
+        } catch {
+          signal = 'invalid-url'
+        }
+        const live = checkedByInput.get(url)
+        return [url, host, signal, live?.status ?? live?.error ?? '', live?.finalUrl ?? '']
+      })
+    )
+
+    return { urls, validUrls, invalidUrls, duplicateUrls, hosts, nonHttpsUrls, parameterUrls, fragmentUrls, liveFailures, checks, csv }
+  }, [checkedLinks, sitemapText])
+
+  const fetchSitemap = async () => {
+    setFetchingSitemap(true)
+    setCheckError('')
+    try {
+      const data = await postSeoAnalysis<{ ok: true; result: TextResourceResult }>({ mode: 'text', url: sitemapUrl })
+      setLiveResource(data.result)
+      setSitemapText(data.result.text)
+      setCheckedLinks([])
+    } catch (error) {
+      setCheckError(error instanceof Error ? error.message : 'Could not fetch sitemap')
+    } finally {
+      setFetchingSitemap(false)
+    }
+  }
+
+  const checkLiveSample = async () => {
+    setCheckingUrls(true)
+    setCheckError('')
+    try {
+      const sample = audit.validUrls.slice(0, 25)
+      if (sample.length === 0) throw new Error('No valid URLs found to check')
+      const data = await postSeoAnalysis<{ ok: true; results: LinkStatusResult[]; limit: number }>({ mode: 'links', urls: sample })
+      setCheckedLinks(data.results)
+    } catch (error) {
+      setCheckError(error instanceof Error ? error.message : 'Could not check sitemap URLs')
+    } finally {
+      setCheckingUrls(false)
+    }
+  }
+
+  return (
+    <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_420px]">
+      <Panel title="Sitemap checker inputs">
+        <Field label="Live sitemap URL" value={sitemapUrl} onChange={setSitemapUrl} />
+        <div className="flex flex-wrap gap-2">
+          <button type="button" onClick={fetchSitemap} disabled={fetchingSitemap} className="rounded-full bg-gray-950 px-4 py-2 text-sm font-semibold text-white transition hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-60 active:scale-[0.96]">
+            {fetchingSitemap ? 'Fetching sitemap...' : 'Fetch sitemap'}
+          </button>
+          <button type="button" onClick={checkLiveSample} disabled={checkingUrls || audit.validUrls.length === 0} className="rounded-full border border-gray-200 bg-white px-4 py-2 text-sm font-semibold text-gray-800 transition hover:border-brand-200 hover:text-brand-700 disabled:cursor-not-allowed disabled:opacity-60 active:scale-[0.96]">
+            {checkingUrls ? 'Checking URLs...' : 'Check first 25 live URLs'}
+          </button>
+        </div>
+        {checkError && <p className="rounded-xl border border-amber-200 bg-amber-50 p-3 text-sm leading-6 text-amber-800">{checkError}</p>}
+        {liveResource && (
+          <p className="rounded-xl border border-gray-100 bg-gray-50 p-3 text-xs leading-5 text-gray-600">
+            Fetched {liveResource.status} from <span className="break-all">{liveResource.finalUrl}</span>
+          </p>
+        )}
+        <TextArea label="Paste sitemap XML or URL list" value={sitemapText} onChange={setSitemapText} rows={13} hint="Paste sitemap XML, sitemap index XML, or one URL per line. The checker reads loc tags first, then plain URLs." />
+        <div className="grid gap-3 sm:grid-cols-3">
+          <Stat label="URLs" value={`${audit.validUrls.length}`} detail="Detected valid sitemap URLs." highlight={audit.validUrls.length > 0} />
+          <Stat label="Hosts" value={`${audit.hosts.size}`} detail="One host per sitemap is usually cleaner." highlight={audit.hosts.size <= 1} />
+          <Stat label="Live issues" value={`${audit.liveFailures.length}`} detail={checkedLinks.length ? 'From checked sample.' : 'Run sample check.'} highlight={audit.liveFailures.length === 0} />
+        </div>
+      </Panel>
+      <div className="space-y-4">
+        <ScoreList items={audit.checks} />
+        {checkedLinks.length > 0 && (
+          <Panel title="Live sample results">
+            <div className="space-y-2">
+              {checkedLinks.map((link) => (
+                <div key={link.inputUrl} className={`rounded-xl border p-3 text-xs leading-5 ${link.ok ? 'border-brand-100 bg-brand-50 text-brand-800' : 'border-amber-100 bg-amber-50 text-amber-800'}`}>
+                  <p className="font-semibold">{link.ok ? 'OK' : 'Review'} · {link.status ?? link.error ?? 'failed'}</p>
+                  <p className="mt-1 break-all">{link.inputUrl}</p>
+                  {link.finalUrl !== link.url && <p className="mt-1 break-all">Final: {link.finalUrl}</p>}
+                </div>
+              ))}
+            </div>
+          </Panel>
+        )}
+        {audit.duplicateUrls.length > 0 && (
+          <Panel title="Duplicate URLs to review">
+            <div className="space-y-2">
+              {Array.from(new Set(audit.duplicateUrls)).slice(0, 10).map((url) => (
+                <p key={url} className="break-all rounded-lg bg-amber-50 p-3 text-xs leading-5 text-amber-800">{url}</p>
+              ))}
+            </div>
+          </Panel>
+        )}
+        <CopyBox label="Sitemap URL audit CSV" value={audit.csv} downloadName="sitemap-url-audit.csv" />
       </div>
     </div>
   )
@@ -2410,7 +2768,9 @@ export default function SeoToolsCalculator() {
   if (slug === 'meta-tag-generator') return <MetaTagGenerator />
   if (slug === 'schema-markup-generator') return <SchemaMarkupGenerator />
   if (slug === 'robots-txt-generator') return <RobotsTxtGenerator />
+  if (slug === 'robots-txt-checker') return <RobotsTxtChecker />
   if (slug === 'xml-sitemap-generator') return <XmlSitemapGenerator />
+  if (slug === 'sitemap-url-checker') return <SitemapUrlChecker />
   if (slug === 'hreflang-tag-generator') return <HreflangTagGenerator />
   if (slug === 'keyword-density-checker') return <KeywordDensityChecker />
   if (slug === 'utm-builder') return <UtmBuilder />

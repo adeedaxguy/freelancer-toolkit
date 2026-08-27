@@ -19,6 +19,14 @@ type LinkStatus = {
   error?: string
 }
 
+type TextResource = {
+  requestedUrl: string
+  finalUrl: string
+  status: number
+  contentType: string
+  text: string
+}
+
 function isPrivateIp(address: string) {
   const version = net.isIP(address)
   if (version === 4) {
@@ -240,6 +248,21 @@ async function analyzePage(urlValue: string) {
   return extractPageSeo(html, url.toString(), response.status, response.url || url.toString())
 }
 
+async function fetchTextResource(urlValue: string): Promise<TextResource> {
+  const url = coerceUrl(urlValue)
+  await assertPublicUrl(url)
+  const response = await fetchWithTimeout(url.toString(), { redirect: 'follow' })
+  const contentType = response.headers.get('content-type') ?? ''
+  const text = await readLimitedText(response)
+  return {
+    requestedUrl: url.toString(),
+    finalUrl: response.url || url.toString(),
+    status: response.status,
+    contentType,
+    text,
+  }
+}
+
 async function checkOneLink(value: string, baseUrl?: string): Promise<LinkStatus> {
   try {
     const url = coerceUrl(value, baseUrl)
@@ -310,6 +333,11 @@ export async function POST(req: NextRequest) {
 
     if (mode === 'page') {
       const result = await analyzePage(String(body.url ?? ''))
+      return NextResponse.json({ ok: true, result })
+    }
+
+    if (mode === 'text') {
+      const result = await fetchTextResource(String(body.url ?? ''))
       return NextResponse.json({ ok: true, result })
     }
 

@@ -1963,6 +1963,46 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
         ],
       },
       {
+        slug: 'robots-txt-checker',
+        title: 'Robots.txt Checker',
+        headline: 'Check Robots.txt Rules Before Search Engines Crawl',
+        description: 'Free robots.txt checker. Fetch or paste a robots.txt file, test a public path against crawler rules, review sitemap directives, and catch accidental full-site blocks.',
+        seoTitle: 'Free Robots.txt Checker | Test Crawl Rules and Sitemaps',
+        icon: '🤖',
+        category: 'SEO Tools',
+        keywords: ['robots txt checker', 'robots.txt checker', 'robots txt tester', 'robots txt validator', 'test robots txt', 'robots txt sitemap checker'],
+        answerBox: {
+          short: 'A robots.txt checker reviews crawl rules before a site is submitted or recrawled. It helps catch accidental full-site disallow rules, missing sitemap hints, invalid lines, and path blocks that can keep important public URLs from being crawled.',
+          bullets: ['Best fit: launch QA, GSC crawling issues, and sitemap discovery checks', 'Outperformance angle: live fetch or paste mode plus user-agent path testing in one free workflow'],
+        },
+        faqs: [
+          { q: 'What does this robots.txt checker test?', a: 'It checks user-agent groups, allow and disallow rules, sitemap directives, syntax warnings, and whether a chosen path is blocked for the selected crawler.' },
+          { q: 'Can robots.txt remove a page from Google?', a: 'Not reliably. Robots.txt controls crawling, not indexing. Use noindex for pages that should not appear in search, and do not block pages you want Google to see before it reads noindex.' },
+          { q: 'Should every robots.txt file include a sitemap?', a: 'It is a useful discovery hint. Add the full sitemap URL when the site has an XML sitemap you want crawlers to find.' },
+          { q: 'What is a risky robots.txt rule?', a: 'Disallow: / is risky when applied to public search crawlers because it blocks crawling across the site. It can be intentional for staging sites, but dangerous on production.' },
+          { q: 'Can I check a live robots.txt URL?', a: 'Yes. Enter a public robots.txt URL and the checker fetches it through FreelTools, or paste the file contents manually if the live file cannot be fetched.' },
+        ],
+        bodySections: [
+          {
+            heading: 'Robots.txt checker for crawl QA',
+            body: 'Use this before requesting indexing, launching a site, or troubleshooting pages that are discovered but not crawled. The checker keeps crawl rules, sitemap hints, and a path test together so the next fix is obvious.',
+          },
+          {
+            heading: 'Pairs with the on-page SEO checker',
+            body: 'Run the On-Page SEO Checker for page-level content and metadata, then use this robots.txt checker to confirm that crawlers are allowed to reach the URL in the first place.',
+          },
+          {
+            heading: 'Do not hide secrets in robots.txt',
+            body: 'Robots.txt is public. Use it for crawler guidance only, and keep private admin, customer, or sensitive files protected by authentication and server rules instead.',
+          },
+        ],
+        programmaticVariants: [
+          { slug: 'for-gsc-crawl-issues', label: 'for GSC Crawl Issues' },
+          { slug: 'with-sitemap-test', label: 'With Sitemap Test' },
+          { slug: 'for-staging-sites', label: 'for Staging Sites' },
+        ],
+      },
+      {
         slug: 'xml-sitemap-generator',
         title: 'XML Sitemap Generator',
         headline: 'Generate an XML Sitemap from a URL List',
@@ -1996,6 +2036,46 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
           { slug: 'from-url-list', label: 'from URL List' },
           { slug: 'for-small-websites', label: 'for Small Websites' },
           { slug: 'with-lastmod', label: 'With Lastmod' },
+        ],
+      },
+      {
+        slug: 'sitemap-url-checker',
+        title: 'Sitemap URL Checker',
+        headline: 'Check Sitemap URLs Before Submitting',
+        description: 'Free sitemap URL checker. Fetch or paste sitemap XML, review URL format, duplicates, hosts, HTTPS, parameter URLs, and live status for a small sample.',
+        seoTitle: 'Free Sitemap URL Checker | XML Sitemap URL Audit',
+        icon: '🗺️',
+        category: 'SEO Tools',
+        keywords: ['sitemap url checker', 'xml sitemap checker', 'sitemap checker', 'sitemap validator', 'check sitemap urls', 'sitemap status checker'],
+        answerBox: {
+          short: 'A sitemap URL checker reviews the URLs inside a sitemap before submission. It helps catch duplicates, mixed hosts, non-HTTPS URLs, parameter URLs, fragments, oversize files, and sample URLs that return errors or redirects.',
+          bullets: ['Best fit: new sitemap submissions, migration QA, and index coverage cleanup', 'Outperformance angle: XML paste or live fetch plus URL quality and sample status checks'],
+        },
+        faqs: [
+          { q: 'What URLs should be in a sitemap?', a: 'Use canonical, indexable, useful URLs that return a clean response. Avoid redirects, noindex pages, duplicate URLs, search results, and low-value parameter pages when possible.' },
+          { q: 'Does a sitemap guarantee indexing?', a: 'No. A sitemap helps discovery, but search engines still decide whether each URL deserves crawling and indexing.' },
+          { q: 'Can this checker fetch a live sitemap?', a: 'Yes. Enter a public sitemap XML URL and the checker fetches it, or paste XML, a sitemap index, or a plain URL list manually.' },
+          { q: 'How many URLs can one sitemap include?', a: 'A standard sitemap file should stay under 50,000 URLs. Larger sites should split URLs across multiple sitemap files and use a sitemap index.' },
+          { q: 'Should sitemap URLs all use the same host?', a: 'Usually yes for one verified property. Mixed hosts, www and non-www variants, or HTTP and HTTPS variants can create confusing discovery signals.' },
+        ],
+        bodySections: [
+          {
+            heading: 'Sitemap URL checker for index coverage cleanup',
+            body: 'Use this when Search Console reports sitemap, duplicate, redirect, or discovered-not-indexed issues. It turns the sitemap into a quick URL-quality report before you resubmit.',
+          },
+          {
+            heading: 'Better sitemap inputs for the on-page workflow',
+            body: 'After using the On-Page SEO Checker and Robots.txt Checker, run this sitemap checker so the final canonical URL is discoverable, crawlable, and not mixed with duplicate or parameter variants.',
+          },
+          {
+            heading: 'Live sample checks without a full crawler',
+            body: 'The checker can test a small live sample for status problems. For very large sites, pair the CSV output with a full crawl, but keep the sitemap itself focused on canonical URLs.',
+          },
+        ],
+        programmaticVariants: [
+          { slug: 'for-gsc-sitemap-issues', label: 'for GSC Sitemap Issues' },
+          { slug: 'xml-sitemap-audit', label: 'XML Sitemap Audit' },
+          { slug: 'for-new-pages', label: 'for New Pages' },
         ],
       },
       {
