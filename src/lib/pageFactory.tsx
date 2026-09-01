@@ -314,10 +314,22 @@ const HOW_TO_STEPS: Record<string, { name: string; text: string }[]> = {
     { name: 'Check a live sample', text: 'Run the live status check for the first URL sample to catch 404, redirect, or server-error risks.' },
     { name: 'Export the audit', text: 'Copy the CSV report and fix sitemap URLs before submitting or resubmitting the sitemap.' },
   ],
+  'sitemap-canonical-auditor': [
+    { name: 'Set the preferred site origin', text: 'Enter the HTTPS origin that sitemap URLs and canonical signals should use.' },
+    { name: 'Paste XML or URLs', text: 'Paste sitemap XML with loc elements or add one URL per line.' },
+    { name: 'Review canonical conflicts', text: 'Check malformed, relative, HTTP, fragment, parameter, duplicate, and mixed-host entries.' },
+    { name: 'Copy the fix list', text: 'Copy or download the canonical-ready URL list and review mixed hosts before publishing it.' },
+  ],
   'hreflang-tag-generator': [
     { name: 'Enter language URL pairs', text: 'Add one language code and URL per line, such as en-us followed by the page URL.' },
     { name: 'Add x-default', text: 'Enter the fallback URL for users who do not match a specific language or region.' },
     { name: 'Copy alternate tags', text: 'Copy the hreflang link tags and add them consistently across every alternate page.' },
+  ],
+  'hreflang-reciprocity-checker': [
+    { name: 'Paste each page set', text: 'Add a SOURCE line, optional CANONICAL line, and locale URL rows for each page block.' },
+    { name: 'Review locale and self-links', text: 'Fix invalid language-region tags, duplicate locales, and missing self-references.' },
+    { name: 'Check supplied return links', text: 'Review alternate targets that are also supplied and add any missing reciprocal link.' },
+    { name: 'Resolve canonical conflicts', text: 'Keep localized pages self-canonical unless a deliberate international SEO plan requires otherwise.' },
   ],
   'keyword-density-checker': [
     { name: 'Enter the target keyword', text: 'Add the keyword or phrase you want to check in the content.' },

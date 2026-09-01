@@ -2079,6 +2079,47 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
         ],
       },
       {
+        slug: 'sitemap-canonical-auditor',
+        title: 'Sitemap Canonical Auditor',
+        headline: 'Audit Sitemap URLs for Canonical Consistency',
+        description: 'Free sitemap canonical auditor. Paste sitemap XML or a URL list to flag malformed, relative, HTTP, fragment, parameter, duplicate, and mixed-host entries, then copy a canonical-ready fix list.',
+        seoTitle: 'Free Sitemap Canonical Auditor | Fix URL Consistency',
+        icon: '🧭',
+        category: 'SEO Tools',
+        keywords: ['sitemap canonical auditor', 'sitemap canonical checker', 'sitemap url consistency checker', 'xml sitemap canonical audit', 'sitemap duplicate url checker', 'canonical sitemap fix list'],
+        answerBox: {
+          short: 'A sitemap canonical audit checks whether every submitted URL is an absolute HTTPS URL on the preferred host, without fragments, tracking parameters, duplicates, or malformed rows. The result should be a clean list of canonical URLs that agree with the site version you want indexed.',
+          bullets: ['Best fit: migrations, www or HTTPS cleanup, and pre-submission sitemap QA', 'Outperformance angle: canonical consistency summary plus copyable and downloadable fix list, fully client-side'],
+        },
+        faqs: [
+          { q: 'What does the sitemap canonical auditor flag?', a: 'It flags malformed and relative entries, HTTP URLs, fragments, query parameters, duplicates after normalization, and hosts that differ from the preferred site origin.' },
+          { q: 'Should sitemap URLs match canonical tags?', a: 'Yes. A sitemap should list the preferred, indexable URL for each page. Sitemap URLs, canonical tags, internal links, and redirects should point to the same HTTPS host and path version.' },
+          { q: 'Are parameter URLs always wrong in a sitemap?', a: 'Not always, but tracking, filter, sort, and session parameters usually create duplicate discovery signals. Include a parameter URL only when it is intentionally canonical and independently indexable.' },
+          { q: 'Why are relative URLs flagged?', a: 'Sitemap loc values should be absolute URLs. The preferred site origin lets this tool suggest an absolute replacement without sending the input to a server.' },
+          { q: 'Does the fix list change mixed hosts automatically?', a: 'No. It normalizes safe URL parts such as HTTPS, fragments, and parameters, but keeps valid alternate hosts visible for manual review rather than silently moving pages between domains.' },
+          { q: 'Is my sitemap uploaded anywhere?', a: 'No. The pasted XML or URL list is audited in your browser and is not sent to FreelTools.' },
+        ],
+        bodySections: [
+          {
+            heading: 'Canonical consistency for sitemap submissions',
+            body: 'Use this before submitting or resubmitting a sitemap in Search Console. It focuses on the preferred URL signal across protocol, host, path, parameters, fragments, and duplicates rather than running a generic on-page audit.',
+          },
+          {
+            heading: 'A conservative canonical fix list',
+            body: 'The output upgrades HTTP, removes fragments and parameters, resolves relative paths when a preferred origin is supplied, and deduplicates the result. Mixed domains stay visible because changing ownership or host automatically could hide a real migration problem.',
+          },
+          {
+            heading: 'Use after redirects and canonicals are final',
+            body: 'The cleanest workflow is choose the preferred host, finish redirects and self-canonicals, update internal links, then publish the canonical-ready sitemap list and verify it in Search Console.',
+          },
+        ],
+        programmaticVariants: [
+          { slug: 'for-https-migrations', label: 'for HTTPS Migrations' },
+          { slug: 'for-mixed-hosts', label: 'for Mixed Hosts' },
+          { slug: 'from-xml', label: 'from XML' },
+        ],
+      },
+      {
         slug: 'hreflang-tag-generator',
         title: 'Hreflang Tag Generator',
         headline: 'Generate Hreflang Alternate Tags',
@@ -2112,6 +2153,47 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
           { slug: 'x-default', label: 'With x-default' },
           { slug: 'for-en-es', label: 'for English and Spanish' },
           { slug: 'for-international-seo', label: 'for International SEO' },
+        ],
+      },
+      {
+        slug: 'hreflang-reciprocity-checker',
+        title: 'Hreflang Reciprocity Checker',
+        headline: 'Check Hreflang Reciprocity Across Localized Pages',
+        description: 'Free hreflang reciprocity checker. Paste page-by-page alternate annotations to find invalid locale tags, duplicate locales, missing self-links, x-default gaps, reciprocal-link failures, and canonical conflicts.',
+        seoTitle: 'Free Hreflang Reciprocity Checker | Test Alternate Sets',
+        icon: '🌐',
+        category: 'SEO Tools',
+        keywords: ['hreflang reciprocity checker', 'hreflang checker', 'hreflang return tag checker', 'hreflang validation tool', 'missing reciprocal hreflang', 'international seo checker'],
+        answerBox: {
+          short: 'A hreflang reciprocity check compares the alternate set on every supplied localized page. Each page should use valid language or language-region tags, include itself, point to the same alternate cluster, return links from other supplied pages, and normally keep a self-referencing canonical.',
+          bullets: ['Best fit: multilingual launches, regional migrations, and international SEO QA', 'Outperformance angle: page-set reciprocity and canonical conflict checks without crawling or uploading site data'],
+        },
+        faqs: [
+          { q: 'What input format does the checker support?', a: 'Use one block per page. Add SOURCE: URL, optional CANONICAL: URL, then one locale: URL row per alternate. Separate page blocks with a blank line.' },
+          { q: 'What is a reciprocal hreflang link?', a: 'If page A lists page B as an alternate, page B should list page A in its own alternate set. This confirms that both pages belong to the same localized cluster.' },
+          { q: 'Does every hreflang set need a self-reference?', a: 'Yes. Each localized page should normally include its own URL in the alternate set alongside every equivalent language or regional version.' },
+          { q: 'Is x-default required?', a: 'It is not mandatory for every implementation, but it is recommended when you have a global fallback, language selector, or page for unmatched users. The checker reports it as a recommendation.' },
+          { q: 'What canonical conflicts does the tool detect?', a: 'When a canonical is supplied, the checker flags a page whose canonical points away from its own source URL. Localized alternates usually need self-referencing canonicals rather than canonicalizing all languages to one page.' },
+          { q: 'Does the tool report missing links to pages I did not paste?', a: 'No. Reciprocity is verified only when the alternate target also appears as a supplied SOURCE block, avoiding false failures for pages outside the pasted set.' },
+        ],
+        bodySections: [
+          {
+            heading: 'Hreflang return-tag QA across real page sets',
+            body: 'A tag generator can create one alternate block, but it cannot prove that every localized page links back. This checker compares the supplied page sets and names the exact source and target where reciprocity breaks.',
+          },
+          {
+            heading: 'Locale, self-reference, and x-default checks',
+            body: 'The audit validates BCP 47 locale syntax, catches duplicate locale rows, confirms each page includes itself, and recommends x-default when a fallback row is missing.',
+          },
+          {
+            heading: 'Canonical conflicts stay separate from on-page checks',
+            body: 'This tool focuses on the relationship between localized equivalents. It flags a supplied canonical that points away from the source page without duplicating broad title, heading, content, or metadata checks.',
+          },
+        ],
+        programmaticVariants: [
+          { slug: 'for-multilingual-sites', label: 'for Multilingual Sites' },
+          { slug: 'with-x-default', label: 'With x-default QA' },
+          { slug: 'for-regional-pages', label: 'for Regional Pages' },
         ],
       },
       {

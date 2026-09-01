@@ -107,6 +107,16 @@ const TOOL_RESEARCH_INTENT: Record<string, ToolResearchIntent> = {
     competitorGap: 'Indexing guides are often long and generic; this page should put the issue decision path and live-page checks first.',
     useNow: 'Paste the affected URL notes, check robots/canonical/redirect signals, then decide whether to fix, monitor, or validate in GSC.',
   },
+  'sitemap-canonical-auditor': {
+    searcherJob: 'Turn sitemap XML or a URL export into one consistent list of preferred canonical URLs before submission.',
+    competitorGap: 'Broad sitemap validators mix status checks with crawl reports; this page should stay focused on protocol, host, duplicate, fragment, parameter, and canonical consistency.',
+    useNow: 'Set the preferred origin, paste the sitemap, then review mixed hosts before copying the canonical-ready fix list.',
+  },
+  'hreflang-reciprocity-checker': {
+    searcherJob: 'Verify that supplied localized page sets use valid locales, self-links, return links, x-default guidance, and compatible canonicals.',
+    competitorGap: 'Tag generators cannot prove return links across pages; this checker should name the exact supplied source and target where the cluster breaks.',
+    useNow: 'Paste one block per localized page, fix self-reference and locale issues, then resolve missing reciprocal links and canonical conflicts.',
+  },
   'dataforseo-cost-guard-planner': {
     searcherJob: 'Plan a DataForSEO keyword or SERP pull without accidentally spending beyond a tiny daily research budget.',
     competitorGap: 'Most keyword research pages assume a full paid SEO suite; this page should help small teams use one seed, cached reports, and a written cost guard before making API calls.',

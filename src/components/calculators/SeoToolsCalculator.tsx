@@ -3,6 +3,7 @@
 import { useMemo, useState } from 'react'
 import type { ReactNode } from 'react'
 import { usePathname } from 'next/navigation'
+import { auditHreflangReciprocity, auditSitemapCanonicals, type HreflangIssueKind, type SitemapCanonicalIssue } from '@/lib/seoAuditTools'
 
 type ScoreItem = {
   label: string
@@ -1415,6 +1416,149 @@ function SitemapUrlChecker() {
   )
 }
 
+function SitemapCanonicalAuditor() {
+  const [preferredOrigin, setPreferredOrigin] = useState('https://example.com')
+  const [input, setInput] = useState(`<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://example.com/</loc></url>
+  <url><loc>http://example.com/services?ref=nav</loc></url>
+  <url><loc>/about#team</loc></url>
+  <url><loc>https://www.example.com/contact</loc></url>
+  <url><loc>https://example.com/</loc></url>
+</urlset>`)
+  const audit = useMemo(() => auditSitemapCanonicals(input, preferredOrigin), [input, preferredOrigin])
+  const count = (issue: SitemapCanonicalIssue) => audit.rows.filter((row) => row.issues.includes(issue)).length
+  const checks: ScoreItem[] = [
+    { label: 'URLs detected', ok: audit.rows.length > 0, detail: `${audit.rows.length} sitemap entr${audit.rows.length === 1 ? 'y' : 'ies'} found.` },
+    { label: 'Valid URL format', ok: count('malformed') === 0, detail: `${count('malformed')} malformed entr${count('malformed') === 1 ? 'y' : 'ies'} found.` },
+    { label: 'Absolute URLs only', ok: count('relative') === 0, detail: `${count('relative')} relative URL${count('relative') === 1 ? '' : 's'} found.` },
+    { label: 'HTTPS URLs only', ok: count('non-https') === 0, detail: `${count('non-https')} non-HTTPS URL${count('non-https') === 1 ? '' : 's'} found.` },
+    { label: 'No fragments or parameters', ok: count('fragment') + count('parameter') === 0, detail: `${count('fragment')} fragment and ${count('parameter')} parameter URL${count('parameter') === 1 ? '' : 's'} found.` },
+    { label: 'No duplicate canonicals', ok: count('duplicate') === 0, detail: `${count('duplicate')} duplicate row${count('duplicate') === 1 ? '' : 's'} found after normalization.` },
+    { label: 'Single canonical host', ok: count('mixed-host') === 0, detail: audit.primaryHost ? `Preferred host: ${audit.primaryHost}. ${count('mixed-host')} mixed-host row${count('mixed-host') === 1 ? '' : 's'}.` : 'Add URLs or a preferred site origin.' },
+  ]
+  const csv = csvRows(
+    ['input_url', 'suggested_canonical', 'host', 'issues'],
+    audit.rows.map((row) => [row.input, row.suggested, row.host, row.issues.join('|') || 'clean'])
+  )
+
+  return (
+    <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_420px]">
+      <Panel title="Sitemap canonical inputs">
+        <Field
+          label="Preferred site origin"
+          value={preferredOrigin}
+          onChange={setPreferredOrigin}
+          hint="Used to resolve relative paths and identify mixed hosts. The auditor never rewrites another valid host silently."
+        />
+        <TextArea
+          label="Sitemap XML or URL list"
+          value={input}
+          onChange={setInput}
+          rows={15}
+          hint="Paste XML with loc elements or one URL per line. Everything is processed locally in your browser."
+        />
+        <div className="grid gap-3 sm:grid-cols-3">
+          <Stat label="Entries" value={`${audit.rows.length}`} detail="Before deduplication." highlight={audit.rows.length > 0} />
+          <Stat label="Hosts" value={`${audit.hosts.length}`} detail={audit.primaryHost || 'No host found.'} highlight={audit.hosts.length === 1} />
+          <Stat label="Consistency" value={audit.consistency} detail="Across canonical-ready sitemap signals." highlight={audit.consistency === 'Consistent'} />
+        </div>
+      </Panel>
+      <div className="space-y-4">
+        <ScoreList items={checks} />
+        {audit.rows.some((row) => row.issues.length > 0) && (
+          <Panel title="Entries to review">
+            <div className="max-h-[28rem] space-y-2 overflow-auto pr-1">
+              {audit.rows.filter((row) => row.issues.length > 0).slice(0, 100).map((row, index) => (
+                <div key={`${row.input}-${index}`} className="rounded-xl border border-amber-100 bg-amber-50 p-3 text-xs leading-5 text-amber-900">
+                  <p className="font-semibold uppercase tracking-wider">{row.issues.join(' · ')}</p>
+                  <p className="mt-1 break-all">{row.input}</p>
+                  {row.suggested && <p className="mt-1 break-all text-gray-600">Suggested: {row.suggested}</p>}
+                </div>
+              ))}
+            </div>
+          </Panel>
+        )}
+        <CopyBox label="Canonical-ready fix list" value={audit.fixedUrls.join('\n')} downloadName="sitemap-canonical-fix-list.txt" />
+        <CopyBox label="Canonical audit CSV" value={csv} downloadName="sitemap-canonical-audit.csv" />
+      </div>
+    </div>
+  )
+}
+
+function HreflangReciprocityChecker() {
+  const [input, setInput] = useState(`SOURCE: https://example.com/en/
+CANONICAL: https://example.com/en/
+en: https://example.com/en/
+es: https://example.com/es/
+x-default: https://example.com/
+
+SOURCE: https://example.com/es/
+CANONICAL: https://example.com/es/
+en: https://example.com/en/
+es: https://example.com/es/
+x-default: https://example.com/`)
+  const audit = useMemo(() => auditHreflangReciprocity(input), [input])
+  const count = (kind: HreflangIssueKind) => audit.issues.filter((issue) => issue.kind === kind).length
+  const invalidUrls = count('invalid-source') + count('invalid-url') + count('format')
+  const duplicates = count('duplicate-locale') + count('duplicate-source')
+  const checks: ScoreItem[] = [
+    { label: 'Page sets detected', ok: audit.pages.length > 0 && invalidUrls === 0, detail: `${audit.pages.length} source page set${audit.pages.length === 1 ? '' : 's'} found.` },
+    { label: 'Valid language-region tags', ok: count('invalid-locale') === 0, detail: `${count('invalid-locale')} invalid or non-canonical locale tag${count('invalid-locale') === 1 ? '' : 's'} found.` },
+    { label: 'No duplicate locales', ok: duplicates === 0, detail: `${duplicates} duplicate locale or source entr${duplicates === 1 ? 'y' : 'ies'} found.` },
+    { label: 'Self-references included', ok: count('missing-self') === 0, detail: `${count('missing-self')} page set${count('missing-self') === 1 ? '' : 's'} missing a self-reference.` },
+    { label: 'x-default recommendation', ok: count('missing-x-default') === 0, detail: count('missing-x-default') ? `${count('missing-x-default')} page set${count('missing-x-default') === 1 ? '' : 's'} could add a global fallback.` : 'Every page set includes x-default.' },
+    { label: 'Supplied pages are reciprocal', ok: count('missing-reciprocal') === 0, detail: `${audit.reciprocalPairs} reciprocal pair${audit.reciprocalPairs === 1 ? '' : 's'} verified; ${count('missing-reciprocal')} missing return link${count('missing-reciprocal') === 1 ? '' : 's'}.` },
+    { label: 'Self-canonicals are consistent', ok: count('canonical-conflict') === 0, detail: `${count('canonical-conflict')} supplied canonical conflict${count('canonical-conflict') === 1 ? '' : 's'} found.` },
+  ]
+  const issueCsv = csvRows(
+    ['issue', 'source', 'detail'],
+    audit.issues.map((issue) => [issue.kind, issue.source, issue.detail])
+  )
+
+  return (
+    <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_420px]">
+      <Panel title="Hreflang page sets">
+        <TextArea
+          label="Alternate annotations"
+          value={input}
+          onChange={setInput}
+          rows={22}
+          hint="Use one block per page: SOURCE: URL, optional CANONICAL: URL, then locale: URL rows. Separate page blocks with a blank line."
+        />
+        <div className="rounded-xl border border-gray-100 bg-gray-50 p-3 text-xs leading-5 text-gray-600">
+          <p className="font-semibold text-gray-800">Supported format</p>
+          <p className="mt-1 font-mono">SOURCE: https://example.com/en/</p>
+          <p className="font-mono">CANONICAL: https://example.com/en/</p>
+          <p className="font-mono">en-US: https://example.com/en/</p>
+          <p className="font-mono">fr-FR: https://example.com/fr/</p>
+        </div>
+        <div className="grid gap-3 sm:grid-cols-3">
+          <Stat label="Pages" value={`${audit.pages.length}`} detail="Supplied source sets." highlight={audit.pages.length > 1} />
+          <Stat label="Issues" value={`${audit.issues.length}`} detail="Includes recommendations." highlight={audit.issues.length === 0} />
+          <Stat label="Reciprocal pairs" value={`${audit.reciprocalPairs}`} detail="Verified across supplied pages." highlight={count('missing-reciprocal') === 0} />
+        </div>
+      </Panel>
+      <div className="space-y-4">
+        <ScoreList items={checks} />
+        {audit.issues.length > 0 && (
+          <Panel title="Hreflang issues">
+            <div className="max-h-[34rem] space-y-2 overflow-auto pr-1">
+              {audit.issues.slice(0, 120).map((issue, index) => (
+                <div key={`${issue.kind}-${issue.source}-${index}`} className="rounded-xl border border-amber-100 bg-amber-50 p-3 text-xs leading-5 text-amber-900">
+                  <p className="font-semibold uppercase tracking-wider">{issue.kind.replace(/-/g, ' ')}</p>
+                  {issue.source && <p className="mt-1 break-all text-gray-600">{issue.source}</p>}
+                  <p className="mt-1">{issue.detail}</p>
+                </div>
+              ))}
+            </div>
+          </Panel>
+        )}
+        <CopyBox label="Hreflang issue report" value={issueCsv} downloadName="hreflang-reciprocity-report.csv" />
+      </div>
+    </div>
+  )
+}
+
 function HreflangTagGenerator() {
   const [lines, setLines] = useState('en https://example.com/\nes https://example.com/es/\nfr https://example.com/fr/')
   const [xDefault, setXDefault] = useState('https://example.com/')
@@ -2771,7 +2915,9 @@ export default function SeoToolsCalculator() {
   if (slug === 'robots-txt-checker') return <RobotsTxtChecker />
   if (slug === 'xml-sitemap-generator') return <XmlSitemapGenerator />
   if (slug === 'sitemap-url-checker') return <SitemapUrlChecker />
+  if (slug === 'sitemap-canonical-auditor') return <SitemapCanonicalAuditor />
   if (slug === 'hreflang-tag-generator') return <HreflangTagGenerator />
+  if (slug === 'hreflang-reciprocity-checker') return <HreflangReciprocityChecker />
   if (slug === 'keyword-density-checker') return <KeywordDensityChecker />
   if (slug === 'utm-builder') return <UtmBuilder />
   if (slug === 'url-slug-generator') return <SlugGenerator />
