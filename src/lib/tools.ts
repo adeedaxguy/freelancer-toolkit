@@ -70,14 +70,14 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
         slug: 'project-cost-calculator',
         title: 'Project Cost Calculator',
         headline: 'Calculate Your Freelance Project Quote',
-        description: 'Free project cost calculator and project price calculator for freelancers and agencies. Estimate hours, add a scope buffer and revisions, and get the right quote to stay profitable.',
-        seoTitle: 'Free Project Price Calculator for Freelancers | Quote Projects',
+        description: 'Free project cost calculator for freelancers and agencies. Estimate delivery labor, admin time, revisions, expenses, and scope risk before turning the real cost into a client quote.',
+        seoTitle: 'Free Project Cost Calculator | Estimate Freelance Work',
         icon: '📋',
         category: 'Pricing & Profitability',
         keywords: ['project cost calculator', 'project price calculator', 'freelance project pricing', 'how to quote a freelance project', 'freelance services pricing calculator', 'freelance price calculator', 'project quote calculator'],
         answerBox: {
-          short: 'A freelance project cost calculator should start with delivery hours, then add revision time and a 15-25% scope buffer before you send a fixed quote. That keeps the client price tied to real effort instead of guesswork.',
-          bullets: ['Best fit: fixed-scope freelance and agency quotes', 'Outperformance angle: reverse-pricing plus revision and scope-risk protection'],
+          short: 'A freelance project cost calculator should total production labor, admin time, revisions, direct expenses, and a scope-risk buffer before a client price is chosen. That separates the cost to deliver from the quote the client sees.',
+          bullets: ['Best fit: finding the delivery-cost floor before a fixed quote', 'Outperformance angle: cost, break-even, client price, and effective hourly return in one worksheet'],
         },
         faqs: [
           { q: 'How do I price a freelance project?', a: "Estimate hours × your hourly rate, then add a 15–25% scope buffer for unknowns, plus hours for revisions. This gives a quote that protects your margin." },
@@ -110,8 +110,8 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
         slug: 'project-price-calculator',
         title: 'Project Price Calculator',
         headline: 'Calculate the Right Price for a Freelance Project',
-        description: 'Free project price calculator for freelancers and agencies. Estimate hours, rate, revisions, scope buffer, and a client quote before sending a fixed-price proposal.',
-        seoTitle: 'Project Price Calculator Free | Quote Freelance Work',
+        description: 'Free project price calculator for freelancers and agencies. Turn labor, revisions, expenses, payment fees, margin, and scope risk into a proposal-ready client quote.',
+        seoTitle: 'Project Price Calculator | Free Freelance Quote Tool',
         icon: '🏷️',
         category: 'Pricing & Profitability',
         keywords: [
@@ -1422,19 +1422,19 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
         slug: 'on-page-seo-checker',
         title: 'On-Page SEO Checker',
         headline: 'Check On-Page SEO Before You Publish',
-        description: 'Free on-page SEO checker. Review title tag, meta description, H1, canonical URL, target keyword placement, content depth, image alt text, and internal links in one browser-based workflow.',
-        seoTitle: 'Free On-Page SEO Checker | Title, Meta, H1 and Links',
+        description: 'Free on-page SEO checker for live URLs or pasted HTML. Review title, meta description, H1, canonical, keyword placement, content depth, schema, images, and links, then export a prioritized fix brief.',
+        seoTitle: 'On-Page SEO Checker Free | Live URL and HTML Audit',
         icon: '✅',
         category: 'SEO Tools',
         keywords: ['on page seo checker', 'on-page seo checker', 'seo checker online', 'free on page seo checker', 'page seo checker', 'seo page checker'],
         answerBox: {
-          short: 'An on-page SEO checker helps catch the page-level basics before a URL goes live: title tag, meta description, H1, canonical, target keyword usage, readable content depth, image alt text, and internal links.',
-          bullets: ['Best fit: quick checks before publishing or requesting indexing', 'Outperformance angle: exact page-level checker without a signup, crawl credit, or generic score wall'],
+          short: 'The FreelTools on-page SEO checker can fetch a public URL or parse pasted HTML, score the title, description, H1, canonical, content depth, keyword placement, links, images, schema, and share tags, then create a prioritized refresh brief.',
+          bullets: ['Best fit: pre-publish checks and high-impression pages with weak clicks', 'Outperformance angle: live URL fetch, transparent checks, and an exportable fix queue without signup'],
         },
         faqs: [
           { q: 'What does this on-page SEO checker review?', a: 'It reviews the fields you can fix before publishing: title, meta description, H1, canonical URL, target keyword usage, content depth, images without alt text, internal links, and external links.' },
           { q: 'Is this different from an SEO audit tool?', a: 'Yes. This page is for a fast page-level check. A full audit can include crawl depth, redirects, duplicate titles, Core Web Vitals, indexation, and sitewide technical issues.' },
-          { q: 'Can it check a live URL automatically?', a: 'This version is built around pasted HTML or manual page fields. That keeps it private, fast, and reliable without fragile scraping or paid crawler access.' },
+          { q: 'Can it check a live URL automatically?', a: 'Yes. Enter a public URL to fetch its page-level signals, or paste HTML and manual fields when the page is private, staged, or not yet published.' },
           { q: 'Should I use it before requesting indexing?', a: 'Yes. Run the checker after editing the page so missing metadata, thin copy, or weak internal links are fixed before Search Console inspection.' },
           { q: 'Does a high score guarantee rankings?', a: 'No. It confirms page-level hygiene. Rankings still depend on search intent, usefulness, competition, authority, crawlability, and user behavior.' },
         ],
@@ -1449,7 +1449,11 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
           },
           {
             heading: 'Use with title, snippet, and schema tools',
-            body: 'After the on-page check, use the SEO Title Checker, Meta Description Checker, Robots Meta Tag Checker, Internal Link Anchor Text Checker, and Schema Markup Generator to tighten the result before it goes live.',
+            body: 'After the broad check, use the Keyword Density Checker, Keyword Prominence Checker, Readability Checker, SEO Title Checker, and Internal Link Anchor Text Checker for the specific warnings that still need work.',
+          },
+          {
+            heading: 'Export a page refresh brief instead of a mystery score',
+            body: 'The priority queue sorts failed checks into a practical fix order and produces a copyable refresh brief. Use it to update the page, rerun the checker, and keep the next indexing request tied to a visible improvement.',
           },
         ],
         programmaticVariants: [
@@ -1462,8 +1466,8 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
         slug: 'on-page-seo-audit-tool',
         title: 'On-Page SEO Audit Tool',
         headline: 'Run a Fast On-Page SEO Audit Before Publishing or Refreshing',
-        description: 'Free on-page SEO audit tool. Check title length, meta description, H1, canonical URL, keyword placement, content depth, image alt text, internal links, and GSC refresh priorities.',
-        seoTitle: 'Free On-Page SEO Audit Tool | Check and Refresh Page SEO',
+        description: 'Free on-page SEO audit tool for live pages and drafts. Check metadata, headings, canonical, content, keyword placement, schema, links, images, social tags, and GSC refresh priorities.',
+        seoTitle: 'On-Page SEO Audit Tool Free | Live Page Refresh Check',
         icon: '🔎',
         category: 'SEO Tools',
         keywords: ['on page seo audit tool', 'free seo audit tool', 'seo checker online', 'on page seo checker', 'website seo audit checklist', 'gsc page refresh checklist', 'seo audit tool free'],
@@ -1473,7 +1477,7 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
         },
         faqs: [
           { q: 'What does this SEO audit tool check?', a: 'It checks title length, meta description length, keyword placement, H1 count, canonical URL, content depth, image alt text, internal links, and external citations.' },
-          { q: 'Can it audit a live URL automatically?', a: 'This version is designed for privacy and reliability: paste rendered HTML or enter page fields manually. That avoids paid APIs, fragile scraping, and cross-origin fetch limits.' },
+          { q: 'Can it audit a live URL automatically?', a: 'Yes. Fetch a public page URL for a quick live audit, or paste rendered HTML and page fields when you are reviewing a draft, staging page, or private client work.' },
           { q: 'What score should I aim for?', a: 'Use the score as a checklist, not a guarantee. A high score means the basics are covered, but ranking still depends on intent, usefulness, authority, competition, and technical health.' },
           { q: 'Is this better than a full crawler?', a: 'It is better for fast page-level QA. A full crawler is still useful for large-site issues such as broken links, crawl depth, redirects, duplicate titles, and indexation patterns.' },
           { q: 'Should I use this before publishing a blog post?', a: 'Yes. Paste the draft HTML or page copy before publishing to catch missing metadata, weak content depth, and internal-link gaps.' },
@@ -1490,7 +1494,7 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
           },
           {
             heading: 'Use with metadata and schema tools',
-            body: 'After the audit, use the SERP preview, robots meta checker, internal link anchor checker, meta tag generator, and schema markup generator to tighten the page before it goes live. That creates a complete SEO QA path from one category.',
+            body: 'After the audit, move into the focused checker that matches the warning: keyword prominence, readability, density, headings, image alt text, internal anchors, metadata, robots, or schema. That keeps each fix measurable.',
           },
           {
             heading: 'Good next step after GSC shows impressions but weak clicks',
@@ -2230,6 +2234,86 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
           { slug: 'for-blog-posts', label: 'for Blog Posts' },
           { slug: 'for-seo-content', label: 'for SEO Content' },
           { slug: 'keyword-stuffing-checker', label: 'as a Keyword Stuffing Checker' },
+        ],
+      },
+      {
+        slug: 'seo-readability-checker',
+        title: 'SEO Readability Checker',
+        headline: 'Check Content Readability Before Publishing',
+        description: 'Free SEO readability checker. Paste page copy to measure sentence length, paragraph length, reading time, long sentences, complex words, and scannability with a practical rewrite queue.',
+        seoTitle: 'SEO Readability Checker Free | Content Clarity Score',
+        icon: '📖',
+        category: 'SEO Tools',
+        keywords: ['seo readability checker', 'readability checker', 'content readability checker', 'website readability test', 'sentence length checker', 'content clarity checker'],
+        answerBox: {
+          short: 'An SEO readability checker highlights copy that is difficult to scan or understand. This tool measures sentence and paragraph length, reading time, long sentences, complex words, and structural variety, then turns the findings into a rewrite queue.',
+          bullets: ['Best fit: blog posts, service pages, landing pages, and tool guidance', 'Outperformance angle: sentence-level findings and a copyable rewrite brief, not a context-free grade'],
+        },
+        faqs: [
+          { q: 'What does the SEO readability checker measure?', a: 'It measures word count, sentence count, average sentence length, paragraph length, reading time, long sentences, long words, question usage, and list-like structure.' },
+          { q: 'Does readability directly determine Google rankings?', a: 'No. Readability is not a guaranteed ranking factor or score target. Clear copy can still help users understand the page, complete the task, and find the answer they searched for.' },
+          { q: 'What is a good average sentence length?', a: 'Many web pages are easier to scan when average sentences stay around 12 to 20 words. Technical topics may need longer sentences, so use the flagged rows as editing prompts rather than rigid rules.' },
+          { q: 'Can I use this for landing pages?', a: 'Yes. It is useful for service pages, tool pages, product pages, and landing pages where the first answer, benefits, and next action should be easy to scan.' },
+          { q: 'Is the pasted content uploaded?', a: 'No. The readability calculations run in your browser and the pasted text is not sent to FreelTools.' },
+        ],
+        bodySections: [
+          {
+            heading: 'Readability checks that point to exact edits',
+            body: 'A single grade does not explain what to rewrite. This checker identifies long sentences and dense paragraphs, shows the underlying counts, and creates a short editing queue you can use before publishing.',
+          },
+          {
+            heading: 'Built for web scanning, not simplified writing',
+            body: 'Good web copy can still be expert and specific. The goal is to make the main answer, supporting evidence, examples, and next action easier to follow without removing useful detail.',
+          },
+          {
+            heading: 'Use after coverage and before the full audit',
+            body: 'Check keyword coverage first, improve readability second, then rerun the On-Page SEO Checker. This order keeps clear writing connected to the query and avoids editing toward a generic score.',
+          },
+        ],
+        programmaticVariants: [
+          { slug: 'for-blog-posts', label: 'for Blog Posts' },
+          { slug: 'for-landing-pages', label: 'for Landing Pages' },
+          { slug: 'sentence-length-checker', label: 'as a Sentence Length Checker' },
+        ],
+      },
+      {
+        slug: 'keyword-prominence-checker',
+        title: 'Keyword Prominence Checker',
+        headline: 'Check Where Your Target Keyword Appears',
+        description: 'Free keyword prominence checker. Test a target phrase across the title, meta description, H1, URL, introduction, subheadings, and body, then export a placement fix list.',
+        seoTitle: 'Keyword Prominence Checker Free | SEO Placement Test',
+        icon: '🎯',
+        category: 'SEO Tools',
+        keywords: ['keyword prominence checker', 'keyword placement checker', 'seo keyword placement tool', 'keyword in title checker', 'keyword in heading checker', 'keyword position checker'],
+        answerBox: {
+          short: 'Keyword prominence describes whether the primary topic appears in the page elements people and search engines encounter first: title, URL, meta description, H1, introduction, and useful subheadings. This checker reports each location separately instead of treating repetition as the goal.',
+          bullets: ['Best fit: drafts that cover the topic but do not signal it clearly', 'Outperformance angle: field-by-field placement checks plus first-use and heading evidence'],
+        },
+        faqs: [
+          { q: 'What is keyword prominence?', a: 'Keyword prominence is the visibility of a target topic in important page locations such as the title, H1, URL, opening copy, and subheadings.' },
+          { q: 'Is keyword prominence the same as keyword density?', a: 'No. Density measures repetition across the body. Prominence checks whether the topic appears in high-signal locations, even if it is used only a few times.' },
+          { q: 'Does the exact keyword need to appear everywhere?', a: 'No. Use the exact phrase where it reads naturally, then use close variants and specific related terms elsewhere. The page should sound clear, not mechanically optimized.' },
+          { q: 'Should the keyword appear in the first paragraph?', a: 'Usually the primary topic should be clear near the beginning, but the opening should answer the searcher rather than force an awkward exact match.' },
+          { q: 'Can this tool check a draft before it has a URL?', a: 'Yes. Enter a planned URL path and the page fields manually. The checker works entirely from the values you provide.' },
+        ],
+        bodySections: [
+          {
+            heading: 'Keyword placement without stuffing',
+            body: 'Use this tool when a draft is useful but the target topic is hard to spot in the title, H1, opening, or subheadings. It separates placement from repetition so the fix stays natural.',
+          },
+          {
+            heading: 'Field-by-field evidence for page refreshes',
+            body: 'The output names each strong and weak location, reports the first body occurrence, and creates a placement brief. That makes it useful when Search Console shows impressions but the page intent is still unclear.',
+          },
+          {
+            heading: 'Pair prominence with density and readability',
+            body: 'After the important placements are clear, use the Keyword Density Checker for repetition and related-term coverage, then use the Readability Checker to improve sentence and paragraph flow.',
+          },
+        ],
+        programmaticVariants: [
+          { slug: 'for-blog-posts', label: 'for Blog Posts' },
+          { slug: 'for-service-pages', label: 'for Service Pages' },
+          { slug: 'keyword-placement-test', label: 'as a Keyword Placement Test' },
         ],
       },
       {

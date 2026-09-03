@@ -1,6 +1,7 @@
 'use client'
 
 import { useMemo, useState } from 'react'
+import { usePathname } from 'next/navigation'
 import InputField from '@/components/InputField'
 import ResultCard from '@/components/ResultCard'
 
@@ -26,6 +27,8 @@ function downloadText(filename: string, text: string) {
 }
 
 export default function ProjectCostCalculator() {
+  const pathname = usePathname()
+  const isCostPage = pathname.includes('/tools/project-cost-calculator')
   const [deliveryHours, setDeliveryHours] = useState(40)
   const [adminHours, setAdminHours] = useState(6)
   const [rate, setRate] = useState(100)
@@ -93,8 +96,9 @@ export default function ProjectCostCalculator() {
 
   const summary = useMemo(() => {
     return [
-      'Freelance project quote summary',
+      isCostPage ? 'Freelance project cost and quote summary' : 'Freelance project price summary',
       '',
+      `Protected delivery cost: ${fmt(results.protectedDeliveryCost)}`,
       `Recommended quote: ${fmt(results.quote)}`,
       `Delivery hours: ${results.cleanDeliveryHours}h production + ${results.cleanAdminHours}h admin/client work + ${results.cleanRevisionHours}h revisions`,
       `Hourly rate: ${fmt(rate)}/hr`,
@@ -111,7 +115,7 @@ export default function ProjectCostCalculator() {
       `Milestone 30%: ${fmt(results.quote * 0.3)}`,
       `Final 20%: ${fmt(results.quote * 0.2)}`,
     ].join('\n')
-  }, [buffer, paymentFeePercent, profitMarginPercent, rate, results, taxReservePercent])
+  }, [buffer, isCostPage, paymentFeePercent, profitMarginPercent, rate, results, taxReservePercent])
 
   async function copySummary() {
     try {
@@ -138,10 +142,11 @@ export default function ProjectCostCalculator() {
       <div className="rounded-2xl border border-brand-100 bg-brand-50 p-4 sm:p-5">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
           <div>
-            <h2 className="text-lg font-bold text-gray-900">Advanced project quote worksheet</h2>
+            <h2 className="text-lg font-bold text-gray-900">{isCostPage ? 'Project delivery cost worksheet' : 'Client project price worksheet'}</h2>
             <p className="mt-2 max-w-3xl text-sm leading-6 text-brand-900">
-              Build a client-ready price from production hours, admin time, revision allowance, expenses, risk buffer,
-              payment fees, profit room, and tax reserve. The result is meant to be defendable in a proposal, not just a rough estimate.
+              {isCostPage
+                ? 'Calculate the real delivery cost from production, admin, revisions, expenses, and scope risk, then compare it with a client-facing price that covers fees and profit.'
+                : 'Build a proposal-ready client price from production hours, admin time, revision allowance, expenses, risk buffer, payment fees, profit room, and tax reserve.'}
             </p>
           </div>
           <div className="shrink-0 rounded-xl bg-white px-4 py-3 text-sm font-semibold text-brand-700 shadow-sm">
@@ -184,18 +189,36 @@ export default function ProjectCostCalculator() {
         </div>
 
         <div className="min-w-0 space-y-4">
-          <h2 className="text-base font-semibold text-gray-900">Quote result</h2>
-          <ResultCard
-            label="Recommended client quote"
-            value={fmt(results.quote)}
-            highlight
-            sublabel={`Covers ${results.laborHours}h, expenses, buffer, fees, and profit room`}
-          />
-          <ResultCard
-            label="Protected delivery cost"
-            value={fmt(results.protectedDeliveryCost)}
-            sublabel={`Labor + expenses + ${fmt(results.bufferAmount)} risk buffer`}
-          />
+          <h2 className="text-base font-semibold text-gray-900">{isCostPage ? 'Cost result' : 'Price result'}</h2>
+          {isCostPage ? (
+            <>
+              <ResultCard
+                label="Protected delivery cost"
+                value={fmt(results.protectedDeliveryCost)}
+                highlight
+                sublabel={`Labor + expenses + ${fmt(results.bufferAmount)} risk buffer`}
+              />
+              <ResultCard
+                label="Suggested client price"
+                value={fmt(results.quote)}
+                sublabel={`Adds fee allowance and ${pct(profitMarginPercent)} profit room`}
+              />
+            </>
+          ) : (
+            <>
+              <ResultCard
+                label="Recommended client price"
+                value={fmt(results.quote)}
+                highlight
+                sublabel={`Covers ${results.laborHours}h, expenses, buffer, fees, and profit room`}
+              />
+              <ResultCard
+                label="Protected delivery cost"
+                value={fmt(results.protectedDeliveryCost)}
+                sublabel={`Your cost floor before payment fees and profit room`}
+              />
+            </>
+          )}
           <ResultCard
             label="Break-even floor"
             value={fmt(results.minimumBreakEven)}
@@ -212,8 +235,8 @@ export default function ProjectCostCalculator() {
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_360px]">
         <div className="min-w-0 overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm">
           <div className="border-b border-gray-100 px-5 py-4">
-            <h2 className="text-base font-semibold text-gray-900">Quote anatomy</h2>
-            <p className="mt-1 text-sm text-gray-500">Use this breakdown to explain why the quote is not just hours times rate.</p>
+            <h2 className="text-base font-semibold text-gray-900">{isCostPage ? 'Cost and price anatomy' : 'Price anatomy'}</h2>
+            <p className="mt-1 text-sm text-gray-500">{isCostPage ? 'Separate delivery cost from the fee and profit allowances that shape the client price.' : 'Use this breakdown to explain why the client price is not just hours times rate.'}</p>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full min-w-[620px] text-sm">
@@ -260,8 +283,8 @@ export default function ProjectCostCalculator() {
       <div className="rounded-2xl border border-gray-100 bg-white p-5 shadow-sm">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h2 className="text-base font-semibold text-gray-900">Copyable proposal note</h2>
-            <p className="mt-1 text-sm text-gray-500">Paste this into a proposal, estimate, or internal pricing doc.</p>
+            <h2 className="text-base font-semibold text-gray-900">{isCostPage ? 'Copyable cost and quote note' : 'Copyable proposal note'}</h2>
+            <p className="mt-1 text-sm text-gray-500">Paste this into an estimate, proposal, or internal pricing document.</p>
           </div>
           <div className="flex flex-wrap gap-3">
             <button type="button" className="btn-secondary" onClick={copySummary}>{copied ? 'Copied' : 'Copy summary'}</button>

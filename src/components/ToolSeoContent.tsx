@@ -148,9 +148,19 @@ const TOOL_RESEARCH_INTENT: Record<string, ToolResearchIntent> = {
     useNow: 'Paste the description, check the preview, and rewrite it around the searcher job.',
   },
   'keyword-density-checker': {
-    searcherJob: 'Check whether a page repeats target terms naturally or drifts into keyword stuffing.',
-    competitorGap: 'Density tools often over-focus on percentages; this page should pair counts with content-quality guidance.',
-    useNow: 'Use it after drafting, then adjust headings and repeated phrases before publishing.',
+    searcherJob: 'Check exact keyword usage, first-use position, distribution, related terms, question coverage, and repeated phrases without writing toward a magic percentage.',
+    competitorGap: 'Density tools often stop at a percentage; this page pairs exact-match counts with topical coverage, content-quarter distribution, and a copyable rewrite brief.',
+    useNow: 'Use it after drafting, fix missing questions or obvious repetition, then check prominence and readability before the full page audit.',
+  },
+  'seo-readability-checker': {
+    searcherJob: 'Find long sentences, dense paragraphs, complex wording, and weak scanning structure before page copy is published.',
+    competitorGap: 'Readability tools often show a grade without naming the edit; this page should expose the longest sentences and produce a practical rewrite queue.',
+    useNow: 'Paste the final draft, revise the flagged sentences and paragraphs, then rerun the on-page checker.',
+  },
+  'keyword-prominence-checker': {
+    searcherJob: 'Confirm that the primary topic appears naturally in the title, description, H1, URL, opening copy, subheadings, and body.',
+    competitorGap: 'Most keyword tools measure repetition but not placement. This page should show every important location separately and warn against changing established URLs casually.',
+    useNow: 'Check placement before density, then improve only the weak fields and keep the copy natural.',
   },
   'serp-snippet-preview-tool': {
     searcherJob: 'Preview how a title and description may appear before a page goes live.',
@@ -255,6 +265,16 @@ const TOOL_GSC_INSIGHT: Record<string, ToolGscInsight> = {
       { href: '/blog/project-price-calculator-freelancers', label: 'Read the pricing guide' },
     ],
   },
+  'project-cost-calculator': {
+    evidenceLabel: 'Delivery cost workflow',
+    priority: 'Project cost and project price are related but different jobs. Keep labor, admin, revisions, expenses, buffer, and break-even visible first, then route users to the client-facing price and proposal steps.',
+    links: [
+      { href: '/tools/project-price-calculator', label: 'Turn cost into client price' },
+      { href: '/tools/freelancer-rate-calculator', label: 'Check hourly rate' },
+      { href: '/tools/profit-calculator', label: 'Check project profit' },
+      { href: '/tools/scope-of-work-generator', label: 'Define the scope' },
+    ],
+  },
   'freelance-services-pricing-calculator': {
     evidenceLabel: 'Service pricing workflow',
     priority: 'Service-pricing impressions should land on a package-pricing workflow, not a generic rate page. Keep package scope, revisions, and margin close to the tool, then route users into quote and profit checks.',
@@ -284,8 +304,48 @@ const TOOL_GSC_INSIGHT: Record<string, ToolGscInsight> = {
       { href: '/tools/meta-description-checker', label: 'Improve meta description' },
       { href: '/tools/heading-hierarchy-checker', label: 'Check heading structure' },
       { href: '/tools/image-alt-text-checker', label: 'Check image alt text' },
+      { href: '/tools/keyword-prominence-checker', label: 'Check keyword placement' },
+      { href: '/tools/seo-readability-checker', label: 'Check readability' },
       { href: '/tools/internal-link-anchor-text-checker', label: 'Check internal anchors' },
       { href: '/tools/gsc-insights-refresh-planner', label: 'Plan a GSC refresh' },
+    ],
+  },
+  'on-page-seo-checker': {
+    evidenceLabel: 'High-impression on-page workflow',
+    priority: 'Use the broad checker as the entry point, then route each failed signal into the focused density, prominence, readability, heading, image, metadata, or internal-link checker instead of returning the user to search.',
+    links: [
+      { href: '/tools/keyword-density-checker', label: 'Check keyword density' },
+      { href: '/tools/keyword-prominence-checker', label: 'Check keyword prominence' },
+      { href: '/tools/seo-readability-checker', label: 'Check readability' },
+      { href: '/tools/on-page-seo-audit-tool', label: 'Run the refresh audit' },
+    ],
+  },
+  'keyword-density-checker': {
+    evidenceLabel: 'Content optimization workflow',
+    priority: 'Keyword density searches should lead to useful editing, not a magic percentage. Check exact usage and coverage here, then use prominence for placement, readability for clarity, and the on-page checker for the final page-level pass.',
+    links: [
+      { href: '/tools/keyword-prominence-checker', label: 'Check keyword placement' },
+      { href: '/tools/seo-readability-checker', label: 'Check content readability' },
+      { href: '/tools/on-page-seo-checker', label: 'Run the full page check' },
+      { href: '/tools/heading-hierarchy-checker', label: 'Review heading structure' },
+    ],
+  },
+  'keyword-prominence-checker': {
+    evidenceLabel: 'Keyword placement workflow',
+    priority: 'Use prominence to clarify the page topic in high-signal locations, then verify that body repetition stays natural and the finished copy remains easy to read.',
+    links: [
+      { href: '/tools/keyword-density-checker', label: 'Check repetition and coverage' },
+      { href: '/tools/seo-readability-checker', label: 'Improve readability' },
+      { href: '/tools/on-page-seo-checker', label: 'Run final on-page QA' },
+    ],
+  },
+  'seo-readability-checker': {
+    evidenceLabel: 'Content clarity workflow',
+    priority: 'Use readability after the topic and coverage are correct. Revise long sentences and dense paragraphs, then rerun the broad on-page check before publishing.',
+    links: [
+      { href: '/tools/keyword-density-checker', label: 'Check topic coverage' },
+      { href: '/tools/keyword-prominence-checker', label: 'Check keyword placement' },
+      { href: '/tools/on-page-seo-audit-tool', label: 'Run the page audit' },
     ],
   },
   'seo-title-ctr-optimizer': {

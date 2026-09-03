@@ -54,6 +54,12 @@ export default function CategoryPage({ params }: PageProps) {
       post.tags.some((tag) => keywords.some((keyword) => keyword.includes(tag.toLowerCase()) || tag.toLowerCase().includes(keyword.split(' ')[0])))
     )
     .slice(0, 3)
+  const featuredSlugs = category.slug === 'seo-tools'
+    ? ['on-page-seo-checker', 'on-page-seo-audit-tool', 'keyword-density-checker', 'keyword-prominence-checker', 'seo-readability-checker']
+    : category.tools.slice(0, 5).map((tool) => tool.slug)
+  const featuredTools = featuredSlugs
+    .map((slug) => category.tools.find((tool) => tool.slug === slug))
+    .filter((tool): tool is (typeof category.tools)[number] => Boolean(tool))
 
   const itemListJsonLd = {
     '@context': 'https://schema.org',
@@ -117,7 +123,7 @@ export default function CategoryPage({ params }: PageProps) {
         <div className="rounded-2xl border border-gray-100 bg-gray-50 p-5">
           <h2 className="text-base font-semibold text-gray-900">Start with these</h2>
           <div className="mt-4 grid gap-2">
-            {category.tools.slice(0, 5).map((tool) => (
+            {featuredTools.map((tool) => (
               <Link
                 key={tool.slug}
                 href={`/tools/${tool.slug}`}
@@ -131,6 +137,36 @@ export default function CategoryPage({ params }: PageProps) {
           </div>
         </div>
       </section>
+
+      {category.slug === 'seo-tools' && (
+        <section className="border-b border-gray-100 py-10">
+          <div className="max-w-3xl">
+            <p className="text-xs font-semibold uppercase tracking-wider text-brand-700">On-page SEO workflow</p>
+            <h2 className="mt-2 text-2xl font-bold text-gray-900">Check the whole page, then fix the exact warning</h2>
+            <p className="mt-3 text-sm leading-6 text-gray-600">
+              Start with the broad checker, use focused tools for content placement and clarity, then rerun the audit before publishing or requesting indexing.
+            </p>
+          </div>
+          <ol className="mt-6 grid gap-4 md:grid-cols-4">
+            {[
+              { step: '1', title: 'Check the page', body: 'Fetch a live URL or paste HTML to find the highest-priority on-page gaps.', href: '/tools/on-page-seo-checker', label: 'On-Page SEO Checker' },
+              { step: '2', title: 'Check coverage', body: 'Review exact use, related terms, questions, and repeated phrases without chasing a magic density.', href: '/tools/keyword-density-checker', label: 'Keyword Density Checker' },
+              { step: '3', title: 'Fix placement and clarity', body: 'Confirm important keyword locations, then shorten long sentences and dense paragraphs.', href: '/tools/keyword-prominence-checker', label: 'Keyword Prominence Checker' },
+              { step: '4', title: 'Rerun the audit', body: 'Export the final fix brief and confirm the live page is ready for its next crawl.', href: '/tools/on-page-seo-audit-tool', label: 'On-Page SEO Audit Tool' },
+            ].map((item) => (
+              <li key={item.step} className="border-l-2 border-brand-200 pl-4">
+                <p className="text-xs font-bold text-brand-700">Step {item.step}</p>
+                <h3 className="mt-2 text-sm font-semibold text-gray-900">{item.title}</h3>
+                <p className="mt-2 text-xs leading-5 text-gray-600">{item.body}</p>
+                <Link href={item.href} className="mt-3 inline-block text-xs font-semibold text-brand-700 hover:underline">{item.label}</Link>
+              </li>
+            ))}
+          </ol>
+          <p className="mt-5 text-xs leading-5 text-gray-500">
+            For sentence-level editing, use the <Link href="/tools/seo-readability-checker" className="font-semibold text-brand-700 hover:underline">SEO Readability Checker</Link> between steps 3 and 4.
+          </p>
+        </section>
+      )}
 
       <section className="py-12">
         <div className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">

@@ -48,6 +48,8 @@ const sharedCalculatorRenderers = {
   'hreflang-tag-generator': SeoToolsCalculator,
   'hreflang-reciprocity-checker': SeoToolsCalculator,
   'keyword-density-checker': SeoToolsCalculator,
+  'seo-readability-checker': SeoToolsCalculator,
+  'keyword-prominence-checker': SeoToolsCalculator,
   'utm-builder': SeoToolsCalculator,
   'broken-link-checker': SeoToolsCalculator,
   'redirect-chain-checker': SeoToolsCalculator,

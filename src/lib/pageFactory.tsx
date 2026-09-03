@@ -333,9 +333,22 @@ const HOW_TO_STEPS: Record<string, { name: string; text: string }[]> = {
   ],
   'keyword-density-checker': [
     { name: 'Enter the target keyword', text: 'Add the keyword or phrase you want to check in the content.' },
+    { name: 'Add related terms and questions', text: 'List useful subtopics and questions the page should answer so coverage can be checked beside exact-match usage.' },
     { name: 'Paste the page copy', text: 'Paste your article, landing page, or tool page content into the text box.' },
-    { name: 'Review density and top terms', text: 'Check word count, reading time, keyword uses, density, and repeated terms.' },
-    { name: 'Improve naturally', text: 'Use the result to catch missing usage or stuffing, then revise for readability and intent.' },
+    { name: 'Review density and distribution', text: 'Check exact uses, first use, content-quarter distribution, related-term coverage, questions, and repeated phrases.' },
+    { name: 'Improve naturally', text: 'Use the report to add missing information or reduce repetition, then revise for readability and intent.' },
+  ],
+  'seo-readability-checker': [
+    { name: 'Paste the page copy', text: 'Add at least 100 words from a blog post, landing page, service page, or tool page.' },
+    { name: 'Review sentence findings', text: 'Check average sentence length and inspect the exact sentences that exceed 25 or 35 words.' },
+    { name: 'Review paragraph scannability', text: 'Find dense paragraphs and confirm that the copy has enough breaks or list structure for web reading.' },
+    { name: 'Use the rewrite queue', text: 'Copy the report, revise the flagged copy, and rerun the checker before publishing.' },
+  ],
+  'keyword-prominence-checker': [
+    { name: 'Enter the target keyword', text: 'Add the primary query or phrase the page should satisfy.' },
+    { name: 'Add important page fields', text: 'Paste the title, meta description, H1, URL, subheadings, and body copy.' },
+    { name: 'Review placement checks', text: 'Check whether the exact phrase or its core terms appear naturally in the important page locations.' },
+    { name: 'Copy the fix list', text: 'Use the placement report to clarify weak fields, then check density and readability before publishing.' },
   ],
   'heading-hierarchy-checker': [
     { name: 'Enter the target keyword', text: 'Add the main query or topic the page should target.' },

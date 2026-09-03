@@ -166,6 +166,15 @@ const recoveryTools = [
       { href: '/tools/passport-photo-4x6-print-maker', label: '4x6 Print Maker' },
     ],
   },
+  {
+    title: 'On-page SEO searches',
+    body: 'Audit a live page, check keyword coverage and placement, improve readability, and export a focused refresh brief before publishing.',
+    links: [
+      { href: '/tools/on-page-seo-checker', label: 'On-Page SEO Checker' },
+      { href: '/tools/keyword-density-checker', label: 'Keyword Density Checker' },
+      { href: '/tools/category/seo-tools', label: 'SEO workflow' },
+    ],
+  },
 ]
 
 const proofPoints = [
@@ -268,11 +277,11 @@ export default function HomePage() {
             <p className="text-sm font-semibold uppercase text-brand-700">Popular no-login workflows</p>
             <h2 className="text-3xl font-extrabold text-gray-950">Start with the tools built for urgent tasks</h2>
             <p className="text-sm leading-7 text-gray-600">
-              These paths match high-intent jobs: marketplace fees, freelance project pricing, and exact image upload requirements.
+              These paths match high-intent jobs: marketplace fees, freelance project pricing, exact image uploads, and page-level SEO checks.
               Opening the tool first gives visitors the fastest path to a useful result.
             </p>
           </div>
-          <div className="mt-8 grid gap-4 md:grid-cols-3">
+          <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
             {recoveryTools.map((group) => (
               <section key={group.title} className="rounded-lg border border-gray-200 bg-gray-50 p-5">
                 <h3 className="text-base font-bold text-gray-950">{group.title}</h3>

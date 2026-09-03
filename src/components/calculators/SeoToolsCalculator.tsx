@@ -1608,8 +1608,15 @@ function KeywordDensityChecker() {
     const normalized = content.toLowerCase()
     const words = normalized.match(/[a-z0-9]+(?:'[a-z0-9]+)?/g) ?? []
     const keyword = targetKeyword.trim().toLowerCase()
-    const occurrences = keyword ? (normalized.match(new RegExp(keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g')) ?? []).length : 0
+    const occurrenceMatches = keyword ? Array.from(normalized.matchAll(new RegExp(escapeRegExp(keyword), 'g'))) : []
+    const occurrences = occurrenceMatches.length
     const density = words.length ? (occurrences / words.length) * 100 : 0
+    const occurrenceWordPositions = occurrenceMatches.map((match) => countWords(normalized.slice(0, match.index ?? 0)))
+    const firstOccurrence = occurrenceWordPositions[0] ?? null
+    const lastOccurrence = occurrenceWordPositions.at(-1) ?? null
+    const coverageBands = new Set(
+      occurrenceWordPositions.map((position) => Math.min(4, Math.floor((position / Math.max(words.length, 1)) * 4) + 1))
+    )
     const terms = new Map<string, number>()
     for (const word of words) {
       if (word.length < 3 || stopWords.has(word)) continue
@@ -1649,7 +1656,9 @@ function KeywordDensityChecker() {
     const checks: ScoreItem[] = [
       { label: 'Content has enough text', ok: words.length >= 300, detail: `${words.length} words found. Thin pages usually need more context, examples, and next steps.` },
       { label: 'Target keyword appears', ok: occurrences > 0, detail: `${occurrences} exact phrase use${occurrences === 1 ? '' : 's'} found.` },
+      { label: 'Topic appears near the start', ok: firstOccurrence !== null && firstOccurrence < 120, detail: firstOccurrence === null ? 'The target phrase does not appear.' : `First exact use appears around word ${firstOccurrence + 1}.` },
       { label: 'Density not stuffed', ok: occurrences === 0 || density <= 3, detail: `${density.toFixed(2)}% exact-match density. Use natural coverage over repetition.` },
+      { label: 'Repeated uses are distributed', ok: occurrences <= 1 || coverageBands.size >= 2, detail: occurrences <= 1 ? 'One or fewer exact uses found, so distribution is not a concern.' : `Exact uses appear across ${coverageBands.size} of 4 content quarters.` },
       { label: 'Core terms covered', ok: missingTargetTerms.length === 0, detail: missingTargetTerms.length ? `Missing: ${missingTargetTerms.join(', ')}` : 'All target terms appear at least once.' },
       { label: 'Term variety present', ok: topTerms.length >= 6, detail: `${topTerms.length} meaningful repeated terms detected.` },
       { label: 'Related term coverage', ok: relatedCoverage >= 60, detail: `${relatedCoverage}% of related terms are covered. Add missing terms naturally where they help the reader.` },
@@ -1661,6 +1670,9 @@ function KeywordDensityChecker() {
       chars: content.length,
       occurrences,
       density,
+      firstOccurrence,
+      lastOccurrence,
+      coverageBands: coverageBands.size,
       readingTime: Math.max(1, Math.ceil(words.length / 220)),
       topTerms,
       topPhrases,
@@ -1679,6 +1691,9 @@ Target keyword: ${targetKeyword}
 Words: ${analysis.words}
 Exact uses: ${analysis.occurrences}
 Density: ${analysis.density.toFixed(2)}%
+First exact use: ${analysis.firstOccurrence === null ? 'Not found' : `Word ${analysis.firstOccurrence + 1}`}
+Last exact use: ${analysis.lastOccurrence === null ? 'Not found' : `Word ${analysis.lastOccurrence + 1}`}
+Distribution: ${analysis.coverageBands} of 4 content quarters
 Estimated reading time: ${analysis.readingTime} min
 Related term coverage: ${analysis.relatedCoverage}%
 Question coverage: ${analysis.questionCoverage}%
@@ -1715,6 +1730,7 @@ Rewrite brief:
       <div className="space-y-4">
         <Stat label="Word count" value={`${analysis.words}`} detail={`${analysis.readingTime} min estimated read time`} highlight />
         <Stat label="Keyword uses" value={`${analysis.occurrences}`} detail={`${analysis.density.toFixed(2)}% density`} highlight={analysis.occurrences > 0 && analysis.density <= 3} />
+        <Stat label="First exact use" value={analysis.firstOccurrence === null ? 'Not found' : `Word ${analysis.firstOccurrence + 1}`} detail={`${analysis.coverageBands} of 4 content quarters contain an exact use`} highlight={analysis.firstOccurrence !== null && analysis.firstOccurrence < 120} />
         <div className="grid gap-3 sm:grid-cols-2">
           <Stat label="Related coverage" value={`${analysis.relatedCoverage}%`} detail={`${analysis.relatedHits.filter((item) => item.covered).length} of ${analysis.relatedHits.length} related terms covered`} highlight={analysis.relatedCoverage >= 60} />
           <Stat label="Question coverage" value={`${analysis.questionCoverage}%`} detail={`${analysis.questionHits.filter((item) => item.covered).length} of ${analysis.questionHits.length} questions partly covered`} highlight={analysis.questionCoverage >= 50} />
@@ -1768,6 +1784,210 @@ Rewrite brief:
         <CopyBox label="Keyword quality report" value={contentReport} downloadName="keyword-quality-report.txt" />
         <p className="rounded-xl border border-amber-100 bg-amber-50 p-3 text-xs leading-5 text-amber-800">
           Density is a quality check, not a ranking formula. Use the result to catch missing terms or obvious stuffing, then focus on usefulness and search intent.
+        </p>
+      </div>
+    </div>
+  )
+}
+
+function SeoReadabilityChecker() {
+  const [content, setContent] = useState(`A useful on-page SEO checker should show what needs attention before a page is published. It should explain each warning in plain language and keep the next action close to the result.
+
+Start with the page title, description, main heading, and opening answer. Then review links, images, schema, and content depth. Long explanations are easier to follow when they are divided into focused paragraphs.
+
+- Fix the highest-risk issue first.
+- Rerun the check after editing.
+- Request indexing only when the live page is stronger.`)
+
+  const analysis = useMemo(() => {
+    const clean = content.replace(/\r/g, '').trim()
+    const words = clean.match(/[A-Za-z0-9]+(?:'[A-Za-z0-9]+)?/g) ?? []
+    const sentences = (clean.match(/[^.!?\n]+[.!?]+|[^.!?\n]+$/g) ?? [])
+      .map((sentence) => sentence.replace(/^[-*#\s]+/, '').trim())
+      .filter(Boolean)
+      .map((text) => ({ text, words: countWords(text) }))
+    const paragraphs = clean
+      .split(/\n\s*\n/)
+      .map((paragraph) => paragraph.replace(/^[-*#]\s*/gm, '').trim())
+      .filter(Boolean)
+      .map((text) => ({ text, words: countWords(text) }))
+    const longSentences = sentences.filter((sentence) => sentence.words > 25)
+    const veryLongSentences = sentences.filter((sentence) => sentence.words > 35)
+    const denseParagraphs = paragraphs.filter((paragraph) => paragraph.words > 120)
+    const complexWords = words.filter((word) => word.length >= 12)
+    const averageSentence = sentences.length ? words.length / sentences.length : 0
+    const averageParagraph = paragraphs.length ? words.length / paragraphs.length : 0
+    const listLines = clean.split('\n').filter((line) => /^\s*(?:[-*]|\d+[.)])\s+/.test(line)).length
+    const questionCount = (clean.match(/\?/g) ?? []).length
+    const longSentenceShare = sentences.length ? (longSentences.length / sentences.length) * 100 : 0
+    const complexShare = words.length ? (complexWords.length / words.length) * 100 : 0
+    const score = Math.max(
+      0,
+      Math.min(
+        100,
+        Math.round(100 - Math.max(0, averageSentence - 18) * 2 - longSentenceShare * 0.45 - complexShare * 1.5 - denseParagraphs.length * 8)
+      )
+    )
+    const checks: ScoreItem[] = [
+      { label: 'Enough copy to assess', ok: words.length >= 100, detail: `${words.length} words found. Paste at least 100 words for a useful pattern check.` },
+      { label: 'Average sentence length', ok: averageSentence <= 22, detail: `${averageSentence.toFixed(1)} words per sentence. Aim for a varied average near 12-20 when the topic allows.` },
+      { label: 'Few long sentences', ok: longSentenceShare <= 20, detail: `${longSentences.length} of ${sentences.length} sentences exceed 25 words.` },
+      { label: 'No very long sentences', ok: veryLongSentences.length === 0, detail: `${veryLongSentences.length} sentences exceed 35 words.` },
+      { label: 'Paragraphs stay scannable', ok: denseParagraphs.length === 0 && averageParagraph <= 100, detail: `${averageParagraph.toFixed(1)} words per paragraph; ${denseParagraphs.length} exceed 120 words.` },
+      { label: 'Complex words are limited', ok: complexShare <= 8, detail: `${complexShare.toFixed(1)}% of words have 12 or more characters. Keep necessary technical terms, but simplify surrounding copy.` },
+      { label: 'Scanning structure is present', ok: paragraphs.length >= 3 || listLines >= 2, detail: `${paragraphs.length} paragraphs and ${listLines} list rows detected.` },
+    ]
+    return {
+      words: words.length,
+      sentences,
+      paragraphs,
+      longSentences,
+      veryLongSentences,
+      denseParagraphs,
+      complexWords: Array.from(new Set(complexWords.map((word) => word.toLowerCase()))).slice(0, 12),
+      averageSentence,
+      averageParagraph,
+      readingTime: Math.max(1, Math.ceil(words.length / 220)),
+      listLines,
+      questionCount,
+      score,
+      checks,
+    }
+  }, [content])
+
+  const report = `SEO readability report
+
+Readability score: ${analysis.score}/100
+Words: ${analysis.words}
+Sentences: ${analysis.sentences.length}
+Paragraphs: ${analysis.paragraphs.length}
+Estimated reading time: ${analysis.readingTime} min
+Average sentence: ${analysis.averageSentence.toFixed(1)} words
+Average paragraph: ${analysis.averageParagraph.toFixed(1)} words
+Sentences over 25 words: ${analysis.longSentences.length}
+Paragraphs over 120 words: ${analysis.denseParagraphs.length}
+
+Rewrite queue:
+${analysis.checks.filter((item) => !item.ok).map((item) => `- ${item.label}: ${item.detail}`).join('\n') || '- No major readability warnings. Review tone and accuracy before publishing.'}
+
+Longest sentences:
+${analysis.longSentences.slice(0, 5).map((sentence) => `- ${sentence.words} words: ${sentence.text}`).join('\n') || '- No sentences over 25 words.'}
+
+Long words to review:
+${analysis.complexWords.length ? analysis.complexWords.map((word) => `- ${word}`).join('\n') : '- None detected.'}`
+
+  return (
+    <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_400px]">
+      <Panel title="Readability input">
+        <TextArea label="Paste page copy" value={content} onChange={setContent} rows={20} hint="Plain text and simple Markdown lists work. The analysis stays in your browser." />
+        <div className="grid gap-3 sm:grid-cols-3">
+          <Stat label="Words" value={`${analysis.words}`} detail={`${analysis.readingTime} min estimated read`} highlight={analysis.words >= 100} />
+          <Stat label="Sentences" value={`${analysis.sentences.length}`} detail={`${analysis.averageSentence.toFixed(1)} words on average`} highlight={analysis.averageSentence <= 22} />
+          <Stat label="Paragraphs" value={`${analysis.paragraphs.length}`} detail={`${analysis.averageParagraph.toFixed(1)} words on average`} highlight={analysis.denseParagraphs.length === 0} />
+        </div>
+      </Panel>
+      <div className="space-y-4">
+        <Stat label="Readability score" value={`${analysis.score}/100`} detail="Editing signal only, not a ranking promise." highlight={analysis.score >= 75} />
+        <ScoreList items={analysis.checks} />
+        <Panel title="Longest sentences to review">
+          {analysis.longSentences.length === 0 ? (
+            <p className="text-sm text-gray-600">No sentences over 25 words.</p>
+          ) : (
+            <div className="space-y-2">
+              {analysis.longSentences.slice(0, 5).map((sentence, index) => (
+                <div key={`${sentence.text}-${index}`} className="rounded-xl border border-amber-100 bg-amber-50 p-3 text-xs leading-5 text-amber-900">
+                  <p className="font-semibold">{sentence.words} words</p>
+                  <p className="mt-1">{sentence.text}</p>
+                </div>
+              ))}
+            </div>
+          )}
+        </Panel>
+        <CopyBox label="Readability rewrite report" value={report} downloadName="seo-readability-report.txt" />
+      </div>
+    </div>
+  )
+}
+
+function KeywordProminenceChecker() {
+  const [targetKeyword, setTargetKeyword] = useState('on page seo checker')
+  const [title, setTitle] = useState('Free On Page SEO Checker for Live URLs')
+  const [description, setDescription] = useState('Use this free on-page SEO checker to review a live URL or pasted HTML, prioritize fixes, and export a practical page refresh brief.')
+  const [h1, setH1] = useState('Check On-Page SEO Before You Publish')
+  const [url, setUrl] = useState('https://example.com/tools/on-page-seo-checker')
+  const [headings, setHeadings] = useState('What the on-page SEO checker reviews\nHow to fix page-level warnings\nFrequently asked questions')
+  const [content, setContent] = useState('An on-page SEO checker reviews the page elements you can improve before publishing. Start with the title, description, H1, canonical URL, opening answer, internal links, images, and schema. Fix the highest-priority warning, rerun the check, and inspect the final live URL before requesting indexing.')
+
+  const analysis = useMemo(() => {
+    const keyword = targetKeyword.trim().toLowerCase()
+    const coreTerms = keywordCore(targetKeyword)
+    const normalizedBody = content.toLowerCase()
+    const bodyWords = normalizedBody.match(/[a-z0-9]+(?:'[a-z0-9]+)?/g) ?? []
+    const exactMatches = keyword ? Array.from(normalizedBody.matchAll(new RegExp(escapeRegExp(keyword), 'g'))) : []
+    const exactUses = exactMatches.length
+    const density = bodyWords.length ? (exactUses / bodyWords.length) * 100 : 0
+    const firstUse = exactMatches.length ? countWords(normalizedBody.slice(0, exactMatches[0].index ?? 0)) + 1 : null
+    const intro = bodyWords.slice(0, 120).join(' ')
+    const headingRows = splitLines(headings)
+    const includesExact = (value: string) => Boolean(keyword && value.toLowerCase().includes(keyword))
+    const includesCore = (value: string) => coreTerms.length > 0 && coreTerms.every((term) => value.toLowerCase().includes(term))
+    let urlText = url.toLowerCase().replace(/[-_/]+/g, ' ')
+    try {
+      urlText = new URL(url).pathname.toLowerCase().replace(/[-_/]+/g, ' ')
+    } catch {
+      // A planned relative path is still useful input.
+    }
+    const checks: ScoreItem[] = [
+      { label: 'Title signals the target topic', ok: includesExact(title) || includesCore(title), detail: includesExact(title) ? 'Exact phrase appears in the title.' : includesCore(title) ? 'All core target terms appear in the title.' : 'Add the topic naturally to the title.' },
+      { label: 'Meta description supports the topic', ok: includesExact(description) || includesCore(description), detail: includesExact(description) ? 'Exact phrase appears in the description.' : includesCore(description) ? 'All core target terms appear in the description.' : 'Clarify the target topic in the description.' },
+      { label: 'H1 matches the page intent', ok: includesExact(h1) || includesCore(h1), detail: includesExact(h1) ? 'Exact phrase appears in the H1.' : includesCore(h1) ? 'All core target terms appear in the H1.' : 'Make the H1 clearly describe the target topic.' },
+      { label: 'URL is descriptive', ok: includesExact(urlText) || includesCore(urlText), detail: includesCore(urlText) ? 'The URL contains the core target terms.' : 'Use a short descriptive path when creating a new URL. Do not change an established URL only for this check.' },
+      { label: 'Opening copy establishes the topic', ok: includesExact(intro) || includesCore(intro), detail: includesExact(intro) ? 'Exact phrase appears in the first 120 words.' : includesCore(intro) ? 'Core target terms appear in the first 120 words.' : 'Answer the query clearly near the start.' },
+      { label: 'A subheading reinforces the topic', ok: headingRows.some((heading) => includesExact(heading) || includesCore(heading)), detail: `${headingRows.filter((heading) => includesExact(heading) || includesCore(heading)).length} of ${headingRows.length} supplied headings support the target topic.` },
+      { label: 'Body uses the exact phrase', ok: exactUses > 0, detail: `${exactUses} exact phrase use${exactUses === 1 ? '' : 's'} found.` },
+      { label: 'Body avoids exact-match stuffing', ok: exactUses === 0 || density <= 3, detail: `${density.toFixed(2)}% exact-match density.` },
+    ]
+    return { bodyWords: bodyWords.length, exactUses, density, firstUse, headingRows, checks }
+  }, [content, description, h1, headings, targetKeyword, title, url])
+
+  const report = `Keyword prominence report
+
+Target keyword: ${targetKeyword}
+Body words: ${analysis.bodyWords}
+Exact body uses: ${analysis.exactUses}
+First body use: ${analysis.firstUse === null ? 'Not found' : `Word ${analysis.firstUse}`}
+Exact-match density: ${analysis.density.toFixed(2)}%
+
+Placement checks:
+${analysis.checks.map((item) => `- ${item.ok ? 'PASS' : 'FIX'}: ${item.label} - ${item.detail}`).join('\n')}
+
+Editing order:
+1. Make the title and H1 describe the same primary page job.
+2. Answer the target query naturally in the opening copy.
+3. Use one useful subheading for a major part of that job.
+4. Check density and readability after placement is clear.
+5. Keep an established URL unless a migration and redirect plan justifies changing it.`
+
+  return (
+    <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_400px]">
+      <Panel title="Page placement inputs">
+        <Field label="Target keyword or phrase" value={targetKeyword} onChange={setTargetKeyword} />
+        <Field label="Title tag" value={title} onChange={setTitle} />
+        <TextArea label="Meta description" value={description} onChange={setDescription} rows={3} />
+        <Field label="H1" value={h1} onChange={setH1} />
+        <Field label="Current or planned URL" value={url} onChange={setUrl} />
+        <TextArea label="Subheadings" value={headings} onChange={setHeadings} rows={5} hint="Add one H2 or H3 per line." />
+        <TextArea label="Body copy" value={content} onChange={setContent} rows={12} />
+      </Panel>
+      <div className="space-y-4">
+        <div className="grid gap-3 sm:grid-cols-2">
+          <Stat label="Placement checks" value={`${analysis.checks.filter((item) => item.ok).length}/${analysis.checks.length}`} detail="Important page locations reviewed" highlight={analysis.checks.filter((item) => item.ok).length >= 6} />
+          <Stat label="First body use" value={analysis.firstUse === null ? 'Not found' : `Word ${analysis.firstUse}`} detail={`${analysis.exactUses} exact uses, ${analysis.density.toFixed(2)}% density`} highlight={analysis.firstUse !== null && analysis.firstUse <= 120} />
+        </div>
+        <ScoreList items={analysis.checks} />
+        <CopyBox label="Keyword placement fix list" value={report} downloadName="keyword-prominence-report.txt" />
+        <p className="rounded-xl border border-brand-100 bg-brand-50 p-3 text-xs leading-5 text-brand-900">
+          Prominence is about clarity in important locations, not forcing the exact phrase into every field. Keep established URLs stable unless a real migration need justifies a redirect.
         </p>
       </div>
     </div>
@@ -2919,6 +3139,8 @@ export default function SeoToolsCalculator() {
   if (slug === 'hreflang-tag-generator') return <HreflangTagGenerator />
   if (slug === 'hreflang-reciprocity-checker') return <HreflangReciprocityChecker />
   if (slug === 'keyword-density-checker') return <KeywordDensityChecker />
+  if (slug === 'seo-readability-checker') return <SeoReadabilityChecker />
+  if (slug === 'keyword-prominence-checker') return <KeywordProminenceChecker />
   if (slug === 'utm-builder') return <UtmBuilder />
   if (slug === 'url-slug-generator') return <SlugGenerator />
   if (slug === 'faq-schema-generator') return <FaqSchemaGenerator />
