@@ -6,7 +6,13 @@ import ProjectCostCalculator from '@/components/calculators/ProjectCostCalculato
 import InsuranceAndEventCalculator from '@/components/calculators/InsuranceAndEventCalculator'
 import SeoToolsCalculator from '@/components/calculators/SeoToolsCalculator'
 import { ALL_TOOLS, getToolBySlug } from '@/lib/tools'
-import { buildFaqJsonLd, buildToolJsonLd, buildToolMetadata } from '@/lib/pageFactory'
+import {
+  buildFaqJsonLd,
+  buildToolJsonLd,
+  buildToolMetadata,
+  compactSeoDescription,
+  compactSeoTitle,
+} from '@/lib/pageFactory'
 
 const SITE_URL = 'https://freeltools.com'
 
@@ -39,7 +45,9 @@ const sharedCalculatorRenderers = {
   'robots-txt-checker': SeoToolsCalculator,
   'xml-sitemap-generator': SeoToolsCalculator,
   'sitemap-url-checker': SeoToolsCalculator,
+  'sitemap-canonical-auditor': SeoToolsCalculator,
   'hreflang-tag-generator': SeoToolsCalculator,
+  'hreflang-reciprocity-checker': SeoToolsCalculator,
   'keyword-density-checker': SeoToolsCalculator,
   'seo-readability-checker': SeoToolsCalculator,
   'keyword-prominence-checker': SeoToolsCalculator,
@@ -74,15 +82,17 @@ export function generateMetadata({ params }: PageProps): Metadata {
   if (!variant) return {}
   const base = buildToolMetadata(tool)
   const canonical = `${SITE_URL}/tools/${tool.slug}/${variant.slug}`
+  const title = compactSeoTitle(`${tool.title} ${variant.label}`)
+  const description = compactSeoDescription(`${tool.description} Optimized ${variant.label.toLowerCase()}.`)
   return {
     ...base,
-    title: `${tool.title} ${variant.label} | Free Online Tool`,
-    description: `${tool.description} Optimized ${variant.label.toLowerCase()}.`,
+    title: { absolute: title },
+    description,
     alternates: { canonical },
     openGraph: {
       ...base.openGraph,
-      title: `${tool.title} ${variant.label} | Free Online Tool`,
-      description: `${tool.description} Optimized ${variant.label.toLowerCase()}.`,
+      title,
+      description,
       url: canonical,
     },
   }

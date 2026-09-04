@@ -5,13 +5,36 @@ import { getToolBySlug, type ToolMeta } from '@/lib/tools'
 
 const SITE_URL = 'https://freeltools.com'
 const OG_IMAGE = `${SITE_URL}/opengraph-image`
+const BRAND_SUFFIX = ' | FreelTools'
+
+function trimAtWord(value: string, maxLength: number) {
+  const normalized = value.replace(/\s+/g, ' ').trim()
+  if (normalized.length <= maxLength) return normalized
+  const shortened = normalized.slice(0, maxLength + 1)
+  const lastSpace = shortened.lastIndexOf(' ')
+  return shortened.slice(0, lastSpace > maxLength * 0.65 ? lastSpace : maxLength).trim()
+}
+
+export function compactSeoTitle(value: string) {
+  const base = value
+    .replace(/\s*\|\s*(?:FreelancerToolkit|FreelTools|Free Online Tool)\s*$/i, '')
+    .trim()
+  return `${trimAtWord(base, 64 - BRAND_SUFFIX.length)}${BRAND_SUFFIX}`
+}
+
+export function compactSeoDescription(value: string) {
+  const normalized = value.replace(/\s+/g, ' ').trim()
+  if (normalized.length <= 155) return normalized
+  return `${trimAtWord(normalized, 154).replace(/[,:;\-–—]+$/, '')}.`
+}
 
 export function buildToolMetadata(tool: ToolMeta): Metadata {
   const url = `${SITE_URL}/tools/${tool.slug}`
-  const pageTitle = tool.seoTitle ?? `Free ${tool.title} (2026)`
+  const pageTitle = compactSeoTitle(tool.seoTitle ?? `Free ${tool.title} (2026)`)
+  const description = compactSeoDescription(tool.description)
   return {
-    title: pageTitle,
-    description: tool.description,
+    title: { absolute: pageTitle },
+    description,
     keywords: tool.keywords,
     authors: [{ name: 'FreelancerToolkit' }],
     alternates: {
@@ -19,7 +42,7 @@ export function buildToolMetadata(tool: ToolMeta): Metadata {
     },
     openGraph: {
       title: pageTitle,
-      description: tool.description,
+      description,
       url,
       type: 'website',
       siteName: 'FreelancerToolkit',
@@ -28,7 +51,7 @@ export function buildToolMetadata(tool: ToolMeta): Metadata {
     twitter: {
       card: 'summary_large_image',
       title: pageTitle,
-      description: tool.description,
+      description,
       images: [OG_IMAGE],
     },
     robots: {
