@@ -16,16 +16,38 @@ function trimAtWord(value: string, maxLength: number) {
 }
 
 export function compactSeoTitle(value: string) {
-  const base = value
+  let base = value
     .replace(/\s*\|\s*(?:FreelancerToolkit|FreelTools|Free Online Tool)\s*$/i, '')
     .trim()
-  return `${trimAtWord(base, 64 - BRAND_SUFFIX.length)}${BRAND_SUFFIX}`
+  const maxBaseLength = 64 - BRAND_SUFFIX.length
+  if (base.length > maxBaseLength) {
+    base = base.replace(/\s*\([^)]*\)\s*$/, '').trim()
+  }
+  const shortened = trimAtWord(base, maxBaseLength)
+    .replace(/\s+(?:a|an|and|for|or|the|to|vs\.?|with)$/i, '')
+    .replace(/[,:;\-–—([{]+$/, '')
+    .trim()
+  return `${shortened}${BRAND_SUFFIX}`
 }
 
 export function compactSeoDescription(value: string) {
   const normalized = value.replace(/\s+/g, ' ').trim()
   if (normalized.length <= 155) return normalized
-  return `${trimAtWord(normalized, 154).replace(/[,:;\-–—]+$/, '')}.`
+
+  const sentences = normalized.match(/[^.!?]+[.!?]+/g) ?? []
+  let complete = ''
+  for (const sentence of sentences) {
+    const candidate = `${complete}${complete ? ' ' : ''}${sentence.trim()}`
+    if (candidate.length > 155) break
+    complete = candidate
+  }
+  if (complete.length >= 70) return complete
+
+  const shortened = trimAtWord(normalized, 154)
+    .replace(/\s+(?:and|for|or|to|with|without)$/i, '')
+    .replace(/[,:;\-–—]+$/, '')
+    .trim()
+  return `${shortened}.`
 }
 
 export function buildToolMetadata(tool: ToolMeta): Metadata {

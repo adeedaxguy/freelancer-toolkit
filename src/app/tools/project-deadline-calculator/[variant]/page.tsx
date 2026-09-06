@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getToolBySlug } from '@/lib/tools'
-import { generateStaticParamsForTool } from '@/lib/pageFactory'
+import { compactSeoDescription, compactSeoTitle, generateStaticParamsForTool } from '@/lib/pageFactory'
 import ToolPageShell from '@/components/ToolPageShell'
 import ProjectDeadlineCalculator from '@/components/calculators/ProjectDeadlineCalculator'
 
@@ -15,8 +15,8 @@ export async function generateMetadata({ params }: { params: { variant: string }
   const variant = tool.programmaticVariants?.find((v) => v.slug === params.variant)
   if (!variant) return {}
   return {
-    title: `Project Deadline Calculator ${variant.label}`,
-    description: `Calculate your freelance project deadline ${variant.label.toLowerCase()}. Enter hours, daily availability, revision rounds, and buffer to get an accurate completion date.`,
+    title: { absolute: compactSeoTitle(`Project Deadline Calculator ${variant.label}`) },
+    description: compactSeoDescription(`Calculate your freelance project deadline ${variant.label.toLowerCase()}. Enter hours, daily availability, revision rounds, and buffer to get an accurate completion date.`),
     keywords: [`project deadline calculator ${variant.label.toLowerCase()}`, 'freelance timeline calculator', ...tool.keywords],
     alternates: { canonical: `/tools/project-deadline-calculator/${params.variant}` },
     openGraph: {

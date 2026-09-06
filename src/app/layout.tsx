@@ -143,7 +143,7 @@ export const metadata: Metadata = {
     template: '%s | FreelancerToolkit',
   },
   description:
-    'Free calculators and generators for freelancers, agencies, and consultants. Calculate your rate, quote projects, generate proposals, create invoices — no login required.',
+    'Free calculators and generators for freelancers and agencies. Price projects, write proposals, create invoices, and more with no login required.',
   keywords: [
     'freelancer tools',
     'freelance calculator',

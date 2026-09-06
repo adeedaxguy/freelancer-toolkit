@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation'
 import ToolCard from '@/components/ToolCard'
 import { getAllPosts } from '@/lib/blog'
 import { getCategoryBySlug, getCategoryKeywords, getCategorySeoDescription, getCategorySeoTitle, getCategoryUrl } from '@/lib/categoryPages'
+import { compactSeoDescription, compactSeoTitle } from '@/lib/pageFactory'
 import { TOOL_CATEGORIES } from '@/lib/tools'
 
 const SITE_URL = 'https://freeltools.com'
@@ -19,12 +20,12 @@ export function generateStaticParams() {
 export function generateMetadata({ params }: PageProps): Metadata {
   const category = getCategoryBySlug(params.slug)
   if (!category) return {}
-  const title = getCategorySeoTitle(category)
-  const description = getCategorySeoDescription(category)
+  const title = compactSeoTitle(getCategorySeoTitle(category))
+  const description = compactSeoDescription(getCategorySeoDescription(category))
   const url = `${SITE_URL}${getCategoryUrl(category)}`
 
   return {
-    title,
+    title: { absolute: title },
     description,
     keywords: getCategoryKeywords(category),
     alternates: { canonical: url },

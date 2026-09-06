@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getToolBySlug } from '@/lib/tools'
-import { generateStaticParamsForTool } from '@/lib/pageFactory'
+import { compactSeoDescription, compactSeoTitle, generateStaticParamsForTool } from '@/lib/pageFactory'
 import ToolPageShell from '@/components/ToolPageShell'
 import FreelancerSavingsCalculator from '@/components/calculators/FreelancerSavingsCalculator'
 
@@ -15,8 +15,8 @@ export async function generateMetadata({ params }: { params: { variant: string }
   const variant = tool.programmaticVariants?.find((v) => v.slug === params.variant)
   if (!variant) return {}
   return {
-    title: `${tool.title} — ${variant.label}`,
-    description: `Calculate your emergency fund target and retirement savings ${variant.label.toLowerCase()}. Free freelancer savings calculator — SEP IRA limits, Solo 401(k) contributions, and monthly savings plan.`,
+    title: { absolute: compactSeoTitle(`${tool.title} — ${variant.label}`) },
+    description: compactSeoDescription(`Calculate your emergency fund target and retirement savings ${variant.label.toLowerCase()}. Free freelancer savings calculator — SEP IRA limits, Solo 401(k) contributions, and monthly savings plan.`),
     keywords: [`freelancer savings calculator ${variant.label.toLowerCase()}`, 'self employed retirement calculator', ...tool.keywords],
     alternates: { canonical: `/tools/freelancer-savings-calculator/${params.variant}` },
     openGraph: {

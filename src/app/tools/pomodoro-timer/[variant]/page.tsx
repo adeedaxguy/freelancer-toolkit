@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getToolBySlug } from '@/lib/tools'
-import { generateStaticParamsForTool } from '@/lib/pageFactory'
+import { compactSeoDescription, compactSeoTitle, generateStaticParamsForTool } from '@/lib/pageFactory'
 import ToolPageShell from '@/components/ToolPageShell'
 import PomodoroTimer from '@/components/calculators/PomodoroTimer'
 
@@ -15,8 +15,8 @@ export async function generateMetadata({ params }: { params: { variant: string }
   const variant = tool.programmaticVariants?.find((v) => v.slug === params.variant)
   if (!variant) return {}
   return {
-    title: `Pomodoro Timer — ${variant.label}`,
-    description: `Free Pomodoro timer ${variant.label.toLowerCase()}. Track focus sessions, breaks, and daily productivity. Works offline in your browser.`,
+    title: { absolute: compactSeoTitle(`Pomodoro Timer — ${variant.label}`) },
+    description: compactSeoDescription(`Free Pomodoro timer ${variant.label.toLowerCase()}. Track focus sessions, breaks, and daily productivity. Works offline in your browser.`),
     keywords: [`pomodoro timer ${variant.label.toLowerCase()}`, ...tool.keywords],
     alternates: { canonical: `/tools/pomodoro-timer/${params.variant}` },
   }

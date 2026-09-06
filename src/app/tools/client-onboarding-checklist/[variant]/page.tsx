@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getToolBySlug } from '@/lib/tools'
-import { generateStaticParamsForTool } from '@/lib/pageFactory'
+import { compactSeoDescription, compactSeoTitle, generateStaticParamsForTool } from '@/lib/pageFactory'
 import ToolPageShell from '@/components/ToolPageShell'
 import ClientOnboardingChecklist from '@/components/calculators/ClientOnboardingChecklist'
 
@@ -15,8 +15,8 @@ export async function generateMetadata({ params }: { params: { variant: string }
   const variant = tool.programmaticVariants?.find((v) => v.slug === params.variant)
   if (!variant) return {}
   return {
-    title: `Client Onboarding Checklist ${variant.label}`,
-    description: `Free client onboarding checklist ${variant.label.toLowerCase()}. Generate a customized, printable checklist that ensures every new client engagement starts without a hitch.`,
+    title: { absolute: compactSeoTitle(`Client Onboarding Checklist ${variant.label}`) },
+    description: compactSeoDescription(`Free client onboarding checklist ${variant.label.toLowerCase()}. Generate a customized, printable checklist that ensures every new client engagement starts without a hitch.`),
     keywords: [`client onboarding checklist ${variant.label.toLowerCase()}`, 'client onboarding template', ...tool.keywords],
     alternates: { canonical: `/tools/client-onboarding-checklist/${params.variant}` },
     openGraph: {

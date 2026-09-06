@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getToolBySlug } from '@/lib/tools'
-import { generateStaticParamsForTool } from '@/lib/pageFactory'
+import { compactSeoDescription, compactSeoTitle, generateStaticParamsForTool } from '@/lib/pageFactory'
 import ToolPageShell from '@/components/ToolPageShell'
 import FreelancerTaxCalculator from '@/components/calculators/FreelancerTaxCalculator'
 
@@ -15,8 +15,8 @@ export async function generateMetadata({ params }: { params: { variant: string }
   const variant = tool.programmaticVariants?.find((v) => v.slug === params.variant)
   if (!variant) return {}
   return {
-    title: `${tool.title} ${variant.label}`,
-    description: `Estimate your freelance self-employment tax, federal income tax, and quarterly payments ${variant.label.toLowerCase()}. Free calculator — no signup required.`,
+    title: { absolute: compactSeoTitle(`${tool.title} ${variant.label}`) },
+    description: compactSeoDescription(`Estimate your freelance self-employment tax, federal income tax, and quarterly payments ${variant.label.toLowerCase()}. Free calculator — no signup required.`),
     keywords: [`freelancer tax calculator ${variant.label.toLowerCase()}`, 'self employed tax calculator', ...tool.keywords],
     alternates: { canonical: `/tools/freelancer-tax-calculator/${params.variant}` },
     openGraph: {

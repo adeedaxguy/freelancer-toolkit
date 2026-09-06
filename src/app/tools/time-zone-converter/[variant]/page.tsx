@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getToolBySlug } from '@/lib/tools'
-import { generateStaticParamsForTool } from '@/lib/pageFactory'
+import { compactSeoDescription, compactSeoTitle, generateStaticParamsForTool } from '@/lib/pageFactory'
 import ToolPageShell from '@/components/ToolPageShell'
 import TimeZoneConverter from '@/components/calculators/TimeZoneConverter'
 
@@ -15,8 +15,8 @@ export async function generateMetadata({ params }: { params: { variant: string }
   const variant = tool.programmaticVariants?.find((v) => v.slug === params.variant)
   if (!variant) return {}
   return {
-    title: `Time Zone Converter — ${variant.label}`,
-    description: `Free time zone converter ${variant.label.toLowerCase()}. Find overlapping business hours and schedule meetings across time zones without confusion.`,
+    title: { absolute: compactSeoTitle(`Time Zone Converter — ${variant.label}`) },
+    description: compactSeoDescription(`Free time zone converter ${variant.label.toLowerCase()}. Find overlapping business hours and schedule meetings across time zones without confusion.`),
     keywords: [`time zone converter ${variant.label.toLowerCase()}`, ...tool.keywords],
     alternates: { canonical: `/tools/time-zone-converter/${params.variant}` },
   }

@@ -1184,7 +1184,7 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
         slug: 'time-zone-converter',
         title: 'Time Zone Converter',
         headline: 'Time Zone Converter for Freelancers & Remote Teams',
-        description: 'Free time zone converter for freelancers. Enter your time zone and a client\'s time zone to find overlapping business hours and schedule meetings without confusion.',
+        description: 'Free time zone converter for freelancers. Find overlapping business hours and schedule client meetings across time zones without confusion.',
         icon: '🌍',
         category: 'Utility Tools',
         keywords: ['time zone converter', 'time zone meeting planner', 'world clock for freelancers', 'remote team time zone tool', 'schedule meeting across time zones'],
