@@ -1,16 +1,29 @@
 import type { Metadata, Viewport } from 'next'
 import Script from 'next/script'
 import './globals.css'
-import Header from '@/components/Header'
+import Header, { type HeaderCategory } from '@/components/Header'
 import Footer from '@/components/Footer'
 import PageViewTracker from '@/components/PageViewTracker'
 import FloatingChatbot from '@/components/FloatingChatbot'
-import { ALL_TOOLS } from '@/lib/tools'
+import { ALL_TOOLS, TOOL_CATEGORIES } from '@/lib/tools'
+import { getCategoryUrl } from '@/lib/categoryPages'
 
 const SITE_URL = 'https://freeltools.com'
 const TOTAL_TOOLS = ALL_TOOLS.length
 const TOOL_COUNT_LABEL = String(TOTAL_TOOLS)
 const OG_IMAGE = `${SITE_URL}/opengraph-image`
+const HEADER_CATEGORIES: HeaderCategory[] = TOOL_CATEGORIES.map((category) => ({
+  name: category.name,
+  slug: category.slug,
+  description: category.description,
+  href: getCategoryUrl(category),
+  tools: category.tools.map((tool) => ({
+    slug: tool.slug,
+    title: tool.title,
+    icon: tool.icon,
+    searchText: [tool.title, ...tool.keywords.slice(0, 2)].join(' ').toLowerCase(),
+  })),
+}))
 
 const clickioConsentModeScript = `
   window.dataLayer = window.dataLayer || [];
@@ -223,12 +236,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           Skip to content
         </a>
         <PageViewTracker />
-        <Header />
+        <Header categories={HEADER_CATEGORIES} totalTools={TOTAL_TOOLS} />
         <main className="flex-1" id="main-content">
           {children}
         </main>
         <Footer />
-        <FloatingChatbot />
+        <FloatingChatbot totalTools={TOTAL_TOOLS} />
         {/* Google Analytics */}
         <Script src="https://www.googletagmanager.com/gtag/js?id=G-ZC1CQELSW4" strategy="afterInteractive" />
         <Script id="ga-init" strategy="afterInteractive">{`

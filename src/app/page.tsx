@@ -33,28 +33,19 @@ export const metadata: Metadata = {
 }
 
 function buildItemListSchema() {
-  const allTools = TOOL_CATEGORIES.flatMap((cat) => cat.tools)
   return {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
     name: 'Free Tools for Freelancers — FreelancerToolkit',
     description: `${TOOL_COUNT_LABEL} free business, document, image, and passport photo tools. No account required.`,
     url: SITE_URL,
-    numberOfItems: allTools.length,
-    itemListElement: allTools.map((tool, i) => ({
+    numberOfItems: primaryTools.length,
+    itemListElement: primaryTools.map((tool, i) => ({
       '@type': 'ListItem',
       position: i + 1,
       name: tool.title,
       description: tool.description,
       url: `${SITE_URL}/tools/${tool.slug}`,
-      item: {
-        '@type': 'WebApplication',
-        name: tool.title,
-        url: `${SITE_URL}/tools/${tool.slug}`,
-        description: tool.description,
-        applicationCategory: 'BusinessApplication',
-        offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
-      },
     })),
   }
 }
@@ -233,7 +224,7 @@ export default function HomePage() {
             <div className="rounded-lg bg-white p-4">
               <div className="flex items-center justify-between border-b border-gray-100 pb-3">
                 <div>
-                  <p className="text-xs font-semibold uppercase text-gray-400">Start with a job to be done</p>
+                  <p className="text-xs font-semibold uppercase text-gray-600">Start with a job to be done</p>
                   <p className="mt-1 text-sm font-bold text-gray-900">Popular workflows</p>
                 </div>
                 <span className="rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold text-brand-700">No login</span>
@@ -246,7 +237,7 @@ export default function HomePage() {
                     className="group flex items-center justify-between rounded-lg border border-gray-100 px-4 py-3 transition hover:border-brand-200 hover:bg-brand-50"
                   >
                     <span>
-                      <span className="block text-[11px] font-semibold uppercase text-gray-400">{task.eyebrow}</span>
+                      <span className="block text-[11px] font-semibold uppercase text-gray-600">{task.eyebrow}</span>
                       <span className="mt-0.5 block text-sm font-semibold text-gray-900 group-hover:text-brand-700">{task.label}</span>
                     </span>
                     <span className="text-gray-300 group-hover:text-brand-600">→</span>

@@ -2,10 +2,21 @@
 
 import Link from 'next/link'
 import { useMemo, useState, useRef } from 'react'
-import { getCategoryUrl } from '@/lib/categoryPages'
-import { TOOL_CATEGORIES, ALL_TOOLS } from '@/lib/tools'
 
-export default function Header() {
+export interface HeaderCategory {
+  name: string
+  slug: string
+  description: string
+  href: string
+  tools: Array<{
+    slug: string
+    title: string
+    icon: string
+    searchText: string
+  }>
+}
+
+export default function Header({ categories, totalTools }: { categories: HeaderCategory[]; totalTools: number }) {
   const [mobileOpen, setMobileOpen] = useState(false)
   const [megaOpen, setMegaOpen] = useState(false)
   const [mobileQuery, setMobileQuery] = useState('')
@@ -33,15 +44,13 @@ export default function Header() {
 
   const filteredCategories = useMemo(() => {
     const query = mobileQuery.trim().toLowerCase()
-    if (!query) return TOOL_CATEGORIES
+    if (!query) return categories
 
-    return TOOL_CATEGORIES.map((category) => ({
+    return categories.map((category) => ({
       ...category,
-      tools: category.tools.filter((tool) =>
-        [tool.title, tool.description, ...tool.keywords].some((value) => value.toLowerCase().includes(query))
-      ),
+      tools: category.tools.filter((tool) => tool.searchText.includes(query)),
     })).filter((category) => category.tools.length > 0)
-  }, [mobileQuery])
+  }, [categories, mobileQuery])
 
   const closeAllMenus = () => {
     cancelClose()
@@ -68,7 +77,7 @@ export default function Header() {
           </div>
           {/* Wordmark */}
           <span className="flex items-baseline gap-0 text-[15px] font-bold tracking-tight text-gray-900 leading-none">
-            Freelancer<span className="text-brand-600">Toolkit</span>
+            Freelancer<span className="text-brand-700">Toolkit</span>
           </span>
         </Link>
 
@@ -82,7 +91,7 @@ export default function Header() {
               onClick={() => setMegaOpen((open) => !open)}
             >
               Tools
-              <span className="rounded-full bg-brand-50 px-2 py-0.5 text-[11px] font-bold text-brand-700">{ALL_TOOLS.length}</span>
+              <span className="rounded-full bg-brand-50 px-2 py-0.5 text-[11px] font-bold text-brand-700">{totalTools}</span>
               <svg className={`h-3.5 w-3.5 transition-transform ${megaOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
               </svg>
@@ -137,7 +146,7 @@ export default function Header() {
         >
           <div className="mx-auto grid max-h-[calc(100vh-88px)] max-w-6xl overflow-y-auto rounded-2xl border border-gray-200 bg-white shadow-2xl lg:grid-cols-[260px_1fr]">
             <aside className="bg-gray-950 p-5 text-white">
-              <p className="text-xs font-semibold uppercase tracking-wider text-brand-300">{ALL_TOOLS.length} free tools</p>
+              <p className="text-xs font-semibold uppercase tracking-wider text-brand-300">{totalTools} free tools</p>
               <h2 className="mt-2 text-2xl font-bold leading-tight">Tool library</h2>
               <p className="mt-3 text-sm leading-6 text-gray-300">
                 Jump into the highest-value freelancer, photo, image, and document tools without opening a full directory.
@@ -153,7 +162,7 @@ export default function Header() {
                 <Link
                   href="/#tools"
                   onClick={() => setMegaOpen(false)}
-                  className="rounded-full bg-brand-500 px-4 py-2.5 text-center text-sm font-semibold text-white transition hover:bg-brand-400"
+                  className="rounded-full bg-brand-700 px-4 py-2.5 text-center text-sm font-semibold text-white transition hover:bg-brand-800"
                 >
                   Browse all tools
                 </Link>
@@ -169,11 +178,11 @@ export default function Header() {
 
             <div className="p-4">
               <div className="grid grid-cols-3 gap-3">
-                {TOOL_CATEGORIES.map((cat) => (
+                {categories.map((cat) => (
                   <section key={cat.slug} className="rounded-xl border border-gray-100 bg-gray-50 p-3">
                     <div className="flex items-start justify-between gap-3">
                       <Link
-                        href={getCategoryUrl(cat)}
+                        href={cat.href}
                         onClick={() => setMegaOpen(false)}
                         className="group min-w-0"
                       >
@@ -198,7 +207,7 @@ export default function Header() {
                       ))}
                     </div>
                     <Link
-                      href={getCategoryUrl(cat)}
+                      href={cat.href}
                       onClick={() => setMegaOpen(false)}
                       className="mt-2 inline-flex text-xs font-semibold text-brand-700 hover:text-brand-800"
                     >
@@ -245,10 +254,10 @@ export default function Header() {
 
           {!hasMobileQuery ? (
             <div className="mt-4 grid gap-2">
-              {TOOL_CATEGORIES.map((cat) => (
+              {categories.map((cat) => (
                 <Link
                   key={cat.slug}
-                  href={getCategoryUrl(cat)}
+                  href={cat.href}
                   onClick={closeAllMenus}
                   className="flex items-start justify-between gap-3 rounded-xl border border-gray-100 bg-gray-50 p-3 transition active:bg-brand-50"
                 >
@@ -266,9 +275,9 @@ export default function Header() {
             filteredCategories.map((cat) => (
               <div key={cat.slug} className="mt-4">
                 <Link
-                  href={getCategoryUrl(cat)}
+                  href={cat.href}
                   onClick={closeAllMenus}
-                  className="mb-1.5 inline-flex text-[10px] font-semibold uppercase tracking-wider text-gray-400 hover:text-brand-600"
+                  className="mb-1.5 inline-flex text-[10px] font-semibold uppercase tracking-wider text-gray-600 hover:text-brand-700"
                 >
                   {cat.name}
                 </Link>
@@ -293,8 +302,8 @@ export default function Header() {
             <p className="mt-6 rounded-xl bg-gray-50 p-4 text-sm text-gray-500">No tools match that search yet.</p>
           )}
 
-          <div className="mt-5 border-t border-gray-100 pt-4 text-xs text-gray-400">
-            {ALL_TOOLS.length} free tools · No login required
+          <div className="mt-5 border-t border-gray-100 pt-4 text-xs text-gray-600">
+            {totalTools} free tools · No login required
           </div>
         </div>
       )}

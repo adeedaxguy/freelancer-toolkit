@@ -2,9 +2,6 @@
 
 import { useState, useRef, useEffect } from 'react'
 import { usePathname } from 'next/navigation'
-import { ALL_TOOLS } from '@/lib/tools'
-
-const TOTAL_TOOLS = ALL_TOOLS.length
 
 interface Message {
   role: 'user' | 'bot'
@@ -45,7 +42,7 @@ const FAQ: Array<{ match: string[]; answer: string; tool?: string }> = [
   },
   {
     match: ['what tools', 'list tools', 'all tools', 'what can you', 'what do you have'],
-    answer: `We have ${TOTAL_TOOLS} free tools:\n\n• **Freelance business** — rate, project cost, invoices, proposals, contracts\n• **Passport & visa photos** — Germany, US, UK, Canada, India, Schengen, and more\n• **Image tools** — resize, compress, convert, signature and upload-size helpers\n• **PDF tools** — JPG/PNG/image to PDF converters\n\nAll free, no login needed. Which one sounds useful?`,
+    answer: `We have {TOTAL_TOOLS} free tools:\n\n• **Freelance business** — rate, project cost, invoices, proposals, contracts\n• **Passport & visa photos** — Germany, US, UK, Canada, India, Schengen, and more\n• **Image tools** — resize, compress, convert, signature and upload-size helpers\n• **PDF tools** — JPG/PNG/image to PDF converters\n\nAll free, no login needed. Which one sounds useful?`,
   },
   {
     match: ['free', 'cost', 'how much does', 'paid', 'subscription', 'sign up', 'login', 'account'],
@@ -101,13 +98,13 @@ const FAQ: Array<{ match: string[]; answer: string; tool?: string }> = [
   },
 ]
 
-function getBotResponse(input: string): { text: string; tool?: string } {
+function getBotResponse(input: string, totalTools: number): { text: string; tool?: string } {
   const lower = input.toLowerCase()
 
   // Check FAQ matches
   for (const faq of FAQ) {
     if (faq.match.some((m) => lower.includes(m))) {
-      return { text: faq.answer, tool: faq.tool }
+      return { text: faq.answer.replace('{TOTAL_TOOLS}', String(totalTools)), tool: faq.tool }
     }
   }
 
@@ -123,7 +120,7 @@ function getBotResponse(input: string): { text: string; tool?: string } {
 
   // Fallback
   return {
-    text: `I'm not sure about that one — could you rephrase? Or you can browse all ${TOTAL_TOOLS} tools on the [homepage](/) and find what fits your situation. Still stuck? Try asking something like "how do I calculate my rate" or "make a Germany visa photo".`,
+    text: `I'm not sure about that one — could you rephrase? Or you can browse all ${totalTools} tools on the [homepage](/) and find what fits your situation. Still stuck? Try asking something like "how do I calculate my rate" or "make a Germany visa photo".`,
   }
 }
 
@@ -155,7 +152,7 @@ function renderText(text: string) {
   })
 }
 
-export default function FloatingChatbot() {
+export default function FloatingChatbot({ totalTools }: { totalTools: number }) {
   const pathname = usePathname()
   const [mounted, setMounted] = useState(false)
   const [open, setOpen] = useState(false)
@@ -187,7 +184,7 @@ export default function FloatingChatbot() {
     setTyping(true)
 
     setTimeout(() => {
-      const { text: botText, tool } = getBotResponse(text)
+      const { text: botText, tool } = getBotResponse(text, totalTools)
       setMessages((m) => [...m, { role: 'bot', text: botText }])
       if (tool) setPendingTool(tool)
       else setPendingTool(null)

@@ -172,7 +172,7 @@ export default function Footer() {
             </ul>
             <Link
               href="/#tools"
-              className="mt-5 inline-flex rounded-full bg-brand-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-400"
+              className="mt-5 inline-flex rounded-full bg-brand-700 px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-800"
             >
               Explore all tools
             </Link>
