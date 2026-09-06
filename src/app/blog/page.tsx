@@ -1,13 +1,14 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { getAllPosts } from '@/lib/blog'
+import { compactSeoDescription, compactSeoTitle } from '@/lib/pageFactory'
 
 const SITE_URL = 'https://freeltools.com'
 const OG_IMAGE = `${SITE_URL}/opengraph-image`
 
 export const metadata: Metadata = {
-  title: 'Blog – Freelancing Tips, Guides & Resources',
-  description: 'Free guides and tips for freelancers, agencies, and consultants. Learn how to set rates, win proposals, manage clients, and grow your business.',
+  title: { absolute: compactSeoTitle('Freelancing Tips, Guides and Resources') },
+  description: compactSeoDescription('Free guides and tips for freelancers, agencies, and consultants. Learn how to set rates, win proposals, manage clients, and grow your business.'),
   alternates: { canonical: `${SITE_URL}/blog` },
   openGraph: {
     title: 'Blog – Freelancing Tips, Guides & Resources',

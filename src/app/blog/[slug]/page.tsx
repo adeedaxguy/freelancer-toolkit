@@ -6,6 +6,7 @@ import { MDXRemote } from 'next-mdx-remote/rsc'
 import remarkGfm from 'remark-gfm'
 import { getAllPosts, getPostBySlug } from '@/lib/blog'
 import { ALL_TOOLS } from '@/lib/tools'
+import { compactSeoDescription, compactSeoTitle } from '@/lib/pageFactory'
 import ShareButtons from '@/components/ShareButtons'
 
 const SITE_URL = 'https://freeltools.com'
@@ -47,10 +48,10 @@ function getPrimaryLinkedTool(content: string) {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const post = getPostBySlug(params.slug)
   if (!post) return {}
-  const metaTitle = post.seoTitle || post.title
-  const metaDescription = post.seoDescription || post.description
+  const metaTitle = compactSeoTitle(post.seoTitle || post.title)
+  const metaDescription = compactSeoDescription(post.seoDescription || post.description)
   return {
-    title: metaTitle,
+    title: { absolute: metaTitle },
     description: metaDescription,
     alternates: { canonical: `${SITE_URL}/blog/${post.slug}` },
     openGraph: {
