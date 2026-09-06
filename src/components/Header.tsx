@@ -115,7 +115,7 @@ export default function Header({ categories, totalTools }: { categories: HeaderC
         </nav>
 
         <div className="hidden items-center gap-3 lg:flex">
-          <Link href="/#request-tool" className="rounded-full bg-brand-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-700">
+          <Link href="/#request-tool" className="rounded-full bg-brand-700 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-800">
             Request a Tool
           </Link>
         </div>
@@ -235,7 +235,7 @@ export default function Header({ categories, totalTools }: { categories: HeaderC
             <Link
               href="/#request-tool"
               onClick={closeAllMenus}
-              className="rounded-lg bg-brand-600 px-3 py-2 text-center text-sm font-semibold text-white"
+              className="rounded-lg bg-brand-700 px-3 py-2 text-center text-sm font-semibold text-white"
             >
               Request Tool
             </Link>

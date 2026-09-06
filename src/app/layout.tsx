@@ -1,10 +1,10 @@
 import type { Metadata, Viewport } from 'next'
-import Script from 'next/script'
 import './globals.css'
 import Header, { type HeaderCategory } from '@/components/Header'
 import Footer from '@/components/Footer'
 import PageViewTracker from '@/components/PageViewTracker'
 import FloatingChatbot from '@/components/FloatingChatbot'
+import DeferredTracking from '@/components/DeferredTracking'
 import { ALL_TOOLS, TOOL_CATEGORIES } from '@/lib/tools'
 import { getCategoryUrl } from '@/lib/categoryPages'
 
@@ -207,21 +207,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className="scroll-smooth">
       <head>
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-        {/* Preconnect to GA domains to reduce connection latency */}
-        <link rel="preconnect" href="https://www.googletagmanager.com" />
-        <link rel="preconnect" href="https://www.google-analytics.com" />
-        <link rel="preconnect" href="https://clickiocmp.com" />
-        <link rel="preconnect" href="https://s.clickiocdn.com" />
-        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
-        <link rel="dns-prefetch" href="https://clickiocmp.com" />
-        <link rel="dns-prefetch" href="https://s.clickiocdn.com" />
         <script
           id="clickio-consent-mode-defaults"
           dangerouslySetInnerHTML={{ __html: clickioConsentModeScript }}
         />
-        <script async type="text/javascript" src="https://clickiocmp.com/t/consent_249850.js" />
-        <script defer src="https://s.clickiocdn.com/t/249850/di.js" />
-        <script defer data-cfasync="false" src="https://s.clickiocdn.com/t/249850_wv.js" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
@@ -242,14 +231,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </main>
         <Footer />
         <FloatingChatbot totalTools={TOTAL_TOOLS} />
-        {/* Google Analytics */}
-        <Script src="https://www.googletagmanager.com/gtag/js?id=G-ZC1CQELSW4" strategy="afterInteractive" />
-        <Script id="ga-init" strategy="afterInteractive">{`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', 'G-ZC1CQELSW4');
-        `}</Script>
+        <DeferredTracking />
       </body>
     </html>
   )
