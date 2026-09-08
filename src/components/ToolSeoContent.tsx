@@ -77,6 +77,16 @@ const TOOL_RESEARCH_INTENT: Record<string, ToolResearchIntent> = {
     competitorGap: 'Deadline calculators often ignore client feedback delays; this page should include review and buffer logic.',
     useNow: 'Use the deadline after pricing so proposal dates and delivery scope match.',
   },
+  'scope-of-work-generator': {
+    searcherJob: 'Create a clear freelance scope of work with deliverables, exclusions, dates, revisions, responsibilities, and approval terms.',
+    competitorGap: 'Most scope templates are static downloads. This page should help the user produce a tailored draft and then check whether the important project protections are present.',
+    useNow: 'Generate the first draft, edit it for the real client agreement, then run the scope checker before sending it for legal or client review.',
+  },
+  'scope-of-work-checker': {
+    searcherJob: 'Review a freelance scope of work for missing deliverables, exclusions, dates, revision limits, payment terms, and change-control language.',
+    competitorGap: 'Template pages help users start but rarely help them catch missing sections. This tool gives a private browser-side checklist without presenting the result as legal advice.',
+    useNow: 'Paste the working scope, add the missing sections, and have the final agreement reviewed appropriately before the project begins.',
+  },
   'freelance-services-pricing-calculator': {
     searcherJob: 'Price a service package without undercounting delivery, communication, QA, and revisions.',
     competitorGap: 'Pricing advice pages are often theoretical; this page should keep the working calculator and package logic side by side.',
@@ -192,6 +202,11 @@ const TOOL_RESEARCH_INTENT: Record<string, ToolResearchIntent> = {
     competitorGap: 'File-size tools compete heavily; this page should keep exact-size compression, preview, and quality warnings together.',
     useNow: 'Compress gradually and check that the final image is still readable before uploading.',
   },
+  'crop-photo-300x300': {
+    searcherJob: 'Crop and export a square photo at exactly 300 by 300 pixels for a profile, form, directory, or application.',
+    competitorGap: 'Generic image editors make users configure dimensions manually. This page should open with the exact 300x300 crop and keep compression options one click away.',
+    useNow: 'Upload the photo, position the square crop, export at 300x300, and check the downloaded file before submitting it.',
+  },
   'resize-image-to-20kb': {
     searcherJob: 'Resize or compress an image to a strict 20KB file-size limit.',
     competitorGap: 'Historical SEO evidence shows this file-size page can earn organic visibility; the page should keep the exact limit and quality tradeoff front and center.',
@@ -216,6 +231,46 @@ type ToolGscInsight = {
 }
 
 const TOOL_GSC_INSIGHT: Record<string, ToolGscInsight> = {
+  'scope-of-work-generator': {
+    evidenceLabel: 'GSC scope workflow',
+    priority: 'Scope-of-work searches are one of the site’s clearest current demand signals. Help the visitor create the document, check its protections, and price the same project without restarting the workflow.',
+    links: [
+      { href: '/tools/scope-of-work-checker', label: 'Check the finished scope' },
+      { href: '/tools/project-price-calculator', label: 'Price the project' },
+      { href: '/tools/project-deadline-calculator', label: 'Set a realistic deadline' },
+      { href: '/blog/scope-of-work-template-freelancers', label: 'Read the freelance SOW guide' },
+    ],
+  },
+  'scope-of-work-checker': {
+    evidenceLabel: 'GSC scope quality workflow',
+    priority: 'The checker serves the same query family without duplicating the generator: it reviews an existing draft, identifies missing sections, and returns the user to the generator only when a rewrite is needed.',
+    links: [
+      { href: '/tools/scope-of-work-generator', label: 'Generate a new scope' },
+      { href: '/tools/project-price-calculator', label: 'Check the project price' },
+      { href: '/tools/project-deadline-calculator', label: 'Check the delivery date' },
+      { href: '/blog/scope-of-work-template-freelancers', label: 'Use the SOW guide' },
+    ],
+  },
+  'crop-photo-300x300': {
+    evidenceLabel: 'Exact-size GSC workflow',
+    priority: 'A live GSC query asks for a 300x300 crop. Keep the square crop preset immediate, then offer exact-KB compression and adjacent profile-image sizes without obscuring the primary task.',
+    links: [
+      { href: '/tools/jpg-resize-to-50kb', label: 'Compress the JPG to 50KB' },
+      { href: '/tools/resize-image-to-50kb', label: 'Resize any image to 50KB' },
+      { href: '/tools/image-compressor', label: 'Choose another file size' },
+      { href: '/tools/resize-photo-to-413x531', label: 'Use a 413x531 form photo' },
+    ],
+  },
+  'jpg-resize-to-50kb': {
+    evidenceLabel: 'Current click-winning workflow',
+    priority: 'This exact-size page earned both recent site clicks. Preserve the immediate 50KB action and connect it to the 300x300 crop and nearby upload limits so the useful session can continue.',
+    links: [
+      { href: '/tools/crop-photo-300x300', label: 'Crop to 300x300 first' },
+      { href: '/tools/resize-image-to-20kb', label: 'Try a stricter 20KB limit' },
+      { href: '/tools/resize-image-to-50kb', label: 'Resize another image format' },
+      { href: '/blog/resize-photo-under-20kb-50kb-100kb-guide', label: 'Read the upload-size guide' },
+    ],
+  },
   'resize-photo-to-413x531': {
     evidenceLabel: 'Popular exact-size workflow',
     priority: 'Keep the exact 413x531 upload job visible, then route people into the 35x45mm, 20KB, and print-sheet workflows instead of sending them back to Google.',

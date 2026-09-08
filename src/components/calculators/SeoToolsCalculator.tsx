@@ -3001,6 +3001,75 @@ function KeywordCannibalizationChecker() {
   )
 }
 
+function ScopeOfWorkChecker() {
+  const [draft, setDraft] = useState(`Project goal:
+Build and launch a five-page service website.
+
+Deliverables:
+- Responsive homepage and four service pages
+- Contact form setup
+- One revision round
+
+Timeline:
+Four weeks from receipt of approved content.
+
+Payment:
+50% deposit and 50% before launch.`)
+
+  const checks = useMemo(() => {
+    const value = draft.toLowerCase()
+    const groups = [
+      { label: 'Project goal', terms: ['goal', 'objective', 'purpose'] },
+      { label: 'Deliverables', terms: ['deliverable', 'included', 'scope includes'] },
+      { label: 'Exclusions', terms: ['exclusion', 'not included', 'out of scope'] },
+      { label: 'Timeline and milestones', terms: ['timeline', 'milestone', 'deadline', 'schedule'] },
+      { label: 'Revision limit', terms: ['revision', 'round of changes', 'feedback round'] },
+      { label: 'Client responsibilities', terms: ['client responsibility', 'client will', 'provided by client', 'content approval'] },
+      { label: 'Payment terms', terms: ['payment', 'deposit', 'invoice', 'due'] },
+      { label: 'Acceptance criteria', terms: ['acceptance', 'approved when', 'sign-off', 'quality criteria'] },
+      { label: 'Change requests', terms: ['change request', 'additional work', 'scope change', 'new estimate'] },
+      { label: 'Final approval', terms: ['approval', 'sign-off', 'accepted by'] },
+    ]
+
+    return groups.map((group) => {
+      const matched = group.terms.find((term) => value.includes(term))
+      return {
+        label: group.label,
+        ok: Boolean(matched),
+        detail: matched ? `Found wording related to “${matched}”. Review it for specificity.` : `Add a clear ${group.label.toLowerCase()} section.`,
+      }
+    })
+  }, [draft])
+
+  const missing = checks.filter((check) => !check.ok)
+  const review = `# Scope of Work Review
+
+## Coverage
+${checks.filter((check) => check.ok).map((check) => `- Covered: ${check.label}`).join('\n') || '- No required sections were detected.'}
+
+## Missing or unclear
+${missing.map((check) => `- ${check.label}: ${check.detail}`).join('\n') || '- No checklist gaps detected. Review dates, amounts, names, and legal terms manually.'}
+
+## Final manual checks
+- Replace vague words such as “as needed,” “reasonable,” or “unlimited” with a measurable limit.
+- Confirm every deliverable has an owner, due point, and acceptance path.
+- Keep third-party costs, hosting, licenses, content, and post-launch maintenance explicit.
+- Have important legal or jurisdiction-specific terms reviewed by a qualified professional.`
+
+  return (
+    <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_420px]">
+      <Panel title="Scope draft">
+        <TextArea label="Paste the scope of work" value={draft} onChange={setDraft} rows={18} />
+        <p className="text-sm text-slate-600">The review runs in your browser. Use it as a project-scope checklist, not legal advice.</p>
+      </Panel>
+      <div className="space-y-4">
+        <ScoreList items={checks} />
+        <CopyBox label="Scope review" value={review} downloadName="scope-of-work-review.md" />
+      </div>
+    </div>
+  )
+}
+
 function ContentBriefGenerator() {
   const [keyword, setKeyword] = useState('free seo audit tool')
   const [audience, setAudience] = useState('small business owners and freelancers')
@@ -3153,6 +3222,7 @@ export default function SeoToolsCalculator() {
   if (slug === 'keyword-clustering-tool') return <KeywordClusteringTool />
   if (slug === 'keyword-cannibalization-checker') return <KeywordCannibalizationChecker />
   if (slug === 'content-brief-generator') return <ContentBriefGenerator />
+  if (slug === 'scope-of-work-checker') return <ScopeOfWorkChecker />
 
   return <OnPageSeoAuditTool />
 }

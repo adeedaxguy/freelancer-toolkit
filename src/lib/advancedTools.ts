@@ -221,6 +221,7 @@ const imagePresets: Array<{
   { slug: 'compress-image-to-200kb', title: 'Compress Image to 200KB', keyword: 'compress image to 200kb', width: 1400, height: 1400, format: 'jpeg', maxKb: 200, fit: 'contain' },
   { slug: 'jpg-resize-to-50kb', title: 'JPG Resize to 50KB', keyword: 'jpg resize to 50kb', width: 600, height: 600, format: 'jpeg', maxKb: 50 },
   { slug: 'jpg-resize-to-100kb', title: 'JPG Resize to 100KB', keyword: 'jpg resize to 100kb', width: 800, height: 800, format: 'jpeg', maxKb: 100 },
+  { slug: 'crop-photo-300x300', title: 'Crop Photo to 300x300', keyword: 'crop photo 300x300', width: 300, height: 300, format: 'jpeg', fit: 'cover', useCase: 'square profile photos, account avatars, and 300 by 300 upload forms' },
   { slug: 'png-to-webp-converter', title: 'PNG to WebP Converter', keyword: 'png to webp converter', width: 1600, height: 1200, format: 'webp', fit: 'contain' },
   { slug: 'webp-to-png-converter', title: 'WebP to PNG Converter', keyword: 'webp to png converter', width: 1600, height: 1200, format: 'png', fit: 'contain' },
   { slug: 'resume-photo-resizer', title: 'Resume Photo Resizer', keyword: 'resume photo resizer', width: 600, height: 600, format: 'jpeg', maxKb: 100 },

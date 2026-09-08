@@ -62,6 +62,7 @@ const sharedCalculatorRenderers = {
   'keyword-clustering-tool': SeoToolsCalculator,
   'open-graph-preview-tool': SeoToolsCalculator,
   'content-brief-generator': SeoToolsCalculator,
+  'scope-of-work-checker': SeoToolsCalculator,
 }
 
 function getSharedCalculator(slug: string) {

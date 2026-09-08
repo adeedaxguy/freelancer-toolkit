@@ -687,6 +687,36 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
         ],
       },
       {
+        slug: 'scope-of-work-checker',
+        title: 'Scope of Work Checker',
+        headline: 'Check a Freelance Scope of Work Before You Send It',
+        description: 'Free scope of work checker for freelancers and agencies. Paste a draft SOW to find missing deliverables, exclusions, milestones, revision limits, responsibilities, payment terms, and acceptance criteria.',
+        seoTitle: 'Free Scope of Work Checker | Review a Freelance SOW',
+        icon: '✅',
+        category: 'Client Acquisition',
+        keywords: ['scope of work checker', 'freelance scope of work template', 'scope of work review', 'SOW checklist', 'statement of work checker'],
+        answerBox: {
+          short: 'A scope of work checker reviews whether a draft clearly covers deliverables, exclusions, timeline, revisions, responsibilities, payment, acceptance, change requests, and sign-off before the project starts.',
+          bullets: ['Best fit: checking a generated or client-supplied SOW before kickoff', 'Outperformance angle: a working browser-side review instead of another blank template'],
+        },
+        faqs: [
+          { q: 'What should a scope of work include?', a: 'A practical SOW should define the project goal, deliverables, exclusions, timeline, milestones, revision limits, responsibilities, payment terms, acceptance criteria, change requests, and approval.' },
+          { q: 'Can this replace a contract review?', a: 'No. This checker is a project-scope checklist, not legal advice. Use a qualified professional for important legal terms.' },
+          { q: 'Can I check a client-written SOW?', a: 'Yes. Paste the text and use the missing-section results to prepare questions before signing or starting work.' },
+          { q: 'Does the checker store my document?', a: 'No. The review runs in your browser and the pasted text is not uploaded by this tool.' },
+        ],
+        bodySections: [
+          {
+            heading: 'Check the SOW after generating it',
+            body: 'Use the Scope of Work Generator to create a first draft, then paste the result here to check whether the project boundaries, responsibilities, and acceptance path are explicit enough to review with the client.',
+          },
+          {
+            heading: 'Catch scope creep before kickoff',
+            body: 'Missing exclusions, revision limits, change-request rules, and client responsibilities create avoidable disputes. The checker turns those gaps into a short fix list before the work begins.',
+          },
+        ],
+      },
+      {
         slug: 'client-questionnaire-generator',
         title: 'Client Questionnaire Generator',
         headline: 'Generate a Client Onboarding Questionnaire',
