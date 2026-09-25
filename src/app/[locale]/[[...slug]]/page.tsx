@@ -19,4 +19,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const canonical = `https://freeltools.com${localizedPath(value.locale, value.path)}`
   return { title: { absolute: `${title} | FreelancerToolkit` }, description: `${title}. Free, browser-first calculator with no account required.`, alternates: { canonical, languages: alternates(value.path) }, openGraph: { title, description: title, url: canonical, siteName: 'FreelancerToolkit', type: 'website' }, robots: { index: true, follow: true } }
 }
-export default async function LocalizedRoute({ params }: Props) { const value = resolve(await params); if (!value) notFound(); return <LocalizedToolsPage locale={value.locale} pageKey={value.pageKey}/> }
+export default async function LocalizedRoute({ params }: Props) {
+  const value = resolve(await params)
+  if (!value) notFound()
+  return (
+    <>
+      <script dangerouslySetInnerHTML={{ __html: `document.documentElement.lang=${JSON.stringify(value.locale)}` }} />
+      <LocalizedToolsPage locale={value.locale} pageKey={value.pageKey}/>
+    </>
+  )
+}
