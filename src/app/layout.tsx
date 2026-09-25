@@ -7,6 +7,8 @@ import FloatingChatbot from '@/components/FloatingChatbot'
 import DeferredTracking from '@/components/DeferredTracking'
 import { ALL_TOOLS, TOOL_CATEGORIES } from '@/lib/tools'
 import { getCategoryUrl } from '@/lib/categoryPages'
+import LocaleSwitcher from '@/components/LocaleSwitcher'
+import { alternates } from '@/lib/i18n'
 
 const SITE_URL = 'https://freeltools.com'
 const TOTAL_TOOLS = ALL_TOOLS.length
@@ -196,6 +198,7 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: SITE_URL,
+    languages: alternates(''),
   },
   verification: {
     google: 'WVGLHOC8l_SwmyfSguGafQefhiiWiP2AQYvIo4heZTE',
@@ -232,6 +235,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Footer />
         <FloatingChatbot totalTools={TOTAL_TOOLS} />
         <DeferredTracking />
+        <LocaleSwitcher />
       </body>
     </html>
   )

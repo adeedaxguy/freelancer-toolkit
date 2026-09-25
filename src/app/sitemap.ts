@@ -2,6 +2,7 @@ import type { MetadataRoute } from 'next'
 import { getCategoryUrl } from '@/lib/categoryPages'
 import { ALL_TOOLS, TOOL_CATEGORIES } from '@/lib/tools'
 import { getAllPosts } from '@/lib/blog'
+import { alternates, localizedPath, locales, pilotPaths, type PilotPath } from '@/lib/i18n'
 
 const BASE_URL = 'https://freeltools.com'
 
@@ -73,5 +74,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.9,
   }))
 
-  return [...staticPages, ...categoryPages, ...toolPages, ...blogPages]
+  const localizedPages: MetadataRoute.Sitemap = locales.flatMap(locale => pilotPaths.map(path => ({
+    url: `${BASE_URL}${localizedPath(locale, path)}`,
+    lastModified: now,
+    changeFrequency: 'monthly' as const,
+    priority: path === '' ? 0.8 : 0.85,
+    alternates: { languages: alternates(path) },
+  })))
+  const pilotUrls = new Set<PilotPath>(pilotPaths)
+  const withEnglishAlternates = [...staticPages, ...toolPages].map(entry => {
+    const path = entry.url.replace(BASE_URL, '') as PilotPath
+    return pilotUrls.has(path) ? { ...entry, alternates: { languages: alternates(path) } } : entry
+  })
+  return [...withEnglishAlternates, ...localizedPages, ...categoryPages, ...blogPages]
 }
