@@ -28,6 +28,12 @@ const nextConfig = {
         destination: 'https://freeltools.com/:path*',
         permanent: true,
       },
+      // Consolidate thin programmatic variants into the canonical working tool.
+      {
+        source: '/tools/:slug/:variant',
+        destination: '/tools/:slug',
+        permanent: true,
+      },
     ]
   },
   async headers() {

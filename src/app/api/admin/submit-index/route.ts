@@ -9,12 +9,9 @@ const INDEXNOW_KEY = 'b7f3a9e2c1d84f56b0e7a3d9c2f18e45'
 function getAllUrls(): string[] {
   const urls: string[] = [BASE_URL, `${BASE_URL}/blog`]
 
-  // All tool pages + variants
+  // Canonical tool pages only. Variants redirect to their parent tool.
   for (const tool of ALL_TOOLS) {
     urls.push(`${BASE_URL}/tools/${tool.slug}`)
-    for (const v of tool.programmaticVariants ?? []) {
-      urls.push(`${BASE_URL}/tools/${tool.slug}/${v.slug}`)
-    }
   }
 
   // Published blog posts

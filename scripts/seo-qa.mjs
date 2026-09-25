@@ -188,7 +188,7 @@ function checkPublicToolCountSource() {
       ['metadata title uses dynamic tool count label', /title:\s*`[^`]*\$\{TOOL_COUNT_LABEL\}[^`]*Free Tools/i],
       ['Open Graph title uses dynamic tool count label', /openGraph:[\s\S]*?title:\s*`[^`]*\$\{TOOL_COUNT_LABEL\}[^`]*Free Tools/i],
       ['Twitter title uses dynamic tool count label', /twitter:[\s\S]*?title:\s*`[^`]*\$\{TOOL_COUNT_LABEL\}[^`]*Free Tools/i],
-      ['ItemList schema exposes numberOfItems', /numberOfItems:\s*allTools\.length/],
+      ['ItemList schema count matches listed homepage tools', /numberOfItems:\s*primaryTools\.length/],
       ['homepage FAQ schema uses dynamic tool count label', /FAQPage[\s\S]*\$\{TOOL_COUNT_LABEL\}/],
     ]
 

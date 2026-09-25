@@ -73,15 +73,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.9,
   }))
 
-  // Programmatic variant pages
-  const variantPages: MetadataRoute.Sitemap = ALL_TOOLS.flatMap((tool) =>
-    (tool.programmaticVariants ?? []).map((variant) => ({
-      url: `${BASE_URL}/tools/${tool.slug}/${variant.slug}`,
-      lastModified: now,
-      changeFrequency: 'monthly' as const,
-      priority: 0.7,
-    }))
-  )
-
-  return [...staticPages, ...categoryPages, ...toolPages, ...variantPages, ...blogPages]
+  return [...staticPages, ...categoryPages, ...toolPages, ...blogPages]
 }

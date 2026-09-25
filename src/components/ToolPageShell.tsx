@@ -92,24 +92,6 @@ export default function ToolPageShell({ tool, children, variantLabel }: ToolPage
       {/* Tool */}
       <div id="tool" className="scroll-mt-24 min-w-0">{children}</div>
 
-      {/* Programmatic variant links */}
-      {!variantLabel && tool.programmaticVariants && tool.programmaticVariants.length > 0 && (
-        <div className="mt-10">
-          <h2 className="mb-3 text-base font-semibold text-gray-900">More Variations</h2>
-          <div className="flex flex-wrap gap-2">
-            {tool.programmaticVariants.map((v) => (
-              <Link
-                key={v.slug}
-                href={`/tools/${tool.slug}/${v.slug}`}
-                className="rounded-full border border-gray-200 bg-white px-3 py-1.5 text-xs font-medium text-gray-600 transition hover:border-brand-300 hover:text-brand-600 sm:text-sm"
-              >
-                {tool.title} {v.label}
-              </Link>
-            ))}
-          </div>
-        </div>
-      )}
-
       {/* Search-focused supporting copy */}
       {tool.bodySections && tool.bodySections.length > 0 && (
         <div className="mt-12 grid gap-5 sm:grid-cols-2">
