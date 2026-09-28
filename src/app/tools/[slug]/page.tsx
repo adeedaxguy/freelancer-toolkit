@@ -7,6 +7,7 @@ import FiverrFeeCalculator from '@/components/calculators/FiverrFeeCalculator'
 import LatePaymentCalculator from '@/components/calculators/LatePaymentCalculator'
 import InsuranceAndEventCalculator from '@/components/calculators/InsuranceAndEventCalculator'
 import SeoToolsCalculator from '@/components/calculators/SeoToolsCalculator'
+import FreelanceOperationsCalculator from '@/components/calculators/FreelanceOperationsCalculator'
 import { ALL_TOOLS, getToolBySlug } from '@/lib/tools'
 import { buildFaqJsonLd, buildToolJsonLd, buildToolMetadata } from '@/lib/pageFactory'
 
@@ -63,6 +64,8 @@ const sharedCalculatorRenderers = {
   'open-graph-preview-tool': SeoToolsCalculator,
   'content-brief-generator': SeoToolsCalculator,
   'scope-of-work-checker': SeoToolsCalculator,
+  'billable-utilization-calculator': FreelanceOperationsCalculator,
+  'effective-hourly-rate-calculator': FreelanceOperationsCalculator,
 }
 
 function getSharedCalculator(slug: string) {

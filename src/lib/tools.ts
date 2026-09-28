@@ -187,6 +187,52 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
         ],
       },
       {
+        slug: 'billable-utilization-calculator',
+        title: 'Billable Utilization Calculator',
+        headline: 'Calculate Your Freelance Billable Utilization',
+        description: 'Free billable utilization calculator for freelancers and agencies. Compare billable hours with total working time and estimate annual revenue capacity.',
+        seoTitle: 'Billable Utilization Calculator for Freelancers',
+        icon: '⏱️',
+        category: 'Pricing & Profitability',
+        keywords: ['billable utilization calculator', 'freelancer utilization rate', 'billable hours calculator', 'agency utilization calculator'],
+        answerBox: {
+          short: 'Billable utilization is billable client hours divided by total working hours. Use it to see how much capacity creates revenue and how much is used by sales, admin, proposals, and gaps.',
+          bullets: ['Best fit: freelance and small-agency capacity planning', 'Outperformance angle: connects weekly utilization to annual billable hours and revenue capacity'],
+        },
+        faqs: [
+          { q: 'How do I calculate billable utilization?', a: 'Divide billable hours by total working hours, then multiply by 100. If you bill 24 of 40 weekly hours, utilization is 60%.' },
+          { q: 'What counts as a billable hour?', a: 'Count time directly charged to a client or included in a client fee. Sales, bookkeeping, internal meetings, learning, and general admin are normally non-billable.' },
+          { q: 'Is higher utilization always better?', a: 'No. Freelancers still need time for sales, delivery planning, quality control, and recovery. A sustainable target is more useful than trying to bill every working hour.' },
+        ],
+        bodySections: [
+          { heading: 'Measure capacity before raising your workload', body: 'Use weekly billable and non-billable time to see whether the real constraint is pricing, sales, delivery capacity, or administrative overhead.' },
+          { heading: 'Connect utilization to revenue capacity', body: 'The annual estimate combines your working weeks, billable hours, and average billed rate so you can test a realistic workload before setting a revenue goal.' },
+        ],
+      },
+      {
+        slug: 'effective-hourly-rate-calculator',
+        title: 'Effective Hourly Rate Calculator',
+        headline: 'Find Your Real Hourly Rate After Every Project Cost',
+        description: 'Free effective hourly rate calculator. Include delivery, meetings, revisions, expenses, and payment fees to see what a fixed-price freelance project really paid.',
+        seoTitle: 'Effective Hourly Rate Calculator for Freelancers',
+        icon: '📈',
+        category: 'Pricing & Profitability',
+        keywords: ['effective hourly rate calculator', 'freelance project hourly rate', 'fixed price project profitability', 'real hourly rate calculator'],
+        answerBox: {
+          short: 'Your effective hourly rate is net project revenue divided by every hour spent delivering, managing, and revising the work. It reveals whether a fixed project fee actually met your rate target.',
+          bullets: ['Best fit: reviewing completed fixed-price projects', 'Outperformance angle: includes admin, revisions, expenses, and payment fees'],
+        },
+        faqs: [
+          { q: 'How do I calculate my effective hourly rate?', a: 'Subtract direct expenses and payment fees from the client fee, then divide the remaining revenue by delivery, meeting, admin, and revision hours combined.' },
+          { q: 'Why include meetings and revisions?', a: 'They consume project capacity even when they are not itemized on an invoice. Excluding them makes a fixed-price project look more profitable than it was.' },
+          { q: 'What should I do if the effective rate is too low?', a: 'Review the estimate, scope, revision policy, communication time, and fees. Raise the next quote or narrow the included work based on the actual overrun.' },
+        ],
+        bodySections: [
+          { heading: 'Review fixed-price work with real numbers', body: 'A project fee can look healthy until meetings, revisions, tools, and payment fees are counted. This calculator turns the completed project into a reusable pricing lesson.' },
+          { heading: 'Use the result in your next estimate', body: 'Compare the effective rate with your minimum target, then update the hours, scope buffer, revision allowance, or payment terms in your next quote.' },
+        ],
+      },
+      {
         slug: 'freelance-services-pricing-calculator',
         title: 'Freelance Services Pricing Calculator',
         headline: 'Price Freelance Services Without Guesswork',

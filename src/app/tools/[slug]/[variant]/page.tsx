@@ -5,6 +5,7 @@ import AdvancedToolRenderer from '@/components/calculators/AdvancedToolRenderer'
 import ProjectCostCalculator from '@/components/calculators/ProjectCostCalculator'
 import InsuranceAndEventCalculator from '@/components/calculators/InsuranceAndEventCalculator'
 import SeoToolsCalculator from '@/components/calculators/SeoToolsCalculator'
+import FreelanceOperationsCalculator from '@/components/calculators/FreelanceOperationsCalculator'
 import { ALL_TOOLS, getToolBySlug } from '@/lib/tools'
 import {
   buildFaqJsonLd,
@@ -63,6 +64,8 @@ const sharedCalculatorRenderers = {
   'keyword-clustering-tool': SeoToolsCalculator,
   'open-graph-preview-tool': SeoToolsCalculator,
   'content-brief-generator': SeoToolsCalculator,
+  'billable-utilization-calculator': FreelanceOperationsCalculator,
+  'effective-hourly-rate-calculator': FreelanceOperationsCalculator,
 }
 
 function getSharedCalculator(slug: string) {
