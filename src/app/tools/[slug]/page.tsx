@@ -12,7 +12,7 @@ import { ALL_TOOLS, getToolBySlug } from '@/lib/tools'
 import { buildFaqJsonLd, buildToolJsonLd, buildToolMetadata } from '@/lib/pageFactory'
 
 type PageProps = {
-  params: { slug: string }
+  params: Promise<{ slug: string }>
 }
 
 const sharedCalculatorRenderers = {
@@ -78,13 +78,15 @@ export function generateStaticParams() {
     .map((tool) => ({ slug: tool.slug }))
 }
 
-export function generateMetadata({ params }: PageProps): Metadata {
+export async function generateMetadata(props: PageProps): Promise<Metadata> {
+  const params = await props.params;
   const tool = getToolBySlug(params.slug)
   if (!tool || (!tool.advancedTool && !getSharedCalculator(tool.slug))) return {}
   return buildToolMetadata(tool)
 }
 
-export default function Page({ params }: PageProps) {
+export default async function Page(props: PageProps) {
+  const params = await props.params;
   const tool = getToolBySlug(params.slug)
   if (!tool) notFound()
   const SharedCalculator = getSharedCalculator(tool.slug)

@@ -12,14 +12,14 @@ import ShareButtons from '@/components/ShareButtons'
 const SITE_URL = 'https://freeltools.com'
 const OG_IMAGE = `${SITE_URL}/opengraph-image`
 
-interface Props { params: { slug: string } }
+interface Props { params: Promise<{ slug: string }> }
 
 function stripMarkdown(value: string) {
   return value
     .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
     .replace(/[`*_>#-]/g, '')
     .replace(/\s+/g, ' ')
-    .trim()
+    .trim();
 }
 
 function extractFaqItems(content: string) {
@@ -45,7 +45,8 @@ function getPrimaryLinkedTool(content: string) {
   return ALL_TOOLS.find((tool) => tool.slug === toolLink[1]) ?? null
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const params = await props.params;
   const post = getPostBySlug(params.slug)
   if (!post) return {}
   const metaTitle = compactSeoTitle(post.seoTitle || post.title)
@@ -118,7 +119,8 @@ function getRelatedPosts(currentSlug: string, currentTags: string[], allPosts: R
     .slice(0, 3)
 }
 
-export default function BlogPostPage({ params }: Props) {
+export default async function BlogPostPage(props: Props) {
+  const params = await props.params;
   const post = getPostBySlug(params.slug)
   if (!post || post.status !== 'published') notFound()
 

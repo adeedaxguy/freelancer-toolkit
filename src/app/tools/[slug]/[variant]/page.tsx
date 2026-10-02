@@ -18,7 +18,7 @@ import {
 const SITE_URL = 'https://freeltools.com'
 
 type PageProps = {
-  params: { slug: string; variant: string }
+  params: Promise<{ slug: string; variant: string }>
 }
 
 const sharedCalculatorRenderers = {
@@ -78,7 +78,8 @@ export function generateStaticParams() {
   )
 }
 
-export function generateMetadata({ params }: PageProps): Metadata {
+export async function generateMetadata(props: PageProps): Promise<Metadata> {
+  const params = await props.params;
   const tool = getToolBySlug(params.slug)
   if (!tool || (!tool.advancedTool && !getSharedCalculator(tool.slug))) return {}
   const variant = tool.programmaticVariants?.find((item) => item.slug === params.variant)
@@ -101,7 +102,8 @@ export function generateMetadata({ params }: PageProps): Metadata {
   }
 }
 
-export default function Page({ params }: PageProps) {
+export default async function Page(props: PageProps) {
+  const params = await props.params;
   const tool = getToolBySlug(params.slug)
   if (!tool) notFound()
   const SharedCalculator = getSharedCalculator(tool.slug)

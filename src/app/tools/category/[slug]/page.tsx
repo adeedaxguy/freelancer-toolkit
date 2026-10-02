@@ -10,14 +10,15 @@ import { TOOL_CATEGORIES } from '@/lib/tools'
 const SITE_URL = 'https://freeltools.com'
 
 type PageProps = {
-  params: { slug: string }
+  params: Promise<{ slug: string }>
 }
 
 export function generateStaticParams() {
   return TOOL_CATEGORIES.map((category) => ({ slug: category.slug }))
 }
 
-export function generateMetadata({ params }: PageProps): Metadata {
+export async function generateMetadata(props: PageProps): Promise<Metadata> {
+  const params = await props.params;
   const category = getCategoryBySlug(params.slug)
   if (!category) return {}
   const title = compactSeoTitle(getCategorySeoTitle(category))
@@ -44,7 +45,8 @@ export function generateMetadata({ params }: PageProps): Metadata {
   }
 }
 
-export default function CategoryPage({ params }: PageProps) {
+export default async function CategoryPage(props: PageProps) {
+  const params = await props.params;
   const category = getCategoryBySlug(params.slug)
   if (!category) notFound()
 

@@ -11,7 +11,8 @@ export function generateStaticParams() {
   return generateStaticParamsForTool('pdf-to-jpg-converter')
 }
 
-export async function generateMetadata({ params }: { params: { variant: string } }): Promise<Metadata> {
+export async function generateMetadata(props: { params: Promise<{ variant: string }> }): Promise<Metadata> {
+  const params = await props.params;
   const variant = tool.programmaticVariants?.find((v) => v.slug === params.variant)
   if (!variant) return {}
   return {
@@ -22,7 +23,8 @@ export async function generateMetadata({ params }: { params: { variant: string }
   }
 }
 
-export default function Page({ params }: { params: { variant: string } }) {
+export default async function Page(props: { params: Promise<{ variant: string }> }) {
+  const params = await props.params;
   const variant = tool.programmaticVariants?.find((v) => v.slug === params.variant)
   if (!variant) notFound()
   return (
