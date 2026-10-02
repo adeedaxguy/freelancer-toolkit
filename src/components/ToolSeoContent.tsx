@@ -521,12 +521,12 @@ export default function ToolSeoContent({ tool, variantLabel }: ToolSeoContentPro
       </div>
 
       <div data-tool-research-intent className="mt-7 rounded-2xl border border-brand-100 bg-brand-50 p-5 sm:p-6">
-        <p className="text-xs font-semibold uppercase tracking-wider text-brand-700">Search intent to satisfy</p>
-        <h3 className="mt-2 text-lg font-bold text-gray-900">Why this tool page should rank</h3>
+        <p className="text-xs font-semibold uppercase tracking-wider text-brand-700">Choose the right workflow</p>
+        <h3 className="mt-2 text-lg font-bold text-gray-900">What this tool helps you decide</h3>
         <div className="mt-4 grid gap-4 md:grid-cols-3">
           {[
             ['Searcher job', researchIntent.searcherJob],
-            ['Competitor gap', researchIntent.competitorGap],
+            ['What generic guides miss', researchIntent.competitorGap],
             ['Use it now', researchIntent.useNow],
           ].map(([title, body]) => (
             <div key={title} className="rounded-xl border border-brand-100 bg-white p-4">

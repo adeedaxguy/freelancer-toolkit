@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import Link from 'next/link'
 
 interface LineItem {
   id: number
@@ -40,7 +41,7 @@ export default function InvoicePreviewPage() {
   if (!data) {
     return (
       <div className="flex min-h-screen items-center justify-center">
-        <p className="text-gray-500">No invoice data found. <a href="/tools/invoice-generator" className="text-blue-600 underline">Go back</a></p>
+        <p className="text-gray-500">No invoice data found. <Link href="/tools/invoice-generator" className="text-blue-600 underline">Go back</Link></p>
       </div>
     )
   }
@@ -66,7 +67,7 @@ export default function InvoicePreviewPage() {
       {/* Toolbar — hidden on print */}
       <div className="no-print fixed top-0 left-0 right-0 z-50 flex items-center justify-between gap-4 bg-gray-900 px-3 sm:px-6 py-3 text-white shadow">
         <div className="flex items-center gap-3">
-          <a href="/tools/invoice-generator" className="text-sm text-gray-300 hover:text-white">← Back to Editor</a>
+          <Link href="/tools/invoice-generator" className="text-sm text-gray-300 hover:text-white">← Back to Editor</Link>
           <span className="text-gray-600">|</span>
           <span className="text-sm font-semibold">{data.invoiceNumber}</span>
         </div>

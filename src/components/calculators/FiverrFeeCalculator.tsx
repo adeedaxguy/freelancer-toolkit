@@ -259,7 +259,10 @@ export default function FiverrFeeCalculator() {
 
       <div className="rounded-2xl border border-amber-100 bg-amber-50 p-5 text-sm leading-6 text-amber-900">
         <strong>Important:</strong> Fiverr can change fees, apply local taxes, currency conversion, payment processor charges, or special program rules.
-        Use this as a planning calculator and confirm the final fee shown inside Fiverr before you publish a gig, accept an order, or withdraw funds.
+        Use this as a planning calculator and confirm the final fee shown inside Fiverr before you publish a gig, accept an order, or withdraw funds.{` `}
+        <a className="font-semibold underline underline-offset-2" href="https://help.fiverr.com/hc/en-us/articles/37553933600657-Paying-for-orders-extras-or-custom-offers" target="_blank" rel="noreferrer">
+          Review Fiverr&apos;s current payment guidance
+        </a>.
       </div>
     </div>
   )

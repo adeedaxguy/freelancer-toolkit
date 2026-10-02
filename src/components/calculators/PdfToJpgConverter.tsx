@@ -4,9 +4,7 @@ import { useState, useRef, useCallback } from 'react'
 
 declare global {
   interface Window {
-    /* eslint-disable */
     pdfjsLib: any
-    /* eslint-enable */
   }
 }
 
@@ -60,9 +58,7 @@ export default function PdfToJpgConverter() {
     try {
       const pdfjsLib = await loadPdfJs()
       const arrayBuffer = await file.arrayBuffer()
-      /* eslint-disable */
       const pdf = await (pdfjsLib as any).getDocument({ data: arrayBuffer }).promise
-      /* eslint-enable */
       const numPages: number = pdf.numPages
       setTotalPages(numPages)
 

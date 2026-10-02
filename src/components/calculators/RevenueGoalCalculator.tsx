@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useMemo } from 'react'
+import Link from 'next/link'
 import InputField from '@/components/InputField'
 import ResultCard from '@/components/ResultCard'
 
@@ -61,7 +62,7 @@ export default function RevenueGoalCalculator() {
         </div>
 
         <div className="rounded-xl bg-gray-50 p-4 text-xs text-gray-500">
-          <strong>Tip:</strong> These are gross revenue targets. Subtract taxes (~25–30%) and expenses to find your actual take-home. Use our <a href="/tools/freelancer-rate-calculator" className="text-brand-600 hover:underline">Rate Calculator</a> for a full breakdown.
+          <strong>Tip:</strong> These are gross revenue targets. Subtract taxes (~25–30%) and expenses to find your actual take-home. Use our <Link href="/tools/freelancer-rate-calculator" className="text-brand-600 hover:underline">Rate Calculator</Link> for a full breakdown.
         </div>
       </div>
     </div>

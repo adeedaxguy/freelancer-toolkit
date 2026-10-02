@@ -25,7 +25,7 @@ function getAllUrls(): string[] {
 
 export async function POST() {
   // Admin auth check
-  const cookieStore = cookies()
+  const cookieStore = await cookies()
   const adminCookie = cookieStore.get('admin_session')
   if (!adminCookie?.value) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
@@ -89,7 +89,7 @@ export async function POST() {
 
 export async function GET() {
   // Return the list of URLs that would be submitted (preview mode)
-  const cookieStore = cookies()
+  const cookieStore = await cookies()
   const adminCookie = cookieStore.get('admin_session')
   if (!adminCookie?.value) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })

@@ -9,30 +9,39 @@
     "seo:ahrefs": "node scripts/seo-opportunity-report.mjs",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "eslint ."
   },
   "dependencies": {
-    "@next/font": "^14.2.15",
+    "dompurify": "^3.4.16",
     "gray-matter": "^4.0.3",
     "html2canvas": "^1.4.1",
     "jspdf": "^4.2.1",
-    "next": "14.2.3",
+    "next": "^16.3.8",
     "next-mdx-remote": "^6.0.0",
-    "posthog-js": "^1.382.0",
-    "react": "^18",
-    "react-dom": "^18",
+    "posthog-js": "^1.435.8",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
     "remark-gfm": "^4.0.1",
     "resend": "^3.5.0"
   },
   "devDependencies": {
     "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
     "autoprefixer": "^10.0.1",
-    "eslint": "^8",
-    "eslint-config-next": "14.2.3",
+    "eslint": "^9.38.0",
+    "eslint-config-next": "^16.3.8",
     "postcss": "^8",
     "tailwindcss": "^3.3.0",
     "typescript": "^5"
+  },
+  "overrides": {
+    "baseline-browser-mapping": "2.11.27",
+    "gray-matter": {
+      "js-yaml": "3.15.2"
+    },
+    "posthog-js": {
+      "fflate": "0.4.9"
+    }
   }
 }
